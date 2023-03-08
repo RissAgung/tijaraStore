@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "poppins-regular";
+  src: url(../../assets/fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+  font-family: "poppins-medium";
+  src: url(../../assets/fonts/Poppins-Medium.ttf);
+}
+
+@font-face {
+  font-family: "poppins-semibold";
+  src: url(../../assets/fonts/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: "poppins-bold";
+  src: url(../../assets/fonts/Poppins-Bold.ttf);
+}
+
+body {
+  box-sizing: border-box;
+  font-family: 'poppins-regular', sans-serif;
+}
+
+
+/* font */
+
+.poppins-regular {
+  font-family: "poppins-regular" !important;
+}
+
+.poppins-medium {
+  font-family: "poppins-medium" !important;
+}
+
+.poppins-semibold {
+  font-family: "poppins-semibold" !important;
+}
+
+.poppins-bold {
+  font-family: "poppins-bold" !important;
+}
+
+/* sidebar */
+
+.main-sidebar {
+  transform: translateX(-100%) !important;
+  transition: 1s;
+}
+
+.sidebar-show{
+  transform: translateX(0%) !important;
+  transition: 1s;
+}
+
+@media(min-width: 1024px) {
+  .main-sidebar {
+    transform: translateX(0%) !important;
+    transition: 1s;
+  }
+}
+
+#bg-sidebar{
+  transition: 1s;
+}
+
+.menu:hover .menu-hover1 svg {
+  fill: #FFA900;
+}
+
+.menu:hover .menu-hover1 p {
+  color: #FFA900;
+}
+
+.menu:hover .menu-hover2 {
+  background: #FFA900;
+}
