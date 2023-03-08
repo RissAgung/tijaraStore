@@ -1,3 +1,4 @@
+/* ============================ Coppy script dibawah kalo mau buat file input baru ============================ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -45,6 +46,9 @@ body {
 .poppins-bold {
   font-family: "poppins-bold" !important;
 }
+
+/* ============================ End coppy script dibawah kalo mau buat file input baru ============================ */
+
 
 /* sidebar */
 
