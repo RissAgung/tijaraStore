@@ -1,5 +1,5 @@
 <div
-    class="flex flex-row justify-between items-center max-lg:w-full lg:ml-[390px] lg:h-[100px] h-[60px] bg-white border-b-[1px] border-b-[#DCDADA]">
+    class="flex flex-row justify-between items-center max-lg:w-full  lg:h-[100px] h-[60px] bg-white border-b-[1px] border-b-[#DCDADA]">
 
     {{-- title --}}
     <div class="flex flex-row max-lg:items-center lg:flex-col lg:py-[29px] px-[20px] lg:px-[50px]">
