@@ -9,7 +9,7 @@
     <title>Document</title>
 </head>
 
-<body class="bg-[#F7F7F7] w-screen h-screen">
+<body class="bg-[#F7F7F7] w-full h-full box-border">
     <div class="flex flex-row w-full h-full justify-between">
 
         {{-- sidebar --}}
@@ -19,7 +19,7 @@
         {{-- end sidebar --}}
 
         {{-- content --}}
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full lg:ml-[390px]">
 
             {{-- top bar --}}
             <div>
@@ -28,7 +28,7 @@
             {{-- end top bar --}}
 
             {{-- main content --}}
-            <div>
+            <div class="">
                 @yield('content')
             </div>
             {{-- main content --}}
