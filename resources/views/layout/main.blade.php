@@ -12,6 +12,10 @@
 <body class="bg-[#F7F7F7] w-full h-full box-border">
     <div class="flex flex-row w-full h-full justify-between">
 
+        <div class="z-[100]">
+            @yield('modal')
+        </div>
+
         {{-- sidebar --}}
         <div>
             @include('layout.sidebar')
@@ -40,6 +44,7 @@
     </div>
     <script src="{{ asset('js/jquery-3.6.1.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    @yield('otherjs')
 </body>
 
 </html>

@@ -1,14 +1,12 @@
-@extends('layout.main')
-
-@section('title')
+<?php $__env->startSection('title'); ?>
     Master Data Product
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('modal')
-    @include('modal.add_product')
-@endsection
+<?php $__env->startSection('modal'); ?>
+    <?php echo $__env->make('modal.add_product', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class=" h-fit bg-white border-b-2">
         <div class=" flex flex-col px-4 md:px-12 justify-between gap-4 mt-2 md:flex-row py-4">
             <div class="flex-row flex gap-2 items-center">
@@ -106,7 +104,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 1; $i < 6; $i++)
+                    <?php for($i = 1; $i < 6; $i++): ?>
                         <tr class="bg-white border-2 ">
                             <td class="tracking-wide text-center p-3">
                                 <div class="flex flex-row justify-center gap-4">
@@ -125,13 +123,13 @@
                                     </svg>
                                 </div>
                             </td>
-                            <td class="tracking-wide text-center p-3">Celana Chinos {{ $i }}</td>
+                            <td class="tracking-wide text-center p-3">Celana Chinos <?php echo e($i); ?></td>
                             <td class="tracking-wide text-center p-3">Wanita</td>
                             <td class="tracking-wide text-center p-3">10</td>
                             <td class="tracking-wide text-center p-3">Rp. 230.000</td>
                             <td class="tracking-wide text-center p-3">
                                 <div class="flex flex-row gap-2 justify-center">
-                                    <div onclick="ubahData('{{ $i }}')"
+                                    <div onclick="ubahData('<?php echo e($i); ?>')"
                                         class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +161,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @endfor
+                    <?php endfor; ?>
 
                 </tbody>
 
@@ -194,8 +192,9 @@
         </div>
 
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('otherjs')
-    <script src="{{ asset('js/controllers/master_data_product.js') }}"></script>
-@endsection
+<?php $__env->startSection('otherjs'); ?>
+    <script src="<?php echo e(asset('js/controllers/master_data_product.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Development\Web\Tijara\src\resources\views/master/data_product.blade.php ENDPATH**/ ?>
