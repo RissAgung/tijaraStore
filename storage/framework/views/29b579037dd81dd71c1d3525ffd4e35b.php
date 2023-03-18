@@ -23,7 +23,7 @@
         
 
         
-        <div class="flex flex-col w-full lg:ml-[390px]">
+        <div class="flex flex-col w-full lg:ml-[25%] xl:ml-[20%] overflow-x-hidden">
 
             
             <div>

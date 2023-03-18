@@ -3,13 +3,13 @@
 
 
 {{-- TODO: INI KONTEN MODAL --}}
-<form action="/product/add" method="post">
+<form id="form_product" action="/product/add" method="post">
     @csrf
     <div id="konten_modal"
         class="bg-white w-[90%] md:w-[70%] z-[101] h-[80%] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">
         {{-- ? start header ? --}}
         <div class="flex justify-start px-4 md:px-8 py-6">
-            <p>Tambah Data</p>
+            <p id="title_modal">Tambah Data</p>
         </div>
         <div class="h-[2px] w-full bg-[#DDDDDD]"></div>
         {{-- ? end header ? --}}
@@ -23,30 +23,34 @@
             </div>
             <div class="flex flex-col flex-grow md:w-1/2 md:mt-0 md:order-2 justify-start mt-2">
                 <Label class="ml-2 text-sm">Warna</Label>
-                <input name="txt_warna" type="text" placeholder=""
+                <input id="txt_warna" name="txt_warna" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none">
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-3 justify-start mt-2">
                 <Label class="ml-2 text-sm">Kategori</Label>
-                <select name="txt_kategori" type="text" placeholder="" class="border-2 rounded-md py-2 px-4 mt-1 outline-none appearance-none">
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                    <option value="Anak-anak">Anak-anak</option>
+                <select id="txt_kategori" name="txt_kategori" type="text" placeholder=""
+                    class="border-2 rounded-md py-2 px-4 mt-1 outline-none appearance-none">
+                    <option value="pria">Pria</option>
+                    <option value="wanita">Wanita</option>
+                    <option value="anak">Anak</option>
                 </select>
             </div>
             <div class="flex flex-col  md:w-[32%] md:mt-0 md:order-4 justify-start mt-2">
                 <Label class="ml-2 text-sm">Ukuran</Label>
-                <input name="txt_ukuran" type="text" placeholder="" class="border-2 rounded-md py-2 px-4 mt-1 outline-none">
+                <input id="txt_ukuran" name="txt_ukuran" type="text" placeholder=""
+                    class="border-2 rounded-md py-2 px-4 mt-1 outline-none">
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-8 justify-start mt-2">
                 <Label class="ml-2 text-sm">Jenis</Label>
                 <div class="flex flex-row flex-wrap mt-2 gap-3 ml-2">
                     <div class="flex flex-row gap-3">
-                        <input name="jenis_jual" class="w-4 h-4 rounded mt-1" type="checkbox" name="" id="">
+                        <input name="jenis_jual" class="w-4 h-4 rounded mt-1" type="checkbox" name=""
+                            id="">
                         <p>Produk Jual</p>
                     </div>
                     <div class="flex flex-row gap-3">
-                        <input name="jenis_gratis" class="w-4 h-4 rounded mt-1" type="checkbox" name="" id="">
+                        <input name="jenis_gratis" class="w-4 h-4 rounded mt-1" type="checkbox" name=""
+                            id="">
                         <p>Produk Free</p>
                     </div>
                 </div>
@@ -55,13 +59,13 @@
                 <Label class="ml-2 text-sm">Tag</Label>
                 <div
                     class="w-[70%] md:w-full h-44 border-2 rounded-md mt-2 overflow-y-scroll flex flex-col px-4 py-4 gap-2">
-                    @for ($i = 1; $i < 11; $i++)
+                    @foreach ($tags as $item)
                         <div class="flex flex-row gap-3 items-center">
-                            <input name="tag-{{ $i }}" id="tag-{{ $i }}" class="w-4 h-4 rounded mt-1" type="checkbox"
-                                name="" id="">
-                            <label for="tag-{{ $i }}" class="flex-wrap">Batik {{ $i }}</label>
+                            <input name="{{ $item->kode_tag }}" id="{{ $item->kode_tag }}"
+                                class="w-4 h-4 rounded mt-1" type="checkbox" name="" id="">
+                            <label for="{{ $item->kode_tag }}" class="flex-wrap">{{ $item->nama_tag }}</label>
                         </div>
-                    @endfor
+                    @endforeach
 
                 </div>
                 <div class="w-[70%] bg-[#FFB015] py-2 px-4 mt-4 rounded-md">
@@ -70,7 +74,8 @@
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-5 justify-start mt-6">
                 <Label class="ml-2 text-sm">Harga</Label>
-                <input name="txt_harga" type="text" placeholder="" class="border-2 rounded-md py-2 px-4 mt-1 outline-none">
+                <input id="txt_harga" name="txt_harga" type="text" placeholder=""
+                    class="border-2 rounded-md py-2 px-4 mt-1 outline-none">
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-7 justify-start mt-6 mb-8">
                 <Label class="ml-2 text-sm">Foto</Label>
@@ -96,7 +101,7 @@
         {{-- ? start footer ? --}}
         <div class="w-full px-4 md:px-8 py-4">
             <button type="submit" id="btn_submit" class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
-                <span class="text-xs poppins-medium">Tambah Data</span>
+                <span id="button_submit" class="text-xs poppins-medium">Tambah Data</span>
             </button>
         </div>
         {{-- ? end footer ? --}}

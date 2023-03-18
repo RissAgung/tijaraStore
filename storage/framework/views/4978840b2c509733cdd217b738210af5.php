@@ -2,7 +2,7 @@
 <div class="w-screen h-screen bg-black fixed z-[98] opacity-50 hidden transition ease-in delay-300" id="bg-sidebar"></div>
 
 
-<div class="main-sidebar flex flex-col md:w-[390px] w-[80%] h-screen bg-white border-r-[1px] border-r-[#DCDADA] box-border fixed z-[99]"
+<div class="main-sidebar flex flex-col lg:w-[25%] xl:w-[20%] w-[60%] h-screen bg-white border-r-[1px] border-r-[#DCDADA] box-border fixed z-[99]"
     id="sidebar">
 
     
