@@ -9,3 +9,7 @@ Route::get("/", function(){
 Route::get("/product", function(){
   return view("master.data_product");
 });
+
+Route::get("/login", function(){
+  return view("front_view.login");
+});
