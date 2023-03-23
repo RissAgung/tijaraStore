@@ -13,3 +13,7 @@ Route::get("/product", function(){
 Route::get("/login", function(){
   return view("front_view.login");
 });
+
+Route::get("/tes", function(){
+  return view("layout.hahai");
+});
