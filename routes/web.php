@@ -17,3 +17,10 @@ Route::post('/product/add', function (Request $request) {
 Route::get('/filtertags/{kode}', function ($kode) {
     return $kode;
 });
+Route::get("/product", function(){
+  return view("master.data_product");
+});
+
+Route::get("/login", function(){
+  return view("front_view.login");
+});
