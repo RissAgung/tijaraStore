@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/output/landing.css') }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    {{-- @vite([]) --}}
 </head>
 
 <body>

@@ -6,6 +6,6 @@
   - npx tailwindcss init
   - npm install tailwind-scrollbar-hide
   - konfigurasi file tailwind.config.js
-      ### content: ["./src/resources/views/**/*.{html,js,blade.php}"],
+      ### content: ["./resources/views/**/*.{html,js,blade.php}"],
       ### plugins: [require('tailwind-scrollbar-hide')],
-3. ex : npx tailwindcss -i src/public/css/input/main.css -o src/public/css/output/main.css --watch
+3. ex : npx tailwindcss -i public/css/input/main.css -o public/css/output/main.css --watch

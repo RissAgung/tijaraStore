@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/output/main.css') }}">
     <title>Document</title>
+    {{-- @vite([]) --}}
 </head>
 
 <body class="bg-[#F7F7F7] w-full h-full box-border">
@@ -19,7 +20,7 @@
         {{-- end sidebar --}}
 
         {{-- content --}}
-        <div class="flex flex-col w-full lg:ml-[390px]">
+        <div class="flex flex-col w-full lg:ml-[290px]">
 
             {{-- top bar --}}
             <div>
