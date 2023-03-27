@@ -10,8 +10,8 @@
 
 @section('content')
     <div class=" h-fit bg-white border-b-2">
-        <div class=" flex flex-col px-4 md:px-12 justify-between gap-4 mt-2 md:flex-row py-4">
-            <div class="flex-row flex gap-2 items-center">
+        <div class=" flex flex-col px-4 md:px-12 justify-between gap-4 mt-0 md:flex-row py-4">
+            <div class="flex-row w-full max-w-md flex gap-2 items-center">
                 <div class="h-8 w-12">
                     <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -188,4 +188,10 @@
 
 @section('otherjs')
     <script src="{{ asset('js/controllers/master_data_product.js') }}"></script>
+    @error('txt_nama')
+        <script>
+            showModal();
+            // alert("{{ $message }}")
+        </script>
+    @enderror
 @endsection

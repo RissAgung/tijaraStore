@@ -19,7 +19,7 @@
             <div class="flex flex-col flex-grow md:w-[48%] md:mt-0 md:order-1 justify-start mt-6">
                 <Label class="ml-2 text-sm">Nama Product</Label>
                 <input id="txt_nama" name="txt_nama" type="text" placeholder=""
-                    class="border-2 rounded-md py-2 px-4 mt-1 outline-none">
+                    class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('txt_nama') }}">
             </div>
             <div class="flex flex-col flex-grow md:w-1/2 md:mt-0 md:order-2 justify-start mt-2">
                 <Label class="ml-2 text-sm">Warna</Label>
@@ -61,9 +61,10 @@
                     class="w-[70%] md:w-full h-44 border-2 rounded-md mt-2 overflow-y-scroll flex flex-col px-4 py-4 gap-2">
                     @foreach ($tags as $item)
                         <div class="flex flex-row gap-3 items-center">
-                            <input name="{{ $item->kode_tag }}" id="{{ $item->kode_tag }}"
-                                class="w-4 h-4 rounded mt-1" type="checkbox" name="" id="">
-                            <label for="{{ $item->kode_tag }}" class="flex-wrap">{{ $item->nama_tag }}</label>
+                            <input name="tags[]" id="{{ $item->kode_tag }}" class="w-4 h-4 rounded mt-1"
+                                type="checkbox" value="{{ $item->kode_tag }}"
+                                {{ in_array($item->kode_tag, old('tags', [])) ? 'checked' : '' }}>
+                            <label for="tags" class="flex-wrap">{{ $item->nama_tag }}</label>
                         </div>
                     @endforeach
 

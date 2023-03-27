@@ -8,8 +8,8 @@
 
 <?php $__env->startSection('content'); ?>
     <div class=" h-fit bg-white border-b-2">
-        <div class=" flex flex-col px-4 md:px-12 justify-between gap-4 mt-2 md:flex-row py-4">
-            <div class="flex-row flex gap-2 items-center">
+        <div class=" flex flex-col px-4 md:px-12 justify-between gap-4 mt-0 md:flex-row py-4">
+            <div class="flex-row w-full max-w-md flex gap-2 items-center">
                 <div class="h-8 w-12">
                     <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -186,6 +186,19 @@
 
 <?php $__env->startSection('otherjs'); ?>
     <script src="<?php echo e(asset('js/controllers/master_data_product.js')); ?>"></script>
+    <?php $__errorArgs = ['txt_nama'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+        <script>
+            showModal();
+            // alert("<?php echo e($message); ?>")
+        </script>
+    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Development\Web\Tijara\src\resources\views/master/data_product.blade.php ENDPATH**/ ?>

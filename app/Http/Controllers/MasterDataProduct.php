@@ -26,4 +26,11 @@ class MasterDataProduct extends Controller
 
         return view('master.data_product', compact('products', 'tags'));
     }
+
+    public function add_products(Request $request){
+        // dd($request);
+        $this->validate($request, [
+            'txt_nama' => 'required|max:5'
+        ]);
+    }
 }

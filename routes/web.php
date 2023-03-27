@@ -10,17 +10,17 @@ Route::get("/", function(){
 
 Route::get("/product", [MasterDataProduct::class, 'products']);
 
-Route::post('/product/add', function (Request $request) {
-    dd($request);
-});;
+Route::post('/product/add', [MasterDataProduct::class, 'add_products']);
 
 Route::get('/filtertags/{kode}', function ($kode) {
     return $kode;
 });
-Route::get("/product", function(){
-  return view("master.data_product");
-});
+
 
 Route::get("/login", function(){
   return view("front_view.login");
+});
+
+Route::get("/landing", function(){
+  return view("layout.landing_main");
 });
