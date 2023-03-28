@@ -1,4 +1,23 @@
 
+// Check All
+$('#checkAll').change(function (e) { 
+    e.preventDefault();
+    $('.idcheck').prop('checked', $(this).prop('checked'));
+});
+
+// trigger delete selected
+$('#btn_hapus').click(function (e) { 
+    e.preventDefault();
+    $('#form_delete').trigger('submit');
+});
+
+// trigger delete per item
+$('#btn_delete_item').click(function (e) { 
+    e.preventDefault();
+    $('#form_delete_per_item').trigger('submit');
+});
+
+// Preview Picture
 txt_foto.onchange = (evt) => {
     console.log("awdawda");
     const [file] = txt_foto.files;
@@ -18,11 +37,12 @@ $("#bg_modal").click(function (e) {
     closeModal();
 });
 
-$("#btn_hapus").click(function (e) {
-    e.preventDefault();
-    location.href = "/filtertags/" + selectedTags.toString().replace(",", "&");
-    // $("#form_filter").trigger("submit");
-});
+// test selected tag
+// $("#btn_hapus").click(function (e) {
+//     e.preventDefault();
+//     location.href = "/filtertags/" + selectedTags.toString().replace(",", "&");
+//     // $("#form_filter").trigger("submit");
+// });
 
 function ubahData(nama, warna, kategori, ukuran, harga, tags) {
     $("#button_submit").html("Ubah Data");

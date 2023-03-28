@@ -12,6 +12,10 @@ Route::get("/product", [MasterDataProduct::class, 'products'])->name('product');
 
 Route::post('/product/add', [MasterDataProduct::class, 'add_products']);
 
+Route::get('/product/delete/{kode}', [MasterDataProduct::class, 'delete']);
+
+Route::post('/product/delete_selected', [MasterDataProduct::class, 'delete_selected']);
+
 Route::get('/filtertags/{kode}', function ($kode) {
     return $kode;
 });

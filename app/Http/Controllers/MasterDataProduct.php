@@ -9,6 +9,31 @@ use Illuminate\Http\Request;
 
 class MasterDataProduct extends Controller
 {
+    public function delete($kode, Request $request)
+    {
+        // check apakah terdapat token
+        if ($request->has('token')) {
+            // check apakah token sesuai dengan token yang ada pada session ?
+            if ($request->token === $request->session()->token()) {
+                // jika sesuai maka akan proses dan generate ulang token
+                // jadi, tidak akan terjadi penggunaan token yang sama
+                // hal ini dilakukan untuk pencegahan untuk hal hal yang tidak diinginkan
+                // seperti memaksa menggunakan token yang telah dipakai sebelumnya untuk menghapus data yang lain
+                $request->session()->regenerateToken();
+                return "Token sesuai, kode barangnya : " . $kode;
+            } else {
+                return "Token tidak sesuai, yahaha hayuk";
+            }
+        } else {
+            return "Tidak ada token";
+        }
+    }
+
+    public function delete_selected(Request $request)
+    {
+        dd($request);
+    }
+
     public function products()
     {
 
@@ -16,7 +41,7 @@ class MasterDataProduct extends Controller
         // $products = barang::with('barang_tag')
         //     ->get();
 
-        $products = barang::with('detail_barang_tag.tag')->paginate(1);
+        $products = barang::with('detail_barang_tag.tag')->paginate(5);
         // return $products;
         // $tags = barang::join('barang_tag', 'barang_tag.kode_barang_tag', '=', 'barang.kode_barang_tag')
         //     ->join('detail_barang_tag', 'detail_barang_tag.detail_kode_barang_tag', '=', 'barang_tag.detail_kode_barang_tag')
@@ -29,7 +54,8 @@ class MasterDataProduct extends Controller
         return view('master.data_product', compact('products', 'tags'));
     }
 
-    public function add_products(Request $request){
+    public function add_products(Request $request)
+    {
         $this->validate($request, [
             'txt_nama' => 'required|max:30',
             'txt_warna' => 'required',
@@ -65,7 +91,7 @@ class MasterDataProduct extends Controller
                 'kode_tag' => $value
             ]);
         }
-        
+
 
         return redirect()->route('product');
     }
