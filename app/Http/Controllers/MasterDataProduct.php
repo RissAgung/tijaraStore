@@ -16,9 +16,8 @@ class MasterDataProduct extends Controller
         // $products = barang::with('barang_tag')
         //     ->get();
 
-        $products = barang::with('detail_barang_tag.tag')->get();
+        $products = barang::with('detail_barang_tag.tag')->paginate(1);
         // return $products;
-
         // $tags = barang::join('barang_tag', 'barang_tag.kode_barang_tag', '=', 'barang.kode_barang_tag')
         //     ->join('detail_barang_tag', 'detail_barang_tag.detail_kode_barang_tag', '=', 'barang_tag.detail_kode_barang_tag')
         //     ->join('tag', 'tag.kode_tag', '=', 'detail_barang_tag.kode_tag')

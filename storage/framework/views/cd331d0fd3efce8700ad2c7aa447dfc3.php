@@ -158,27 +158,8 @@
             </table>
         </div>
         <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-between gap-2 py-2 items-center">
-            <p class="mt-2 text-center">Menampilkan <b>5</b> data dari <b>10</b></p>
-            <div class="px-2 bg-white justify-center border-[#DCDADA] border-[1px] py-2 flex w-fit items-center">
-                <ul class="flex flex-row gap-2">
-                    <li class=" px-4 items-center flex cursor-pointer">
-                        <svg width="12" height="13" viewBox="0 0 12 13" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 6.5L11.25 0.00480938L11.25 12.9952L0 6.5Z" fill="#787777" />
-                        </svg>
-                    </li>
-                    <li class="py-2 bg-[#6F6F6F] px-4 text-white rounded-md cursor-pointer">1</li>
-                    <li class="py-2 bg-[#ffffff] px-4 text-black rounded-md cursor-pointer hover:bg-[#ebebeb]">2</li>
-                    <li class="py-2 bg-[#ffffff] px-4 text-black rounded-md cursor-pointer hover:bg-[#ebebeb]">3</li>
-                    <li class="py-2 bg-[#ffffff] px-4 text-black rounded-md cursor-pointer hover:bg-[#ebebeb]">4</li>
-                    <li class=" px-4 items-center flex">
-                        <svg width="12" height="13" viewBox="0 0 12 13" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 6.5L0.75 12.9952V0.00480938L12 6.5Z" fill="#787777" />
-                        </svg>
-                    </li>
-                </ul>
-            </div>
+            <?php echo e($products->onEachSide(2)->links('vendor.pagination.CustomPagination')); ?>
+
         </div>
 
     </div>
