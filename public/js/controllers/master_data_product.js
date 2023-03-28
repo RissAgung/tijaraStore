@@ -1,5 +1,13 @@
 
-
+txt_foto.onchange = (evt) => {
+    console.log("awdawda");
+    const [file] = txt_foto.files;
+    if (file) {
+        imgpreview.src = URL.createObjectURL(file);
+        $("#imgpreview").removeClass("hidden");
+        $("#imgpreview").addClass("flex");
+    }
+};
 $("#btn_tambah").click(function (e) {
     e.preventDefault();
     showModal();
@@ -10,9 +18,9 @@ $("#bg_modal").click(function (e) {
     closeModal();
 });
 
-$("#btn_hapus").click(function (e) { 
+$("#btn_hapus").click(function (e) {
     e.preventDefault();
-    location.href = '/filtertags/' + selectedTags.toString().replace(',', '&');
+    location.href = "/filtertags/" + selectedTags.toString().replace(",", "&");
     // $("#form_filter").trigger("submit");
 });
 
@@ -49,9 +57,7 @@ function filterTags(kode) {
         selectedTags.push(kode);
     }
 
-    $("#" + kode).toggleClass(
-        "bg-white border-[#D9D9D9] text-[#9B9B9B]"
-    );
+    $("#" + kode).toggleClass("bg-white border-[#D9D9D9] text-[#9B9B9B]");
 
     $("#" + kode).toggleClass(
         "bg-[#FFB015] border-[#FFB015] text-black poppins-medium"

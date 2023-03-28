@@ -119,7 +119,7 @@
                             <td class="tracking-wide text-center p-3">@money($item->harga)</td>
                             <td class="tracking-wide text-center p-3">
                                 <div class="flex flex-row gap-2 justify-center">
-                                    <div onclick="ubahData('{{ $item->nama_br }}','{{ $item->warna }}','{{ $item->kategori }}','{{ $item->ukuran }}','{{ $item->harga }}','{{ $item->barang_tag->detail_barang_tag }}')"
+                                    <div onclick="ubahData('{{ $item->nama_br }}','{{ $item->warna }}','{{ $item->kategori }}','{{ $item->ukuran }}','{{ $item->harga }}','{{ $item->detail_barang_tag }}')"
                                         class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -188,10 +188,17 @@
 
 @section('otherjs')
     <script src="{{ asset('js/controllers/master_data_product.js') }}"></script>
-    @error('txt_nama')
+    @if ($errors->any())
+        <script>
+            showModal()
+            // alert("anjay")
+        </script>
+    @endif
+
+    {{-- @error('txt_nama')
         <script>
             showModal();
             // alert("{{ $message }}")
         </script>
-    @enderror
+    @enderror --}}
 @endsection

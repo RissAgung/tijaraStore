@@ -8,7 +8,7 @@ Route::get("/", function(){
   return view("layout.main");
 });
 
-Route::get("/product", [MasterDataProduct::class, 'products']);
+Route::get("/product", [MasterDataProduct::class, 'products'])->name('product');
 
 Route::post('/product/add', [MasterDataProduct::class, 'add_products']);
 

@@ -117,7 +117,7 @@
                             <td class="tracking-wide text-center p-3">Rp. <?php echo number_format($item->harga,0,',','.'); ?></td>
                             <td class="tracking-wide text-center p-3">
                                 <div class="flex flex-row gap-2 justify-center">
-                                    <div onclick="ubahData('<?php echo e($item->nama_br); ?>','<?php echo e($item->warna); ?>','<?php echo e($item->kategori); ?>','<?php echo e($item->ukuran); ?>','<?php echo e($item->harga); ?>','<?php echo e($item->barang_tag->detail_barang_tag); ?>')"
+                                    <div onclick="ubahData('<?php echo e($item->nama_br); ?>','<?php echo e($item->warna); ?>','<?php echo e($item->kategori); ?>','<?php echo e($item->ukuran); ?>','<?php echo e($item->harga); ?>','<?php echo e($item->detail_barang_tag); ?>')"
                                         class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -186,19 +186,14 @@
 
 <?php $__env->startSection('otherjs'); ?>
     <script src="<?php echo e(asset('js/controllers/master_data_product.js')); ?>"></script>
-    <?php $__errorArgs = ['txt_nama'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
+    <?php if($errors->any()): ?>
         <script>
-            showModal();
-            // alert("<?php echo e($message); ?>")
+            showModal()
+            // alert("anjay")
         </script>
-    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+    <?php endif; ?>
+
+    
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Development\Web\Tijara\src\resources\views/master/data_product.blade.php ENDPATH**/ ?>

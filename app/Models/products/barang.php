@@ -13,8 +13,11 @@ class barang extends Model
     public $incrementing = false;
     public $timestamps = false;
 
-    public function barang_tag(){
-        return $this->belongsTo(barang_tag::class, 'kode_barang_tag', 'kode_barang_tag');
-    }
+    protected $fillable = array('kode_br', 'kategori', 'kode_barang_tag', 'nama_br', 'stok', 'gambar', 'harga', 'ukuran', 'warna', 'jenis');
 
+
+    public function detail_barang_tag()
+    {
+        return $this->hasMany(detail_barang_tag::class, 'detail_kode_barang_tag', 'kode_barang_tag');
+    }
 }
