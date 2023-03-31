@@ -1,11 +1,7 @@
 ## Sebelum mulai ngoding
 
-1. Project laravel masukkan folder src
-2. Di folder yang sama dengan folder src install tailwind pake cara dibawah
-  - npm install -D tailwindcss
-  - npx tailwindcss init
-  - npm install tailwind-scrollbar-hide
+1.
+  - npm install tailwindcss --save-dev
   - konfigurasi file tailwind.config.js
-      ### content: ["./src/resources/views/**/*.{html,js,blade.php}"],
-      ### plugins: [require('tailwind-scrollbar-hide')],
-3. ex : npx tailwindcss -i src/public/css/input/main.css -o src/public/css/output/main.css --watch
+      ### content: ["./resources/views/**/*.{html,js,blade.php}"],
+2. ex : npx tailwindcss -i public/css/input/main.css -o public/css/output/main.css --watch
