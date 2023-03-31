@@ -13,6 +13,10 @@
 <body class="bg-[#F7F7F7] w-full h-full box-border">
     <div class="flex flex-row w-full h-full justify-between">
 
+        <div class="z-[100]">
+            @yield('modal')
+        </div>
+
         {{-- sidebar --}}
         <div>
             @include('layout.sidebar')
@@ -20,7 +24,7 @@
         {{-- end sidebar --}}
 
         {{-- content --}}
-        <div class="flex flex-col w-full lg:ml-[290px] lg:min-h-screen">
+        <div class="flex flex-col w-full lg:ml-[290px] lg:min-h-screen overflow-x-hidden">
 
             {{-- top bar --}}
             <div>
