@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+  console.log("width : "+$(document).width()+" height: "+$(document).height());
+
   // show sidebar
   $("#burger").click(function (e) { 
     e.preventDefault();

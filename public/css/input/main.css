@@ -49,6 +49,11 @@ body {
 
 /* ============================ End coppy script dibawah kalo mau buat file input baru ============================ */
 
+.text-selector-none{
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
 
 /* sidebar */
 
@@ -83,4 +88,18 @@ body {
 
 .menu:hover .menu-hover2 {
   background: #FFA900;
+}
+
+/* laporan pemasukan */
+
+#menu_pemasukan1:hover div{
+  background: #FFB015;
+}
+
+#menu_pemasukan2:hover div{
+  background: #FFB015;
+}
+
+#menu_pemasukan3:hover div{
+  background: #FFB015;
 }

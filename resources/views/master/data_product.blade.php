@@ -4,6 +4,10 @@
     Master Data Product
 @endsection
 
+@section('modal')
+    @include('modal.add_product')
+@endsection
+
 @section('content')
     <div class=" h-fit bg-white border-b-2">
         <div class=" flex flex-col px-4 md:px-12 justify-between gap-4 mt-2 md:flex-row py-4">
@@ -25,7 +29,8 @@
             <div class=" flex flex-row justify-between">
                 <div class="flex flex-row gap-4 items-center text-center mr-4 md:mr-8">
                     <p class="text-center items-center w-12 md:w-full">Filter By: </p>
-                    <select class="h-12 px-4 w-[30vw] md:w-32 outline-none rounded-lg appearance-none" name="" id="">
+                    <select class="h-12 px-4 w-[30vw] md:w-32 outline-none rounded-lg appearance-none" name=""
+                        id="">
                         <option value="Laki-Laki">Laki-Laki</option>
                         <option value="Perempuan">Perempuan</option>
                         <option value="Anak-Anak">Anak Anak</option>
@@ -33,7 +38,8 @@
                 </div>
 
                 <div class=" flex flex-row gap-2">
-                    <div class="bg-[#000000] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
+                    <div id="btn_hapus"
+                        class="bg-[#000000] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
                         <svg width="14" height="17" viewBox="0 0 14 17" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -47,7 +53,8 @@
                                 fill="white" />
                         </svg>
                     </div>
-                    <div class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
+                    <div id="btn_tambah"
+                        class="bg-[#FFB015] hover:bg-[#e7a013] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm cursor-pointer">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -60,34 +67,18 @@
             </div>
         </div>
     </div>
+
     <div class="flex px-4 md:px-12  flex-row py-4 bg-white overflow-x-scroll gap-3 scrollbar-hide border-b-2">
-        <div class="bg-white border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md hover:bg-[#FFB015] hover:border-[#FFB015] hover:text-black">
-            <p>Batik</p>
-        </div>
-        <div class="bg-white border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md hover:bg-[#FFB015] hover:border-[#FFB015] hover:text-black">
-            <p>Baju Trendi</p>
-        </div>
-        <div class="bg-white border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md hover:bg-[#FFB015] hover:border-[#FFB015] hover:text-black">
-            <p>Batik Gaul Masa Kini</p>
-        </div>
-        <div class="bg-white border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md hover:bg-[#FFB015] hover:border-[#FFB015] hover:text-black">
-            <p>Baju Trendi</p>
-        </div>
-        <div class="bg-white border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md hover:bg-[#FFB015] hover:border-[#FFB015] hover:text-black">
-            <p>Batik Gaul Masa Kini</p>
-        </div>
-        <div class="bg-white border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md hover:bg-[#FFB015] hover:border-[#FFB015] hover:text-black">
-            <p>Batik</p>
-        </div>
-        <div class="bg-white border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md hover:bg-[#FFB015] hover:border-[#FFB015] hover:text-black">
-            <p>Batik Gaul Masa Kini</p>
-        </div>
-        <div class="bg-white border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md hover:bg-[#FFB015] hover:border-[#FFB015] hover:text-black">
-            <p>Batik</p>
-        </div>  
-        
+        @foreach ($tags as $item_tags)
+            <div id="{{ strtolower($item_tags->kode_tag) }}"
+                class="bg-white  border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md"
+                onclick="filterTags('{{ strtolower($item_tags->kode_tag) }}')">
+                <p>{{ $item_tags->nama_tag }}</p>
+            </div>
+        @endforeach
 
     </div>
+
     <div class="h-[70vh] flex flex-col px-6 py-4">
         <div class="h-full w-full overflow-x-auto">
             <table class=" w-full border-separate border-spacing-y-4">
@@ -102,7 +93,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 5; $i++)
+                    @foreach ($products as $item)
                         <tr class="bg-white border-2 ">
                             <td class="tracking-wide text-center p-3">
                                 <div class="flex flex-row justify-center gap-4">
@@ -121,13 +112,14 @@
                                     </svg>
                                 </div>
                             </td>
-                            <td class="tracking-wide text-center p-3">Celana Chinos Buat Perang</td>
-                            <td class="tracking-wide text-center p-3">Wanita</td>
-                            <td class="tracking-wide text-center p-3">10</td>
-                            <td class="tracking-wide text-center p-3">Rp. 230.000</td>
+
+                            <td class="tracking-wide text-center p-3">{{ $item->nama_br }}</td>
+                            <td class="tracking-wide text-center p-3">{{ $item->kategori }}</td>
+                            <td class="tracking-wide text-center p-3">{{ $item->stok }}</td>
+                            <td class="tracking-wide text-center p-3">@money($item->harga)</td>
                             <td class="tracking-wide text-center p-3">
                                 <div class="flex flex-row gap-2 justify-center">
-                                    <div
+                                    <div onclick="ubahData('{{ $item->nama_br }}','{{ $item->warna }}','{{ $item->kategori }}','{{ $item->ukuran }}','{{ $item->harga }}','{{ $item->barang_tag->detail_barang_tag }}')"
                                         class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -159,7 +151,9 @@
                                 </div>
                             </td>
                         </tr>
-                    @endfor
+                    @endforeach
+
+
 
                 </tbody>
 
@@ -190,4 +184,8 @@
         </div>
 
     </div>
+@endsection
+
+@section('otherjs')
+    <script src="{{ asset('js/controllers/master_data_product.js') }}"></script>
 @endsection

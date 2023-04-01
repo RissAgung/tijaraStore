@@ -7,10 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/output/main.css') }}">
     <title>Document</title>
+    @vite([])
 </head>
 
 <body class="bg-[#F7F7F7] w-full h-full box-border">
     <div class="flex flex-row w-full h-full justify-between">
+
+        <div class="z-[100]">
+            @yield('modal')
+        </div>
 
         {{-- sidebar --}}
         <div>
@@ -19,7 +24,7 @@
         {{-- end sidebar --}}
 
         {{-- content --}}
-        <div class="flex flex-col w-full lg:ml-[390px]">
+        <div class="flex flex-col w-full lg:ml-[290px] lg:min-h-screen overflow-x-hidden">
 
             {{-- top bar --}}
             <div>
@@ -28,7 +33,7 @@
             {{-- end top bar --}}
 
             {{-- main content --}}
-            <div class="">
+            <div class="lg:h-full">
                 @yield('content')
             </div>
             {{-- main content --}}
@@ -40,6 +45,7 @@
     </div>
     <script src="{{ asset('js/jquery-3.6.1.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    @yield('otherjs')
 </body>
 
 </html>
