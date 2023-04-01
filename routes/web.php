@@ -11,9 +11,23 @@ Route::get("/", function () {
 Route::get("/product", [MasterDataProduct::class, 'products']);
 
 Route::post('/product/add', function (Request $request) {
-    dd($request);
+  dd($request);
 });;
 
 Route::get('/filtertags/{kode}', function ($kode) {
-    return $kode;
+  return $kode;
+});
+
+Route::get("/login", function () {
+  return view('front_view.login');
+});
+
+Route::prefix("laporan")->group(function(){
+  Route::get("/pemasukan", function(){
+    return view("report.pemasukan");
+  });
+});
+
+Route::get("/retur", function(){
+  return view("retur.retur");
 });
