@@ -1,3 +1,32 @@
+
+// Check All
+$('#checkAll').change(function (e) { 
+    e.preventDefault();
+    $('.idcheck').prop('checked', $(this).prop('checked'));
+});
+
+// trigger delete selected
+$('#btn_hapus').click(function (e) { 
+    e.preventDefault();
+    $('#form_delete').trigger('submit');
+});
+
+// trigger delete per item
+$('#btn_delete_item').click(function (e) { 
+    e.preventDefault();
+    $('#form_delete_per_item').trigger('submit');
+});
+
+// Preview Picture
+txt_foto.onchange = (evt) => {
+    console.log("awdawda");
+    const [file] = txt_foto.files;
+    if (file) {
+        imgpreview.src = URL.createObjectURL(file);
+        $("#imgpreview").removeClass("hidden");
+        $("#imgpreview").addClass("flex");
+    }
+};
 $("#btn_tambah").click(function (e) {
     e.preventDefault();
     showModal();
@@ -8,11 +37,12 @@ $("#bg_modal").click(function (e) {
     closeModal();
 });
 
-$("#btn_hapus").click(function (e) { 
-    e.preventDefault();
-    location.href = '/filtertags/' + selectedTags.toString().replace(',', '&');
-    // $("#form_filter").trigger("submit");
-});
+// test selected tag
+// $("#btn_hapus").click(function (e) {
+//     e.preventDefault();
+//     location.href = "/filtertags/" + selectedTags.toString().replace(",", "&");
+//     // $("#form_filter").trigger("submit");
+// });
 
 function ubahData(nama, warna, kategori, ukuran, harga, tags) {
     $("#button_submit").html("Ubah Data");
@@ -47,9 +77,7 @@ function filterTags(kode) {
         selectedTags.push(kode);
     }
 
-    $("#" + kode).toggleClass(
-        "bg-white border-[#D9D9D9] text-[#9B9B9B]"
-    );
+    $("#" + kode).toggleClass("bg-white border-[#D9D9D9] text-[#9B9B9B]");
 
     $("#" + kode).toggleClass(
         "bg-[#FFB015] border-[#FFB015] text-black poppins-medium"

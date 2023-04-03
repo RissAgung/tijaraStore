@@ -24,7 +24,7 @@
         {{-- end sidebar --}}
 
         {{-- content --}}
-        <div class="flex flex-col w-full lg:ml-[290px] lg:min-h-screen overflow-x-hidden">
+        <div class="flex flex-col w-full lg:ml-[290px]">
 
             {{-- top bar --}}
             <div>

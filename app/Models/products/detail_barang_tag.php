@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class detail_barang_tag extends Model
 {
     use HasFactory;
-    protected $table = 'DETAIL_BARANG_TAG';
+    protected $table = 'detail_barang_tag';
     public $timestamps = false;
     public $incrementing = false;
 
-    public function barang_tag(){
-        return $this->belongsTo(barang_tag::class, 'detail_kode_barang_tag', 'detail_kode_barang_tag');
+    protected $fillable = array('detail_kode_barang_tag', 'kode_tag');
+
+    public function barang(){
+        return $this->hasOne(barang::class);
     }
 
     public function tag(){
