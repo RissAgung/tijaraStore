@@ -38,3 +38,7 @@ Route::get("/retur", function(){
 Route::get("/landing", function(){
   return view("layout.landing_main");
 });
+
+Route::get('/riwayat', function () {
+    return view('riwayat.riwayat');
+});
