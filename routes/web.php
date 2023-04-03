@@ -4,7 +4,7 @@ use App\Http\Controllers\MasterDataProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get("/", function(){
+Route::get("/", function () {
   return view("layout.main");
 });
 
@@ -21,8 +21,18 @@ Route::get('/filtertags/{kode}', function ($kode) {
 });
 
 
-Route::get("/login", function(){
-  return view("front_view.login");
+Route::get("/login", function () {
+  return view('front_view.login');
+});
+
+Route::prefix("laporan")->group(function(){
+  Route::get("/pemasukan", function(){
+    return view("report.pemasukan");
+  });
+});
+
+Route::get("/retur", function(){
+  return view("retur.retur");
 });
 
 Route::get("/landing", function(){

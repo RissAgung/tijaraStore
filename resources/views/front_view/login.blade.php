@@ -6,19 +6,18 @@
 
         {{-- left --}}
         <div
-            class="flex flex-col items-center gap-1 lg:gap-3 min-[360px]:gap-3 lg:h-full lg:pl-16 2xl:pl-24 lg:items-start lg:w-[60%] lg:justify-center">
+            class="flex flex-col items-center gap-1 min-[360px]:gap-3 md:gap-7 xl:gap-5 lg:h-full lg:pl-16 2xl:pl-24 lg:items-start lg:w-[60%] lg:justify-center">
 
             {{-- text --}}
             <h1
-                class="capitalize poppins-semibold text-[25px] min-[360px]:text-[30px] md:text-[35px] w-[70%] md:w-[50%] text-center md:leading-[45px] lg:w-[75%] lg:text-left xl:w-[50%] 2xl:text-[43px] 2xl:leading-[55px]">
-                selamat datang kembali</h1>
+                class="capitalize poppins-semibold text-[25px] min-[360px]:text-[30px] md:text-[40px] lg:text-[30px] w-[70%] md:w-[90%] text-center md:leading-[45px] lg:w-[75%] lg:text-left xl:w-[50%] xl:text-[32px] 2xl:text-[43px] 2xl:leading-[55px]">
+                selamat datang di tijaraStore</h1>
             <p
-                class="w-[95%] md:w-[70%] min-[360px]:w-[90%] text-[10px] min-[360px]:text-[13px] md:text-[18px] text-center text-[#606060] mb-6 lg:text-left lg:text-[15px] lg:w-full xl:w-[80%] 2xl:w-[75%] 2xl:text-[18px]">
-                Silahkan login untuk menuju halaman selanjutnya apabila
-                anda belum mempunyai akun <a href="#" class="text-[#CB8600]">klik disini</a></p>
+                class="w-[95%] md:w-[70%] min-[360px]:w-[90%] text-[10px] min-[360px]:text-[13px] md:text-[18px] text-center text-[#606060] mb-6 lg:mb-0 lg:text-left lg:text-[15px] lg:w-full xl:w-[80%] 2xl:w-[75%] 2xl:text-[18px]">
+                Silahkan login untuk menuju halaman selanjutnya</p>
 
             {{-- icon --}}
-            <svg class="w-[85%] md:w-[65%] ml-6 md:ml-[59px] lg:ml-0 lg:w-[80%] 2xl:w-[70%]" viewBox="0 0 760 413"
+            <svg class="w-[85%] md:w-[80%] ml-6 md:ml-[59px] lg:ml-0 lg:w-[60%] 2xl:w-[70%]" viewBox="0 0 760 413"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M72.8877 194.637H9.60791V260.607H72.8877V194.637Z" fill="#E0E0E0" />
                 <path d="M68.5975 194.637H5.31763V260.607H68.5975V194.637Z" fill="#F5F5F5" />
@@ -795,7 +794,7 @@
 
     {{-- footer --}}
     <div
-        class="py-6 mb-0 lg:px-16 2xl:px-24 text-[10px] min-[360px]:text-[12px] poppins-medium w-full text-center lg:text-end 2xl:text-[14px]">
+        class="py-6 lg:py-4 mb-0 lg:px-16 2xl:px-24 text-[10px] min-[360px]:text-[12px] poppins-medium w-full text-center lg:text-end 2xl:text-[14px]">
         Copyright @2022 Tijara Store. All Right Reserved
     </div>
     {{-- end footer --}}
