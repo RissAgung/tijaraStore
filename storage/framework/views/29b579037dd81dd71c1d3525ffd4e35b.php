@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?php echo e(asset('css/output/main.css')); ?>">
     <title>Document</title>
-    
+    <?php echo app('Illuminate\Foundation\Vite')([]); ?>
 </head>
 
 <body class="bg-[#F7F7F7] w-full h-full box-border">
@@ -33,7 +33,7 @@
             
 
             
-            <div class="">
+            <div class="lg:h-full">
                 <?php echo $__env->yieldContent('content'); ?>
             </div>
             

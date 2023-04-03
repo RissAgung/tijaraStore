@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class tag extends Model
 {
     use HasFactory;
-    protected $table = 'TAG';
+    protected $table = 'tag';
     public $incrementing = false;
     protected $primaryKey = 'kode_tag';
     public $timestamps = false;
