@@ -6,7 +6,7 @@
 
 @section('content')
     {{-- container --}}
-    <div class="flex flex-col w-full h-full">
+    <div class="flex flex-col w-full h-full lg:h-[85vh] xl:h-[88vh]">
 
         {{-- top --}}
         <div
@@ -97,7 +97,8 @@
         <div class="flex flex-col lg:flex-row w-full lg:h-full p-2 md:p-5 gap-2 md:gap-5">
 
             {{-- left --}}
-            <div class="flex flex-col w-full h-80 md:h-96 lg:min-h-full overflow-y-auto bg-white border-[1px] border-[#DCDADA] rounded-md">
+            <div
+                class="flex flex-col w-full lg:w-[65%] h-80 md:h-96 lg:min-h-full overflow-y-auto bg-white border-[1px] border-[#DCDADA] rounded-md">
                 <p class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pemasukan</p>
                 <div class="flex w-full border-y-[1px] border-y-[#DCDADA] bg-[#F7F7F7] text-[11px] md:text-[14px]">
                     <p class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">No</p>
@@ -110,7 +111,8 @@
                             <tr class="border-b-[1px] border-b-[#DCDADA]">
                                 <td class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-white">{{ $i + 1 }}</td>
                                 <td class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-white">Jan-2023</td>
-                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">Rp. 320.000</td>
+                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">Rp.
+                                    320.000</td>
                             </tr>
                         @endfor
                     </table>
@@ -118,15 +120,17 @@
             </div>
 
             {{-- right --}}
-            <div class="flex flex-col w-full lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
-                <p class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">Detail Pemasukan</p>
-                <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-around">
+            <div
+                class="flex flex-col w-full lg:w-[35%] lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
+                <p class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
+                    Detail Pemasukan</p>
+                <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-evenly">
 
                     {{-- pria --}}
-                    <div class="flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center border-b-[1px] border-b-[#DCDADA]">
+                    <div class="flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]" viewBox="0 0 105 111" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="104.765" height="110.893" rx="14" fill="#DFDFDF" />
                                 <path
                                     d="M63.9998 18H40.9998C37.4998 28.5 44.4998 47 47.9998 50C51.4998 53 64.9998 41 65.9998 37C66.7998 33.8 64.9998 23 63.9998 18Z"
@@ -151,7 +155,8 @@
                                     fill="#9297AB" />
                             </svg>
 
-                            <div class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
+                            <div
+                                class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Pakaian Pria</p>
                                 <p class="poppins-semibold">Rp. 760.000</p>
                             </div>
@@ -167,11 +172,14 @@
                         </div>
                     </div>
 
+                    {{-- line --}}
+                    <div class="w-full h-[1px] bg-[#DCDADA]"></div>
+
                     {{-- Wanita --}}
-                    <div class="flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center border-b-[1px] border-b-[#DCDADA]">
+                    <div class="flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]" viewBox="0 0 105 111" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="104.765" height="110.893" rx="14" fill="#EDD9ED" />
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M44.0137 15.5H36.5017C34.2284 16.4741 29.551 20.0104 28.5709 26.4785L26.4571 28.875C26.2744 29.0821 26.2942 29.398 26.5013 29.5807L35.1716 37.2265C35.3787 37.4091 35.6947 37.3893 35.8774 37.1822L39.0513 33.5838C40.5194 36.0888 41.2933 40.0444 40.5021 44L22 84.5C22.5001 86.3333 25.3004 89.8 32.5012 89C33.0013 90.6667 35.7016 93.8 42.5023 93C43.7754 94.1138 47.5399 96.0175 52.7517 95.1436C57.9628 96.0175 61.7269 94.1138 62.9998 93C69.7998 93.8 72.4998 90.6667 72.9998 89C80.1998 89.8 82.9998 86.3333 83.4998 84.5L64.9998 44C64.2086 40.0443 64.9825 36.0887 66.4505 33.5837L69.6241 37.1822C69.8068 37.3893 70.1227 37.4091 70.3298 37.2265L78.9991 29.5807C79.2062 29.398 79.226 29.0821 79.0434 28.875L76.9296 26.4783C75.9496 20.0103 71.2727 16.4741 68.9998 15.5H61.9863C61.7269 20.238 57.8028 24 53 24C48.1972 24 44.2731 20.238 44.0137 15.5Z"
@@ -187,7 +195,8 @@
                                     fill="#AD74AE" />
                             </svg>
 
-                            <div class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
+                            <div
+                                class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Pakaian Wanita</p>
                                 <p class="poppins-semibold">Rp. 760.000</p>
                             </div>
@@ -203,11 +212,14 @@
                         </div>
                     </div>
 
+                    {{-- line --}}
+                    <div class="w-full h-[1px] bg-[#DCDADA]"></div>
+
                     {{-- Anak --}}
                     <div class="flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]" viewBox="0 0 105 111" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="104.765" height="110.893" rx="14" fill="#D5ECFE" />
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M52 27C54 26.8333 58.7 25.4 61.5 21C61.6667 20.6667 62.4 20.2 64 21C64.4579 21.2289 65.3088 21.5103 66.3908 21.868C70.0353 23.073 76.3013 25.1447 79 29L84.5 37.5V42.5L80 47C79.3333 47.5 77.6 48.3 76 47.5C74.4 46.7 72.3333 45.5 71.5 45C73.3333 52 76.2 69.7 73 84.5C72.6667 86.1667 71.4 89.5 69 89.5H61.5C61 89.1667 59.7 87.7 58.5 84.5L56 77.5C56 77 55.6 76 54.0001 76L54 76.0004H49.5C47.9 76.0004 47.5 77.0003 47.5 77.5003L45 84.5001C43.8 87.7001 42.5 89.1667 42 89.5H34.5C32.1 89.5 30.8333 86.1668 30.5 84.5001C27.3 69.7005 30.1667 52.001 32 45.0011C31.1667 45.5011 29.1 46.7011 27.5 47.5011C25.9 48.301 24.1667 47.5011 23.5 47.0011L19 42.5012V37.5013L24.5 29.0015C27.1987 25.1463 33.4648 23.0746 37.1092 21.8697C38.1912 21.512 39.0421 21.2306 39.5 21.0017C41.1 20.2017 41.8333 20.6684 42 21.0017C44.8 25.4016 49.5 26.8349 51.5 27.0016L51.7406 27.0216L52 27Z"
@@ -236,7 +248,8 @@
                                     fill="#38484A" />
                             </svg>
 
-                            <div class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
+                            <div
+                                class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Pakaian Anak</p>
                                 <p class="poppins-semibold">Rp. 760.000</p>
                             </div>
@@ -252,7 +265,9 @@
                         </div>
                     </div>
                 </div>
-                <p class="flex justify-center p-4 md:p-6 2xl:p-9 lg:p-5 text-[12px] md:text-[15px] 2xl:text-[17px] border-t-[1px] border-t-[#DCDADA] poppins-semibold">Rp. 2.280.000</p>
+                <p
+                    class="flex justify-center p-4 md:p-6 2xl:p-9 lg:p-5 text-[12px] md:text-[15px] 2xl:text-[17px] border-t-[1px] border-t-[#DCDADA] poppins-semibold">
+                    Rp. 2.280.000</p>
             </div>
 
         </div>
