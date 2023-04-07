@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,28 +18,26 @@ Route::get('/product/delete/{kode}', [MasterDataProduct::class, 'delete']);
 Route::post('/product/delete_selected', [MasterDataProduct::class, 'delete_selected']);
 
 Route::get('/filtertags/{kode}', function ($kode) {
-    return $kode;
+  return $kode;
 });
 
+//apabila belum login atau statusnya belum auth secara otomatis akan terlempar ke home, path home sendiri diatur pada App/Providers/RouteServiceProvider.php baris 20
+Route::get("/login", [LoginController::class, 'index'])->name('login')->middleware('guest');
 
-Route::get("/login", function () {
-  return view('front_view.login');
-});
+Route::post("/login", [LoginController::class, 'checkLogin']);
+Route::post("/logout", [LoginController::class, 'logout']);
 
-Route::prefix("laporan")->group(function(){
-  Route::get("/pemasukan", function(){
+// Route::get("/register", function () {
+//   return view('front_view.register');
+// });
+// Route::post("/register", [LoginController::class, 'registerhahai'])->middleware('guest');
+
+Route::prefix("laporan")->group(function () {
+  Route::get("/pemasukan", function () {
     return view("report.pemasukan");
-  });
+  })->middleware('auth');
 });
 
-Route::get("/retur", function(){
+Route::get("/retur", function () {
   return view("retur.retur");
-});
-
-Route::get("/landing", function(){
-  return view("layout.landing_main");
-});
-
-Route::get('/riwayat', function () {
-    return view('riwayat.riwayat');
-});
+})->middleware('auth');

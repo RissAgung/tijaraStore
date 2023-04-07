@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/output/landing.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     {{-- @vite([]) --}}
@@ -65,8 +66,10 @@
 
     </div>
     {{-- end container --}}
+    @include('sweetalert::alert')
     <script src="{{ asset('js/jquery-3.6.1.min.js') }}"></script>
     <script src="{{ asset('js/landing/landing.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     @yield('js')
 </body>
 
