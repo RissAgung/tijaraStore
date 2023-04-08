@@ -182,7 +182,7 @@
 
                                             </div>
 
-                                            <a href="/product/delete/<?php echo e($item->kode_br); ?>?token=<?php echo e(csrf_token()); ?>"
+                                            <div onclick="hapusData('/product/delete/<?php echo e($item->kode_br); ?>?token=<?php echo e(csrf_token()); ?>')"
                                                 class="bg-[#000000] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
                                                 <svg width="14" height="17" viewBox="0 0 14 17" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -196,7 +196,7 @@
                                                         d="M8.40001 12.6C8.58566 12.6 8.76371 12.5262 8.89499 12.395C9.02626 12.2637 9.10001 12.0856 9.10001 11.9V7.69999C9.10001 7.51434 9.02626 7.33629 8.89499 7.20502C8.76371 7.07374 8.58566 6.99999 8.40001 6.99999C8.21436 6.99999 8.03631 7.07374 7.90504 7.20502C7.77376 7.33629 7.70001 7.51434 7.70001 7.69999V11.9C7.70001 12.0856 7.77376 12.2637 7.90504 12.395C8.03631 12.5262 8.21436 12.6 8.40001 12.6Z"
                                                         fill="white" />
                                                 </svg>
-                                            </a>
+                                            </div>
 
 
                                         </div>

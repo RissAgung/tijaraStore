@@ -98,18 +98,25 @@ class MasterDataProduct extends Controller
                 // hal ini dilakukan untuk pencegahan untuk hal hal yang tidak diinginkan
                 // seperti memaksa menggunakan token yang telah dipakai sebelumnya untuk menghapus data yang lain
                 $request->session()->regenerateToken();
-                return "Token sesuai, kode barangnya : " . $kode;
+                barang::find($kode)->delete();
+
+                alert()->success('Berhasil', 'Berhasil Menghapus Data');
+                return redirect()->route('product');
             } else {
-                return "Token tidak sesuai, yahaha hayuk";
+                return redirect()->route('product');
             }
         } else {
-            return "Tidak ada token";
+            return redirect()->route('product');
         }
     }
 
     public function delete_selected(Request $request)
     {
-        dd($request);
+        foreach ($request->ids as $value) {
+            barang::find($value)->delete();
+        }
+        alert()->success('Berhasil', 'Berhasil Menghapus Data');
+        return redirect()->route('product');
     }
 
     public function products(Request $request)
@@ -184,7 +191,7 @@ class MasterDataProduct extends Controller
             ]);
         }
 
-
+        alert()->success('Berhasil', 'Berhasil Menambahkan Data');
         return redirect()->route('product');
     }
 
@@ -280,6 +287,7 @@ class MasterDataProduct extends Controller
                 ]);
             }
         }
+        alert()->success('Berhasil', 'Berhasil Mengubah Data')->showConfirmButton()->focusConfirm(true);
         return redirect()->back()->with('success', "Berhasil Mengubah Data");
     }
 }

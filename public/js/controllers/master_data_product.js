@@ -34,14 +34,32 @@ $("#checkAll").change(function (e) {
 // trigger delete selected
 $("#btn_hapus").click(function (e) {
     e.preventDefault();
-    $("#form_delete").trigger("submit");
+    var checkedCount = $(".idcheck:checked").length;
+    if (checkedCount == 0) {
+        Swal.fire("Informasi", "Pilih data yang ingin dihapus", "warning");
+    } else {
+        Swal.fire({
+            title: "Hapus Data",
+            text: "Apakah anda yakin ingin menghapus data yang dipilih?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonText: "Tidak",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#form_delete").trigger("submit");
+            }
+        });
+    }
 });
 
-// trigger delete per item
-$("#btn_delete_item").click(function (e) {
-    e.preventDefault();
-    $("#form_delete_per_item").trigger("submit");
-});
+// // trigger delete per item
+// $("#btn_delete_item").click(function (e) {
+//     e.preventDefault();
+//     $("#form_delete_per_item").trigger("submit");
+// });
 
 // Preview Picture
 foto.onchange = (evt) => {
@@ -80,6 +98,23 @@ $("#btn_filter_tags").click(function (e) {
     }
     // $("#form_filter").trigger("submit");
 });
+
+const hapusData = (url) => {
+    Swal.fire({
+        title: "Hapus Data",
+        text: "Apakah anda yakin ingin menghapus data?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonText: "Tidak",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            location.href = window.location.origin + url;
+        }
+    });
+};
 
 function ubahData(nama, warna, kategori, ukuran, harga, tags, jenis, id, foto) {
     $("#button_submit").html("Ubah Data");
@@ -145,8 +180,6 @@ function resetForm() {
     $('input[type="checkbox"]').attr("checked", false);
     $('input[type="radio"]').attr("checked", false);
 
-    
-
     $("#form_product").attr("action", "/product/add");
 
     $("#form_product").trigger("reset");
@@ -172,7 +205,29 @@ function closeModal() {
     resetForm();
 }
 
-$("#btn_submit").submit(function (e) {
+$("#btn_submit").click(function (e) {
     e.preventDefault();
+    let opsi = '';
+    if($("#button_submit").html() == "Tambah Data"){
+        opsi = "menambah";
+    } else {
+        opsi = "mengubah"
+    }
+
+    Swal.fire({
+        title: "Informasi",
+        text: "Apakah anda yakin ingin " + opsi + " data?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonText: "Tidak",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $("#form_product").trigger("submit");
+        }
+    });
+
     console.log("wdakdoawkdowa");
 });

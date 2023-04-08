@@ -5,14 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo e(asset('css/output/landing.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/sweetalert2.min.css')); ?>">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    
 </head>
 
 <body>
 
     
-    <div class="flex flex-col w-screen min-h-screen lg:h-screen">
+    <div class="flex flex-col md:flex-row lg:flex-col w-screen min-h-screen lg:h-screen">
 
         
         <div
@@ -44,14 +46,12 @@
 
             
             <div id="menu_navbar"
-                class="hidden md:flex rounded-md flex-col md:flex-row md:justify-between max-md:py-3 max-md:px-4 max-md:border-[2px] bg-white max-md:border-black max-md:right-3 max-md:top-14 max-md:absolute max-md:w-[120px] poppins-medium md:text-[17px] min-[1481px]:text-[18px] md:w-[50%] lg:w-[33%] min-[1481px]:w-[28%]">
-                <a class="text-left md:text-center rounded-lg py-1 md:hover:bg-[#FFB015] md:py-2 transition ease-in-out cursor-pointer md:px-6"
-                    href="#">Home</a>
-                <div class="flex flex-col md:flex-row">
+                class="hidden md:flex rounded-md flex-col md:flex-row md:justify-end max-md:py-3 max-md:px-4 max-md:border-[2px] bg-white max-md:border-black max-md:right-3 max-md:top-14 max-md:absolute max-md:w-[120px] poppins-medium md:text-[17px] min-[1481px]:text-[18px] md:w-[50%] lg:w-[33%] min-[1481px]:w-[28%]">
+                <div class="flex flex-col md:flex-row lg:gap-4">
+                    <a class="text-left md:text-center rounded-lg py-1 md:hover:bg-[#FFB015] md:py-2 transition ease-in-out cursor-pointer md:px-6"
+                        href="#">Home</a>
                     <a class="text-left md:text-center rounded-lg py-1 md:hover:bg-[#FFB015] md:py-2 transition ease-in-out cursor-pointer md:px-6"
                         href="#">Login</a>
-                    <a class="text-left md:text-center rounded-lg py-1 md:hover:bg-[#FFB015] md:py-2 transition ease-in-out cursor-pointer md:px-6"
-                        href="#">Register</a>
                 </div>
             </div>
 
@@ -59,15 +59,17 @@
         
 
         
-        <div class="mt-[60px] md:mt-[70px] xl:mt-[80px] w-full h-full flex flex-col justify-between">
+        <div class="flex flex-col mt-[60px] md:mt-[70px] xl:mt-[80px] w-full max-md:h-full lg:h-full justify-between">
             <?php echo $__env->yieldContent('content'); ?>
         </div>
         
 
     </div>
     
+    <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script src="<?php echo e(asset('js/jquery-3.6.1.min.js')); ?>"></script>
     <script src="<?php echo e(asset('js/landing/landing.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/sweetalert2.min.js')); ?>"></script>
     <?php echo $__env->yieldContent('js'); ?>
 </body>
 

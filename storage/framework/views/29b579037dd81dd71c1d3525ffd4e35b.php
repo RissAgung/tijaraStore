@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?php echo e(asset('css/output/main.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/sweetalert2.min.css')); ?>">
     <title>Document</title>
-    <?php echo app('Illuminate\Foundation\Vite')([]); ?>
+    
 </head>
 
 <body class="bg-[#F7F7F7] w-full h-full box-border">
@@ -43,7 +44,9 @@
 
 
     </div>
+    <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script src="<?php echo e(asset('js/jquery-3.6.1.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('js/sweetalert2.min.js')); ?>"></script>
     <script src="<?php echo e(asset('js/main.js')); ?>"></script>
     <?php echo $__env->yieldContent('otherjs'); ?>
 </body>
