@@ -1,4 +1,5 @@
 
+
 <div id="bg_modal" class="fixed bg-black w-full h-full opacity-0 transition pointer-events-none"></div>
 
 
@@ -16,6 +17,9 @@
         
         <div
             class="w-full flex-grow overflow-y-auto flex flex-col md:flex-row md:flex-wrap md:gap-4 md:pt-8 px-4 md:px-8">
+            <input id="id" name="id" type="hidden" placeholder=""
+                    class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="<?php echo e(old('id')); ?>">
+
             <div class="flex flex-col flex-grow md:w-[48%] md:mt-0 md:order-1 justify-start mt-6">
                 <Label class="ml-2 text-sm">Nama Product</Label>
                 <input id="txt_nama" name="txt_nama" type="text" placeholder=""
@@ -25,7 +29,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <p class="text-sm text-red-700"><?php echo e($message); ?></p>
+                    <p class="label-error text-sm text-red-700"><?php echo e($message); ?></p>
                 <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -40,7 +44,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <p class="text-sm text-red-700"><?php echo e($message); ?></p>
+                    <p class="label-error text-sm text-red-700"><?php echo e($message); ?></p>
                 <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -72,12 +76,12 @@ unset($__errorArgs, $__bag); ?>
                 <div class="flex flex-row flex-wrap mt-2 gap-3 ml-2">
                     <div class="flex flex-row gap-3">
                         <input value="jual" class="w-4 h-4 rounded mt-1"
-                            <?php echo e(old('jenis') == 'jual' ? 'checked' : ''); ?> type="radio" name="jenis" id="jual">
+                            type="radio" name="jenis" id="jual" <?php echo e(old('jenis') == 'jual' ? 'checked' : ''); ?>>
                         <label for="jual">Produk Jual</label>
                     </div>
                     <div class="flex flex-row gap-3">
                         <input value="free" class="w-4 h-4 rounded mt-1"
-                            <?php echo e(old('jenis') == 'free' ? 'checked' : ''); ?> type="radio" name="jenis" id="free">
+                            type="radio" name="jenis" id="free" <?php echo e(old('jenis') == 'free' ? 'checked' : ''); ?>>
                         <label for="free">Produk Free</label>
                     </div>
                     <?php $__errorArgs = ['jenis'];
@@ -85,7 +89,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <p class="text-sm text-red-700"><?php echo e($message); ?></p>
+                        <p class="label-error text-sm text-red-700"><?php echo e($message); ?></p>
                     <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -95,7 +99,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-6 justify-start mt-2">
                 <Label class="ml-2 text-sm">Tag</Label>
                 <div
-                    class="w-[70%] md:w-full h-44 border-2 rounded-md mt-2 overflow-y-scroll flex flex-col px-4 py-4 gap-2">
+                    class="w-[70%] md:w-full h-44 border-2 rounded-md mt-2 overflow-x-auto flex flex-col flex-wrap px-4 py-4 gap-2">
                     <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="flex flex-row gap-3 items-center">
                             <input name="tags[]" id="<?php echo e($item->kode_tag); ?>" class="w-4 h-4 rounded mt-1"
@@ -110,7 +114,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <p class="text-sm text-red-700"><?php echo e($message); ?></p>
+                    <p class="label-error text-sm text-red-700"><?php echo e($message); ?></p>
                 <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -128,7 +132,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <p class="text-sm text-red-700"><?php echo e($message); ?></p>
+                    <p class="label-error text-sm text-red-700"><?php echo e($message); ?></p>
                 <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -137,7 +141,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-7 justify-start mt-6 mb-8">
                 <Label class="ml-2 text-sm">Foto</Label>
                 <div class="w-[70%] md:w-full h-44 border-2 border-dashed rounded-md mt-2 flex relative p-2 overflow-hidden">
-                    <input id="txt_foto" name="txt_foto" class="opacity-0 h-full w-full z-50" type="file" id="">
+                    <input id="foto" name="foto" class="opacity-0 h-full w-full z-50" type="file" id="">
                     <div
                         class="absolute left-[50%] top-[50%]  -translate-y-[50%] -translate-x-[50%] flex flex-col items-center justify-center gap-2">
 
@@ -153,12 +157,12 @@ unset($__errorArgs, $__bag); ?>
                         src="https://images.unsplash.com/photo-1661956602868-6ae368943878?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                         alt="preview">
                 </div>
-                <?php $__errorArgs = ['txt_foto'];
+                <?php $__errorArgs = ['foto'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <p class="text-sm text-red-700"><?php echo e($message); ?></p>
+                    <p class="label-error text-sm text-red-700"><?php echo e($message); ?></p>
                 <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;

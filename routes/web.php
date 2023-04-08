@@ -8,16 +8,23 @@ Route::get("/", function () {
   return view("layout.main");
 });
 
-Route::get("/product", [MasterDataProduct::class, 'products'])->name('product');
+Route::prefix("product")->group(function () {
+  Route::get("/", [MasterDataProduct::class, 'products'])->name('product');
 
-Route::post('/product/add', [MasterDataProduct::class, 'add_products']);
+  Route::post('/add', [MasterDataProduct::class, 'add_products']);
 
-Route::get('/product/delete/{kode}', [MasterDataProduct::class, 'delete']);
+  Route::get('/delete/{kode}', [MasterDataProduct::class, 'delete']);
 
-Route::post('/product/delete_selected', [MasterDataProduct::class, 'delete_selected']);
+  Route::post('/delete_selected', [MasterDataProduct::class, 'delete_selected']);
 
-Route::get('/filtertags/{kode}', function ($kode) {
-    return $kode;
+  Route::get('/tags', [MasterDataProduct::class, 'filter_tags']);
+
+  Route::get('/search', [MasterDataProduct::class, 'filter_search'])->name('search_product');
+
+  Route::get('/kategori', [MasterDataProduct::class, 'filter_kategori']);
+
+  Route::post('/update', [MasterDataProduct::class, 'update_product']);
+
 });
 
 
@@ -25,20 +32,20 @@ Route::get("/login", function () {
   return view('front_view.login');
 });
 
-Route::prefix("laporan")->group(function(){
-  Route::get("/pemasukan", function(){
+Route::prefix("laporan")->group(function () {
+  Route::get("/pemasukan", function () {
     return view("report.pemasukan");
   });
 });
 
-Route::get("/retur", function(){
+Route::get("/retur", function () {
   return view("retur.retur");
 });
 
-Route::get("/landing", function(){
+Route::get("/landing", function () {
   return view("layout.landing_main");
 });
 
 Route::get('/riwayat', function () {
-    return view('riwayat.riwayat');
+  return view('riwayat.riwayat');
 });

@@ -1,5 +1,5 @@
+<p class="mt-2 text-center">Menampilkan <b><?php echo e($paginator->count()); ?></b> data dari <b><?php echo e($paginator->total()); ?></b>
 <?php if($paginator->hasPages()): ?>
-    <p class="mt-2 text-center">Menampilkan <b><?php echo e($paginator->count()); ?></b> data dari <b><?php echo e($paginator->total()); ?></b>
     </p>
     <div class="px-2 bg-white justify-center border-[#DCDADA] border-[1px] py-2 flex w-fit items-center">
         <ul class="flex flex-row gap-2">

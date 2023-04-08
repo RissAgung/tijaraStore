@@ -13,7 +13,7 @@ class barang extends Model
     public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = array('kode_br', 'kategori', 'kode_barang_tag', 'nama_br', 'stok', 'gambar', 'harga', 'ukuran', 'warna', 'jenis');
+    protected $fillable = array('kode_br', 'kategori', 'kode_barang_tag', 'nama_br', 'stok', 'gambar', 'harga', 'ukuran', 'warna', 'jenis', 'created_at', 'updated_at');
 
 
     public function detail_barang_tag()
