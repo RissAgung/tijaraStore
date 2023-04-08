@@ -757,23 +757,17 @@
         {{-- end left --}}
 
         {{-- right/form --}}
-        <div
+        <form action="/login" method="POST" id="form_login"
             class="flex flex-col items-center w-[85%] md:w-[60%] mt-7 md:mt-10 gap-4 min-[360px]:gap-5 md:gap-6 lg:w-[40%] lg:pr-16 2xl:pr-24 lg:-mt-20 xl:-mt-32 lg:items-end 2xl:w-[35%]">
-            <input type="text"
+            @csrf
+            <input type="text" name="username" autofocus
                 class="w-full h-[40px] min-[360px]:h-[45px] md:h-[60px] lg:h-[55px] 2xl:h-[70px] pl-4 placeholder:text-[15px] text-[15px] md:placeholder:text-[20px] lg:placeholder:text-[17px] 2xl:placeholder:text-[20px] md:text-[20px] lg:text-[17px] 2xl:text-[20px] lg:w-[90%] rounded-md md:rounded-lg 2xl:rounded-xl bg-[#F9F2E4]"
-                placeholder="Username">
-            <div class="relative w-full lg:w-[90%]" >
-                <input type="password" id="txt_password"
+                placeholder="Username" value="{{ old('username') }}">
+            <div class="relative w-full lg:w-[90%]">
+                <input type="password" id="txt_password" name="password" required
                     class="w-full h-[40px] min-[360px]:h-[45px] md:h-[60px] lg:h-[55px] 2xl:h-[70px] pl-4 placeholder:text-[15px] text-[15px] md:placeholder:text-[20px] lg:placeholder:text-[17px] 2xl:placeholder:text-[20px] md:text-[20px] lg:text-[17px] 2xl:text-[20px] rounded-md md:rounded-lg 2xl:rounded-xl bg-[#F9F2E4]"
                     placeholder="Password">
                 <div class="cursor-pointer" id="btnShowHide" onclick="ShowHidePass()">
-                    {{-- <svg class="absolute top-3 right-3 min-[360px]:right-4 min-[360px]:top-4 md:top-5 md:right-5 lg:top-[18px] lg:right-[18px] 2xl:top-6 2xl:right-6 w-[22px] h-[15px] md:w-[28px] md:h-[21px] lg:w-[26px] lg:h-[19px] 2xl:w-[29px] 2xl:h-[22px] fill-[#9e9e9e]"
-                        viewBox="0 0 29 22" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M27.5564 7.96191C25.7202 4.98855 21.5433 0 14.2124 0C6.88151 0 2.70462 4.98855 0.868346 7.96191C0.300686 8.87475 0 9.92677 0 11C0 12.0732 0.300686 13.1252 0.868346 14.0381C2.70462 17.0115 6.88151 22 14.2124 22C21.5433 22 25.7202 17.0115 27.5564 14.0381C28.1241 13.1252 28.4248 12.0732 28.4248 11C28.4248 9.92677 28.1241 8.87475 27.5564 7.96191ZM25.5378 12.8057C23.9608 15.3553 20.3913 19.6458 14.2124 19.6458C8.03347 19.6458 4.46393 15.3553 2.88694 12.8057C2.54968 12.2631 2.37105 11.6378 2.37105 11C2.37105 10.3622 2.54968 9.73692 2.88694 9.19433C4.46393 6.64473 8.03347 2.3542 14.2124 2.3542C20.3913 2.3542 23.9608 6.64002 25.5378 9.19433C25.8751 9.73692 26.0537 10.3622 26.0537 11C26.0537 11.6378 25.8751 12.2631 25.5378 12.8057Z" />
-                        <path
-                            d="M14.1151 5.06189C12.9406 5.06189 11.7926 5.41015 10.8161 6.06263C9.83954 6.71511 9.07845 7.64251 8.62901 8.72755C8.17957 9.81258 8.06198 11.0065 8.2911 12.1584C8.52022 13.3103 9.08577 14.3683 9.91622 15.1988C10.7467 16.0292 11.8047 16.5948 12.9566 16.8239C14.1085 17.053 15.3024 16.9354 16.3875 16.486C17.4725 16.0365 18.3999 15.2755 19.0524 14.2989C19.7048 13.3224 20.0531 12.1744 20.0531 10.9999C20.0512 9.42565 19.425 7.91638 18.3118 6.80319C17.1986 5.69 15.6893 5.06378 14.1151 5.06189ZM14.1151 14.5628C13.4104 14.5628 12.7216 14.3538 12.1357 13.9623C11.5497 13.5708 11.0931 13.0144 10.8234 12.3634C10.5538 11.7124 10.4832 10.996 10.6207 10.3049C10.7582 9.61375 11.0975 8.97891 11.5958 8.48064C12.094 7.98237 12.7289 7.64304 13.42 7.50557C14.1111 7.3681 14.8275 7.43865 15.4785 7.70831C16.1295 7.97798 16.686 8.43463 17.0774 9.02054C17.4689 9.60644 17.6779 10.2953 17.6779 10.9999C17.6779 11.9449 17.3025 12.8511 16.6344 13.5192C15.9662 14.1874 15.06 14.5628 14.1151 14.5628Z" />
-                    </svg> --}}
                     <svg class="absolute top-[10px] right-[10px] min-[360px]:right-[14px] min-[360px]:top-[14px] md:top-[18px] md:right-[18px] lg:top-[16px] lg:right-[16px] 2xl:top-[22px] 2xl:right-[22px] w-[27px] h-[20px] md:w-[33px] md:h-[26px] lg:w-[31px] lg:h-[24px] 2xl:w-[34px] 2xl:h-[27px] fill-[#9e9e9e]"
                         viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -785,9 +779,9 @@
                     </svg>
                 </div>
             </div>
-            <button
+            <button type="submit" id="login_button"
                 class="transition shadow-lg ease-in-out w-full h-[40px] min-[360px]:h-[45px] md:h-[60px] lg:h-[55px] 2xl:h-[70px] bg-black text-white text-center text-[15px] md:text-[20px] lg:text-[17px] 2xl:text-[20px] lg:w-[90%] poppins-semibold rounded-md md:rounded-lg 2xl:rounded-xl hover:bg-[#3b3b3b]">Login</button>
-        </div>
+        </form>
         {{-- end right --}}
     </div>
     {{-- end content --}}

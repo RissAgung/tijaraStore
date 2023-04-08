@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,15 +28,21 @@ Route::prefix("product")->group(function () {
 
 });
 
+//apabila belum login atau statusnya belum auth secara otomatis akan terlempar ke home, path home sendiri diatur pada App/Providers/RouteServiceProvider.php baris 20
+Route::get("/login", [LoginController::class, 'index'])->name('login')->middleware('guest');
 
-Route::get("/login", function () {
-  return view('front_view.login');
-});
+Route::post("/login", [LoginController::class, 'checkLogin']);
+Route::post("/logout", [LoginController::class, 'logout']);
+
+// Route::get("/register", function () {
+//   return view('front_view.register');
+// });
+// Route::post("/register", [LoginController::class, 'registerhahai'])->middleware('guest');
 
 Route::prefix("laporan")->group(function () {
   Route::get("/pemasukan", function () {
     return view("report.pemasukan");
-  });
+  })->middleware('auth');
 });
 
 Route::get("/retur", function () {

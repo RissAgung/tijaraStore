@@ -1,9 +1,15 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
+<<<<<<< HEAD
         'pretty_version' => 'dev-mphstar',
         'version' => 'dev-mphstar',
         'reference' => '4c1f4b63e8c4b9f95ec69d14fe0ce7aea8a93e06',
+=======
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '4fd1fc0f7419cce52b93ca52117075decd3a94f0',
+>>>>>>> d784f969347ce78b34d57c47c856a29cab623ba8
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -380,9 +386,15 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
+<<<<<<< HEAD
             'pretty_version' => 'dev-mphstar',
             'version' => 'dev-mphstar',
             'reference' => '4c1f4b63e8c4b9f95ec69d14fe0ce7aea8a93e06',
+=======
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '4fd1fc0f7419cce52b93ca52117075decd3a94f0',
+>>>>>>> d784f969347ce78b34d57c47c856a29cab623ba8
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -776,6 +788,15 @@
             'reference' => '433b2014e3979047db08a17a205f410ba3869cf2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ramsey/uuid',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'realrashid/sweet-alert' => array(
+            'pretty_version' => 'v6.0.0',
+            'version' => '6.0.0.0',
+            'reference' => 'efe53185ddd48ef1cc22399bfdae55e83fe36bf2',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../realrashid/sweet-alert',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

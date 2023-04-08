@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/output/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <title>Document</title>
-    @vite([])
+    {{-- @vite([]) --}}
 </head>
 
 <body class="bg-[#F7F7F7] w-full h-full box-border">
@@ -43,7 +44,9 @@
 
 
     </div>
+    @include('sweetalert::alert')
     <script src="{{ asset('js/jquery-3.6.1.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
     @yield('otherjs')
 </body>
