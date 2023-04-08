@@ -1,3 +1,4 @@
+
 {{-- TODO: INI BACKGROUND MODAL --}}
 <div id="bg_modal" class="fixed bg-black w-full h-full opacity-0 transition pointer-events-none"></div>
 
@@ -16,12 +17,15 @@
         {{-- ? start isi modal ? --}}
         <div
             class="w-full flex-grow overflow-y-auto flex flex-col md:flex-row md:flex-wrap md:gap-4 md:pt-8 px-4 md:px-8">
+            <input id="id" name="id" type="hidden" placeholder=""
+                    class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('id') }}">
+
             <div class="flex flex-col flex-grow md:w-[48%] md:mt-0 md:order-1 justify-start mt-6">
                 <Label class="ml-2 text-sm">Nama Product</Label>
                 <input id="txt_nama" name="txt_nama" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('txt_nama') }}">
                 @error('txt_nama')
-                    <p class="text-sm text-red-700">{{ $message }}</p>
+                    <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
             <div class="flex flex-col flex-grow md:w-1/2 md:mt-0 md:order-2 justify-start mt-2">
@@ -29,7 +33,7 @@
                 <input id="txt_warna" name="txt_warna" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('txt_warna') }}">
                 @error('txt_warna')
-                    <p class="text-sm text-red-700">{{ $message }}</p>
+                    <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-3 justify-start mt-2">
@@ -58,23 +62,23 @@
                 <div class="flex flex-row flex-wrap mt-2 gap-3 ml-2">
                     <div class="flex flex-row gap-3">
                         <input value="jual" class="w-4 h-4 rounded mt-1"
-                            {{ old('jenis') == 'jual' ? 'checked' : '' }} type="radio" name="jenis" id="jual">
+                            type="radio" name="jenis" id="jual" {{ old('jenis') == 'jual' ? 'checked' : '' }}>
                         <label for="jual">Produk Jual</label>
                     </div>
                     <div class="flex flex-row gap-3">
                         <input value="free" class="w-4 h-4 rounded mt-1"
-                            {{ old('jenis') == 'free' ? 'checked' : '' }} type="radio" name="jenis" id="free">
+                            type="radio" name="jenis" id="free" {{ old('jenis') == 'free' ? 'checked' : '' }}>
                         <label for="free">Produk Free</label>
                     </div>
                     @error('jenis')
-                        <p class="text-sm text-red-700">{{ $message }}</p>
+                        <p class="label-error text-sm text-red-700">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-6 justify-start mt-2">
                 <Label class="ml-2 text-sm">Tag</Label>
                 <div
-                    class="w-[70%] md:w-full h-44 border-2 rounded-md mt-2 overflow-y-scroll flex flex-col px-4 py-4 gap-2">
+                    class="w-[70%] md:w-full h-44 border-2 rounded-md mt-2 overflow-x-auto flex flex-col flex-wrap px-4 py-4 gap-2">
                     @foreach ($tags as $item)
                         <div class="flex flex-row gap-3 items-center">
                             <input name="tags[]" id="{{ $item->kode_tag }}" class="w-4 h-4 rounded mt-1"
@@ -85,7 +89,7 @@
                     @endforeach
                 </div>
                 @error('tags')
-                    <p class="text-sm text-red-700">{{ $message }}</p>
+                    <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
                 <div class="w-[70%] bg-[#FFB015] py-2 px-4 mt-4 rounded-md">
                     <p class="w-full text-center">Tambah Tag</p>
@@ -96,13 +100,13 @@
                 <input id="txt_harga" name="txt_harga" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('txt_harga') }}">
                 @error('txt_harga')
-                    <p class="text-sm text-red-700">{{ $message }}</p>
+                    <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-7 justify-start mt-6 mb-8">
                 <Label class="ml-2 text-sm">Foto</Label>
                 <div class="w-[70%] md:w-full h-44 border-2 border-dashed rounded-md mt-2 flex relative p-2 overflow-hidden">
-                    <input id="txt_foto" name="txt_foto" class="opacity-0 h-full w-full z-50" type="file" id="">
+                    <input id="foto" name="foto" class="opacity-0 h-full w-full z-50" type="file" id="">
                     <div
                         class="absolute left-[50%] top-[50%]  -translate-y-[50%] -translate-x-[50%] flex flex-col items-center justify-center gap-2">
 
@@ -118,8 +122,8 @@
                         src="https://images.unsplash.com/photo-1661956602868-6ae368943878?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                         alt="preview">
                 </div>
-                @error('txt_foto')
-                    <p class="text-sm text-red-700">{{ $message }}</p>
+                @error('foto')
+                    <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
                 <p>File : jpg, jpeg, png</p>
             </div>
@@ -128,7 +132,7 @@
         {{-- ? end isi modal ? --}}
         {{-- ? start footer ? --}}
         <div class="w-full px-4 md:px-8 py-4">
-            <button type="submit" id="btn_submit" class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
+            <button type="button" id="btn_submit" class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
                 <span id="button_submit" class="text-xs poppins-medium">Tambah Data</span>
             </button>
         </div>

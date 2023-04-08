@@ -4,19 +4,18 @@
 
         
         <div
-            class="flex flex-col items-center gap-1 lg:gap-3 min-[360px]:gap-3 lg:h-full lg:pl-16 2xl:pl-24 lg:items-start lg:w-[60%] lg:justify-center">
+            class="flex flex-col items-center gap-1 min-[360px]:gap-3 md:gap-7 xl:gap-5 lg:h-full lg:pl-16 2xl:pl-24 lg:items-start lg:w-[60%] lg:justify-center">
 
             
             <h1
-                class="capitalize poppins-semibold text-[25px] min-[360px]:text-[30px] md:text-[35px] w-[70%] md:w-[50%] text-center md:leading-[45px] lg:w-[75%] lg:text-left xl:w-[50%] 2xl:text-[43px] 2xl:leading-[55px]">
-                selamat datang kembali</h1>
+                class="capitalize poppins-semibold text-[25px] min-[360px]:text-[30px] md:text-[40px] lg:text-[30px] w-[70%] md:w-[90%] text-center md:leading-[45px] lg:w-[75%] lg:text-left xl:w-[50%] xl:text-[32px] 2xl:text-[43px] 2xl:leading-[55px]">
+                selamat datang di tijaraStore</h1>
             <p
-                class="w-[95%] md:w-[70%] min-[360px]:w-[90%] text-[10px] min-[360px]:text-[13px] md:text-[18px] text-center text-[#606060] mb-6 lg:text-left lg:text-[15px] lg:w-full xl:w-[80%] 2xl:w-[75%] 2xl:text-[18px]">
-                Silahkan login untuk menuju halaman selanjutnya apabila
-                anda belum mempunyai akun <a href="#" class="text-[#CB8600]">klik disini</a></p>
+                class="w-[95%] md:w-[70%] min-[360px]:w-[90%] text-[10px] min-[360px]:text-[13px] md:text-[18px] text-center text-[#606060] mb-6 lg:mb-0 lg:text-left lg:text-[15px] lg:w-full xl:w-[80%] 2xl:w-[75%] 2xl:text-[18px]">
+                Silahkan login untuk menuju halaman selanjutnya</p>
 
             
-            <svg class="w-[85%] md:w-[65%] ml-6 md:ml-[59px] lg:ml-0 lg:w-[80%] 2xl:w-[70%]" viewBox="0 0 760 413"
+            <svg class="w-[85%] md:w-[80%] ml-6 md:ml-[59px] lg:ml-0 lg:w-[60%] 2xl:w-[70%]" viewBox="0 0 760 413"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M72.8877 194.637H9.60791V260.607H72.8877V194.637Z" fill="#E0E0E0" />
                 <path d="M68.5975 194.637H5.31763V260.607H68.5975V194.637Z" fill="#F5F5F5" />
@@ -756,17 +755,17 @@
         
 
         
-        <div
+        <form action="/login" method="POST" id="form_login"
             class="flex flex-col items-center w-[85%] md:w-[60%] mt-7 md:mt-10 gap-4 min-[360px]:gap-5 md:gap-6 lg:w-[40%] lg:pr-16 2xl:pr-24 lg:-mt-20 xl:-mt-32 lg:items-end 2xl:w-[35%]">
-            <input type="text"
+            <?php echo csrf_field(); ?>
+            <input type="text" name="username" autofocus
                 class="w-full h-[40px] min-[360px]:h-[45px] md:h-[60px] lg:h-[55px] 2xl:h-[70px] pl-4 placeholder:text-[15px] text-[15px] md:placeholder:text-[20px] lg:placeholder:text-[17px] 2xl:placeholder:text-[20px] md:text-[20px] lg:text-[17px] 2xl:text-[20px] lg:w-[90%] rounded-md md:rounded-lg 2xl:rounded-xl bg-[#F9F2E4]"
-                placeholder="Username">
-            <div class="relative w-full lg:w-[90%]" >
-                <input type="password" id="txt_password"
+                placeholder="Username" value="<?php echo e(old('username')); ?>">
+            <div class="relative w-full lg:w-[90%]">
+                <input type="password" id="txt_password" name="password" required
                     class="w-full h-[40px] min-[360px]:h-[45px] md:h-[60px] lg:h-[55px] 2xl:h-[70px] pl-4 placeholder:text-[15px] text-[15px] md:placeholder:text-[20px] lg:placeholder:text-[17px] 2xl:placeholder:text-[20px] md:text-[20px] lg:text-[17px] 2xl:text-[20px] rounded-md md:rounded-lg 2xl:rounded-xl bg-[#F9F2E4]"
                     placeholder="Password">
                 <div class="cursor-pointer" id="btnShowHide" onclick="ShowHidePass()">
-                    
                     <svg class="absolute top-[10px] right-[10px] min-[360px]:right-[14px] min-[360px]:top-[14px] md:top-[18px] md:right-[18px] lg:top-[16px] lg:right-[16px] 2xl:top-[22px] 2xl:right-[22px] w-[27px] h-[20px] md:w-[33px] md:h-[26px] lg:w-[31px] lg:h-[24px] 2xl:w-[34px] 2xl:h-[27px] fill-[#9e9e9e]"
                         viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -778,16 +777,16 @@
                     </svg>
                 </div>
             </div>
-            <button
+            <button type="submit" id="login_button"
                 class="transition shadow-lg ease-in-out w-full h-[40px] min-[360px]:h-[45px] md:h-[60px] lg:h-[55px] 2xl:h-[70px] bg-black text-white text-center text-[15px] md:text-[20px] lg:text-[17px] 2xl:text-[20px] lg:w-[90%] poppins-semibold rounded-md md:rounded-lg 2xl:rounded-xl hover:bg-[#3b3b3b]">Login</button>
-        </div>
+        </form>
         
     </div>
     
 
     
     <div
-        class="py-6 mb-0 lg:px-16 2xl:px-24 text-[10px] min-[360px]:text-[12px] poppins-medium w-full text-center lg:text-end 2xl:text-[14px]">
+        class="py-6 lg:py-4 mb-0 lg:px-16 2xl:px-24 text-[10px] min-[360px]:text-[12px] poppins-medium w-full text-center lg:text-end 2xl:text-[14px]">
         Copyright @2022 Tijara Store. All Right Reserved
     </div>
     
