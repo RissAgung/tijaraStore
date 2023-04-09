@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 
 class MasterDataProduct extends Controller
@@ -37,9 +38,10 @@ class MasterDataProduct extends Controller
             ));
         }
 
+        $all_tags = tag::all();
         $tags = tag::all();
 
-        return view('master.data_product', compact('products', 'tags'));
+        return view('master.data_product', compact('products', 'tags', 'all_tags'));
     }
 
     public function filter_search(Request $request)
@@ -56,9 +58,10 @@ class MasterDataProduct extends Controller
             ));
         }
 
+        $all_tags = tag::all();
         $tags = tag::all();
 
-        return view('master.data_product', compact('products', 'tags'));
+        return view('master.data_product', compact('products', 'tags', 'all_tags'));
     }
 
     public function filter_kategori(Request $request)
@@ -75,6 +78,7 @@ class MasterDataProduct extends Controller
             ));
         }
 
+        $all_tags = tag::all();
         $tags = tag::with('detail_barang_tag.barang')
             ->whereHas('detail_barang_tag.barang', function ($query) use ($request) {
                 if ($request->has('select')) {
@@ -84,7 +88,7 @@ class MasterDataProduct extends Controller
             ->get(['kode_tag', 'nama_tag']);
 
 
-        return view('master.data_product', compact('products', 'tags'));
+        return view('master.data_product', compact('products', 'tags', 'all_tags'));
     }
 
     public function delete($kode, Request $request)
@@ -98,6 +102,10 @@ class MasterDataProduct extends Controller
                 // hal ini dilakukan untuk pencegahan untuk hal hal yang tidak diinginkan
                 // seperti memaksa menggunakan token yang telah dipakai sebelumnya untuk menghapus data yang lain
                 $request->session()->regenerateToken();
+                $products = barang::find($kode);
+                if (File::exists("uploads/products/" . $products->gambar)) {
+                    File::delete("uploads/products/" . $products->gambar);
+                }
                 barang::find($kode)->delete();
 
                 alert()->success('Berhasil', 'Berhasil Menghapus Data');
@@ -113,6 +121,11 @@ class MasterDataProduct extends Controller
     public function delete_selected(Request $request)
     {
         foreach ($request->ids as $value) {
+            $products = barang::find($value);
+            if (File::exists("uploads/products/" . $products->gambar)) {
+                File::delete("uploads/products/" . $products->gambar);
+            }
+
             barang::find($value)->delete();
         }
         alert()->success('Berhasil', 'Berhasil Menghapus Data');
@@ -137,14 +150,15 @@ class MasterDataProduct extends Controller
         //     ->get('*');
 
         // return $tags;
+        $all_tags = tag::all();
         $tags = tag::all();
 
-        return view('master.data_product', compact('products', 'tags'));
+        return view('master.data_product', compact('products', 'tags', 'all_tags'));
     }
 
     public function add_products(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'txt_nama' => 'required|max:30',
             'txt_warna' => 'required',
             'txt_kategori' => 'required',
@@ -155,8 +169,12 @@ class MasterDataProduct extends Controller
             'jenis' => 'required'
 
         ], [
-            'required' => 'Field :attribute wajib diisi!'
+            'required' => 'Field wajib diisi!'
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with(['tambah' => 'error tambah']);
+        }
 
         $kode = time();
         // $kode = (barang::all()->sortByDesc('kode_barang_tag')->first()->kode_br + 1);
@@ -175,7 +193,7 @@ class MasterDataProduct extends Controller
             'kode_barang_tag' => 'D_' . $kode,
             'nama_br' => $request->txt_nama,
             'stok' => 0,
-            'gambar' => 'uploads/products/' . $nama_gambar,
+            'gambar' => $nama_gambar,
             'harga' => $request->txt_harga,
             'ukuran' => $request->txt_ukuran,
             'warna' => $request->txt_warna,
@@ -197,30 +215,32 @@ class MasterDataProduct extends Controller
 
     public function update_product(Request $request)
     {
-        if ($request->hasFile('foto')) {
-            $this->validate($request, [
-                'id' => 'required',
-                'txt_nama' => 'required|max:30',
-                'txt_warna' => 'required',
-                'txt_kategori' => 'required',
-                'txt_ukuran' => 'required',
-                'txt_harga' => 'required',
-                'foto' => 'required|image|mimes:jpg,png,jpeg',
-                'tags' => 'required',
-                'jenis' => 'required'
-
+        if ($request->hasFile('foto_update')) {
+            $validator = Validator::make($request->all(), [
+                'id_update' => 'required',
+                'txt_nama_update' => 'required|max:30',
+                'txt_warna_update' => 'required',
+                'txt_kategori_update' => 'required',
+                'txt_ukuran_update' => 'required',
+                'txt_harga_update' => 'required',
+                'foto_update' => 'required|image|mimes:jpg,png,jpeg',
+                'tags_update' => 'required',
+                'jenis_update' => 'required'
             ], [
-                'required' => 'Field :attribute wajib diisi!'
+                'required' => 'Field wajib diisi!'
             ]);
 
-
-
-            $products = barang::find($request->id);
-            if (File::exists($products->gambar)) {
-                File::delete($products->gambar);
+            $products = barang::find($request->id_update);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update', 'old_gambar' => "uploads/products/" . $products->gambar]);
             }
 
-            $foto = $request->file('foto');
+
+            if (File::exists("uploads/products/" . $products->gambar)) {
+                File::delete("uploads/products/" . $products->gambar);
+            }
+
+            $foto = $request->file('foto_update');
             if ($foto) {
                 $nama_gambar = 'foto_product-' . time() . '.' . $foto->getClientOriginalExtension();
                 Image::make($foto)->resize(512, null, function ($constraint) {
@@ -228,13 +248,13 @@ class MasterDataProduct extends Controller
                 })->save('uploads/products/' . $nama_gambar);
             }
 
-            $products->nama_br = $request->txt_nama;
-            $products->warna = $request->txt_warna;
-            $products->kategori = $request->txt_kategori;
-            $products->ukuran = $request->txt_ukuran;
-            $products->harga = $request->txt_harga;
-            $products->gambar = 'uploads/products/' . $nama_gambar;
-            $products->jenis = $request->jenis;
+            $products->nama_br = $request->txt_nama_update;
+            $products->warna = $request->txt_warna_update;
+            $products->kategori = $request->txt_kategori_update;
+            $products->ukuran = $request->txt_ukuran_update;
+            $products->harga = $request->txt_harga_update;
+            $products->gambar = $nama_gambar;
+            $products->jenis = $request->jenis_update;
             $products->updated_at = Carbon::now();
 
             $products->save();
@@ -242,7 +262,7 @@ class MasterDataProduct extends Controller
             $detail_tag = detail_barang_tag::where('detail_kode_barang_tag', '=', $products->kode_barang_tag);
             $detail_tag->delete();
 
-            foreach ($request->tags as $value) {
+            foreach ($request->tags_update as $value) {
                 # code...
                 detail_barang_tag::create([
                     'detail_kode_barang_tag' => $products->kode_barang_tag,
@@ -250,28 +270,32 @@ class MasterDataProduct extends Controller
                 ]);
             }
         } else {
-            $this->validate($request, [
-                'id' => 'required',
-                'txt_nama' => 'required|max:30',
-                'txt_warna' => 'required',
-                'txt_kategori' => 'required',
-                'txt_ukuran' => 'required',
-                'txt_harga' => 'required',
-                'tags' => 'required',
-                'jenis' => 'required'
+            $validator = Validator::make($request->all(), [
+                'id_update' => 'required',
+                'txt_nama_update' => 'required|max:30',
+                'txt_warna_update' => 'required',
+                'txt_kategori_update' => 'required',
+                'txt_ukuran_update' => 'required',
+                'txt_harga_update' => 'required',
+                'tags_update' => 'required',
+                'jenis_update' => 'required'
 
             ], [
-                'required' => 'Field :attribute wajib diisi!'
+                'required' => 'Field wajib diisi!'
             ]);
 
+            $products = barang::find($request->id_update);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update', 'old_gambar' => "uploads/products/".$products->gambar]);
+            }
 
-            $products = barang::find($request->id);
-            $products->nama_br = $request->txt_nama;
-            $products->warna = $request->txt_warna;
-            $products->kategori = $request->txt_kategori;
-            $products->ukuran = $request->txt_ukuran;
-            $products->harga = $request->txt_harga;
-            $products->jenis = $request->jenis;
+
+            $products->nama_br = $request->txt_nama_update;
+            $products->warna = $request->txt_warna_update;
+            $products->kategori = $request->txt_kategori_update;
+            $products->ukuran = $request->txt_ukuran_update;
+            $products->harga = $request->txt_harga_update;
+            $products->jenis = $request->jenis_update;
             $products->updated_at = Carbon::now();
 
             $products->save();
@@ -279,7 +303,7 @@ class MasterDataProduct extends Controller
             $detail_tag = detail_barang_tag::where('detail_kode_barang_tag', '=', $products->kode_barang_tag);
             $detail_tag->delete();
 
-            foreach ($request->tags as $value) {
+            foreach ($request->tags_update as $value) {
                 # code...
                 detail_barang_tag::create([
                     'detail_kode_barang_tag' => $products->kode_barang_tag,
