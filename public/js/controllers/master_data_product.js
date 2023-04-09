@@ -71,8 +71,12 @@ foto.onchange = (evt) => {
         $("#imgpreview").addClass("flex");
     }
 };
+
+
 $("#btn_tambah").click(function (e) {
     e.preventDefault();
+    
+
     $(".label-error").removeClass("hidden");
     $("#imgpreview").attr("src", "");
     $("#imgpreview").removeClass("flex");
@@ -80,16 +84,11 @@ $("#btn_tambah").click(function (e) {
     showModal();
 });
 
-$("#bg_modal").click(function (e) {
-    e.preventDefault();
-    closeModal();
-});
-
 // test selected tag
 $("#btn_filter_tags").click(function (e) {
     e.preventDefault();
     if (selectedTags.length == 0) {
-        location.href = window.location.origin + window.location.pathname;
+        location.href = window.location.origin + "/product";
     } else {
         location.href =
             window.location.origin +
@@ -115,36 +114,6 @@ const hapusData = (url) => {
         }
     });
 };
-
-function ubahData(nama, warna, kategori, ukuran, harga, tags, jenis, id, foto) {
-    $("#button_submit").html("Ubah Data");
-    $("#title_modal").html("Ubah Data");
-
-    $(".label-error").addClass("hidden");
-
-    $("#txt_nama").val(nama);
-    $("#txt_warna").val(warna);
-    $("#txt_kategori").val(kategori);
-    $("#txt_ukuran").val(ukuran);
-    $("#txt_harga").val(harga);
-    $("#id").val(id);
-    $("#" + jenis).attr("checked", true);
-
-    $("#imgpreview").attr("src", foto);
-    $("#imgpreview").removeClass("hidden");
-    $("#imgpreview").addClass("flex");
-
-    $("#form_product").attr("action", "/product/update");
-
-    var tags_selected = JSON.parse(tags);
-    console.log(tags_selected);
-    for (let index = 0; index < tags_selected.length; index++) {
-        const element = tags_selected[index];
-        $("#" + element.kode_tag).attr("checked", true);
-        // console.log(element.kode_tag);
-    }
-    showModal();
-}
 
 function filterTags(kode) {
     if ($("#" + kode).hasClass("bg-[#FFB015]")) {
@@ -192,6 +161,7 @@ function showModal() {
 
     $("#konten_modal").addClass("scale-100");
     $("#konten_modal").removeClass("scale-0");
+
 }
 
 function closeModal() {
@@ -207,16 +177,10 @@ function closeModal() {
 
 $("#btn_submit").click(function (e) {
     e.preventDefault();
-    let opsi = '';
-    if($("#button_submit").html() == "Tambah Data"){
-        opsi = "menambah";
-    } else {
-        opsi = "mengubah"
-    }
 
     Swal.fire({
         title: "Informasi",
-        text: "Apakah anda yakin ingin " + opsi + " data?",
+        text: "Apakah anda yakin ingin menambah data?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -231,3 +195,114 @@ $("#btn_submit").click(function (e) {
 
     console.log("wdakdoawkdowa");
 });
+
+
+// TODO: Modal Update
+function showModalUpdate() {
+    $("#bg_modalUpdate").removeClass("pointer-events-none");
+    $("#bg_modalUpdate").addClass("opacity-50");
+    $("#bg_modalUpdate").removeClass("opacity-0");
+
+    $("#konten_modalUpdate").addClass("scale-100");
+    $("#konten_modalUpdate").removeClass("scale-0");
+
+}
+
+function closeModalUpdate() {
+    $("#bg_modalUpdate").addClass("pointer-events-none");
+    $("#bg_modalUpdate").removeClass("opacity-50");
+    $("#bg_modalUpdate").addClass("opacity-0");
+
+    $("#konten_modalUpdate").removeClass("scale-100");
+    $("#konten_modalUpdate").addClass("scale-0");
+
+    resetForm();
+}
+
+function ubahData(nama, warna, kategori, ukuran, harga, tags, jenis, id, foto, barcode) {
+    $(".label-error-update").addClass("hidden");
+
+    $("#txt_namaUpdate").val(nama);
+    $("#txt_warnaUpdate").val(warna);
+    $("#txt_kategoriUpdate").val(kategori);
+    $("#txt_ukuranUpdate").val(ukuran);
+    $("#txt_hargaUpdate").val(harga);
+    $("#barcode_id").val(barcode);
+    $("#idproductUpdate").val(id);
+    $("#" + jenis + "Update").attr("checked", true);
+
+    $("#imgpreviewUpdate").attr("src", foto);
+    $("#imgpreviewUpdate").removeClass("hidden");
+    $("#imgpreviewUpdate").addClass("flex");
+
+
+    var tags_selected = JSON.parse(tags);
+    console.log(tags_selected);
+    for (let index = 0; index < tags_selected.length; index++) {
+        const element = tags_selected[index];
+        $("#update-" + element.kode_tag).attr("checked", true);
+        // console.log(element.kode_tag);
+    }
+    showModalUpdate();
+}
+
+$("#btn_submitUpdate").click(function (e) {
+    e.preventDefault();
+
+    Swal.fire({
+        title: "Informasi",
+        text: "Apakah anda yakin ingin mengubah data?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonText: "Tidak",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $("#form_productUpdate").trigger("submit");
+        }
+    });
+
+    console.log("wdakdoawkdowa");
+});
+
+// Preview Picture
+fotoUpdate.onchange = (evt) => {
+    console.log("awdawda");
+    const [file] = fotoUpdate.files;
+    if (file) {
+        imgpreviewUpdate.src = URL.createObjectURL(file);
+        $("#imgpreviewUpdate").removeClass("hidden");
+        $("#imgpreviewUpdate").addClass("flex");
+    }
+};
+
+
+// TODO: Show Barcode
+
+const showModalBarocde = () => {
+    $("#bg_modal_barcode").removeClass("pointer-events-none");
+    $("#bg_modal_barcode").addClass("opacity-50");
+    $("#bg_modal_barcode").removeClass("opacity-0");
+
+    $("#konten_modal_barcode").addClass("scale-100");
+    $("#konten_modal_barcode").removeClass("scale-0");
+}
+
+const closeModalBarcode = () => {
+    $("#bg_modal_barcode").addClass("pointer-events-none");
+    $("#bg_modal_barcode").removeClass("opacity-50");
+    $("#bg_modal_barcode").addClass("opacity-0");
+    
+    $("#konten_modal_barcode").removeClass("scale-100");
+    $("#konten_modal_barcode").addClass("scale-0");
+    
+}
+
+$("#btn_barcode").click((e) => {
+    e.preventDefault();
+    $("#img_barcode").attr("src", "data:image/png;base64," + $("#barcode_id").val());
+    showModalBarocde();
+});
+

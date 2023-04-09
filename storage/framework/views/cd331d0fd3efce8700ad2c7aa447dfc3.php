@@ -4,6 +4,8 @@
 
 <?php $__env->startSection('modal'); ?>
     <?php echo $__env->make('modal.add_product', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('modal.update_product', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('modal.barcode', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -127,7 +129,7 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
 
-            
+
         </div>
     <?php endif; ?>
 
@@ -157,7 +159,7 @@
                                             <div class="h-10 w-10 rounded-full overflow-hidden">
                                                 <img class="h-full object-cover w-full"
                                                     onError="this.onerror=null;this.src='https://oneshaf.com/wp-content/uploads/2022/12/placeholder-5-300x200.png';"
-                                                    src="<?php echo e(asset($item->gambar)); ?>" alt="<?php echo e($item->nama_br); ?>">
+                                                    src="<?php echo e(asset("uploads/products/".$item->gambar)); ?>" alt="<?php echo e($item->nama_br); ?>">
                                             </div>
                                         </div>
                                     </td>
@@ -168,7 +170,7 @@
                                     <td class="tracking-wide text-center p-3">Rp. <?php echo number_format($item->harga,0,',','.'); ?></td>
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-row gap-2 justify-center">
-                                            <div onclick="ubahData('<?php echo e($item->nama_br); ?>','<?php echo e($item->warna); ?>','<?php echo e($item->kategori); ?>','<?php echo e($item->ukuran); ?>','<?php echo e($item->harga); ?>','<?php echo e($item->detail_barang_tag); ?>', '<?php echo e($item->jenis); ?>', '<?php echo e($item->kode_br); ?>', '<?php echo e($item->gambar); ?>')"
+                                            <div onclick="ubahData('<?php echo e($item->nama_br); ?>','<?php echo e($item->warna); ?>','<?php echo e($item->kategori); ?>','<?php echo e($item->ukuran); ?>','<?php echo e($item->harga); ?>','<?php echo e($item->detail_barang_tag); ?>', '<?php echo e($item->jenis); ?>', '<?php echo e($item->kode_br); ?>', 'uploads/products/<?php echo e($item->gambar); ?>', '<?php echo e(DNS1D::getBarcodePNG($item->kode_br, 'C39', 1, 33, [0, 0, 0], true)); ?>')"
                                                 class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm cursor-pointer">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -233,11 +235,17 @@
 <?php $__env->startSection('otherjs'); ?>
     <script src="<?php echo e(asset('js/controllers/master_data_product.js')); ?>"></script>
     <?php if($errors->any()): ?>
-        <script>
-            showModal()
-            // alert("anjay")
-        </script>
+        <?php if(session('update')): ?>
+            <script>
+                showModalUpdate();
+            </script>
+        <?php elseif(session('tambah')): ?>
+            <script>
+                showModal()
+            </script>
+        <?php endif; ?>
     <?php endif; ?>
+
 
     
 <?php $__env->stopSection(); ?>
