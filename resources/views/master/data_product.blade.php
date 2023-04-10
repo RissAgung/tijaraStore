@@ -161,7 +161,8 @@
                                             <div class="h-10 w-10 rounded-full overflow-hidden">
                                                 <img class="h-full object-cover w-full"
                                                     onError="this.onerror=null;this.src='https://oneshaf.com/wp-content/uploads/2022/12/placeholder-5-300x200.png';"
-                                                    src="{{ asset("uploads/products/".$item->gambar) }}" alt="{{ $item->nama_br }}">
+                                                    src="{{ asset('uploads/products/' . $item->gambar) }}"
+                                                    alt="{{ $item->nama_br }}">
                                             </div>
                                         </div>
                                     </td>
@@ -172,7 +173,7 @@
                                     <td class="tracking-wide text-center p-3">@money($item->harga)</td>
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-row gap-2 justify-center">
-                                            <div onclick="ubahData('{{ $item->nama_br }}','{{ $item->warna }}','{{ $item->kategori }}','{{ $item->ukuran }}','{{ $item->harga }}','{{ $item->detail_barang_tag }}', '{{ $item->jenis }}', '{{ $item->kode_br }}', 'uploads/products/{{ $item->gambar }}', '{{ DNS1D::getBarcodePNG($item->kode_br, 'C39', 1, 33, [0, 0, 0], true) }}')"
+                                            <div onclick="ubahData('{{ $item->nama_br }}','{{ $item->warna }}','{{ $item->kategori }}','{{ $item->ukuran }}','{{ $item->harga }}','{{ $item->detail_barang_tag }}', '{{ $item->jenis }}', '{{ $item->kode_br }}', '{{ asset('/uploads/products/' . $item->gambar) }}', '{{ DNS1D::getBarcodePNG($item->kode_br, 'C39', 1, 33, [0, 0, 0], true) }}')"
                                                 class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm cursor-pointer">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
