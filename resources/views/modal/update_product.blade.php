@@ -46,7 +46,7 @@
 
             <div class="flex flex-col flex-grow md:w-[48%] md:mt-0 md:order-1 justify-start mt-6">
                 <Label class="ml-2 text-sm">Nama Product</Label>
-                <input id="txt_namaUpdate" name="txt_nama_update" type="text" placeholder=""
+                <input maxlength="50" id="txt_namaUpdate" name="txt_nama_update" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('txt_nama_update') }}">
                 @error('txt_nama_update')
                     <p class="label-error-update text-sm text-red-700">{{ $message }}</p>
@@ -54,7 +54,7 @@
             </div>
             <div class="flex flex-col flex-grow md:w-1/2 md:mt-0 md:order-2 justify-start mt-2">
                 <Label class="ml-2 text-sm">Warna</Label>
-                <input id="txt_warnaUpdate" name="txt_warna_update" type="text" placeholder=""
+                <input maxlength="15" id="txt_warnaUpdate" name="txt_warna_update" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('txt_warna_update') }}">
                 @error('txt_warna_update')
                     <p class="label-error-update text-sm text-red-700">{{ $message }}</p>
@@ -122,7 +122,7 @@
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-5 justify-start mt-6">
                 <Label class="ml-2 text-sm">Harga</Label>
-                <input id="txt_hargaUpdate" name="txt_harga_update" type="text" placeholder=""
+                <input maxlength="15" id="txt_hargaUpdate" name="txt_harga_update" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('txt_harga_update') }}">
                 @error('txt_harga_update')
                     <p class="label-error-update text-sm text-red-700">{{ $message }}</p>

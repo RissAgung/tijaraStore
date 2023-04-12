@@ -194,7 +194,7 @@ class MasterDataProduct extends Controller
             'nama_br' => $request->txt_nama,
             'stok' => 0,
             'gambar' => $nama_gambar,
-            'harga' => $request->txt_harga,
+            'harga' => str_replace(".", "", str_replace("Rp. ", "", $request->txt_harga)),
             'ukuran' => $request->txt_ukuran,
             'warna' => $request->txt_warna,
             'jenis' => $request->jenis,
@@ -252,7 +252,7 @@ class MasterDataProduct extends Controller
             $products->warna = $request->txt_warna_update;
             $products->kategori = $request->txt_kategori_update;
             $products->ukuran = $request->txt_ukuran_update;
-            $products->harga = $request->txt_harga_update;
+            $products->harga = str_replace(".", "", str_replace("Rp. ", "", $request->txt_harga_update));
             $products->gambar = $nama_gambar;
             $products->jenis = $request->jenis_update;
             $products->updated_at = Carbon::now();
@@ -294,7 +294,7 @@ class MasterDataProduct extends Controller
             $products->warna = $request->txt_warna_update;
             $products->kategori = $request->txt_kategori_update;
             $products->ukuran = $request->txt_ukuran_update;
-            $products->harga = $request->txt_harga_update;
+            $products->harga = str_replace(".", "", str_replace("Rp. ", "", $request->txt_harga_update));
             $products->jenis = $request->jenis_update;
             $products->updated_at = Carbon::now();
 
