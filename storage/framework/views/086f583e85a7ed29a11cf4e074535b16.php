@@ -35,7 +35,7 @@
 
             <div class="flex flex-col flex-grow md:w-[48%] md:mt-0 md:order-1 justify-start mt-6">
                 <Label class="ml-2 text-sm">Nama Product</Label>
-                <input id="txt_nama" name="txt_nama" type="text" placeholder=""
+                <input maxlength="50" id="txt_nama" name="txt_nama" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="<?php echo e(old('txt_nama')); ?>">
                 <?php $__errorArgs = ['txt_nama'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -50,7 +50,7 @@ unset($__errorArgs, $__bag); ?>
             </div>
             <div class="flex flex-col flex-grow md:w-1/2 md:mt-0 md:order-2 justify-start mt-2">
                 <Label class="ml-2 text-sm">Warna</Label>
-                <input id="txt_warna" name="txt_warna" type="text" placeholder=""
+                <input maxlength="15" id="txt_warna" name="txt_warna" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="<?php echo e(old('txt_warna')); ?>">
                 <?php $__errorArgs = ['txt_warna'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -138,7 +138,7 @@ unset($__errorArgs, $__bag); ?>
             </div>
             <div class="flex flex-col flex-grow md:w-[32%] md:mt-0 md:order-5 justify-start mt-6">
                 <Label class="ml-2 text-sm">Harga</Label>
-                <input id="txt_harga" name="txt_harga" type="text" placeholder=""
+                <input maxlength="15" id="txt_harga" name="txt_harga" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="<?php echo e(old('txt_harga')); ?>">
                 <?php $__errorArgs = ['txt_harga'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');

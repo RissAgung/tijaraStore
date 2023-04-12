@@ -72,10 +72,8 @@ foto.onchange = (evt) => {
     }
 };
 
-
 $("#btn_tambah").click(function (e) {
     e.preventDefault();
-    
 
     $(".label-error").removeClass("hidden");
     $("#imgpreview").attr("src", "");
@@ -161,7 +159,6 @@ function showModal() {
 
     $("#konten_modal").addClass("scale-100");
     $("#konten_modal").removeClass("scale-0");
-
 }
 
 function closeModal() {
@@ -177,27 +174,72 @@ function closeModal() {
 
 $("#btn_submit").click(function (e) {
     e.preventDefault();
-
-    Swal.fire({
-        title: "Informasi",
-        text: "Apakah anda yakin ingin menambah data?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonText: "Tidak",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $("#form_product").trigger("submit");
-        }
+    var isError = [];
+    var val = [];
+    $(":checkbox:checked").each(function (i) {
+        val[i] = $(this).val();
     });
+
+    if ($("#txt_nama").val() == "") {
+        isError.status = true;
+        isError.message = "Field nama tidak boleh kosong";
+    } else if ($("#txt_harga").val() == "") {
+        isError.status = true;
+        isError.message = "Field harga tidak boleh kosong";
+    } else if ($("#txt_warna").val() == "") {
+        isError.status = true;
+        isError.message = "Field warna tidak boleh kosong";
+    } else if(val.length == 0){
+        isError.status = true;
+        isError.message = "Field tags tidak boleh kosong";
+    } else if(!$("#free").is(":checked") && !$("#jual").is(":checked")){
+        isError.status = true;
+        isError.message = "Field jenis tidak boleh kosong";
+    } else if($('#foto').get(0).files.length === 0){
+        isError.status = true;
+        isError.message = "Field foto tidak boleh kosong";
+    } else {
+        isError.status = false;
+        isError.message = "";
+    }
+
+    if(isError.status){
+        Swal.fire({
+            title: "Informasi",
+            text: isError.message,
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ya",
+        });
+    } else {
+        Swal.fire({
+            title: "Informasi",
+            text: "Apakah anda yakin ingin menambah data?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonText: "Tidak",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#form_product").trigger("submit");
+            }
+        });
+    }
+
 
     console.log("wdakdoawkdowa");
 });
 
-
 // TODO: Modal Update
+function resetFormUpdate() {
+    $('input[type="checkbox"]').attr("checked", false);
+    $('input[type="radio"]').attr("checked", false);
+
+    $("#form_productUpdate").trigger("reset");
+}
+
 function showModalUpdate() {
     $("#bg_modalUpdate").removeClass("pointer-events-none");
     $("#bg_modalUpdate").addClass("opacity-50");
@@ -205,7 +247,6 @@ function showModalUpdate() {
 
     $("#konten_modalUpdate").addClass("scale-100");
     $("#konten_modalUpdate").removeClass("scale-0");
-
 }
 
 function closeModalUpdate() {
@@ -216,17 +257,28 @@ function closeModalUpdate() {
     $("#konten_modalUpdate").removeClass("scale-100");
     $("#konten_modalUpdate").addClass("scale-0");
 
-    resetForm();
+    resetFormUpdate();
 }
 
-function ubahData(nama, warna, kategori, ukuran, harga, tags, jenis, id, foto, barcode) {
+function ubahData(
+    nama,
+    warna,
+    kategori,
+    ukuran,
+    harga,
+    tags,
+    jenis,
+    id,
+    foto,
+    barcode
+) {
     $(".label-error-update").addClass("hidden");
 
     $("#txt_namaUpdate").val(nama);
     $("#txt_warnaUpdate").val(warna);
     $("#txt_kategoriUpdate").val(kategori);
     $("#txt_ukuranUpdate").val(ukuran);
-    $("#txt_hargaUpdate").val(harga);
+    $("#txt_hargaUpdate").val(formatRupiah(harga, "Rp. "));
     $("#barcode_id").val(barcode);
     $("#idproductUpdate").val(id);
     $("#" + jenis + "Update").attr("checked", true);
@@ -234,7 +286,6 @@ function ubahData(nama, warna, kategori, ukuran, harga, tags, jenis, id, foto, b
     $("#imgpreviewUpdate").attr("src", foto);
     $("#imgpreviewUpdate").removeClass("hidden");
     $("#imgpreviewUpdate").addClass("flex");
-
 
     var tags_selected = JSON.parse(tags);
     console.log(tags_selected);
@@ -248,23 +299,56 @@ function ubahData(nama, warna, kategori, ukuran, harga, tags, jenis, id, foto, b
 
 $("#btn_submitUpdate").click(function (e) {
     e.preventDefault();
-
-    Swal.fire({
-        title: "Informasi",
-        text: "Apakah anda yakin ingin mengubah data?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonText: "Tidak",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $("#form_productUpdate").trigger("submit");
-        }
+    var isError = [];
+    var val = [];
+    $(":checkbox:checked").each(function (i) {
+        val[i] = $(this).val();
     });
 
-    console.log("wdakdoawkdowa");
+    if ($("#txt_namaUpdate").val() == "") {
+        isError.status = true;
+        isError.message = "Field nama tidak boleh kosong";
+    } else if ($("#txt_hargaUpdate").val() == "") {
+        isError.status = true;
+        isError.message = "Field harga tidak boleh kosong";
+    } else if ($("#txt_warnaUpdate").val() == "") {
+        isError.status = true;
+        isError.message = "Field warna tidak boleh kosong";
+    } else if(val.length == 0){
+        isError.status = true;
+        isError.message = "Field tags tidak boleh kosong";
+    } else if(!$("#freeUpdate").is(":checked") && !$("#jualUpdate").is(":checked")){
+        isError.status = true;
+        isError.message = "Field jenis tidak boleh kosong";
+    } else {
+        isError.status = false;
+        isError.message = "";
+    }
+
+    if(isError.status){
+        Swal.fire({
+            title: "Informasi",
+            text: isError.message,
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ya",
+        });
+    } else {
+        Swal.fire({
+            title: "Informasi",
+            text: "Apakah anda yakin ingin mengubah data?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonText: "Tidak",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#form_productUpdate").trigger("submit");
+            }
+        });
+    }
 });
 
 // Preview Picture
@@ -278,7 +362,6 @@ fotoUpdate.onchange = (evt) => {
     }
 };
 
-
 // TODO: Show Barcode
 
 const showModalBarocde = () => {
@@ -288,21 +371,48 @@ const showModalBarocde = () => {
 
     $("#konten_modal_barcode").addClass("scale-100");
     $("#konten_modal_barcode").removeClass("scale-0");
-}
+};
 
 const closeModalBarcode = () => {
     $("#bg_modal_barcode").addClass("pointer-events-none");
     $("#bg_modal_barcode").removeClass("opacity-50");
     $("#bg_modal_barcode").addClass("opacity-0");
-    
+
     $("#konten_modal_barcode").removeClass("scale-100");
     $("#konten_modal_barcode").addClass("scale-0");
-    
-}
+};
 
 $("#btn_barcode").click((e) => {
     e.preventDefault();
-    $("#img_barcode").attr("src", "data:image/png;base64," + $("#barcode_id").val());
+    $("#img_barcode").attr(
+        "src",
+        "data:image/png;base64," + $("#barcode_id").val()
+    );
     showModalBarocde();
 });
 
+// TODO: Custom Field
+/* Fungsi */
+function formatRupiah(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        split = number_string.split(","),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+        separator = sisa ? "." : "";
+        rupiah += separator + ribuan.join(".");
+    }
+
+    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+}
+
+$("#txt_harga").keyup(function (e) {
+    $("#txt_harga").val(formatRupiah(this.value, "Rp. "));
+});
+
+$("#txt_hargaUpdate").keyup(function (e) {
+    $("#txt_hargaUpdate").val(formatRupiah(this.value, "Rp. "));
+});
