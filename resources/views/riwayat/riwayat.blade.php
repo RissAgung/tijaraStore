@@ -4,8 +4,12 @@
     Riwayat Transaksi
 @endsection
 
+@section('othercss')
+    <link rel="stylesheet" href="{{ asset('css/DatePicker.css') }}">
+@endsection
+
 @section('modal')
-    {{-- @include('modal.add_product') --}}
+    @include('riwayat.filter')
 @endsection
 
 @section('content')
@@ -38,7 +42,7 @@
                 </div> --}}
 
                 <div class=" flex flex-row w-full justify-between gap-2">
-                    <div id="btn_tambah"
+                    <div id="btn_filter" onclick="showModal()"
                         class="bg-[#FFB015] hover:bg-[#e7a013] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
                         <p class="poppins-regular ">Filter</p>
                         <svg class="mt-1" width="16" height="16" viewBox="0 0 20 20" fill="none"
@@ -52,7 +56,7 @@
                     </div>
 
                     <div class="flex flex-row gap-2">
-                        
+
 
                         <div id="btn_hapus"
                             class="bg-[#000000] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
@@ -175,4 +179,7 @@
 @endsection
 
 @section('otherjs')
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/DatePicker.js') }}"></script>
+    @include('riwayat.controller')
 @endsection
