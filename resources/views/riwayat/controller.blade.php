@@ -65,7 +65,7 @@
         endDate: '+367d',
         calendarWeeks: true,
         weekStart: 0,
-        
+
         // ...options
     });
 
@@ -75,4 +75,25 @@
             datemingguan.getDate();
         // alert(ateharian.getFullYear() + '-' + (dateharian.getMonth() + 1) + '-' + dateharian.getDate());
     });
+
+    // Detail Transaksi
+
+    function showModalDetail() {
+        $("#bg_modal_detail").removeClass("pointer-events-none");
+        $("#bg_modal_detail").addClass("opacity-50");
+        $("#bg_modal_detail").removeClass("opacity-0");
+
+        $("#konten_modal_detail").addClass("scale-100");
+        $("#konten_modal_detail").removeClass("scale-0");
+    }
+
+    function closeModalDetail() {
+        $("#bg_modal_detail").addClass("pointer-events-none");
+        $("#bg_modal_detail").removeClass("opacity-50");
+        $("#bg_modal_detail").addClass("opacity-0");
+
+        $("#konten_modal_detail").removeClass("scale-100");
+        $("#konten_modal_detail").addClass("scale-0");
+
+    }
 </script>

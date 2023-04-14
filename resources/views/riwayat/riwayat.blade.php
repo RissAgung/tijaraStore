@@ -10,6 +10,7 @@
 
 @section('modal')
     @include('riwayat.filter')
+    @include('riwayat.detail')
 @endsection
 
 @section('content')
@@ -128,7 +129,7 @@
                                 <td class="tracking-wide text-center p-3">@money(40000)</td>
                                 <td class="tracking-wide text-center p-3">
                                     <div class="flex flex-row gap-2 justify-center">
-                                        <div onclick=""
+                                        <div onclick="showModalDetail()"
                                             class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
 
                                             <svg width="16" height="16" viewBox="0 0 21 21" fill="none"
