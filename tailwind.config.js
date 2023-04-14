@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./resources/views/**/*.{html,js,blade.php}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'primary': '#FFB015',
+      }
+    },
   },
   plugins: [require('tailwind-scrollbar-hide')],
 }

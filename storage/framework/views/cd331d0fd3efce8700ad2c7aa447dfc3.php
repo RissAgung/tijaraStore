@@ -6,6 +6,7 @@
     <?php echo $__env->make('modal.add_product', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php echo $__env->make('modal.update_product', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php echo $__env->make('modal.barcode', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('modal.tag', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -25,7 +26,7 @@
                 <form class="w-full" action="<?php echo e(route('search_product')); ?>" method="GET">
                     
                     <input value="<?php if(isset($_GET['find'])): ?><?php echo e($_GET['find']); ?><?php endif; ?>" name="find"
-                        class=" py-2 px-2 w-full flex-grow border-b-2 outline-none" type="text"
+                        class=" py-2 px-2 w-full flex-grow outline-none" type="text"
                         placeholder="Masukkan nama atau kode barang">
                 </form>
             </div>
@@ -34,32 +35,41 @@
                 <div class="flex flex-row gap-4 items-center text-center mr-4 md:mr-8">
                     <p class="text-center items-center w-12 md:w-full">Filter By: </p>
                     <form id="form_filter_kategori" action="/product/kategori" method="GET">
-                        <select
-                            class="h-full py-2 px-4 w-[30vw] md:w-32 outline-none rounded-lg appearance-none border-2 border-dotted"
-                            name="select" id="filter_kategori">
-                            <option hidden></option>
-                            <option
-                                <?php if(isset($_GET['select'])): ?>
-                                <?php if($_GET['select'] == 'pria'): ?>
+                        <div class="relative">
+                            <?php if(!isset($_GET['select'])): ?>
+                                <svg class="absolute pointer-events-none top-[50%] -translate-y-[50%] -translate-x-[50%] right-0"
+                                    width="15" height="15" viewBox="0 0 22 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 18L0.607697 0L21.3923 0L11 18Z" fill="#DDDDDD" />
+                                </svg>
+                            <?php endif; ?>
+                            <select
+                                class="h-full py-2 px-4 w-[30vw] md:w-32 outline-none rounded-lg appearance-none border-2 border-dotted"
+                                name="select" id="filter_kategori">
+                                <option hidden></option>
+                                <option
+                                    <?php if(isset($_GET['select'])): ?>
+                                    <?php if($_GET['select'] == 'pria'): ?>
+                                        selected
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                    value="pria">Laki-Laki</option>
+                                <option
+                                    <?php if(isset($_GET['select'])): ?>
+                                <?php if($_GET['select'] == 'wanita'): ?>
                                     selected
                                 <?php endif; ?>
                             <?php endif; ?>
-                                value="pria">Laki-Laki</option>
-                            <option
-                                <?php if(isset($_GET['select'])): ?>
-                            <?php if($_GET['select'] == 'wanita'): ?>
-                                selected
+                                    value="wanita">Perempuan</option>
+                                <option
+                                    <?php if(isset($_GET['select'])): ?>
+                                <?php if($_GET['select'] == 'anak'): ?>
+                                    selected
+                                <?php endif; ?>
                             <?php endif; ?>
-                        <?php endif; ?>
-                                value="wanita">Perempuan</option>
-                            <option
-                                <?php if(isset($_GET['select'])): ?>
-                            <?php if($_GET['select'] == 'anak'): ?>
-                                selected
-                            <?php endif; ?>
-                        <?php endif; ?>
-                                value="anak">Anak Anak</option>
-                        </select>
+                                    value="anak">Anak Anak</option>
+                            </select>
+                        </div>
                     </form>
                 </div>
 

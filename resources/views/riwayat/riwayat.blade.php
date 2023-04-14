@@ -4,8 +4,13 @@
     Riwayat Transaksi
 @endsection
 
+@section('othercss')
+    <link rel="stylesheet" href="{{ asset('css/DatePicker.css') }}">
+@endsection
+
 @section('modal')
-    {{-- @include('modal.add_product') --}}
+    @include('riwayat.filter')
+    @include('riwayat.detail')
 @endsection
 
 @section('content')
@@ -38,7 +43,7 @@
                 </div> --}}
 
                 <div class=" flex flex-row w-full justify-between gap-2">
-                    <div id="btn_tambah"
+                    <div id="btn_filter" onclick="showModal()"
                         class="bg-[#FFB015] hover:bg-[#e7a013] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
                         <p class="poppins-regular ">Filter</p>
                         <svg class="mt-1" width="16" height="16" viewBox="0 0 20 20" fill="none"
@@ -52,7 +57,7 @@
                     </div>
 
                     <div class="flex flex-row gap-2">
-                        
+
 
                         <div id="btn_hapus"
                             class="bg-[#000000] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
@@ -124,7 +129,7 @@
                                 <td class="tracking-wide text-center p-3">@money(40000)</td>
                                 <td class="tracking-wide text-center p-3">
                                     <div class="flex flex-row gap-2 justify-center">
-                                        <div onclick=""
+                                        <div onclick="showModalDetail()"
                                             class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
 
                                             <svg width="16" height="16" viewBox="0 0 21 21" fill="none"
@@ -175,4 +180,7 @@
 @endsection
 
 @section('otherjs')
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/DatePicker.js') }}"></script>
+    @include('riwayat.controller')
 @endsection

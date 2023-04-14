@@ -116,7 +116,7 @@
                 @error('tags_update')
                     <p class="label-error-update text-sm text-red-700">{{ $message }}</p>
                 @enderror
-                <div class="w-[70%] bg-[#FFB015] py-2 px-4 mt-4 rounded-md">
+                <div onclick="showModalTag()" class="w-[70%] bg-[#FFB015] py-2 px-4 mt-4 rounded-md cursor-pointer">
                     <p class="w-full text-center">Tambah Tag</p>
                 </div>
             </div>

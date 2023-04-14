@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?php echo e(asset('css/output/main.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/sweetalert2.min.css')); ?>">
+    <?php echo $__env->yieldContent('othercss'); ?>
     <title>Document</title>
     
 </head>

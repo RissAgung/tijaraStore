@@ -8,6 +8,7 @@
     @include('modal.add_product')
     @include('modal.update_product')
     @include('modal.barcode')
+    @include('modal.tag')
 @endsection
 
 @section('content')
@@ -27,7 +28,7 @@
                 <form class="w-full" action="{{ route('search_product') }}" method="GET">
                     {{-- @csrf --}}
                     <input value="@isset($_GET['find']){{ $_GET['find'] }}@endisset" name="find"
-                        class=" py-2 px-2 w-full flex-grow border-b-2 outline-none" type="text"
+                        class=" py-2 px-2 w-full flex-grow outline-none" type="text"
                         placeholder="Masukkan nama atau kode barang">
                 </form>
             </div>
@@ -36,32 +37,41 @@
                 <div class="flex flex-row gap-4 items-center text-center mr-4 md:mr-8">
                     <p class="text-center items-center w-12 md:w-full">Filter By: </p>
                     <form id="form_filter_kategori" action="/product/kategori" method="GET">
-                        <select
-                            class="h-full py-2 px-4 w-[30vw] md:w-32 outline-none rounded-lg appearance-none border-2 border-dotted"
-                            name="select" id="filter_kategori">
-                            <option hidden></option>
-                            <option
-                                @isset($_GET['select'])
-                                @if ($_GET['select'] == 'pria')
+                        <div class="relative">
+                            @if (!isset($_GET['select']))
+                                <svg class="absolute pointer-events-none top-[50%] -translate-y-[50%] -translate-x-[50%] right-0"
+                                    width="15" height="15" viewBox="0 0 22 18" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 18L0.607697 0L21.3923 0L11 18Z" fill="#DDDDDD" />
+                                </svg>
+                            @endif
+                            <select
+                                class="h-full py-2 px-4 w-[30vw] md:w-32 outline-none rounded-lg appearance-none border-2 border-dotted"
+                                name="select" id="filter_kategori">
+                                <option hidden></option>
+                                <option
+                                    @isset($_GET['select'])
+                                    @if ($_GET['select'] == 'pria')
+                                        selected
+                                    @endif
+                                @endisset
+                                    value="pria">Laki-Laki</option>
+                                <option
+                                    @isset($_GET['select'])
+                                @if ($_GET['select'] == 'wanita')
                                     selected
                                 @endif
                             @endisset
-                                value="pria">Laki-Laki</option>
-                            <option
-                                @isset($_GET['select'])
-                            @if ($_GET['select'] == 'wanita')
-                                selected
-                            @endif
-                        @endisset
-                                value="wanita">Perempuan</option>
-                            <option
-                                @isset($_GET['select'])
-                            @if ($_GET['select'] == 'anak')
-                                selected
-                            @endif
-                        @endisset
-                                value="anak">Anak Anak</option>
-                        </select>
+                                    value="wanita">Perempuan</option>
+                                <option
+                                    @isset($_GET['select'])
+                                @if ($_GET['select'] == 'anak')
+                                    selected
+                                @endif
+                            @endisset
+                                    value="anak">Anak Anak</option>
+                            </select>
+                        </div>
                     </form>
                 </div>
 
