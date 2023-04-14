@@ -416,3 +416,53 @@ $("#txt_harga").keyup(function (e) {
 $("#txt_hargaUpdate").keyup(function (e) {
     $("#txt_hargaUpdate").val(formatRupiah(this.value, "Rp. "));
 });
+
+
+// TODO: Tags
+const showModalTag = () => {
+    $("#bg_modal_tag").removeClass("pointer-events-none");
+    $("#bg_modal_tag").addClass("opacity-50");
+    $("#bg_modal_tag").removeClass("opacity-0");
+
+    $("#konten_modal_tag").addClass("scale-100");
+    $("#konten_modal_tag").removeClass("scale-0");
+};
+
+const closeModalTag = () => {
+    $("#bg_modal_tag").addClass("pointer-events-none");
+    $("#bg_modal_tag").removeClass("opacity-50");
+    $("#bg_modal_tag").addClass("opacity-0");
+
+    $("#konten_modal_tag").removeClass("scale-100");
+    $("#konten_modal_tag").addClass("scale-0");
+};
+
+const toggleTab = (param) => {
+    if(param == "tambah"){
+        $("#tambah-container").removeClass("hidden");
+        $("#tambah-container").addClass("flex");
+        $("#label-tambah").removeClass("text-[#8F8F8F]");
+        $("#label-tambah").addClass("text-black");
+
+        $("#data-container").removeClass("flex");
+        $("#data-container").addClass("hidden");
+        $("#label-data").removeClass("text-black");
+        $("#label-data").addClass("text-[#8F8F8F]");
+
+        $("#selectedTabTag").removeClass("translate-x-20 w-[50px]");
+        $("#selectedTabTag").addClass("translate-x-0 w-[70px]");
+    } else {
+        $("#data-container").removeClass("hidden");
+        $("#data-container").addClass("flex");
+        $("#label-data").removeClass("text-[#8F8F8F]");
+        $("#label-data").addClass("text-black");
+
+        $("#tambah-container").removeClass("flex");
+        $("#tambah-container").addClass("hidden");
+        $("#label-tambah").removeClass("text-black");
+        $("#label-tambah").addClass("text-[#8F8F8F]");
+
+        $("#selectedTabTag").removeClass("translate-x-0 w-[70px]");
+        $("#selectedTabTag").addClass("translate-x-20 w-[50px]");
+    }
+}

@@ -8,6 +8,7 @@
     @include('modal.add_product')
     @include('modal.update_product')
     @include('modal.barcode')
+    @include('modal.tag')
 @endsection
 
 @section('content')
