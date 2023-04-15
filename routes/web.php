@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
 use Illuminate\Http\Request;
@@ -25,7 +26,6 @@ Route::prefix("product")->group(function () {
   Route::get('/kategori', [MasterDataProduct::class, 'filter_kategori']);
 
   Route::post('/update', [MasterDataProduct::class, 'update_product']);
-
 });
 
 //apabila belum login atau statusnya belum auth secara otomatis akan terlempar ke home, path home sendiri diatur pada App/Providers/RouteServiceProvider.php baris 20
@@ -56,3 +56,7 @@ Route::get("/landing", function () {
 Route::get('/riwayat', function () {
   return view('riwayat.riwayat');
 });
+
+Route::get('/discount', [DiscountController::class, 'index']);
+
+Route::post('/discount/add', [DiscountController::class, "tambah_diskon"]);

@@ -157,7 +157,7 @@
 
         {{-- ? end isi modal ? --}}
         {{-- ? start footer ? --}}
-        <div class="w-full px-4 md:px-8 py-4">
+        <div class="w-full px-4 md:px-8 py-4 z-[120]">
             <button type="button" id="btn_submitUpdate"
                 class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
                 <span id="button_submit" class="text-xs poppins-medium">Ubah Data</span>

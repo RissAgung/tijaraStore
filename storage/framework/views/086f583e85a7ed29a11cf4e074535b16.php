@@ -189,7 +189,7 @@ unset($__errorArgs, $__bag); ?>
 
         
         
-        <div class="w-full px-4 md:px-8 py-4">
+        <div class="w-full px-4 md:px-8 py-4 z-[120]">
             <button type="button" id="btn_submit" class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
                 <span id="button_submit" class="text-xs poppins-medium">Tambah Data</span>
             </button>
