@@ -178,7 +178,27 @@
                                     <td class="tracking-wide text-center p-3"><?php echo e($item->nama_br); ?></td>
                                     <td class="tracking-wide text-center p-3"><?php echo e($item->kategori); ?></td>
                                     <td class="tracking-wide text-center p-3"><?php echo e($item->stok); ?></td>
-                                    <td class="tracking-wide text-center p-3">Rp. <?php echo number_format($item->harga,0,',','.'); ?></td>
+                                    <td class="tracking-wide text-center p-3">
+                                        <div class="flex flex-col items-center w-full justify-center">
+                                            <div>
+                                                Rp. <?php echo number_format($item->harga,0,',','.'); ?>
+                                            </div>
+                                            <?php if($item->diskon != ''): ?>
+                                                <?php if($item->diskon->kategori == 'persen'): ?>
+                                                    <p class="text-xs"><?php echo e($item->diskon->nominal . '%'); ?> ( <span
+                                                            class="text-[#357800]">Rp. <?php echo number_format($item->harga - $item->harga * ($item->diskon->nominal / 100),0,',','.'); ?></span> )</p>
+                                                <?php elseif($item->diskon->kategori == 'nominal'): ?>
+                                                    <p class="text-xs">Rp. <?php echo number_format($item->diskon->nominal,0,',','.'); ?> ( <span
+                                                            class="text-[#357800]">Rp. <?php echo number_format($item->harga - $item->diskon->nominal,0,',','.'); ?></span> )</p>
+                                                <?php elseif($item->diskon->free_product != null): ?>
+                                                    <p class="text-xs">
+                                                        <?php echo e('Beli ' . json_decode($item->diskon->free_product)->value->buy . ' Gratis ' . json_decode($item->diskon->free_product)->value->gratis . ' Product ' . (json_decode($item->diskon->free_product)->free == 'sama' ? 'Sama' : 'Bebas')); ?>
+
+                                                    </p>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-row gap-2 justify-center">
                                             <div onclick="ubahData('<?php echo e($item->nama_br); ?>','<?php echo e($item->warna); ?>','<?php echo e($item->kategori); ?>','<?php echo e($item->ukuran); ?>','<?php echo e($item->harga); ?>','<?php echo e($item->detail_barang_tag); ?>', '<?php echo e($item->jenis); ?>', '<?php echo e($item->kode_br); ?>', '<?php echo e(asset('/uploads/products/' . $item->gambar)); ?>', '<?php echo e(DNS1D::getBarcodePNG($item->kode_br, 'C39', 1, 33, [0, 0, 0], true)); ?>')"
