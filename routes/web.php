@@ -60,3 +60,5 @@ Route::get('/riwayat', function () {
 Route::get('/discount', [DiscountController::class, 'index']);
 
 Route::post('/discount/add', [DiscountController::class, "tambah_diskon"]);
+
+Route::post('/discount/update', [DiscountController::class, "update_diskon"]);

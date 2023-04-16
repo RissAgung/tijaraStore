@@ -9,6 +9,7 @@
 
 @section('modal')
     @include('discount.tambah_discount')
+    @include('discount.ubah_discount')
     @include('discount.data')
 @endsection
 
@@ -133,7 +134,7 @@
                                     </td>
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-row gap-2 justify-center">
-                                            <div onclick=""
+                                            <div onclick="ubahData({{$item}})"
                                                 class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm cursor-pointer">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -192,4 +193,15 @@
 
 @section('otherjs')
     @include('discount.controller')
+    @if ($errors->any())
+        @if (session('update'))
+            <script>
+                showModalUbah();
+            </script>
+        @elseif(session('tambah'))
+            <script>
+                showModalTambah()
+            </script>
+        @endif
+    @endif
 @endsection

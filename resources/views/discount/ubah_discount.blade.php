@@ -1,19 +1,19 @@
 {{-- TODO: INI BACKGROUND MODAL --}}
-<div id="bg_modal_tambah" class="fixed bg-black w-full h-full opacity-0 transition pointer-events-none"></div>
+<div id="bg_modal_ubah" class="fixed bg-black w-full h-full opacity-0 transition pointer-events-none"></div>
 
 
 {{-- TODO: INI KONTEN MODAL --}}
-<form id="form_discount" action="/discount/add" method="post">
+<form id="form_discount_ubah" action="/discount/update" method="post">
     @csrf
-    <div id="konten_modal_tambah"
+    <div id="konten_modal_ubah"
         class="bg-white w-[90%] max-w-[400px] z-[101] h-[80%] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">
         {{-- ? start header ? --}}
         <div class="flex flex-row justify-between">
             <div class="flex justify-start px-4 md:px-8 py-6">
-                <p id="title_modal">Tambah Discount</p>
+                <p id="title_modal">Ubah Discount</p>
             </div>
             <div class="flex flex-row justify-start px-4 md:px-8 py-6 gap-3">
-                <div onclick="closeModalTambah()">
+                <div onclick="closeModalUbah()">
                     <svg class="mt-1" width="15" height="15" viewBox="0 0 30 30" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -28,20 +28,17 @@
         {{-- ? end header ? --}}
         {{-- ? start isi modal ? --}}
         <div class="w-full flex-grow overflow-y-auto flex flex-col px-4 md:px-8 gap-4">
-            <input maxlength="30" id="txt_kode" name="txt_kode" type="hidden" @readonly(true) placeholder=""
-                class="border-2 rounded-l-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_kode') }}">
+            <input maxlength="30" id="txt_kode_update" name="txt_kode_update" type="hidden" @readonly(true) placeholder=""
+                class="border-2 rounded-l-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_kode_update') }}">
             <div class="flex flex-col gap-2 w-full mt-8">
                 <span>Pilih Product</span>
                 <div class="flex flex-row gap-2 w-full">
-                    <input maxlength="30" id="txt_product" name="txt_product" type="text" @readonly(true)
-                        placeholder="" class="border-2 rounded-l-md py-2 px-4 w-full outline-none flex-grow flex"
-                        value="{{ old('txt_product') }}">
-                    <div class="bg-primary px-4 py-2 rounded-r-md flex items-center cursor-pointer hover:bg-primary-hover"
-                        onclick="showDataProduct()">
-                        <p>Tambah</p>
-                    </div>
+                    <input maxlength="30" id="txt_product_update" name="txt_product_update" type="text" @readonly(true)
+                        placeholder="" class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex"
+                        value="{{ old('txt_product_update') }}">
+                    
                 </div>
-                @error('txt_product')
+                @error('txt_product_update')
                     <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
@@ -56,71 +53,71 @@
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M11 18L0.607697 0L21.3923 0L11 18Z" fill="#DDDDDD" />
                         </svg>
-                        <select maxlength="15" id="jenis_discount" name="jenis_discount"
+                        <select maxlength="15" id="jenis_discount_update" name="jenis_discount_update"
                             class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex appearance-none"
                             value="">
-                            <option {{ old('jenis_discount') == 'persen' ? 'selected' : '' }} value="persen">Persen</option>
-                            <option {{ old('jenis_discount') == 'nominal' ? 'selected' : '' }} value="nominal">Nominal</option>
-                            <option {{ old('jenis_discount') == 'free' ? 'selected' : '' }} value="free">Free Product</option>
+                            <option {{ old('jenis_discount_update') == 'persen' ? 'selected' : '' }} value="persen">Persen</option>
+                            <option {{ old('jenis_discount_update') == 'nominal' ? 'selected' : '' }} value="nominal">Nominal</option>
+                            <option {{ old('jenis_discount_update') == 'free' ? 'selected' : '' }} value="free">Free Product</option>
                         </select>
                     </div>
                 </div>
-                @error('jenis_discount')
+                @error('jenis_discount_update')
                     <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div id="container-free-product" class="hidden flex-col gap-2 w-full">
+            <div id="container-free-product_update" class="hidden flex-col gap-2 w-full">
                 <span>Jenis Free Product</span>
                 <div class="flex flex-row gap-2 w-full">
                     <div class="flex flex-row flex-wrap gap-3 ml-2">
                         <div class="flex flex-row gap-3">
-                            <input value="bebas" class="w-4 h-4 rounded mt-1" type="radio" name="jenis_free"
-                                id="bebas" {{ old('jenis_free') == 'bebas' ? 'checked' : '' }}>
-                            <label for="bebas">Bebas</label>
+                            <input value="bebas" class="w-4 h-4 rounded mt-1" type="radio" name="jenis_free_update"
+                                id="bebas_update" {{ old('jenis_free_update') == 'bebas' ? 'checked' : '' }}>
+                            <label for="bebas_update">Bebas</label>
                         </div>
                         <div class="flex flex-row gap-3">
-                            <input value="sama" class="w-4 h-4 rounded mt-1" type="radio" name="jenis_free"
-                                id="sama" {{ old('jenis_free') == 'sama' ? 'checked' : '' }}>
-                            <label for="sama">Produk sama</label>
+                            <input value="sama" class="w-4 h-4 rounded mt-1" type="radio" name="jenis_free_update"
+                                id="sama_update" {{ old('jenis_free_update') == 'sama' ? 'checked' : '' }}>
+                            <label for="sama_update">Produk sama</label>
                         </div>
                     </div>
                 </div>
-                @error('jenis_free')
+                @error('jenis_free_update')
                     <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div id="container-nominal" class="flex flex-col gap-2 w-full">
+            <div id="container-nominal_update" class="flex flex-col gap-2 w-full">
                 <span>Nominal</span>
                 <div class="flex flex-row gap-2 w-full">
-                    <input maxlength="3" id="txt_nominal" name="txt_nominal" type="text" placeholder=""
-                        class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_nominal') }}">
+                    <input maxlength="3" id="txt_nominal_update" name="txt_nominal_update" type="text" placeholder=""
+                        class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_nominal_update') }}">
                 </div>
-                @error('txt_nominal')
+                @error('txt_nominal_update')
                     <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div id="container-jumlah" class="hidden flex-row w-full gap-2">
+            <div id="container-jumlah_update" class="hidden flex-row w-full gap-2">
                 <div class="flex flex-col gap-2 w-full">
                     <span>Beli</span>
                     <div class="flex flex-row gap-2 w-full">
-                        <input maxlength="15" id="txt_beli" name="txt_beli" type="number" placeholder=""
-                            class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_beli') }}">
+                        <input maxlength="15" id="txt_beli_update" name="txt_beli_update" type="number" placeholder=""
+                            class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_beli_update') }}">
 
                     </div>
-                    @error('txt_beli')
+                    @error('txt_beli_update')
                         <p class="label-error text-sm text-red-700">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="flex flex-col gap-2 w-full">
                     <span>Dapat</span>
                     <div class="flex flex-row gap-2 w-full">
-                        <input maxlength="15" id="txt_gratis" name="txt_gratis" type="number" placeholder=""
-                            class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_gratis') }}">
+                        <input maxlength="15" id="txt_gratis_update" name="txt_gratis_update" type="number" placeholder=""
+                            class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_gratis_update') }}">
                     </div>
-                    @error('txt_gratis')
+                    @error('txt_gratis_update')
                         <p class="label-error text-sm text-red-700">{{ $message }}</p>
                     @enderror
                 </div>
@@ -131,8 +128,8 @@
         {{-- ? end isi modal ? --}}
         {{-- ? start footer ? --}}
         <div class="w-full px-4 md:px-8 py-4">
-            <button type="button" id="btn_submit" class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
-                <span id="button_submit" class="text-xs poppins-medium">Tambah Data</span>
+            <button type="button" id="btn_submit_update" class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
+                <span class="text-xs poppins-medium">Ubah Data</span>
             </button>
         </div>
         {{-- ? end footer ? --}}

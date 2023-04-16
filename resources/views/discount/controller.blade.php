@@ -1,4 +1,36 @@
 <script>
+    if ($("#jenis_discount").val() == "persen") {
+        $("#txt_nominal").val("");
+        $("#txt_nominal").attr("maxlength", 3);
+        $("#container-jumlah").addClass("hidden");
+        $("#container-free-product").addClass("hidden");
+        $("#container-jumlah").removeClass("flex");
+        $("#container-free-product").removeClass("flex");
+
+        $("#container-nominal").addClass("flex");
+        $("#container-nominal").removeClass("hidden");
+
+    } else if ($("#jenis_discount").val() == "nominal") {
+        $("#txt_nominal").val("");
+        $("#txt_nominal").attr("maxlength", 15);
+        $("#container-jumlah").addClass("hidden");
+        $("#container-free-product").addClass("hidden");
+        $("#container-jumlah").removeClass("flex");
+        $("#container-free-product").removeClass("flex");
+
+        $("#container-nominal").addClass("flex");
+        $("#container-nominal").removeClass("hidden");
+    } else {
+        $("#container-jumlah").removeClass("hidden");
+        $("#container-free-product").removeClass("hidden");
+        $("#container-jumlah").addClass("flex");
+        $("#container-free-product").addClass("flex");
+
+        $("#container-nominal").removeClass("flex");
+        $("#container-nominal").addClass("hidden");
+    }
+
+
     const showModalTambah = () => {
         $("#bg_modal_tambah").removeClass("pointer-events-none");
         $("#bg_modal_tambah").addClass("opacity-50");
@@ -400,7 +432,6 @@
                 });
             }
         }
-
     });
 
     function formatRupiah(angka, prefix) {
@@ -419,12 +450,278 @@
         return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
     }
 
-    function formatPersen(angka, prefix) {
-        var percent = parseFloat(angka * 1).toFixed(prefix) + "%";
-        return percent;
-    }
 
     $("#txt_nominal").keyup(function(e) {
         $("#txt_nominal").val(formatRupiah(this.value));
     });
+
+
+    // Ubah Data
+    $("#txt_nominal_update").keyup(function(e) {
+        $("#txt_nominal_update").val(formatRupiah(this.value));
+    });
+
+    $("#btn_submit_update").click(function(e) {
+        e.preventDefault();
+        let isError = {};
+        if ($("#jenis_discount_update").val() == "persen") {
+            if ($("#txt_product_update").val() == "") {
+                isError = {
+                    "status": true,
+                    "message": "Product tidak boleh kosong",
+                };
+            } else if ($("#txt_nominal_update").val() == "") {
+                isError = {
+                    "status": true,
+                    "message": "Field nominal tidak boleh kosong",
+                };
+            }
+
+            if (isError.status) {
+                Swal.fire({
+                    title: "Informasi",
+                    text: isError.message,
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ya",
+                });
+            } else {
+                Swal.fire({
+                    title: "Informasi",
+                    text: "Apakah anda yakin ingin mengubah diskon?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonText: "Tidak",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#form_discount_ubah").trigger("submit");
+                    }
+                });
+            }
+
+        } else if ($("#jenis_discount_update").val() == "nominal") {
+            if ($("#txt_product_update").val() == "") {
+                isError = {
+                    "status": true,
+                    "message": "Product tidak boleh kosong",
+                };
+            } else if ($("#txt_nominal_update").val() == "") {
+                isError = {
+                    "status": true,
+                    "message": "Field nominal tidak boleh kosong",
+                };
+            }
+
+            if (isError.status) {
+                Swal.fire({
+                    title: "Informasi",
+                    text: isError.message,
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ya",
+                });
+            } else {
+                Swal.fire({
+                    title: "Informasi",
+                    text: "Apakah anda yakin ingin mengubah diskon?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonText: "Tidak",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#form_discount_ubah").trigger("submit");
+                    }
+                });
+            }
+        } else {
+            if ($("#txt_product_update").val() == "") {
+                isError = {
+                    "status": true,
+                    "message": "Product tidak boleh kosong",
+                };
+            } else if (!$("#bebas_update").is(":checked") && !$("#sama_update").is(":checked")) {
+                isError = {
+                    "status": true,
+                    "message": "Field jenis free tidak boleh kosong",
+                };
+            } else if ($("#txt_beli_update").val() == "") {
+                isError = {
+                    "status": true,
+                    "message": "Field beli tidak boleh kosong",
+                };
+            } else if ($("#txt_gratis_update").val() == "") {
+                isError = {
+                    "status": true,
+                    "message": "Field gratis tidak boleh kosong",
+                };
+            }
+
+            if (isError.status) {
+                Swal.fire({
+                    title: "Informasi",
+                    text: isError.message,
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ya",
+                });
+            } else {
+                Swal.fire({
+                    title: "Informasi",
+                    text: "Apakah anda yakin ingin mengubah diskon?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonText: "Tidak",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#form_discount_ubah").trigger("submit");
+                    }
+                });
+            }
+        }
+    });
+
+    if ($("#jenis_discount_update").val() == "persen") {
+        $("#txt_nominal_update").val("");
+        $("#txt_nominal_update").attr("maxlength", 3);
+        $("#container-jumlah_update").addClass("hidden");
+        $("#container-free-product_update").addClass("hidden");
+        $("#container-jumlah_update").removeClass("flex");
+        $("#container-free-product_update").removeClass("flex");
+
+        $("#container-nominal_update").addClass("flex");
+        $("#container-nominal_update").removeClass("hidden");
+
+    } else if ($("#jenis_discount_update").val() == "nominal") {
+        $("#txt_nominal_update").val("");
+        $("#txt_nominal_update").attr("maxlength", 15);
+        $("#container-jumlah_update").addClass("hidden");
+        $("#container-free-product_update").addClass("hidden");
+        $("#container-jumlah_update").removeClass("flex");
+        $("#container-free-product_update").removeClass("flex");
+
+        $("#container-nominal_update").addClass("flex");
+        $("#container-nominal_update").removeClass("hidden");
+    } else {
+        $("#container-jumlah_update").removeClass("hidden");
+        $("#container-free-product_update").removeClass("hidden");
+        $("#container-jumlah_update").addClass("flex");
+        $("#container-free-product_update").addClass("flex");
+
+        $("#container-nominal_update").removeClass("flex");
+        $("#container-nominal_update").addClass("hidden");
+    }
+
+
+    const showModalUbah = () => {
+        $("#bg_modal_ubah").removeClass("pointer-events-none");
+        $("#bg_modal_ubah").addClass("opacity-50");
+        $("#bg_modal_ubah").removeClass("opacity-0");
+
+        $("#konten_modal_ubah").addClass("scale-100");
+        $("#konten_modal_ubah").removeClass("scale-0");
+    }
+
+    const closeModalUbah = () => {
+        $("#bg_modal_ubah").addClass("pointer-events-none");
+        $("#bg_modal_ubah").removeClass("opacity-50");
+        $("#bg_modal_ubah").addClass("opacity-0");
+
+        $("#konten_modal_ubah").removeClass("scale-100");
+        $("#konten_modal_ubah").addClass("scale-0");
+    }
+
+    $("#jenis_discount_update").change(function(e) {
+        e.preventDefault();
+        if ($("#jenis_discount_update").val() == "persen") {
+            $("#txt_nominal_update").val("");
+            $("#txt_nominal_update").attr("maxlength", 3);
+            $("#container-jumlah_update").addClass("hidden");
+            $("#container-free-product_update").addClass("hidden");
+            $("#container-jumlah_update").removeClass("flex");
+            $("#container-free-product_update").removeClass("flex");
+
+            $("#container-nominal_update").addClass("flex");
+            $("#container-nominal_update").removeClass("hidden");
+
+        } else if ($("#jenis_discount_update").val() == "nominal") {
+            $("#txt_nominal_update").val("");
+            $("#txt_nominal_update").attr("maxlength", 15);
+            $("#container-jumlah_update").addClass("hidden");
+            $("#container-free-product_update").addClass("hidden");
+            $("#container-jumlah_update").removeClass("flex");
+            $("#container-free-product_update").removeClass("flex");
+
+            $("#container-nominal_update").addClass("flex");
+            $("#container-nominal_update").removeClass("hidden");
+        } else {
+            $("#container-jumlah_update").removeClass("hidden");
+            $("#container-free-product_update").removeClass("hidden");
+            $("#container-jumlah_update").addClass("flex");
+            $("#container-free-product_update").addClass("flex");
+
+            $("#container-nominal_update").removeClass("flex");
+            $("#container-nominal_update").addClass("hidden");
+        }
+    });
+
+    const ubahData = (arr) => {
+        $("#txt_kode_update").val(arr.diskon.kode_diskon);
+        $("#txt_product_update").val(arr.nama_br);
+        
+        if (arr.diskon.kategori == "persen") {
+            $("#txt_nominal_update").val("");
+            $("#txt_nominal_update").attr("maxlength", 3);
+            $("#container-jumlah_update").addClass("hidden");
+            $("#container-free-product_update").addClass("hidden");
+            $("#container-jumlah_update").removeClass("flex");
+            $("#container-free-product_update").removeClass("flex");
+
+            $("#container-nominal_update").addClass("flex");
+            $("#container-nominal_update").removeClass("hidden");
+
+            $("#jenis_discount_update").val(arr.diskon.kategori);
+            $("#txt_nominal_update").val(formatRupiah(arr.diskon.nominal.toString()));
+        } else if (arr.diskon.kategori == "nominal") {
+            $("#txt_nominal_update").val("");
+            $("#txt_nominal_update").attr("maxlength", 15);
+            $("#container-jumlah_update").addClass("hidden");
+            $("#container-free-product_update").addClass("hidden");
+            $("#container-jumlah_update").removeClass("flex");
+            $("#container-free-product_update").removeClass("flex");
+
+            $("#container-nominal_update").addClass("flex");
+            $("#container-nominal_update").removeClass("hidden");
+
+            $("#jenis_discount_update").val(arr.diskon.kategori);
+            $("#txt_nominal_update").val(formatRupiah(arr.diskon.nominal.toString()));
+        } else {
+            $("#container-jumlah_update").removeClass("hidden");
+            $("#container-free-product_update").removeClass("hidden");
+            $("#container-jumlah_update").addClass("flex");
+            $("#container-free-product_update").addClass("flex");
+
+            $("#container-nominal_update").removeClass("flex");
+            $("#container-nominal_update").addClass("hidden");
+
+            $("#jenis_discount_update").val(arr.diskon.kategori);
+
+            if (JSON.parse(arr.diskon.free_product).free == "sama") {
+                $("#sama_update").attr("checked", "");
+            } else {
+                $("#bebas_update").attr("checked", "");
+            }
+            $("#txt_beli_update").val(JSON.parse(arr.diskon.free_product).value.buy);
+            $("#txt_gratis_update").val(JSON.parse(arr.diskon.free_product).value.gratis);
+        }
+        showModalUbah();
+    }
 </script>

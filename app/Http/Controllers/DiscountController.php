@@ -6,12 +6,14 @@ use App\Models\discounts\discount;
 use App\Models\products\barang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DiscountController extends Controller
 {
 
-    public function index(){
-        $barang = barang::with('diskon')->whereHas('diskon', function($query){
+    public function index()
+    {
+        $barang = barang::with('diskon')->whereHas('diskon', function ($query) {
             $query->whereNotNull("kode_diskon");
         })->paginate(5);
 
@@ -23,6 +25,18 @@ class DiscountController extends Controller
 
         $kode = '';
         if ($request->jenis_discount == "persen") {
+            $validator = Validator::make($request->all(), [
+                'txt_product' => 'required|max:30',
+                'jenis_discount' => 'required',
+                'txt_nominal' => 'required',
+            ], [
+                'required' => 'Field wajib diisi!'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput()->with(['tambah' => 'error tambah']);
+            }
+
             $kode = "PE" . time();
             $barang = barang::find($request->txt_kode);
             $barang->kode_diskon = $kode;
@@ -37,6 +51,17 @@ class DiscountController extends Controller
 
             ]);
         } else if ($request->jenis_discount == "nominal") {
+            $validator = Validator::make($request->all(), [
+                'txt_product' => 'required|max:30',
+                'jenis_discount' => 'required',
+                'txt_nominal' => 'required',
+            ], [
+                'required' => 'Field wajib diisi!'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput()->with(['tambah' => 'error tambah']);
+            }
             $kode = "NM" . time();
             $barang = barang::find($request->txt_kode);
             $barang->kode_diskon = $kode;
@@ -51,6 +76,19 @@ class DiscountController extends Controller
 
             ]);
         } else {
+            $validator = Validator::make($request->all(), [
+                'txt_product' => 'required|max:30',
+                'jenis_discount' => 'required',
+                'jenis_free' => 'required',
+                'txt_beli' => 'required',
+                'txt_gratis' => 'required',
+            ], [
+                'required' => 'Field wajib diisi!'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput()->with(['tambah' => 'error tambah']);
+            }
             $kode = "FR" . time();
             $barang = barang::find($request->txt_kode);
             $barang->kode_diskon = $kode;
@@ -76,6 +114,81 @@ class DiscountController extends Controller
 
 
         alert()->success('Berhasil', 'Berhasil Menambahkan Data');
+        return redirect('/discount');
+    }
+
+    public function update_diskon(Request $request)
+    {
+        if ($request->jenis_discount_update == "persen") {
+            $validator = Validator::make($request->all(), [
+                'txt_product_update' => 'required|max:30',
+                'jenis_discount_update' => 'required',
+                'txt_nominal_update' => 'required',
+            ], [
+                'required' => 'Field wajib diisi!'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update']);
+            }
+
+            $diskon = discount::find($request->txt_kode_update);
+            $diskon->kategori = $request->jenis_discount_update;
+            $diskon->nominal = str_replace(".", "", $request->txt_nominal_update);
+            $diskon->free_product = null;
+            $diskon->updated_at = Carbon::now();
+            $diskon->save();
+        } else if ($request->jenis_discount_update == "nominal") {
+            $validator = Validator::make($request->all(), [
+                'txt_product_update' => 'required|max:30',
+                'jenis_discount_update' => 'required',
+                'txt_nominal_update' => 'required',
+            ], [
+                'required' => 'Field wajib diisi!'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update']);
+            }
+
+            $diskon = discount::find($request->txt_kode_update);
+            $diskon->kategori = $request->jenis_discount_update;
+            $diskon->nominal = str_replace(".", "", $request->txt_nominal_update);
+            $diskon->free_product = null;
+            $diskon->updated_at = Carbon::now();
+            $diskon->save();
+        } else {
+            $validator = Validator::make($request->all(), [
+                'txt_product_update' => 'required|max:30',
+                'jenis_discount_update' => 'required',
+                'jenis_free_update' => 'required',
+                'txt_beli_update' => 'required',
+                'txt_gratis_update' => 'required',
+            ], [
+                'required' => 'Field wajib diisi!'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update']);
+            }
+
+            $arr = array(
+                "free" => $request->jenis_free_update,
+                "value" => array(
+                    "buy" => $request->txt_beli_update,
+                    "gratis" => $request->txt_gratis_update,
+                ),
+            );
+
+            $diskon = discount::find($request->txt_kode_update);
+            $diskon->kategori = $request->jenis_discount_update;
+            $diskon->nominal = null;
+            $diskon->free_product = json_encode($arr);
+            $diskon->updated_at = Carbon::now();
+            $diskon->save();
+        }
+
+        alert()->success('Berhasil', 'Berhasil Mengubah Data');
         return redirect('/discount');
     }
 }
