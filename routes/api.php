@@ -35,6 +35,30 @@ Route::get('/product/nodiscount', function (Request $request) {
     ]);
 });
 
+Route::get('/product', function (Request $request) {
+    return response()->json(
+        barang::with('diskon')
+            ->get()
+    );
+});
+
+Route::get('/product/jual', function () {
+    return response()->json(
+        barang::with('diskon')
+            ->where("jenis", "=", "jual")
+            ->get()
+    );
+});
+
+Route::get('/product/free', function () {
+    return response()->json(
+        barang::with('diskon')
+            ->where("jenis", "=", "free")
+            ->get()
+    );
+});
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
