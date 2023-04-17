@@ -32,27 +32,31 @@
     <div
         class="w-full flex-grow overflow-y-auto mt-4 md:mt-0 flex flex-col md:flex-row md:flex-wrap md:gap-4 md:pt-8 pb-8">
         {{-- ? Isinya --}}
-        <div id="tambah-container" class="flex flex-col w-full px-4 md:px-8">
-            <div class="flex flex-col w-full">
-                <label for="field-tag">Nama Tag</label>
-                <input maxlength="20" id="field-tag" name="nama_tag" type="text" placeholder=""
-                    class="border-2 rounded-md py-2 px-4 mt-1 outline-none w-full">
+        <form id="tambah-container" class="flex flex-col w-full px-4 md:px-8" action="/product/tag/add" method="post">
+            @csrf
+            <div>
+                <div class="flex flex-col w-full">
+                    <label for="field-tag">Nama Tag</label>
+                    <input maxlength="20" id="field-tag" name="nama_tag" type="text" placeholder=""
+                        class="border-2 rounded-md py-2 px-4 mt-1 outline-none w-full">
+                </div>
+                {{-- ? start footer ? --}}
+                <div class="w-full mt-4">
+                    <button type="button" id="btn_submit_tag"
+                        class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
+                        <span id="button_submit" class="text-xs poppins-medium">Tambah Tag</span>
+                    </button>
+                </div>
+                {{-- ? end footer ? --}}
             </div>
-            {{-- ? start footer ? --}}
-            <div class="w-full mt-4">
-                <button type="button" id="btn_submit" class="w-full bg-[#FFB015] flex justify-center py-4 rounded-md">
-                    <span id="button_submit" class="text-xs poppins-medium">Tambah Tag</span>
-                </button>
-            </div>
-            {{-- ? end footer ? --}}
-        </div>
+        </form>
         <div id="data-container" class="hidden w-full">
             <div class="flex flex-col max-h-[40vh] overflow-y-auto w-full gap-1 px-4 md:px-8">
                 @foreach ($all_tags as $item)
                     <div
                         class="flex flex-row justify-between items-center hover:bg-slate-100 rounded-sm py-2 px-2 h-full">
                         <p class="poppins-semibold">{{ $item->nama_tag }}</p>
-                        <div onclick=""
+                        <div onclick="hapusTag('/product/tag/delete/{{ $item->kode_tag }}?token={{ csrf_token() }}')"
                             class="bg-[#000000] py-2 px-2 rounded-md flex justify-center drop-shadow-sm">
                             <svg width="10" height="13" viewBox="0 0 14 17" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">

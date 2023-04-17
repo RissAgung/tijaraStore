@@ -26,6 +26,10 @@ Route::prefix("product")->group(function () {
   Route::get('/kategori', [MasterDataProduct::class, 'filter_kategori']);
 
   Route::post('/update', [MasterDataProduct::class, 'update_product']);
+
+  Route::get('/tag/delete/{kode}', [MasterDataProduct::class, 'delete_tag']);
+
+  Route::post('/tag/add', [MasterDataProduct::class, 'tambah_tag']);
 });
 
 //apabila belum login atau statusnya belum auth secara otomatis akan terlempar ke home, path home sendiri diatur pada App/Providers/RouteServiceProvider.php baris 20

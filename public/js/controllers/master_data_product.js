@@ -189,13 +189,13 @@ $("#btn_submit").click(function (e) {
     } else if ($("#txt_warna").val() == "") {
         isError.status = true;
         isError.message = "Field warna tidak boleh kosong";
-    } else if(val.length == 0){
+    } else if (val.length == 0) {
         isError.status = true;
         isError.message = "Field tags tidak boleh kosong";
-    } else if(!$("#free").is(":checked") && !$("#jual").is(":checked")){
+    } else if (!$("#free").is(":checked") && !$("#jual").is(":checked")) {
         isError.status = true;
         isError.message = "Field jenis tidak boleh kosong";
-    } else if($('#foto').get(0).files.length === 0){
+    } else if ($("#foto").get(0).files.length === 0) {
         isError.status = true;
         isError.message = "Field foto tidak boleh kosong";
     } else {
@@ -203,7 +203,7 @@ $("#btn_submit").click(function (e) {
         isError.message = "";
     }
 
-    if(isError.status){
+    if (isError.status) {
         Swal.fire({
             title: "Informasi",
             text: isError.message,
@@ -227,7 +227,6 @@ $("#btn_submit").click(function (e) {
             }
         });
     }
-
 
     console.log("wdakdoawkdowa");
 });
@@ -314,10 +313,13 @@ $("#btn_submitUpdate").click(function (e) {
     } else if ($("#txt_warnaUpdate").val() == "") {
         isError.status = true;
         isError.message = "Field warna tidak boleh kosong";
-    } else if(val.length == 0){
+    } else if (val.length == 0) {
         isError.status = true;
         isError.message = "Field tags tidak boleh kosong";
-    } else if(!$("#freeUpdate").is(":checked") && !$("#jualUpdate").is(":checked")){
+    } else if (
+        !$("#freeUpdate").is(":checked") &&
+        !$("#jualUpdate").is(":checked")
+    ) {
         isError.status = true;
         isError.message = "Field jenis tidak boleh kosong";
     } else {
@@ -325,7 +327,7 @@ $("#btn_submitUpdate").click(function (e) {
         isError.message = "";
     }
 
-    if(isError.status){
+    if (isError.status) {
         Swal.fire({
             title: "Informasi",
             text: isError.message,
@@ -417,7 +419,6 @@ $("#txt_hargaUpdate").keyup(function (e) {
     $("#txt_hargaUpdate").val(formatRupiah(this.value, "Rp. "));
 });
 
-
 // TODO: Tags
 const showModalTag = () => {
     $("#bg_modal_tag").removeClass("pointer-events-none");
@@ -438,7 +439,7 @@ const closeModalTag = () => {
 };
 
 const toggleTab = (param) => {
-    if(param == "tambah"){
+    if (param == "tambah") {
         $("#tambah-container").removeClass("hidden");
         $("#tambah-container").addClass("flex");
         $("#label-tambah").removeClass("text-[#8F8F8F]");
@@ -465,4 +466,50 @@ const toggleTab = (param) => {
         $("#selectedTabTag").removeClass("translate-x-0 w-[70px]");
         $("#selectedTabTag").addClass("translate-x-20 w-[50px]");
     }
-}
+};
+
+// TODO: Hapus Tag
+const hapusTag = (param) => {
+    Swal.fire({
+        title: "Hapus Data",
+        text: "Apakah anda yakin ingin menghapus data",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonText: "Tidak",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            location.href = window.location.origin + param;
+        }
+    });
+};
+
+$("#btn_submit_tag").click(function (e) {
+    e.preventDefault();
+    if ($("#field-tag").val() == "") {
+        Swal.fire({
+            title: "Informasi",
+            text: "Nama tag wajib diisi",
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ya",
+        });
+    } else {
+        Swal.fire({
+            title: "Tambah Data",
+            text: "Apakah anda yakin ingin menambah data",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonText: "Tidak",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $("#tambah-container").trigger('submit');
+            }
+        });
+    }
+});
