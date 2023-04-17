@@ -20,7 +20,8 @@ class MasterDataProduct extends Controller
         try {
             //code...
             $products = barang::with('detail_barang_tag.tag')
-                ->orderBy('kode_br', 'desc')
+                ->with('diskon')
+                ->orderBy('created_at', 'desc')
                 ->whereHas('detail_barang_tag', function ($query) use ($request) {
                     if ($request->has('filter')) {
                         $query->whereIn('kode_tag', json_decode(strtoupper($request->filter)));
@@ -47,8 +48,10 @@ class MasterDataProduct extends Controller
     public function filter_search(Request $request)
     {
         $products = barang::with('detail_barang_tag.tag')
+            ->with('diskon')
             ->where('nama_br', 'LIKE', '%' . $request->find . '%')
-            ->orderBy('kode_br', 'desc')
+            ->orWhere('kode_br', '=', $request->find)
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
 
@@ -67,8 +70,9 @@ class MasterDataProduct extends Controller
     public function filter_kategori(Request $request)
     {
         $products = barang::with('detail_barang_tag.tag')
+            ->with('diskon')
             ->where('kategori', '=', $request->select)
-            ->orderBy('kode_br', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
 
@@ -135,21 +139,11 @@ class MasterDataProduct extends Controller
     public function products(Request $request)
     {
 
-        // echo barang::all()->sortByDesc('kode_barang_tag')->first()->kode_barang_tag;
-        // $products = barang::with('barang_tag')
-        //     ->get();
         $products = barang::with('detail_barang_tag.tag')
-            ->orderBy('kode_br', 'desc')
+            ->with('diskon')
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
-
-        // return $products;
-        // $tags = barang::join('barang_tag', 'barang_tag.kode_barang_tag', '=', 'barang.kode_barang_tag')
-        //     ->join('detail_barang_tag', 'detail_barang_tag.detail_kode_barang_tag', '=', 'barang_tag.detail_kode_barang_tag')
-        //     ->join('tag', 'tag.kode_tag', '=', 'detail_barang_tag.kode_tag')
-        //     ->get('*');
-
-        // return $tags;
         $all_tags = tag::all();
         $tags = tag::all();
 
@@ -286,7 +280,7 @@ class MasterDataProduct extends Controller
 
             $products = barang::find($request->id_update);
             if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update', 'old_gambar' => "uploads/products/".$products->gambar]);
+                return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update', 'old_gambar' => "uploads/products/" . $products->gambar]);
             }
 
 

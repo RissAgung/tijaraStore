@@ -2,6 +2,7 @@
 
 namespace App\Models\products;
 
+use App\Models\discounts\discount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,10 @@ class barang extends Model
     public function detail_barang_tag()
     {
         return $this->hasMany(detail_barang_tag::class, 'detail_kode_barang_tag', 'kode_barang_tag');
+    }
+
+    public function diskon()
+    {
+        return $this->hasOne(discount::class, 'kode_diskon', 'kode_diskon');
     }
 }

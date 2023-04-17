@@ -180,7 +180,26 @@
                                     <td class="tracking-wide text-center p-3">{{ $item->nama_br }}</td>
                                     <td class="tracking-wide text-center p-3">{{ $item->kategori }}</td>
                                     <td class="tracking-wide text-center p-3">{{ $item->stok }}</td>
-                                    <td class="tracking-wide text-center p-3">@money($item->harga)</td>
+                                    <td class="tracking-wide text-center p-3">
+                                        <div class="flex flex-col items-center w-full justify-center">
+                                            <div>
+                                                @money($item->harga)
+                                            </div>
+                                            @if ($item->diskon != '')
+                                                @if ($item->diskon->kategori == 'persen')
+                                                    <p class="text-xs">{{ $item->diskon->nominal . '%' }} ( <span
+                                                            class="text-[#357800]">@money($item->harga - $item->harga * ($item->diskon->nominal / 100))</span> )</p>
+                                                @elseif($item->diskon->kategori == 'nominal')
+                                                    <p class="text-xs">@money($item->diskon->nominal) ( <span
+                                                            class="text-[#357800]">@money($item->harga - $item->diskon->nominal)</span> )</p>
+                                                @elseif($item->diskon->free_product != null)
+                                                    <p class="text-xs">
+                                                        {{ 'Beli ' . json_decode($item->diskon->free_product)->value->buy . ' Gratis ' . json_decode($item->diskon->free_product)->value->gratis . ' Product ' . (json_decode($item->diskon->free_product)->free == 'sama' ? 'Sama' : 'Bebas') }}
+                                                    </p>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-row gap-2 justify-center">
                                             <div onclick="ubahData('{{ $item->nama_br }}','{{ $item->warna }}','{{ $item->kategori }}','{{ $item->ukuran }}','{{ $item->harga }}','{{ $item->detail_barang_tag }}', '{{ $item->jenis }}', '{{ $item->kode_br }}', '{{ asset('/uploads/products/' . $item->gambar) }}', '{{ DNS1D::getBarcodePNG($item->kode_br, 'C39', 1, 33, [0, 0, 0], true) }}')"
