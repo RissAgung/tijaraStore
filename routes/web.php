@@ -57,8 +57,16 @@ Route::get('/riwayat', function () {
   return view('riwayat.riwayat');
 });
 
-Route::get('/discount', [DiscountController::class, 'index']);
+Route::get('/diskon', [DiscountController::class, 'index']);
 
-Route::post('/discount/add', [DiscountController::class, "tambah_diskon"]);
+Route::post('/diskon/add', [DiscountController::class, "tambah_diskon"]);
 
-Route::post('/discount/update', [DiscountController::class, "update_diskon"]);
+Route::post('/diskon/update', [DiscountController::class, "update_diskon"]);
+
+Route::post('/diskon/delete_selected', [DiscountController::class, "delete_selected"]);
+
+Route::get('/diskon/delete/{kode}', [DiscountController::class, 'delete']);
+
+Route::get('/diskon/kategori', [DiscountController::class, 'filter_kategori']);
+
+Route::get('/diskon/search', [DiscountController::class, 'filter_search']);

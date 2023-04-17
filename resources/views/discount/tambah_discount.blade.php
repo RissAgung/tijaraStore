@@ -3,14 +3,14 @@
 
 
 {{-- TODO: INI KONTEN MODAL --}}
-<form id="form_discount" action="/discount/add" method="post">
+<form id="form_discount" action="/diskon/add" method="post">
     @csrf
     <div id="konten_modal_tambah"
         class="bg-white w-[90%] max-w-[400px] z-[101] h-[80%] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">
         {{-- ? start header ? --}}
         <div class="flex flex-row justify-between">
             <div class="flex justify-start px-4 md:px-8 py-6">
-                <p id="title_modal">Tambah Discount</p>
+                <p id="title_modal">Tambah Diskon</p>
             </div>
             <div class="flex flex-row justify-start px-4 md:px-8 py-6 gap-3">
                 <div onclick="closeModalTambah()">

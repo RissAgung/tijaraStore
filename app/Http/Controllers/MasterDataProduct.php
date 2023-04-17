@@ -21,7 +21,7 @@ class MasterDataProduct extends Controller
             //code...
             $products = barang::with('detail_barang_tag.tag')
                 ->with('diskon')
-                ->orderBy('kode_br', 'desc')
+                ->orderBy('created_at', 'desc')
                 ->whereHas('detail_barang_tag', function ($query) use ($request) {
                     if ($request->has('filter')) {
                         $query->whereIn('kode_tag', json_decode(strtoupper($request->filter)));
@@ -51,7 +51,7 @@ class MasterDataProduct extends Controller
             ->with('diskon')
             ->where('nama_br', 'LIKE', '%' . $request->find . '%')
             ->orWhere('kode_br', '=', $request->find)
-            ->orderBy('kode_br', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
 
@@ -72,7 +72,7 @@ class MasterDataProduct extends Controller
         $products = barang::with('detail_barang_tag.tag')
             ->with('diskon')
             ->where('kategori', '=', $request->select)
-            ->orderBy('kode_br', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
 
@@ -141,7 +141,7 @@ class MasterDataProduct extends Controller
 
         $products = barang::with('detail_barang_tag.tag')
             ->with('diskon')
-            ->orderBy('kode_br', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
         $all_tags = tag::all();

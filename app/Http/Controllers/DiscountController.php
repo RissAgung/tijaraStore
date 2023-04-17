@@ -15,7 +15,7 @@ class DiscountController extends Controller
     {
         $barang = barang::with('diskon')->whereHas('diskon', function ($query) {
             $query->whereNotNull("kode_diskon");
-        })->paginate(5);
+        })->orderBy('created_at', 'desc')->paginate(5);
 
         return view("discount.discount", compact("barang"));
     }
@@ -111,10 +111,8 @@ class DiscountController extends Controller
             ]);
         }
 
-
-
         alert()->success('Berhasil', 'Berhasil Menambahkan Data');
-        return redirect('/discount');
+        return redirect('/diskon');
     }
 
     public function update_diskon(Request $request)
@@ -189,6 +187,87 @@ class DiscountController extends Controller
         }
 
         alert()->success('Berhasil', 'Berhasil Mengubah Data');
-        return redirect('/discount');
+        return redirect('/diskon');
+    }
+
+    public function delete_selected(Request $request)
+    {
+        foreach ($request->ids as $value) {
+            discount::find($value)->delete();
+        }
+        alert()->success('Berhasil', 'Berhasil Menghapus Data');
+        return redirect('/diskon');
+    }
+
+    public function delete($kode, Request $request)
+    {
+        // check apakah terdapat token
+        if ($request->has('token')) {
+            // check apakah token sesuai dengan token yang ada pada session ?
+            if ($request->token === $request->session()->token()) {
+                // jika sesuai maka akan proses dan generate ulang token
+                // jadi, tidak akan terjadi penggunaan token yang sama
+                // hal ini dilakukan untuk pencegahan untuk hal hal yang tidak diinginkan
+                // seperti memaksa menggunakan token yang telah dipakai sebelumnya untuk menghapus data yang lain
+                $request->session()->regenerateToken();
+
+                $diskon = discount::find($kode);
+                $diskon->delete();
+
+                alert()->success('Berhasil', 'Berhasil Menghapus Data');
+                return redirect('/diskon');
+            } else {
+                alert()->warning('Informasi', 'Token tidak sesuai');
+                return redirect('/diskon');
+            }
+        } else {
+            alert()->warning('Informasi', 'Token tidak ditemukan');
+            return redirect('/diskon');
+        }
+    }
+
+    public function filter_kategori(Request $request)
+    {
+        if ($request->has('value')) {
+            $barang = barang::with('diskon')
+                ->whereHas('diskon', function ($query) use ($request) {
+                    $query
+                        ->whereNotNull("kode_diskon")
+                        ->where("kategori", "=", $request->value);
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
+
+            $barang->appends(array(
+                'value' => $request->value
+            ));
+
+            return view('discount.discount', compact('barang'));
+        } else {
+            return redirect('/diskon');
+        }
+    }
+
+    public function filter_search(Request $request)
+    {
+        if ($request->has('find')) {
+            $barang = barang::with('diskon')
+                ->whereHas('diskon', function ($query) use ($request) {
+                    $query
+                        ->whereNotNull("kode_diskon");
+                })
+                ->where('nama_br', 'LIKE', '%' . $request->find . '%')
+                ->orWhere("kode_diskon", "=", $request->find)
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
+
+            $barang->appends(array(
+                'find' => $request->find
+            ));
+
+            return view('discount.discount', compact('barang'));
+        } else {
+            return redirect('/diskon');
+        }
     }
 }

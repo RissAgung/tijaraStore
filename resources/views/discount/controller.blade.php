@@ -676,7 +676,7 @@
     const ubahData = (arr) => {
         $("#txt_kode_update").val(arr.diskon.kode_diskon);
         $("#txt_product_update").val(arr.nama_br);
-        
+
         if (arr.diskon.kategori == "persen") {
             $("#txt_nominal_update").val("");
             $("#txt_nominal_update").attr("maxlength", 3);
@@ -724,4 +724,72 @@
         }
         showModalUbah();
     }
+
+    // hapus data
+    // Check All
+    $("#checkAll").change(function(e) {
+        e.preventDefault();
+        $(".idcheck").prop("checked", $(this).prop("checked"));
+    });
+
+    // trigger delete selected
+    $("#btn_hapus").click(function(e) {
+        e.preventDefault();
+        var checkedCount = $(".idcheck:checked").length;
+        if (checkedCount == 0) {
+            Swal.fire("Informasi", "Pilih data yang ingin dihapus", "warning");
+        } else {
+            Swal.fire({
+                title: "Hapus Data",
+                text: "Apakah anda yakin ingin menghapus data yang dipilih?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonText: "Tidak",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#form_delete").trigger("submit");
+                }
+            });
+        }
+    });
+
+    const hapusData = (url) => {
+        Swal.fire({
+            title: "Hapus Data",
+            text: "Apakah anda yakin ingin menghapus data?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonText: "Tidak",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = window.location.origin + url;
+            }
+        });
+    };
+
+
+
+    // Filter Kategori
+    $("#filter_kategori").change(function(e) {
+        e.preventDefault();
+        switch ($("#filter_kategori").val()) {
+            case "persen":
+                location.href = window.location.origin + "/diskon/kategori?value=" + "persen";
+                break;
+            case "nominal":
+                location.href = window.location.origin + "/diskon/kategori?value=" + "nominal";
+                break;
+            case "free":
+                location.href = window.location.origin + "/diskon/kategori?value=" + "free";
+                break;
+            default:
+                break;
+        }
+    });
 </script>

@@ -3,14 +3,14 @@
 
 
 {{-- TODO: INI KONTEN MODAL --}}
-<form id="form_discount_ubah" action="/discount/update" method="post">
+<form id="form_discount_ubah" action="/diskon/update" method="post">
     @csrf
     <div id="konten_modal_ubah"
         class="bg-white w-[90%] max-w-[400px] z-[101] h-[80%] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">
         {{-- ? start header ? --}}
         <div class="flex flex-row justify-between">
             <div class="flex justify-start px-4 md:px-8 py-6">
-                <p id="title_modal">Ubah Discount</p>
+                <p id="title_modal">Ubah Diskon</p>
             </div>
             <div class="flex flex-row justify-start px-4 md:px-8 py-6 gap-3">
                 <div onclick="closeModalUbah()">

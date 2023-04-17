@@ -27,7 +27,7 @@
                 </div>
 
 
-                <form class="w-full" action="{{ route('search_product') }}" method="GET">
+                <form class="w-full" action="/diskon/search" method="GET">
                     {{-- @csrf --}}
                     <input value="@isset($_GET['find']){{ $_GET['find'] }}@endisset" name="find"
                         class=" py-2 px-2 w-full flex-grow outline-none" type="text"
@@ -38,7 +38,7 @@
             <div class=" flex flex-row justify-between">
                 <div class="flex flex-row gap-2">
                     <div id="btn_hapus"
-                        class="bg-[#000000] w-[46px] md:w-fit px-4 rounded-md flex gap-2 justify-center items-center drop-shadow-sm">
+                        class="bg-[#000000] w-[46px] md:w-fit px-4 rounded-md flex gap-2 justify-center items-center drop-shadow-sm cursor-pointer">
                         <svg class="mt-0" width="14" height="17" viewBox="0 0 14 17" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -76,13 +76,32 @@
                 class="h-full py-2 px-4 outline-none rounded-lg appearance-none w-full md:w-[200px] border-2 border-dotted"
                 name="select" id="filter_kategori">
                 <option hidden></option>
-                <option value="persen">Potongan Persen</option>
-                <option value="free">Free Product</option>
+                <option
+                    @isset($_GET['value'])
+                @if ($_GET['value'] == 'persen')
+                    selected
+                @endif
+            @endisset
+                    value="persen">Potongan Persen</option>
+                <option
+                    @isset($_GET['value'])
+                @if ($_GET['value'] == 'nominal')
+                    selected
+                @endif
+            @endisset
+                    value="nominal">Nominal</option>
+                <option
+                    @isset($_GET['value'])
+                @if ($_GET['value'] == 'free')
+                    selected
+                @endif
+            @endisset
+                    value="free">Free Product</option>
             </select>
         </div>
         <div class="flex overflow-x-scroll gap-3 scrollbar-hide flex-row h-full w-full justify-end">
             {{-- isi --}}
-            <a href="/product" id="btn_reset"
+            <a href="/diskon" id="btn_reset"
                 class="bg-[#000000] px-4 rounded-md flex justify-center items-center drop-shadow-sm h-full py-3">
                 <svg width="15" height="15" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -110,14 +129,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <form id="form_delete" action="/product/delete_selected" method="post">
+                        <form id="form_delete" action="/diskon/delete_selected" method="post">
                             @csrf
                             @foreach ($barang as $item)
                                 <tr class="bg-white border-2 ">
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-row justify-center gap-4">
                                             <input class="mt-2 idcheck" type="checkbox" name="ids[]" id=""
-                                                value="">
+                                                value="{{ $item->kode_diskon }}">
                                         </div>
                                     </td>
 
@@ -134,7 +153,7 @@
                                     </td>
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-row gap-2 justify-center">
-                                            <div onclick="ubahData({{$item}})"
+                                            <div onclick="ubahData({{ $item }})"
                                                 class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm cursor-pointer">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
@@ -148,8 +167,8 @@
 
                                             </div>
 
-                                            <div onclick=""
-                                                class="bg-[#000000] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
+                                            <div onclick="hapusData('/diskon/delete/{{ $item->kode_diskon }}?token={{ csrf_token() }}')"
+                                                class="bg-[#000000] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm cursor-pointer">
                                                 <svg width="14" height="17" viewBox="0 0 14 17" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path
