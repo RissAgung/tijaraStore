@@ -308,4 +308,57 @@ class MasterDataProduct extends Controller
         alert()->success('Berhasil', 'Berhasil Mengubah Data')->showConfirmButton()->focusConfirm(true);
         return redirect()->back()->with('success', "Berhasil Mengubah Data");
     }
+
+    public function delete_tag($kode, Request $request)
+    {
+        // check apakah terdapat token
+        if ($request->has('token')) {
+            // check apakah token sesuai dengan token yang ada pada session ?
+            if ($request->token === $request->session()->token()) {
+                // jika sesuai maka akan proses dan generate ulang token
+                // jadi, tidak akan terjadi penggunaan token yang sama
+                // hal ini dilakukan untuk pencegahan untuk hal hal yang tidak diinginkan
+                // seperti memaksa menggunakan token yang telah dipakai sebelumnya untuk menghapus data yang lain
+                $request->session()->regenerateToken();
+
+                tag::find($kode)->delete();
+
+                alert()->success('Berhasil', 'Berhasil Menghapus Data');
+                return redirect()->route('product');
+            } else {
+                return redirect()->route('product');
+            }
+        } else {
+            return redirect()->route('product');
+        }
+    }
+
+    public function tambah_tag(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama_tag' => 'required',
+        ], [
+            'required' => 'Field wajib diisi!'
+        ]);
+
+        if ($validator->fails()) {
+            alert()->warning('Informasi', 'Field nama tag wajib diisi');
+            return redirect()->back();
+        }
+
+        $lstag = tag::where("nama_tag", "=", strtolower($request->nama_tag))->first();
+        if ($lstag) {
+            if (strtolower($lstag->nama_tag) == strtolower($request->nama_tag)) {
+                alert()->warning('Informasi', 'Nama tag sudah ada');
+                return redirect()->back();
+            }
+        }
+        $kode = "TG" . time();
+        tag::create([
+            "kode_tag" => $kode,
+            "nama_tag" => $request->nama_tag
+        ]);
+        alert()->success('Berhasil', 'Berhasil Menambah Data');
+        return redirect()->back();
+    }
 }
