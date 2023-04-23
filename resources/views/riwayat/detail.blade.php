@@ -4,7 +4,7 @@
 
 {{-- TODO: INI KONTEN MODAL --}}
 <div id="konten_modal_detail"
-    class="bg-white w-[80%] md:w-[60%] lg:w-[40%] z-[105] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">
+    class="bg-white w-[80%] md:w-[60%] z-[105] h-[90%] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">
     {{-- ? start header ? --}}
     <div class="flex flex-row justify-between">
         <div class="flex justify-start px-4 md:px-8 py-6">
@@ -24,23 +24,92 @@
     </div>
     <div class="h-[2px] w-full bg-[#DDDDDD]"></div>
     {{-- ? end header ? --}}
+
     {{-- ? start isi modal ? --}}
-    <div class="w-full max-h-[400px] h-full bg-white overflow-y-auto mt-4 flex flex-col gap-2 pb-10">
-        {{-- ? Isinya --}}
-        @for ($i = 0; $i < 10; $i++)
-            <div class="flex flex-col pt-4 px-4 md:px-8 gap-1 hover:bg-slate-100 rounded-md">
-                <p class="poppins-semibold">Dress Panjang Kondangan Anti Peluru</p>
-                <div class="flex flex-row flex-wrap gap-6">
-                    <p>Harga : Rp. 30.000</p>
-                    <p>Diskon : Rp. 10.000</p>
+    <div class="px-4 md:px-8 flex flex-col overflow-y-auto h-full text-sm">
+        <div class="flex flex-row flex-wrap w-full my-8">
+            <div class="flex flex-row flex-wrap w-full gap-3 text-sm">
+                <div class="flex flex-col w-full">
+                    <div class="grid grid-cols-10 items-center">
+                        <div class="col-span-3 md:col-span-2 text-ellipsis overflow-hidden">No Transaksi</div>
+                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span>TP0R92722A</div>
+                    </div>
+                    <div class="grid grid-cols-10 items-center">
+                        <div class="col-span-3 md:col-span-2 text-ellipsis overflow-hidden">Kasir</div>
+                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span>Risqi Nyungsep</div>
+                    </div>
+                    <div class="grid grid-cols-10 items-center">
+                        <div class="col-span-3 md:col-span-2 text-ellipsis overflow-hidden">Tanggal</div>
+                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span>2022-12-04 11:17:21</div>
+                    </div>
                 </div>
-                <p>2 X Rp. 40.000</p>
-                @if ($i != 9)
-                    <div class="h-[1px] w-full bg-[#DDDDDD] mt-4"></div>
-                @endif
             </div>
-        @endfor
+        </div>
+        <div class="flex flex-grow">
+            <div class="w-full border-2 overflow-x-auto border-[#F2F2F2]">
+                <table class="w-full gap-2 pb-10">
+                    <thead>
+                        <tr class="text-[#C68300] poppins-semibold bg-[#F2F2F2]">
+                            <th class="text-left py-4 px-4">Produk</th>
+                            <th class="text-left py-4 px-4">Harga</th>
+                            <th class="text-left py-4 px-4">Diskon</th>
+                            <th class="text-left py-4 px-4">Jumlah</th>
+                            <th class="text-left py-4 px-4">Subtotal</th>
+                        </tr>
+                    </thead>
+                    {{-- ? Isinya --}}
+                    <tbody class="">
+                        @for ($i = 0; $i < 1; $i++)
+                            <tr>
+                                <td class="tracking-wide px-4 py-2 text-left">Dress Panjang Kondangan Anti Peluru</td>
+                                <td class="tracking-wide px-4 py-2 text-left">Rp. 210.000</td>
+                                <td class="tracking-wide px-4 py-2 text-left">Rp. 30.000</td>
+                                <td class="tracking-wide px-4 py-2 text-left">5</td>
+                                <td class="tracking-wide px-4 py-2 text-left">Rp. 1.250.000</td>
+                            </tr>
+                        @endfor
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row w-full text-sm py-8">
+            <div class="flex flex-grow">
+                <div class="flex flex-row flex-wrap w-full items-center">
+                    <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
+                        <p class="text-ellipsis overflow-hidden">Jenis Pembayaran</p>
+                        <p class="col-span-2"><span class="pr-4">:</span>Cash</p>
+                    </div>
+                    <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
+                        <p class="text-ellipsis overflow-hidden">Harga Final</p>
+                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 210.000</p>
+                    </div>
+                    <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
+                        <p class="text-ellipsis overflow-hidden">Total</p>
+                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 300.000</p>
+                    </div>
+                    <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
+                        <p class="text-ellipsis overflow-hidden">Bayar</p>
+                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 250.000</p>
+                    </div>
+                    <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
+                        <p class="text-ellipsis overflow-hidden">Voucher</p>
+                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 90.000</p>
+                    </div>
+                    <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
+                        <p class="text-ellipsis overflow-hidden">Kembali</p>
+                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 50.000</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-row justify-center gap-2 pt-4 px-8 items-center">
+                <div class="flex h-fit bg-black px-4 text-white py-2 rounded-sm">
+                    <p>Cetak</p>
+                </div>
+                <div class="flex h-fit bg-primary px-4 text-black py-2 rounded-sm">
+                    <p>Cetak</p>
+                </div>
+            </div>
+        </div>
     </div>
     {{-- ? end isi modal ? --}}
-
 </div>
