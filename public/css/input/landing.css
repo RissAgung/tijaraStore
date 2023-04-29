@@ -1,0 +1,82 @@
+/* ============================ Coppy script dibawah kalo mau buat file input baru ============================ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "poppins-regular";
+  src: url(../../assets/fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+  font-family: "poppins-medium";
+  src: url(../../assets/fonts/Poppins-Medium.ttf);
+}
+
+@font-face {
+  font-family: "poppins-semibold";
+  src: url(../../assets/fonts/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: "poppins-bold";
+  src: url(../../assets/fonts/Poppins-Bold.ttf);
+}
+
+@font-face {
+  font-family: "poppins-extrabold";
+  src: url(../../assets/fonts/Poppins-ExtraBold.ttf);
+}
+
+body {
+  box-sizing: border-box;
+  font-family: 'poppins-regular', sans-serif;
+}
+
+
+/* font */
+
+.poppins-regular {
+  font-family: "poppins-regular" !important;
+}
+
+.poppins-medium {
+  font-family: "poppins-medium" !important;
+}
+
+.poppins-semibold {
+  font-family: "poppins-semibold" !important;
+}
+
+.poppins-bold {
+  font-family: "poppins-bold" !important;
+}
+
+.poppins-extrabold {
+  font-family: "poppins-extrabold" !important;
+}
+
+/* ============================ End coppy script dibawah kalo mau buat file input baru ============================ */
+
+/* burger landing */
+
+#burger span {
+  transition: all 0.3s;
+}
+
+.span1 {
+  transform-origin: 0 0;
+  transform: rotate(45deg);
+  translate: 0 -0.5px;
+}
+
+.span2 {
+  display: none;
+}
+
+.span3 {
+  transform-origin: 0 100%;
+  transform: rotate(-45deg);
+}
+
+/* login */

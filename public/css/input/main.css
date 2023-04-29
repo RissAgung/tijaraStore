@@ -1,0 +1,153 @@
+/* ============================ Coppy script dibawah kalo mau buat file input baru ============================ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "poppins-regular";
+  src: url(../../assets/fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+  font-family: "poppins-medium";
+  src: url(../../assets/fonts/Poppins-Medium.ttf);
+}
+
+@font-face {
+  font-family: "poppins-semibold";
+  src: url(../../assets/fonts/Poppins-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: "poppins-bold";
+  src: url(../../assets/fonts/Poppins-Bold.ttf);
+}
+
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'poppins-regular', sans-serif;
+}
+
+/* disable arrow in field with type number */
+
+/* for chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* for Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+/* font */
+
+.poppins-regular {
+  font-family: "poppins-regular" !important;
+}
+
+.poppins-medium {
+  font-family: "poppins-medium" !important;
+}
+
+.poppins-semibold {
+  font-family: "poppins-semibold" !important;
+}
+
+.poppins-bold {
+  font-family: "poppins-bold" !important;
+}
+
+/* ============================ End coppy script dibawah kalo mau buat file input baru ============================ */
+
+.text-selector-none {
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}
+
+/* sidebar */
+
+.main-sidebar {
+  transform: translateX(-100%) !important;
+  transition: 1s;
+}
+
+.sidebar-show {
+  transform: translateX(0%) !important;
+  transition: 1s;
+}
+
+@media(min-width: 1024px) {
+  .main-sidebar {
+    transform: translateX(0%) !important;
+    transition: 1s;
+  }
+}
+
+#bg-sidebar {
+  transition: 1s;
+}
+
+.menu:hover .menu-hover1 svg {
+  fill: #FFA900;
+}
+
+.menu:hover .menu-hover1 p {
+  color: #FFA900;
+}
+
+.menu:hover .menu-hover2 {
+  background: #FFA900;
+}
+
+/* laporan pemasukan */
+
+#menu_pemasukan1:hover div {
+  background: #FFB015;
+}
+
+#menu_pemasukan2:hover div {
+  background: #FFB015;
+}
+
+#menu_pemasukan3:hover div {
+  background: #FFB015;
+}
+
+.loadingspinner {
+    pointer-events: none;
+    width: 2.5em;
+    height: 2.5em;
+    border: 0.4em solid transparent;
+    border-color: #eee;
+    border-top-color: #FFB015;
+    border-radius: 50%;
+    outline: none;
+    animation: loadingspin 1s linear infinite;
+}
+
+@keyframes loadingspin {
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+.body-loading {
+    border: none;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
