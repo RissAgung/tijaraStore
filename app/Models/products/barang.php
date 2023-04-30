@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class barang extends Model
 {
     use HasFactory;
-    protected $table = 'barang';
+    protected $table = 'BARANG';
     protected $primaryKey = 'kode_br';
     public $incrementing = false;
     public $timestamps = false;

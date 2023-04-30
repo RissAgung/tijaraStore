@@ -3,6 +3,8 @@
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
+use App\Http\Controllers\ReturController;
+use App\Http\Controllers\RiwayatRetur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,8 +51,13 @@ Route::prefix("laporan")->group(function () {
   })->middleware('auth');
 });
 
-Route::get("/retur", function () {
-  return view("retur.retur");
+Route::prefix("retur")->group(function () {
+  Route::get("/{search?}", [ReturController::class, 'index'])->name('retur')->middleware('auth');
+  Route::post("/add", [ReturController::class, 'submit_retur'])->middleware('auth');
+});
+
+Route::prefix("riwayatRetur")->group(function () {
+  Route::get("/{search?}", [RiwayatRetur::class, "index"]);
 });
 
 Route::get("/landing", function () {
