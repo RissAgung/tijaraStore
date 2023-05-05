@@ -49,6 +49,9 @@ Route::prefix("laporan")->group(function () {
   Route::get("/pemasukan", function () {
     return view("report.pemasukan");
   })->middleware('auth');
+  Route::get("/pengeluaran", function () {
+    return view("report.pengeluaran");
+  })->middleware('auth');
 });
 
 Route::prefix("retur")->group(function () {

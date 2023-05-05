@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('modal')
-    @include('modal.detail_laporan_pemasukan')
+    @include('modal.detail_laporan_pengeluaran')
 @endsection
 
 @section('title')
@@ -20,7 +20,7 @@
 
             {{-- menu --}}
             <div id="menuLaporan" class="md:hidden poppins-medium cursor-pointer flex h-full items-center gap-2">
-                <p class="text-selector-none">Pemasukan</p>
+                <p class="text-selector-none">Pengeluaran</p>
                 <div id="arrowMenu" class="transition ease-in-out delay-75">
                     <svg class="w-[11px] h-[5px]" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -34,15 +34,15 @@
             <div id="menuDropDown"
                 class=" max-md:shadow-md text-selector-none flex flex-col md:flex-row md:items-end max-md:hidden max-md:absolute gap-2 min-[360px]:gap-3 md:gap-5 poppins-medium text-[#2c2c2c] p-2 min-[360px]:p-3 md:p-0 w-24 min-[360px]:w-32 md:w-auto rounded-sm min-[360px]:rounded-[5px] bg-white top-8 min-[360px]:top-10 max-md:border-[1px] max-md:border-[#DCDADA] md:h-full">
                 <a id="menu_pemasukan1" href="pemasukan"
-                    class="text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
+                    class="hover:text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
                     <p>Pemasukan</p>
-                    <div class="max-md:hidden absolute bottom-0 w-full h-[6px] bg-[#FFB015]">
+                    <div class="max-md:hidden absolute bottom-0 w-full h-[6px]">
                     </div>
                 </a>
                 <a id="menu_pemasukan2" href="pengeluaran"
-                    class="hover:text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
+                    class="text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
                     <p>Pengeluaran</p>
-                    <div class="max-md:hidden absolute bottom-0 w-full h-[6px] transition ease-in-out">
+                    <div class="max-md:hidden absolute bottom-0 w-full h-[6px] transition ease-in-out bg-[#FFB015]">
                     </div>
                 </a>
                 <a id="menu_pemasukan3" href="#"
@@ -125,43 +125,39 @@
 
             {{-- right --}}
             <div
-                class="flex flex-col w-full lg:w-[35%] lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
+                class="flex flex-col w-full lg:w-[35%] lg:h-[80%] lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
                 <p class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
                     Detail Pemasukan</p>
                 <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-evenly">
 
-                    {{-- pria --}}
-                    <div onclick="showDetail()" class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
+                    {{-- Produk --}}
+                    <div onclick="showDetail()"
+                        class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
+
                             <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
                                 viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="104.765" height="110.893" rx="14" fill="#DFDFDF" />
-                                <path
-                                    d="M63.9998 18H40.9998C37.4998 28.5 44.4998 47 47.9998 50C51.4998 53 64.9998 41 65.9998 37C66.7998 33.8 64.9998 23 63.9998 18Z"
-                                    fill="#84879C" />
-                                <path
-                                    d="M28.5 24.5L41 18C42.5 38 53 47.5 53.5 48C53.9 48.4 54 49.1667 54 49.5V82L44 92C43.2 92.8 42.3333 93 42 93L27.5 87C26.7 86.6 26.1667 85.5 26 85V54.5C34.5 40 29 28 28.5 26.5C28.1 25.3 28.3333 24.6667 28.5 24.5Z"
-                                    fill="#B0B3C1" />
-                                <rect x="31" y="72" width="14" height="3" rx="0.3"
-                                    fill="#9297AB" />
-                                <path
-                                    d="M50 49.5C50 47.9 51.3333 46.8333 52 46.5C54 48.1 54.1667 48.8918 54 49.0876V82L52 84L50 82V49.5Z"
-                                    fill="#9297AB" />
-                                <path
-                                    d="M76.5 24.5L64 18C62.5 38 52 47.5 51.5 48C51.1 48.4 51 49.1667 51 49.5V82L61 92C61.8 92.8 62.6667 93 63 93L77.5 87C78.3 86.6 78.8333 85.5 79 85V54.5C70.5 40 76 28 76.5 26.5C76.9 25.3 76.6667 24.6667 76.5 24.5Z"
-                                    fill="#B0B3C1" />
-                                <rect x="58" y="72" width="14" height="3" rx="0.3"
-                                    fill="#9297AB" />
-                                <path
-                                    d="M63.178 48.1864C63.5757 47.6124 64.4243 47.6124 64.822 48.1864L68.1088 52.9305C68.5683 53.5937 68.0936 54.5 67.2868 54.5H60.7132C59.9064 54.5 59.4317 53.5937 59.8912 52.9305L63.178 48.1864Z"
-                                    fill="#F26176" />
-                                <rect x="58" y="53" width="12" height="3" rx="0.3"
-                                    fill="#9297AB" />
+                                <rect width="104.765" height="110.893" rx="14" fill="#41C19E" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M104.765 73.0592V96.893C104.765 104.625 98.4973 110.893 90.7653 110.893H63.302L37 86L48.5 52L51 30V24.5L52.5 22L104.765 73.0592Z"
+                                    fill="#49A289" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M53.0338 27.8293C54.199 27.4175 55.0338 26.3062 55.0338 25C55.0338 23.3431 53.6907 22 52.0338 22C50.377 22 49.0338 23.3431 49.0338 25C49.0338 26.3062 49.8686 27.4175 51.0338 27.8293V33H53.0338V27.8293Z"
+                                    fill="#D9D9D9" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M49.5334 31H49.0338C47.5338 32.8333 43.0338 37.1 37.0338 39.5C37.0338 42.6667 37.8338 50.4 41.0338 56C41.5338 57.8333 41.8338 62.4 39.0338 66C36.2338 69.6 35.8671 77.5 36.0338 81C36.2005 82.5 36.8338 85.9 38.0338 87.5H47.0338H57.0338H66.0304C67.2302 85.9 67.8634 82.5 68.03 81C68.1967 77.5 67.8301 69.6 65.0306 66C62.2311 62.4 62.531 57.8333 63.031 56C66.2304 50.4 67.0302 42.6667 67.0302 39.5C61.0313 37.1 56.5321 32.8333 55.0324 31H54.5338H49.5334Z"
+                                    fill="#64798A" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M67.8897 82H36.1742C36.4532 83.6923 37.055 86.1949 38.0338 87.5H47.0339H57.0338H66.0304C67.009 86.1949 67.6107 83.6923 67.8897 82Z"
+                                    fill="#354A5D" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M61.3565 36.4848C59.342 39.8152 56.2812 43.2323 52.5339 43.5C47.1582 43.8839 44.4242 38.7698 43.624 35.8531C42.8718 36.39 42.0603 36.9245 41.1963 37.4367L41.5339 37.5C41.6885 37.7706 41.8461 38.0532 42.0084 38.344C43.9444 41.8146 46.5364 46.4613 52.5339 46C57.7339 45.6 61.7005 40.5 63.0339 38L63.2476 37.658C62.5873 37.2784 61.9559 36.8844 61.3565 36.4848Z"
+                                    fill="#E7BD69" />
                             </svg>
 
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
-                                <p>Pakaian Pria</p>
+                                <p>Re-Stock</p>
                                 <p class="poppins-semibold">Rp. 760.000</p>
                             </div>
                         </div>
@@ -179,82 +175,41 @@
                     {{-- line --}}
                     <div class="w-full h-[1px] bg-[#DCDADA]"></div>
 
-                    {{-- Wanita --}}
-                    <div onclick="showDetail()" class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
+                    {{-- Lainnya --}}
+                    <div onclick="showDetail()"
+                        class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
-                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="104.765" height="110.893" rx="14" fill="#EDD9ED" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M44.0137 15.5H36.5017C34.2284 16.4741 29.551 20.0104 28.5709 26.4785L26.4571 28.875C26.2744 29.0821 26.2942 29.398 26.5013 29.5807L35.1716 37.2265C35.3787 37.4091 35.6947 37.3893 35.8774 37.1822L39.0513 33.5838C40.5194 36.0888 41.2933 40.0444 40.5021 44L22 84.5C22.5001 86.3333 25.3004 89.8 32.5012 89C33.0013 90.6667 35.7016 93.8 42.5023 93C43.7754 94.1138 47.5399 96.0175 52.7517 95.1436C57.9628 96.0175 61.7269 94.1138 62.9998 93C69.7998 93.8 72.4998 90.6667 72.9998 89C80.1998 89.8 82.9998 86.3333 83.4998 84.5L64.9998 44C64.2086 40.0443 64.9825 36.0887 66.4505 33.5837L69.6241 37.1822C69.8068 37.3893 70.1227 37.4091 70.3298 37.2265L78.9991 29.5807C79.2062 29.398 79.226 29.0821 79.0434 28.875L76.9296 26.4783C75.9496 20.0103 71.2727 16.4741 68.9998 15.5H61.9863C61.7269 20.238 57.8028 24 53 24C48.1972 24 44.2731 20.238 44.0137 15.5Z"
-                                    fill="#B88CB8" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M75.5551 89.1098L75.5002 89L61.5002 56L72.5002 88.5L72.9824 89.0564C72.9885 89.0374 72.9944 89.0186 73 89C73.9224 89.1025 74.7726 89.135 75.5551 89.1098ZM65.0216 93.1282L65.0002 93L58.5002 59L63.0002 92.5L63.2435 93.0272C63.8715 93.0933 64.4636 93.1255 65.0216 93.1282ZM53.3454 95.2322L53.5002 95L52.0002 59L51.5348 95.3013C51.9309 95.2652 52.3368 95.2132 52.7518 95.1436C52.9518 95.1772 53.1497 95.2066 53.3454 95.2322ZM42.5001 93.0003L42.5002 93L47.0002 59L40.8334 93.1227C41.3594 93.1087 41.9145 93.0691 42.5001 93.0003ZM32.5001 89.0001L32.5002 89L44.0002 56L30.1382 89.1148C30.8669 89.1292 31.653 89.0942 32.5001 89.0001Z"
-                                    fill="#AD74AE" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M76.9062 26.3289L76.5 26.5L67.5 34.5L67.5442 34.8238L69.6241 37.1822C69.8068 37.3893 70.1227 37.4091 70.3298 37.2264L78.9991 29.5807C79.2062 29.398 79.226 29.082 79.0434 28.8749L76.9296 26.4782C76.922 26.4283 76.9142 26.3785 76.9062 26.3289ZM37.9464 34.8365L38.0002 34.5L28.5299 26.5249L26.4571 28.875C26.2744 29.0821 26.2942 29.398 26.5013 29.5806L35.1716 37.2264C35.3787 37.4091 35.6947 37.3893 35.8774 37.1822L37.9464 34.8365Z"
-                                    fill="#AD74AE" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M64.7022 40H40.7994C40.8601 41.2947 40.7725 42.6473 40.502 44H64.9996C64.7291 42.6473 64.6415 41.2947 64.7022 40Z"
-                                    fill="#AD74AE" />
-                            </svg>
 
-                            <div
-                                class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
-                                <p>Pakaian Wanita</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
-                            <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
+                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]" viewBox="0 0 105 111" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
+                                <rect width="104.765" height="110.893" rx="14" fill="#64798A" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M104.765 50.4658V96.893C104.765 104.625 98.4973 110.893 90.7653 110.893H66.0288L27 86.5L46.5 60.5L64 34L72.5 31L104.765 50.4658Z"
+                                    fill="#465765" />
                                 <path
-                                    d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
-                                    fill="black" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    {{-- line --}}
-                    <div class="w-full h-[1px] bg-[#DCDADA]"></div>
-
-                    {{-- Anak --}}
-                    <div onclick="showDetail()" class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
-                        <div class="flex gap-5">
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
-                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="104.765" height="110.893" rx="14" fill="#D5ECFE" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M52 27C54 26.8333 58.7 25.4 61.5 21C61.6667 20.6667 62.4 20.2 64 21C64.4579 21.2289 65.3088 21.5103 66.3908 21.868C70.0353 23.073 76.3013 25.1447 79 29L84.5 37.5V42.5L80 47C79.3333 47.5 77.6 48.3 76 47.5C74.4 46.7 72.3333 45.5 71.5 45C73.3333 52 76.2 69.7 73 84.5C72.6667 86.1667 71.4 89.5 69 89.5H61.5C61 89.1667 59.7 87.7 58.5 84.5L56 77.5C56 77 55.6 76 54.0001 76L54 76.0004H49.5C47.9 76.0004 47.5 77.0003 47.5 77.5003L45 84.5001C43.8 87.7001 42.5 89.1667 42 89.5H34.5C32.1 89.5 30.8333 86.1668 30.5 84.5001C27.3 69.7005 30.1667 52.001 32 45.0011C31.1667 45.5011 29.1 46.7011 27.5 47.5011C25.9 48.301 24.1667 47.5011 23.5 47.0011L19 42.5012V37.5013L24.5 29.0015C27.1987 25.1463 33.4648 23.0746 37.1092 21.8697C38.1912 21.512 39.0421 21.2306 39.5 21.0017C41.1 20.2017 41.8333 20.6684 42 21.0017C44.8 25.4016 49.5 26.8349 51.5 27.0016L51.7406 27.0216L52 27Z"
-                                    fill="#80C9FF" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M66.7201 21.977C64.2787 27.8701 58.6069 32 51.9999 32C45.339 32 39.6288 27.8026 37.2207 21.8328C38.2496 21.4925 39.0579 21.2227 39.4999 21.0017C41.0999 20.2017 41.8332 20.6684 41.9999 21.0017C44.7999 25.4016 49.4999 26.8349 51.4999 27.0016L51.7405 27.0216L51.9999 27C53.9999 26.8333 58.6999 25.4 61.4999 21C61.6665 20.6667 62.3999 20.2 63.9999 21C64.4577 21.2289 65.3087 21.5103 66.3907 21.868C66.4982 21.9036 66.6081 21.9399 66.7201 21.977Z"
-                                    fill="#6DAAD9" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M29.7887 46.2782C29.0346 46.7 28.22 47.141 27.5 47.501C25.9 48.301 24.1667 47.501 23.5 47.0011L19 42.5012V37.5013L19.9806 35.9859C19.987 35.9906 19.9935 35.9953 19.9999 36L29.7887 46.2782ZM83.5201 35.9856L84.5 37.5V42.5L80 47C79.3333 47.5 77.6 48.3 76 47.5C75.3827 47.1914 74.696 46.8232 74.0374 46.4586L83.5 36L83.5201 35.9856Z"
-                                    fill="#6DAAD9" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M73.1057 84L58.3216 84L58.5001 84.5C59.7001 87.7 61.0001 89.1667 61.5001 89.5H69.0001C71.4001 89.5 72.6668 86.1667 73.0001 84.5C73.0361 84.3337 73.0713 84.167 73.1057 84ZM45.1788 84L45.0001 84.5001C43.8001 87.7 42.5001 89.1667 42.0001 89.5H34.5001C32.1001 89.5 30.8335 86.1667 30.5001 84.5001C30.4642 84.3338 30.429 84.1671 30.3945 84L45.1788 84Z"
-                                    fill="#6DAAD9" />
-                                <circle cx="60.5" cy="44.5" r="4.5" fill="#D98F2D" />
-                                <circle cx="43.5" cy="44.5" r="4.5" fill="#D98F2D" />
-                                <ellipse cx="52" cy="51" rx="11" ry="10" fill="#FFB641" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M50.5 50C50.5 49.6667 50.6 49 51 49H53C53.4 49 53.5 49.6667 53.5 50C53.5 50.8 52.5 51 52 51C51.5 51 50.5 50.8 50.5 50Z"
-                                    fill="#38484A" />
-                                <rect x="57" y="48" width="2" height="3" rx="1"
-                                    fill="#38484A" />
-                                <rect x="45" y="48" width="2" height="3" rx="1"
-                                    fill="#38484A" />
+                                    d="M54.1521 57.9646V31.0736H68.8132L74.044 32.9891V52.439L70.8024 64.8899L54.1521 57.9646Z"
+                                    fill="#00ACEA" />
+                                <path d="M59.3093 40.5775L54.1521 31.0736H72.9389L78.1698 40.5775H59.3093Z"
+                                    fill="#FF9A00" />
+                                <path d="M54.1521 57.9495V31H39.491L34.2602 32.9197V56.4175L37.5018 64.89L54.1521 57.9495Z"
+                                    fill="#7FC8F1" />
+                                <path d="M48.9949 40.5776L54.1521 31H35.3653L30.1344 40.5776H48.9949Z" fill="#FFB74F" />
                                 <path
-                                    d="M50 52C50.8 52.8 51.6667 53 52 53C52.5 53 53 52.5 54 52C55 51.5 55.5 52 55.5 53C55.5 54 53 55 52 55C51 55 49 54.5 48.5 53C48.1 51.8 49.3333 51.8333 50 52Z"
-                                    fill="#38484A" />
+                                    d="M72.9392 53.4706C68.7643 56.1966 60.3557 61.6484 60.1199 61.6484L31.0924 63.785L38.3124 77.7093H64.172L79.0541 67.0266L89.0001 50.7447C82.2221 46.2064 75.4686 50.671 72.9392 53.4706Z"
+                                    fill="#FFB74F" />
+                                <path
+                                    d="M29.9134 59.8064C28.8329 60.887 26.6423 63.1218 26.5244 63.4165L31.0185 65.332H62.1089C63.214 64.8408 65.4242 63.2249 65.4242 60.6905C65.4242 58.1561 63.214 57.0805 62.1089 56.8595H51.7945C49.378 53.5589 43.8623 53.1758 41.4065 53.3968C35.3947 53.4558 31.2395 57.6945 29.9134 59.8064Z"
+                                    fill="#FFDBA9" />
+                                <path d="M27.335 55.2388L14 62.4588L27.335 87.7289L40.8173 80.4352L27.335 55.2388Z"
+                                    fill="#FF9577" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M34.2402 68.1434L20.875 75.4869L27.335 87.7289L40.8174 80.4352L34.2402 68.1434Z"
+                                    fill="#FF633E" />
                             </svg>
 
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
-                                <p>Pakaian Anak</p>
+                                <p>Operasional</p>
                                 <p class="poppins-semibold">Rp. 760.000</p>
                             </div>
                         </div>
@@ -280,5 +235,5 @@
 @endsection
 
 @section('otherjs')
-    <script src="{{ asset('js/controllers/laporan_pemasukan.js') }}"></script>
+    <script src="{{ asset('js/controllers/laporan_pengeluaran.js') }}"></script>
 @endsection
