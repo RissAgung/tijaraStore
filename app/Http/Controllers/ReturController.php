@@ -41,9 +41,10 @@ class ReturController extends Controller
 
       if ($this->isKategori($request->filter)) {
         $skategori = $request->filter;
-        return barang::where('kategori', '=', $request->filter . '%')
+        return barang::where('kategori', '=', $request->filter)
           ->where('stok', '>', 0)
           ->paginate(10);
+        // dd($request->filter);
       }
 
       $ssearch = '';
