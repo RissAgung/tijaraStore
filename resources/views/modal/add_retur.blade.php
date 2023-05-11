@@ -6,7 +6,7 @@
 {{-- TODO: INI KONTEN MODAL --}}
 <form id="form_retur" action="retur/add" method="post">
     @csrf
-    <div id="konten_modal"
+    <div id="konten_modal_add_retur"
         class="fixed w-[95%] md:w-[500px] lg:h-[95%] 2xl:h-[85%] flex flex-col justify-between p-4 min-[374px]:p-5 md:p-7 z-[101] left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg scale-0 transition ease-linear duration-200 bg-white">
 
         {{-- top --}}
@@ -97,10 +97,9 @@
             {{-- Jumlah Uang Kembali --}}
             <div class="block mt-2 min-[374px]:mt-4">
                 <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">Jumlah Uang Kembali</p>
-                <input type="text" name="uang_kembali" id="jumlah_uang" value="{{ old('uang_kembali') }}"
-                    @error('uang_kembali')
-                  autofocus
-                @enderror
+                <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                    name="uang_kembali" id="jumlah_uang" value="{{ old('uang_kembali') }}" @error('uang_kembali')
+                    autofocus @enderror
                     class="text-[#535353] outline-none w-full h-10 min-[374px]:h-11 md:h-14 border-[2px] border-[#DDDDDD] rounded-md pl-2">
                 {{-- @error('uang_kembali')
                     <div class="flex w-full justify-end pr-3">
@@ -114,7 +113,7 @@
         {{-- bottom --}}
         <div
             class="w-full h-10 min-[374px]:h-11 md:h-14 lg:text-[16px] md:text-[15px] text-[12px] poppins-semibold mt-5 min-[374px]:mt-9">
-            <button type="submit"
+            <button onclick="submitRetur()" type="button"
                 class="w-full h-full rounded-md bg-[#FFB015] hover:bg-[#ce8900] transition ease-in-out">Tambah
                 Data</button>
         </div>

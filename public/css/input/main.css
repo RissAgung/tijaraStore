@@ -92,6 +92,19 @@ body {
   background: #FFA900;
 }
 
+/* active */
+.menu-active1 svg {
+  fill: #FFA900;
+}
+
+.menu-active1 p {
+  color: #FFA900;
+}
+
+.menu-active2 {
+  background: #FFA900;
+}
+
 /* laporan pemasukan */
 
 #menu_pemasukan1:hover div{

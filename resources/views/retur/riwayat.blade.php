@@ -1,11 +1,16 @@
 @extends('layout.main')
 
-@section('modal')
-    @include('modal.riwayat_retur')
-@endsection
-
 @section('title')
     Riwayat Retur
+@endsection
+
+@section('othercss')
+    <link rel="stylesheet" href="{{ asset('css/DatePicker.css') }}">
+@endsection
+
+@section('modal')
+    @include('modal.riwayat_retur')
+    @include('modal.filterDate.filter')
 @endsection
 
 @section('content')
@@ -35,13 +40,13 @@
                 {{-- dropdown --}}
                 <div
                     class="text-selector-none flex flex-row md:items-end gap-2 min-[360px]:gap-3 md:gap-5 poppins-medium text-[#2c2c2c] py-2 md:p-0 w-full rounded-sm min-[360px]:rounded-[5px] top-8 min-[360px]:top-10 h-full">
-                    <a id="menu_pemasukan1" href="/retur"
+                    <a id="menu_pemasukan1" href="{{ route('retur') }}"
                         class="relative hover:text-[#ff9215] flex items-center h-full">
                         <p>Retur</p>
                         <div class="absolute bottom-0 w-full h-1 md:h-[6px]">
                         </div>
                     </a>
-                    <a id="menu_pemasukan2" href="/riwayatRetur"
+                    <a id="menu_pemasukan2" href="{{ route('riwayatRetur') }}"
                         class="text-[#ff9215] relative transition ease-in-out flex items-center h-full">
                         <p>Riwayat Retur</p>
                         <div class="absolute bottom-0 w-full h-1 md:h-[6px] transition ease-in-out bg-[#FFB015]">
@@ -64,19 +69,23 @@
                             fill="white" stroke="black" stroke-width="3" />
                         <path d="M17.3374 17.7676L23.0022 24.1676" stroke="black" stroke-width="3" />
                     </svg>
-                    <input type="search" id="field_search" name="search"
-                        class="placeholder:text-[11px] md:placeholder:text-[15px] outline-none w-[80%]"
-                        placeholder="Kode / Nama Barang" value="{{ $search }}">
+                    <form action="/riwayatRetur/{{ $dataUrl['date'] }}" method="GET" id="form_search">
+                        <input type="search" id="field_search" name="search"
+                            class="placeholder:text-[11px] md:placeholder:text-[15px] outline-none w-[80%]"
+                            placeholder="Kode / Nama Barang" value="{{ $dataUrl['search'] }}">
+                    </form>
                 </div>
 
                 {{-- filter --}}
                 <div class="flex h-full items-center gap-2">
 
                     {{-- btn filter --}}
-                    <svg class="cursor-pointer h-[33px] md:h-[43px] mt-[1px]" viewBox="0 0 145 58" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg onclick="showModalFilter()" class="cursor-pointer h-[33px] md:h-[43px] mt-[1px]"
+                        viewBox="0 0 145 58" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_668_2)">
-                            <rect x="2" y="2" class="fill-[#FFB015] hover:fill-[#f1a100] transition ease-in-out" width="133" height="46" rx="6" />
+                            <rect x="2" y="2"
+                                class="fill-[#FFB015] hover:fill-[#f1a100] transition ease-in-out" width="133"
+                                height="46" rx="6" />
                         </g>
                         <path
                             d="M94.6933 21.8097L94.6935 21.8098L100.396 27.9414V32.2791C100.396 32.425 100.431 32.5686 100.499 32.6985C100.567 32.8283 100.665 32.9406 100.786 33.0268L104.059 35.3738C104.227 35.4939 104.43 35.5583 104.638 35.5583C104.892 35.5583 105.138 35.4617 105.32 35.2876C105.502 35.1134 105.606 34.8755 105.606 34.626V27.9414L111.306 21.8106L111.306 21.8105C111.734 21.3496 112.014 20.7797 112.111 20.1689C112.209 19.5581 112.12 18.9335 111.856 18.3704C111.591 17.8074 111.163 17.3303 110.623 16.9959C110.083 16.6615 109.454 16.4835 108.812 16.4828H108.812L97.1899 16.4828L97.1898 16.4828C96.5476 16.4832 95.9186 16.6608 95.3785 16.995C94.8383 17.3293 94.4096 17.8061 94.1449 18.3691C93.8801 18.9321 93.7909 19.5568 93.8884 20.1677C93.9859 20.7785 94.2658 21.3486 94.6933 21.8097ZM103.669 27.5851V27.5852V32.7693L102.332 31.8109V27.5852C102.332 27.5852 102.332 27.5852 102.332 27.5852C102.332 27.355 102.244 27.134 102.086 26.9637L102.086 26.9636L96.1371 20.5662C96.137 20.5661 96.137 20.5661 96.1369 20.566C95.9586 20.3731 95.843 20.1358 95.8029 19.8831C95.7629 19.6302 95.7998 19.3716 95.9099 19.1378C96.02 18.9039 96.1988 18.7044 96.4259 18.5638C96.653 18.4232 96.9183 18.3478 97.1901 18.3474C97.1901 18.3474 97.1901 18.3474 97.1901 18.3474L108.812 18.3474C109.084 18.3477 109.349 18.423 109.576 18.5637C109.804 18.7043 109.983 18.904 110.093 19.1379L110.228 19.0741L110.093 19.1379C110.203 19.3718 110.24 19.6307 110.199 19.8836C110.159 20.1365 110.043 20.3737 109.865 20.5667C109.865 20.5667 109.865 20.5668 109.865 20.5669L103.917 26.9635C103.917 26.9635 103.917 26.9636 103.917 26.9636C103.758 27.1338 103.67 27.3548 103.669 27.5851Z"
@@ -118,71 +127,6 @@
             @if (count($dataRetur->items()) != 0)
                 {{-- table --}}
                 <div class="w-full overflow-auto whitespace-nowrap text-ellipsis mt-3 md:mt-6 lg:mt-3">
-                    {{-- <table
-                        class="w-full text-[11px] md:text-[15px] border-separate border-spacing-y-2 md:border-spacing-4 lg:border-spacing-2 2xl:border-spacing-3">
-
-                        <tr class="w-full">
-                            <td class="w-[30%] inline-block text-center text-[#787777]">Kode Retur</td>
-                            <td class="w-[25%] inline-block text-center text-[#787777]">Tgl</td>
-                            <td class="w-[16%] inline-block text-center text-[#787777]">Barang</td>
-                            <td class="w-[6%] inline-block text-center text-[#787777]">Jumlah</td>
-                            <td class="w-[14%] inline-block text-center text-[#787777]">Supplier</td>
-                            <td class="w-[9%] inline-block text-center text-[#787777]">Detail</td>
-                        </tr>
-
-                        @foreach ($dataRetur as $data)
-                            <tr class="w-full text-center bg-white outline outline-[1px] outline-[#DCDADA] rounded-md">
-                                <td
-                                    class="w-[30%] p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center inline-block whitespace-nowrap text-ellipsis overflow-hidden">
-                                    {{ $data->kode_retur }}</td>
-                                <td
-                                    class="w-[25%] p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center inline-block overflow-hidden">
-                                    {{ $data->tanggal }}</td>
-                                <td
-                                    class="w-[16%] p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center inline-block overflow-hidden">
-                                    {{ $data->nama_br }}</td>
-                                <td
-                                    class="w-[6%] p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center inline-block overflow-hidden">
-                                    {{ $data->QTY }}</td>
-                                <td
-                                    class="w-[14%] p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center inline-block overflow-hidden whitespace-nowrap text-ellipsis">
-                                    {{ $data->nama_sp }}</td>
-                                <td
-                                    class="w-[9%] p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center inline-block overflow-hidden">
-
-                                    <svg class="cursor-pointer w-[30px] h-[30px] md:w-[50px] md:h-[50px] lg:w-[40px] lg:h-[40px] m-auto"
-                                        viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g filter="url(#filter0_d_653_130)">
-                                            <rect x="2" y="4" width="46" height="46" rx="6"
-                                                fill="#FFB015" />
-                                        </g>
-                                        <path
-                                            d="M28.875 24.75C25.4975 24.75 22.75 27.4975 22.75 30.875C22.75 34.2525 25.4975 37 28.875 37C32.2525 37 35 34.2525 35 30.875C35 27.4975 32.2525 24.75 28.875 24.75ZM28.875 35.25C26.46 35.25 24.5 33.29 24.5 30.875C24.5 28.46 26.46 26.5 28.875 26.5C31.29 26.5 33.25 28.46 33.25 30.875C33.25 33.29 31.29 35.25 28.875 35.25ZM30.1875 28.6875C30.1875 29.4137 29.6012 30 28.875 30C28.1488 30 27.5625 29.4137 27.5625 28.6875C27.5625 27.9613 28.1488 27.375 28.875 27.375C29.6012 27.375 30.1875 27.9613 30.1875 28.6875ZM29.75 31.75V33.5C29.75 33.9813 29.3562 34.375 28.875 34.375C28.3938 34.375 28 33.9813 28 33.5V31.75C28 31.2688 28.3938 30.875 28.875 30.875C29.3562 30.875 29.75 31.2688 29.75 31.75ZM21.875 34.375C21.875 34.8563 21.4812 35.25 21 35.25H18.375C15.96 35.25 14 33.29 14 30.875V20.375C14 17.96 15.96 16 18.375 16H23.415C24.3337 16 25.235 16.3762 25.8913 17.0237L28.7262 19.8587C29.3125 20.445 29.6712 21.2237 29.7413 22.0462C29.7762 22.5275 29.4175 22.9475 28.9362 22.9913C28.91 22.9913 28.8925 22.9913 28.8663 22.9913C28.4113 22.9913 28.035 22.6413 27.9913 22.1863C27.9913 22.16 27.9913 22.1425 27.9913 22.1163H25.3837C24.4213 22.1163 23.6337 21.3287 23.6337 20.3663V17.7675C23.5638 17.7675 23.4938 17.75 23.4237 17.75H18.375C16.9313 17.75 15.75 18.9313 15.75 20.375V30.875C15.75 32.3188 16.9313 33.5 18.375 33.5H21C21.4812 33.5 21.875 33.8937 21.875 34.375Z"
-                                            fill="black" />
-                                        <defs>
-                                            <filter id="filter0_d_653_130" x="0" y="0" width="54"
-                                                height="54" filterUnits="userSpaceOnUse"
-                                                color-interpolation-filters="sRGB">
-                                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                                <feColorMatrix in="SourceAlpha" type="matrix"
-                                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                                <feOffset dx="2" />
-                                                <feGaussianBlur stdDeviation="2" />
-                                                <feComposite in2="hardAlpha" operator="out" />
-                                                <feColorMatrix type="matrix"
-                                                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0" />
-                                                <feBlend mode="normal" in2="BackgroundImageFix"
-                                                    result="effect1_dropShadow_653_130" />
-                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_653_130"
-                                                    result="shape" />
-                                            </filter>
-                                        </defs>
-                                    </svg>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table> --}}
-
                     <table class=" w-full border-separate border-spacing-y-4 text-[11px] md:text-[15px] px-2">
                         <thead>
                             <tr>
@@ -205,7 +149,8 @@
                                         <td class="text-center p-3">{{ $item->QTY }}</td>
                                         <td class="text-center p-3">{{ $item->nama_sp }}</td>
                                         <td class="text-center p-3">
-                                            <svg onclick="showModal({{ $item }})" class="cursor-pointer w-[30px] h-[30px] md:w-[50px] md:h-[50px] lg:w-[40px] lg:h-[40px] m-auto"
+                                            <svg onclick="showModal({{ $item }})"
+                                                class="cursor-pointer w-[30px] h-[30px] md:w-[50px] md:h-[50px] lg:w-[40px] lg:h-[40px] m-auto"
                                                 viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g filter="url(#filter0_d_653_130)">
                                                     <rect x="2" y="4" width="46" height="46"
@@ -266,7 +211,10 @@
 @endsection
 
 @section('otherjs')
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/DatePicker.js') }}"></script>
     <script src="{{ asset('js/controllers/riwayat_retur.js') }}"></script>
+    @include('modal.filterDate.controller')
     {{-- @if ($errors->any())
         <script>
             showModal("{{ old('nama_produk') }}")
