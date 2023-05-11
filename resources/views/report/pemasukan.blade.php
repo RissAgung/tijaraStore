@@ -33,21 +33,21 @@
             {{-- dropdown --}}
             <div id="menuDropDown"
                 class=" max-md:shadow-md text-selector-none flex flex-col md:flex-row md:items-end max-md:hidden max-md:absolute gap-2 min-[360px]:gap-3 md:gap-5 poppins-medium text-[#2c2c2c] p-2 min-[360px]:p-3 md:p-0 w-24 min-[360px]:w-32 md:w-auto rounded-sm min-[360px]:rounded-[5px] bg-white top-8 min-[360px]:top-10 max-md:border-[1px] max-md:border-[#DCDADA] md:h-full">
-                <a id="menu_pemasukan1" href="pemasukan"
+                <a id="menu_pemasukan1" href="{{ route('pemasukan') }}"
                     class="text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
                     <p>Pemasukan</p>
                     <div class="max-md:hidden absolute bottom-0 w-full h-[6px] bg-[#FFB015]">
                     </div>
                 </a>
-                <a id="menu_pemasukan2" href="pengeluaran"
+                <a id="menu_pemasukan2" href="{{ route('pengeluaran') }}"
                     class="hover:text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
                     <p>Pengeluaran</p>
                     <div class="max-md:hidden absolute bottom-0 w-full h-[6px] transition ease-in-out">
                     </div>
                 </a>
-                <a id="menu_pemasukan3" href="#"
+                <a id="menu_pemasukan3" href="{{ route('akumulasi') }}"
                     class="hover:text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
-                    <p>Retur</p>
+                    <p>Akumulasi</p>
                     <div class="max-md:hidden absolute bottom-0 w-full h-[6px] transition ease-in-out">
                     </div>
                 </a>

@@ -3,8 +3,8 @@ function showModal(data) {
   $("#bg_modal").addClass("opacity-50");
   $("#bg_modal").removeClass("opacity-0");
 
-  $("#konten_modal").removeClass("scale-0");
-  $("#konten_modal").addClass("scale-100");
+  $("#konten_modal_detail_riwayat").removeClass("scale-0");
+  $("#konten_modal_detail_riwayat").addClass("scale-100");
 
   $('#nama_br').html(data.nama_br);
   $('#jumlah_produk').html(data.QTY);
@@ -22,6 +22,24 @@ function showModal(data) {
 
 }
 
+function closeModalDetail() {
+  $("#bg_modal").addClass("pointer-events-none");
+  $("#bg_modal").removeClass("opacity-50");
+  $("#bg_modal").addClass("opacity-0");
+
+  $("#konten_modal_detail_riwayat").removeClass("scale-100");
+  $("#konten_modal_detail_riwayat").addClass("scale-0");
+}
+
+function showModalFilter() {
+  $("#bg_modal").removeClass("pointer-events-none");
+  $("#bg_modal").addClass("opacity-50");
+  $("#bg_modal").removeClass("opacity-0");
+
+  $("#konten_modal").addClass("scale-100");
+  $("#konten_modal").removeClass("scale-0");
+}
+
 function closeModal() {
   $("#bg_modal").addClass("pointer-events-none");
   $("#bg_modal").removeClass("opacity-50");
@@ -29,6 +47,7 @@ function closeModal() {
 
   $("#konten_modal").removeClass("scale-100");
   $("#konten_modal").addClass("scale-0");
+
 }
 
 let getValueSearch = () => { return $('#field_search').val() }
@@ -39,6 +58,19 @@ function resetFilter() {
 
 $(document).keyup(function (event) {
   if ($('#field_search').is(":focus") && event.key == "Enter") {
-    location.replace("/riwayatRetur/" + getValueSearch())
+    $('form_search').trigger('submit');
   }
 });
+
+$(document).ready(function () {
+  $('#btn_submit_filter').click(function () {
+
+    if (getDataFilter() !== false) {
+      let params = new URLSearchParams(window.location.search).get("search")
+      let param = params !== null ? "/?search=" + params : "";
+      location.replace("/riwayatRetur/" + getDataFilter() + param)
+    }
+    // getDataFilter()
+  });
+});
+

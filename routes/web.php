@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Akumulasi;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
@@ -46,12 +47,19 @@ Route::post("/logout", [LoginController::class, 'logout']);
 // Route::post("/register", [LoginController::class, 'registerhahai'])->middleware('guest');
 
 Route::prefix("laporan")->group(function () {
+  Route::get("/", function () {
+    return view("report.pemasukan");
+  })->name("pemasukan")->middleware('auth');
   Route::get("/pemasukan", function () {
     return view("report.pemasukan");
-  })->middleware('auth');
+  })->name("pemasukan")->middleware('auth');
   Route::get("/pengeluaran", function () {
     return view("report.pengeluaran");
-  })->middleware('auth');
+  })->name("pengeluaran")->middleware('auth');
+  Route::get("/akumulasi", function () {
+    return view("report.akumulasi");
+  })->name("akumulasi")->middleware('auth');
+  Route::get("/getAkumulasi", [Akumulasi::class, "getPemasukan"])->name("getAkumulasi")->middleware('auth');
 });
 
 Route::prefix("retur")->group(function () {
@@ -60,7 +68,7 @@ Route::prefix("retur")->group(function () {
 });
 
 Route::prefix("riwayatRetur")->group(function () {
-  Route::get("/{search?}", [RiwayatRetur::class, "index"]);
+  Route::get("/{date?}", [RiwayatRetur::class, "index"])->name('riwayatRetur')->middleware('auth');
 });
 
 Route::get("/landing", function () {
@@ -69,7 +77,7 @@ Route::get("/landing", function () {
 
 Route::get('/riwayat', function () {
   return view('riwayat.riwayat');
-});
+})->name('riwayatTr');
 
 Route::get('/diskon', [DiscountController::class, 'index']);
 

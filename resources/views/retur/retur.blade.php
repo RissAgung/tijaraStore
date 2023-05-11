@@ -35,13 +35,13 @@
                 {{-- dropdown --}}
                 <div
                     class="text-selector-none flex flex-row md:items-end gap-2 min-[360px]:gap-3 md:gap-5 poppins-medium text-[#2c2c2c] py-2 md:p-0 w-full rounded-sm min-[360px]:rounded-[5px] top-8 min-[360px]:top-10 h-full">
-                    <a id="menu_pemasukan1" href="/retur"
+                    <a id="menu_pemasukan1" href="{{ route('retur') }}"
                         class="text-[#ff9215] relative transition ease-in-out flex items-center h-full">
                         <p>Retur</p>
                         <div class="absolute bottom-0 w-full h-1 md:h-[6px] bg-[#FFB015]">
                         </div>
                     </a>
-                    <a id="menu_pemasukan2" href="/riwayatRetur"
+                    <a id="menu_pemasukan2" href="{{ route('riwayatRetur') }}"
                         class="hover:text-[#ff9215] relative transition ease-in-out flex items-center h-full">
                         <p>Riwayat Retur</p>
                         <div class="absolute bottom-0 w-full h-1 md:h-[6px] transition ease-in-out">
@@ -74,7 +74,7 @@
                     <div class="flex gap-2">
                         <p class="poppins-medium py-1 bg-white">Kategori</p>
                         <form action="/retur/{{ $dataUrl['search'] }}" id="filter_kategori" method="GET">
-                            <select name="filter" onclick="submitFilter()"
+                            <select name="filter" id="filter_gender"
                                 class="appearance-none py-[1px] px-2 bg-white border-[1px] border-[#A7A5A5] outline-none rounded-sm">
                                 <option disabled selected value>All</option>
                                 <option class="md:text-[15px]" {{ $dataUrl['kategori'] === 'pria' ? 'selected' : '' }}
