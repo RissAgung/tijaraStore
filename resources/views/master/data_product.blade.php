@@ -4,6 +4,14 @@
     Master Data Product
 @endsection
 
+@section('produk')
+    bg-[#FFF6E3] text-primary hover:bg-[#FFF6E3]
+@endsection
+
+@section('sidebar_master')
+    menu
+@endsection
+
 @section('modal')
     @include('modal.add_product')
     @include('modal.update_product')

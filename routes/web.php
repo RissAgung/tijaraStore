@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -75,9 +76,7 @@ Route::get("/landing", function () {
   return view("layout.landing_main");
 });
 
-Route::get('/riwayat', function () {
-  return view('riwayat.riwayat');
-})->name('riwayatTr');
+Route::get('/riwayat', [TransaksiController::class, 'index']);
 
 Route::get('/diskon', [DiscountController::class, 'index']);
 

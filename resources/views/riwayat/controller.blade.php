@@ -1,4 +1,21 @@
 <script>
+    /* Fungsi */
+    function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+            split = number_string.split(","),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            separator = sisa ? "." : "";
+            rupiah += separator + ribuan.join(".");
+        }
+
+        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+    }
+
     function showModal() {
         $("#bg_modal").removeClass("pointer-events-none");
         $("#bg_modal").addClass("opacity-50");
@@ -78,7 +95,57 @@
 
     // Detail Transaksi
 
-    function showModalDetail() {
+    function showModalDetail(data) {
+        console.log(data);
+
+        $("#txt_notransaksi").html(data.kode_tr);
+        $("#txt_kasir").html(data.nama_kasir);
+        $("#txt_tanggal").html(data.tanggal);
+
+        $("#txt_jenis_pembayaran").html(data.jenis_pembayaran);
+
+
+        if (data.voucher == null) {
+            $("#txt_harga_final").html(formatRupiah(data.total.toString(), "Rp. "));
+            $("#txt_voucher").html("-");
+        } else {
+            $("#txt_harga_final").html(formatRupiah((data.total - data.voucher).toString(), "Rp. "));
+            $("#txt_voucher").html(formatRupiah(data.voucher.toString(), "Rp. "));
+        }
+
+        $("#txt_total").html(formatRupiah(data.total.toString(), "Rp. "));
+        $("#txt_bayar").html(formatRupiah(data.bayar.toString(), "Rp. "));
+        $("#txt_kembalian").html(formatRupiah(data.kembalian.toString(), "Rp. "));
+
+        var kontenHtml = '';
+        data.detail_transaksi.forEach(element => {
+            // console.log(element.detail_diskon_transaksi.free_product);
+            kontenHtml += "<tr>";
+            kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + element.barang.nama_br + '</td>';
+            kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element.barang.harga.toString(),
+                "Rp. ") + '</td>';
+
+            if (element.detail_diskon_transaksi == null) {
+                kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">-</td>';
+            } else {
+                if (element.detail_diskon_transaksi.free_product == null) {
+                    kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element
+                        .detail_diskon_transaksi.nominal.toString(), "Rp. ") + '</td>';
+                } else {
+                    kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">Beli ' + element
+                        .detail_diskon_transaksi.buy + ' Free ' + element.detail_diskon_transaksi.free +
+                        '</td>';
+                }
+            }
+            kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + element.QTY + '</td>';
+            kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element.subtotal.toString(),
+                "Rp. ") + '</td>';
+            kontenHtml += '</tr>';
+        });
+
+        $("#konten_detail_transaksi").html(kontenHtml);
+
+
         $("#bg_modal_detail").removeClass("pointer-events-none");
         $("#bg_modal_detail").addClass("opacity-50");
         $("#bg_modal_detail").removeClass("opacity-0");

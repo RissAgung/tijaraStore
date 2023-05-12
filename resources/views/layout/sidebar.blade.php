@@ -40,21 +40,39 @@
     <div class="flex flex-col gap-2 pl-8 lg:mt-0 overflow-y-auto md:scrollbar-hide h-full">
 
         {{-- master data --}}
-        <div class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
-
-            {{-- icon & title --}}
-            <div class="flex flex-row menu-hover1 items-center w-full">
-                <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out"
-                    viewBox="0 0 32 30" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M16.0333 2.59091C16.2193 2.68203 16.4231 2.72866 16.6293 2.72727H25.3333C27.1008 2.72944 28.7953 3.44848 30.045 4.72666C31.2948 6.00485 31.9979 7.73783 32 9.54545V23.1818C31.9979 24.9894 31.2948 26.7224 30.045 28.0006C28.7953 29.2788 27.1008 29.9978 25.3333 30H6.66667C4.89921 29.9978 3.20474 29.2788 1.95496 28.0006C0.705176 26.7224 0.00211714 24.9894 0 23.1818V6.81818C0.00211714 5.01055 0.705176 3.27758 1.95496 1.99939C3.20474 0.721203 4.89921 0.00216526 6.66667 0H10.0373C10.6579 0.000526829 11.2699 0.148016 11.8253 0.430909L16.0333 2.59091ZM10.6333 2.86364C10.4474 2.77251 10.2435 2.72588 10.0373 2.72727H6.66667C5.6058 2.72727 4.58839 3.15828 3.83824 3.92547C3.08809 4.69267 2.66667 5.73321 2.66667 6.81818V8.17364L29.0387 8.02091C28.7415 7.26415 28.23 6.61548 27.5697 6.1582C26.9095 5.70091 26.1307 5.45588 25.3333 5.45455H16.6293C16.0083 5.4519 15.3963 5.30207 14.8413 5.01682L10.6333 2.86364ZM3.83824 26.0745C4.58839 26.8417 5.6058 27.2727 6.66667 27.2727H25.3333C26.3942 27.2727 27.4116 26.8417 28.1618 26.0745C28.9119 25.3073 29.3333 24.2668 29.3333 23.1818V10.7468L2.66667 10.9009V23.1818C2.66667 24.2668 3.08809 25.3073 3.83824 26.0745Z" />
-                </svg>
-                <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">Master
-                    Data</p>
+        <div id="div_master" class="h-[48px] hover:h-[170px] flex flex-col w-full overflow-hidden duration-500 ease-in-out">
+            <div id="master_data" class="flex flex-row w-full justify-between h-[48px] cursor-pointer menu flex-none">
+    
+                {{-- icon & title --}}
+                <div class="flex flex-row menu-hover1 items-center  w-full">
+                    <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out"
+                        viewBox="0 0 32 30" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M16.0333 2.59091C16.2193 2.68203 16.4231 2.72866 16.6293 2.72727H25.3333C27.1008 2.72944 28.7953 3.44848 30.045 4.72666C31.2948 6.00485 31.9979 7.73783 32 9.54545V23.1818C31.9979 24.9894 31.2948 26.7224 30.045 28.0006C28.7953 29.2788 27.1008 29.9978 25.3333 30H6.66667C4.89921 29.9978 3.20474 29.2788 1.95496 28.0006C0.705176 26.7224 0.00211714 24.9894 0 23.1818V6.81818C0.00211714 5.01055 0.705176 3.27758 1.95496 1.99939C3.20474 0.721203 4.89921 0.00216526 6.66667 0H10.0373C10.6579 0.000526829 11.2699 0.148016 11.8253 0.430909L16.0333 2.59091ZM10.6333 2.86364C10.4474 2.77251 10.2435 2.72588 10.0373 2.72727H6.66667C5.6058 2.72727 4.58839 3.15828 3.83824 3.92547C3.08809 4.69267 2.66667 5.73321 2.66667 6.81818V8.17364L29.0387 8.02091C28.7415 7.26415 28.23 6.61548 27.5697 6.1582C26.9095 5.70091 26.1307 5.45588 25.3333 5.45455H16.6293C16.0083 5.4519 15.3963 5.30207 14.8413 5.01682L10.6333 2.86364ZM3.83824 26.0745C4.58839 26.8417 5.6058 27.2727 6.66667 27.2727H25.3333C26.3942 27.2727 27.4116 26.8417 28.1618 26.0745C28.9119 25.3073 29.3333 24.2668 29.3333 23.1818V10.7468L2.66667 10.9009V23.1818C2.66667 24.2668 3.08809 25.3073 3.83824 26.0745Z" />
+                    </svg>
+                    <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">Master
+                        Data</p>
+                </div>
+    
+                {{-- when focus --}}
+                <div class="w-2 h-full menu-hover2 transition ease-in-out"></div>
             </div>
-
-            {{-- when focus --}}
-            <div class="w-2 h-full menu-hover2 transition ease-in-out"></div>
+            <div class="flex flex-row w-full">
+                <div class="px-3">
+                    <div class="bg-primary w-[2px] h-full"></div>
+                </div>
+                <div class="flex w-full flex-col flex-grow px-2 pr-6 poppins-regular cursor-default">
+                    <div class="bg-[#FFF6E3] text-primary text-sm py-2 px-2 rounded-md w-full">
+                        <p>Produk</p>
+                    </div>
+                    <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-slate-50">
+                        <p>Pegawai</p>
+                    </div>
+                    <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-slate-50">
+                        <p>Supplier</p>
+                    </div>
+                </div>
+            </div>
         </div>
         {{-- end master data --}}
 
