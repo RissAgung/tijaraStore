@@ -39,7 +39,7 @@ class TransaksiController extends Controller
                 // set range date for between sql
                 $start_date = Carbon::parse((string)$data->data)->startOfWeek();
                 $end_date = Carbon::parse((string)$data->data)->endOfWeek();
-    
+
                 $data = transaksi::with('detail_transaksi.detail_diskon_transaksi')
                     ->with('detail_transaksi.barang')
                     ->whereBetween('tanggal', [$start_date, $end_date])
@@ -49,7 +49,7 @@ class TransaksiController extends Controller
                 // set tahun & bulan
                 $tahun = $data->data->tahun;
                 $bulan = $data->data->bulan;
-    
+
                 $data = transaksi::with('detail_transaksi.detail_diskon_transaksi')
                     ->with('detail_transaksi.barang')
                     ->whereMonth('tanggal', '=', $bulan)
@@ -59,7 +59,7 @@ class TransaksiController extends Controller
             } else if ($data->type === 'tahunan') {
                 // set tahun
                 $tahun = $data->data->tahun;
-    
+
                 $data = transaksi::with('detail_transaksi.detail_diskon_transaksi')
                     ->with('detail_transaksi.barang')
                     ->whereYear('tanggal', '=', $tahun)
@@ -68,20 +68,18 @@ class TransaksiController extends Controller
             } else if ($data->type === 'range') {
                 $date_awal = $data->data->awal;
                 $date_akhir = $data->data->akhir;
-    
+
                 $data = transaksi::with('detail_transaksi.detail_diskon_transaksi')
                     ->with('detail_transaksi.barang')
                     ->whereBetween('tanggal', [$date_awal, $date_akhir])
                     ->orderBy('tanggal', 'desc')
                     ->paginate(6);
             }
-    
+
             return view('riwayat.riwayat', compact('data'));
         } catch (\Throwable $th) {
             return redirect('/riwayat');
         }
-
-        
     }
 
     public function search($data = null)
@@ -101,10 +99,8 @@ class TransaksiController extends Controller
 
     public function export(Request $request)
     {
-        if ($request->kategori != '') {
-            return $request->kategori;
+        if ($request->segment(3) != '') {
+            return Excel::download(new RiwayatExport($request), 'riwayat.xlsx');
         }
-
-        return Excel::download(new RiwayatExport($request->kategori), 'riwayat.xlsx');
     }
 }

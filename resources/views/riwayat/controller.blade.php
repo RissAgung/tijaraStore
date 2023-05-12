@@ -263,4 +263,14 @@
             location.replace('/riwayat/filter/' + getDataFilter());
         }
     });
+
+    const showAlert = (msg) => {
+        Swal.fire({
+            title: "Informasi",
+            text: msg,
+            icon: "warning",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ya",
+        });
+    }
 </script>

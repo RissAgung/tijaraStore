@@ -79,7 +79,7 @@ Route::get("/landing", function () {
 Route::get('/riwayat', [TransaksiController::class, 'index']);
 Route::get('/riwayat/filter/{data?}', [TransaksiController::class, 'filter']);
 Route::get('/riwayat/search/{data?}', [TransaksiController::class, 'search']);
-Route::get('/riwayat/export', [TransaksiController::class, 'export']);
+Route::get('/riwayat/export/{kategori?}/{data?}', [TransaksiController::class, 'export']);
 
 Route::get('/diskon', [DiscountController::class, 'index']);
 
