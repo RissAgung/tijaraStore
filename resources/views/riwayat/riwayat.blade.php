@@ -27,10 +27,9 @@
                 </div>
 
 
-                <form action="/riwayat/search" method="GET">
-                    <input name="keyword" class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                        placeholder="Masukkan nama atau kode barang">
-                </form>
+                <input id="keyword" class=" py-2 px-2 w-full flex-grow outline-none" type="text"
+                    placeholder="Masukkan nama atau kode barang">
+
             </div>
 
             <div class=" flex flex-row justify-center">
@@ -91,65 +90,76 @@
     </div>
 
     <div class="h-[75vh] flex flex-col px-6 py-4 overflow-y-auto">
-        <div class="h-full w-full overflow-x-auto">
-            <table class=" w-full border-separate border-spacing-y-4">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" name="" class="" id="checkAll"></th>
-                        <th class="tracking-wide text-start pl-3 text-sm poppins-regular">No Transaksi</th>
-                        <th class="tracking-wide text-center text-sm poppins-regular">Kasir</th>
-                        <th class="tracking-wide text-center text-sm poppins-regular">Tanggal</th>
-                        <th class="tracking-wide text-center text-sm poppins-regular">Total</th>
-                        <th class="tracking-wide text-center text-sm poppins-regular">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <form id="form_delete" action="#" method="post">
-                        @csrf
-                        @foreach ($data as $item)
-                            <tr class="bg-white border-2 ">
-                                <td class="tracking-wide text-center p-3">
-                                    <div class="flex flex-row justify-center gap-4">
-                                        <input class="mt-2 idcheck" type="checkbox" name="ids[]" id=""
-                                            value="">
+        @if (count($data->items()) != 0)
+            <div class="h-full w-full overflow-x-auto">
+                <table class=" w-full border-separate border-spacing-y-4">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" name="" class="" id="checkAll"></th>
+                            <th class="tracking-wide text-start pl-3 text-sm poppins-regular">No Transaksi</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Kasir</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Tanggal</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Total</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form id="form_delete" action="#" method="post">
+                            @csrf
+                            @foreach ($data as $item)
+                                <tr class="bg-white border-2 ">
+                                    <td class="tracking-wide text-center p-3">
+                                        <div class="flex flex-row justify-center gap-4">
+                                            <input class="mt-2 idcheck" type="checkbox" name="ids[]" id=""
+                                                value="">
 
-                                </td>
+                                    </td>
 
-                                <td class="tracking-wide text-start p-3">{{ $item->kode_tr }}</td>
-                                <td class="tracking-wide text-center p-3">{{ $item->nama_kasir }}</td>
-                                <td class="tracking-wide text-center p-3">{{ $item->tanggal }}</td>
-                                <td class="tracking-wide text-center p-3">@money($item->total)</td>
-                                <td class="tracking-wide text-center p-3">
-                                    <div class="flex flex-row gap-2 justify-center">
-                                        <div onclick="showModalDetail({{ $item }})"
-                                            class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
+                                    <td class="tracking-wide text-start p-3">{{ $item->kode_tr }}</td>
+                                    <td class="tracking-wide text-center p-3">{{ $item->nama_kasir }}</td>
+                                    <td class="tracking-wide text-center p-3">{{ $item->tanggal }}</td>
+                                    <td class="tracking-wide text-center p-3">@money($item->total)</td>
+                                    <td class="tracking-wide text-center p-3">
+                                        <div class="flex flex-row gap-2 justify-center">
+                                            <div onclick="showModalDetail({{ $item }})"
+                                                class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
 
-                                            <svg width="16" height="16" viewBox="0 0 21 21" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M14.875 8.75C11.4975 8.75 8.75 11.4975 8.75 14.875C8.75 18.2525 11.4975 21 14.875 21C18.2525 21 21 18.2525 21 14.875C21 11.4975 18.2525 8.75 14.875 8.75ZM14.875 19.25C12.46 19.25 10.5 17.29 10.5 14.875C10.5 12.46 12.46 10.5 14.875 10.5C17.29 10.5 19.25 12.46 19.25 14.875C19.25 17.29 17.29 19.25 14.875 19.25ZM16.1875 12.6875C16.1875 13.4137 15.6012 14 14.875 14C14.1488 14 13.5625 13.4137 13.5625 12.6875C13.5625 11.9613 14.1488 11.375 14.875 11.375C15.6012 11.375 16.1875 11.9613 16.1875 12.6875ZM15.75 15.75V17.5C15.75 17.9813 15.3562 18.375 14.875 18.375C14.3938 18.375 14 17.9813 14 17.5V15.75C14 15.2688 14.3938 14.875 14.875 14.875C15.3562 14.875 15.75 15.2688 15.75 15.75ZM7.875 18.375C7.875 18.8563 7.48125 19.25 7 19.25H4.375C1.96 19.25 0 17.29 0 14.875V4.375C0 1.96 1.96 0 4.375 0H9.415C10.3337 0 11.235 0.37625 11.8913 1.02375L14.7262 3.85875C15.3125 4.445 15.6712 5.22375 15.7413 6.04625C15.7762 6.5275 15.4175 6.9475 14.9362 6.99125C14.91 6.99125 14.8925 6.99125 14.8663 6.99125C14.4113 6.99125 14.035 6.64125 13.9913 6.18625C13.9913 6.16 13.9913 6.1425 13.9913 6.11625H11.3837C10.4213 6.11625 9.63375 5.32875 9.63375 4.36625V1.7675C9.56375 1.7675 9.49375 1.75 9.42375 1.75H4.375C2.93125 1.75 1.75 2.93125 1.75 4.375V14.875C1.75 16.3188 2.93125 17.5 4.375 17.5H7C7.48125 17.5 7.875 17.8937 7.875 18.375Z"
-                                                    fill="black" />
-                                            </svg>
+                                                <svg width="16" height="16" viewBox="0 0 21 21" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M14.875 8.75C11.4975 8.75 8.75 11.4975 8.75 14.875C8.75 18.2525 11.4975 21 14.875 21C18.2525 21 21 18.2525 21 14.875C21 11.4975 18.2525 8.75 14.875 8.75ZM14.875 19.25C12.46 19.25 10.5 17.29 10.5 14.875C10.5 12.46 12.46 10.5 14.875 10.5C17.29 10.5 19.25 12.46 19.25 14.875C19.25 17.29 17.29 19.25 14.875 19.25ZM16.1875 12.6875C16.1875 13.4137 15.6012 14 14.875 14C14.1488 14 13.5625 13.4137 13.5625 12.6875C13.5625 11.9613 14.1488 11.375 14.875 11.375C15.6012 11.375 16.1875 11.9613 16.1875 12.6875ZM15.75 15.75V17.5C15.75 17.9813 15.3562 18.375 14.875 18.375C14.3938 18.375 14 17.9813 14 17.5V15.75C14 15.2688 14.3938 14.875 14.875 14.875C15.3562 14.875 15.75 15.2688 15.75 15.75ZM7.875 18.375C7.875 18.8563 7.48125 19.25 7 19.25H4.375C1.96 19.25 0 17.29 0 14.875V4.375C0 1.96 1.96 0 4.375 0H9.415C10.3337 0 11.235 0.37625 11.8913 1.02375L14.7262 3.85875C15.3125 4.445 15.6712 5.22375 15.7413 6.04625C15.7762 6.5275 15.4175 6.9475 14.9362 6.99125C14.91 6.99125 14.8925 6.99125 14.8663 6.99125C14.4113 6.99125 14.035 6.64125 13.9913 6.18625C13.9913 6.16 13.9913 6.1425 13.9913 6.11625H11.3837C10.4213 6.11625 9.63375 5.32875 9.63375 4.36625V1.7675C9.56375 1.7675 9.49375 1.75 9.42375 1.75H4.375C2.93125 1.75 1.75 2.93125 1.75 4.375V14.875C1.75 16.3188 2.93125 17.5 4.375 17.5H7C7.48125 17.5 7.875 17.8937 7.875 18.375Z"
+                                                        fill="black" />
+                                                </svg>
+                                            </div>
+
+
                                         </div>
+                                    </td>
+                                </tr>
+                            @endforeach
 
 
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-
-
-                    </form>
+                        </form>
 
 
 
-                </tbody>
+                    </tbody>
 
-            </table>
-        </div>
-        <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-between gap-2 py-2 items-center">
-            {{ $data->onEachSide(2)->links('vendor.pagination.CustomPagination') }}
-        </div>
+                </table>
+            </div>
+            <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-between gap-2 py-2 items-center">
+                {{ $data->onEachSide(2)->links('vendor.pagination.CustomPagination') }}
+            </div>
+        @else
+            <div class="flex items-center w-full h-full">
+                <div class="flex flex-col items-center w-full">
+                    <img class="object-cover w-[90%] lg:w-[40%]" src="{{ asset('/assets/images/nodata.svg') }}"
+                        alt="nodata">
+                    <p class="text-2xl poppins-semibold">No Data</p>
+                </div>
+            </div>
+        @endif
+
 
     </div>
 @endsection

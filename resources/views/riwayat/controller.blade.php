@@ -238,8 +238,29 @@
         }
     }
 
-    $("#btn_submit").click(function (e) { 
+
+    $(document).keyup(function(event) {
+        if ($('#keyword').is(":focus") && event.key == "Enter") {
+            location.replace('/riwayat/search/' + $("#keyword").val());
+        }
+    });
+
+    $("#btn_submit_filter").click(function(e) {
         e.preventDefault();
-        
+        if (selectedTab === 'range') {
+            if ($('#filter_range_awal').val() == "" || $('#filter_range_akhir').val() == "") {
+                Swal.fire({
+                    title: "Informasi",
+                    text: "Pilih range tanggal terlebih dahulu",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Ya",
+                });
+            } else {
+                location.replace('/riwayat/filter/' + getDataFilter());
+            }
+        } else {
+            location.replace('/riwayat/filter/' + getDataFilter());
+        }
     });
 </script>
