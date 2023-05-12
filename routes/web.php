@@ -77,6 +77,7 @@ Route::get("/landing", function () {
 });
 
 Route::get('/riwayat', [TransaksiController::class, 'index']);
+Route::get('/riwayat/search/{keyword?}', [TransaksiController::class, 'search']);
 
 Route::get('/diskon', [DiscountController::class, 'index']);
 

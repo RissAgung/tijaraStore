@@ -90,6 +90,8 @@
         datemingguan = new Date(evt.detail.date);
         selectedFilterMingguan = datemingguan.getFullYear() + '-' + (datemingguan.getMonth() + 1) + '-' +
             datemingguan.getDate();
+
+        console.log(selectedFilterMingguan);
         // alert(ateharian.getFullYear() + '-' + (dateharian.getMonth() + 1) + '-' + dateharian.getDate());
     });
 
@@ -122,7 +124,8 @@
             // console.log(element.detail_diskon_transaksi.free_product);
             kontenHtml += "<tr>";
             kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + element.barang.nama_br + '</td>';
-            kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element.barang.harga.toString(),
+            kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element.barang.harga
+                .toString(),
                 "Rp. ") + '</td>';
 
             if (element.detail_diskon_transaksi == null) {
@@ -138,7 +141,8 @@
                 }
             }
             kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + element.QTY + '</td>';
-            kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element.subtotal.toString(),
+            kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element.subtotal
+                .toString(),
                 "Rp. ") + '</td>';
             kontenHtml += '</tr>';
         });
@@ -163,4 +167,79 @@
         $("#konten_modal_detail").addClass("scale-0");
 
     }
+
+    function getDataFilter() {
+
+        // console.log(selectedFilterHarian)
+        if (selectedTab === 'harian') {
+            const data = {
+                type: 'harian',
+                data: selectedFilterHarian
+            }
+            return btoa(JSON.stringify(data));
+
+        } else if (selectedTab === 'mingguan') {
+            const data = {
+                type: 'mingguan',
+                data: selectedFilterMingguan
+            }
+            return btoa(JSON.stringify(data));
+
+        } else if (selectedTab === 'bulanan') {
+            const bulan = $('#filterbulanan_bulan option:selected').val();
+            const tahun = $('#filterbulanan_tahun option:selected').val();
+
+            const data = {
+                type: 'bulanan',
+                data: {
+                    bulan: bulan,
+                    tahun: tahun
+                }
+            }
+            return btoa(JSON.stringify(data));
+
+        } else if (selectedTab === 'tahunan') {
+            const tahun = $('#filtertahunan_tahun option:selected').val();
+            const data = {
+                type: 'tahunan',
+                data: {
+                    tahun: tahun
+                }
+            }
+            return btoa(JSON.stringify(data));
+
+        } else if (selectedTab === 'range') {
+            const date_awal = $('#filter_range_awal').val();
+            const date_akhir = $('#filter_range_akhir').val();
+
+            const validate = (message) => {
+                Swal.fire("Informasi", message, "warning")
+            }
+
+            if (date_awal.length === 0 && date_akhir.length === 0) {
+                validate('harap masukkan tanggal awal dan akhir')
+                return false;
+            } else if (date_awal.length === 0) {
+                validate('harap masukkan tanggal awal')
+                return false;
+            } else if (date_akhir.length === 0) {
+                validate('harap masukkan tanggal akhir')
+                return false;
+            }
+
+            const data = {
+                type: 'range',
+                data: {
+                    awal: date_awal,
+                    akhir: date_akhir
+                }
+            }
+            return btoa(JSON.stringify(data));
+        }
+    }
+
+    $("#btn_submit").click(function (e) { 
+        e.preventDefault();
+        
+    });
 </script>

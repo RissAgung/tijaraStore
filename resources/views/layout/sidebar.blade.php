@@ -77,7 +77,7 @@
         {{-- end master data --}}
 
         {{-- riwayat --}}
-        <a href="{{ Route('riwayatTr') }}" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
+        <a href="/riwayat" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
 
             {{-- icon & title --}}
             <div
