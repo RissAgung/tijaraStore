@@ -18,7 +18,7 @@ class User extends Authenticatable
    * @var array<int, string>
    */
 
-  protected $table = 'ACCOUNT'; // mendevinisikan nama table
+  protected $table = 'account'; // mendevinisikan nama table
   protected $primaryKey = 'kode_account'; // mendevinisikan primary key
   public $incrementing = false; // auto pada primaryKey incremment false
   public $timestamps = false; // create_at dan update_at false

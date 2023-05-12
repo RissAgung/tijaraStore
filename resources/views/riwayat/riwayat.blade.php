@@ -27,8 +27,9 @@
                 </div>
 
 
-                <input class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                    placeholder="Masukkan nama atau kode barang">
+                <input id="keyword" class=" py-2 px-2 w-full flex-grow outline-none" type="text"
+                    placeholder="Masukkan nama atau kode barang" value="{{ Request::segment(2) == 'search' ? Request::segment(3) : '' }}">
+
             </div>
 
             <div class=" flex flex-row justify-center">
@@ -58,29 +59,32 @@
 
                     <div class="flex flex-row gap-2">
 
+                        @if (count($data->items()) != 0)
+                            <a href="/riwayat/export/{{ Request::segment(2) != '' ? Request::segment(2) . '/' . Request::segment(3) : 'all' }}"
+                                id="btn_export"
+                                class="bg-[#000000] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
+                                <p class="poppins-regular text-slate-200">Export</p>
+                                <svg class="mt-[1px]" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M6 2C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2M13 3.5L18.5 9H13M8.93 12.22H16V19.29L13.88 17.17L11.05 20L8.22 17.17L11.05 14.35"
+                                        fill="white" />
+                                </svg>
+                            </a>
+                        @else
+                            <div onclick="showAlert('Tidak ada data yang bisa diexport')"
+                                class="bg-[#000000] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
+                                <p class="poppins-regular text-slate-200">Export</p>
+                                <svg class="mt-[1px]" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M6 2C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2M13 3.5L18.5 9H13M8.93 12.22H16V19.29L13.88 17.17L11.05 20L8.22 17.17L11.05 14.35"
+                                        fill="white" />
+                                </svg>
+                            </div>
+                        @endif
 
-                        <div id="btn_hapus"
-                            class="bg-[#000000] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
-                            <p class="poppins-regular text-slate-200">Hapus</p>
-
-                            <svg class="mt-1" width="14" height="17" viewBox="0 0 14 17" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M13.3 2.8H11.13C10.9675 2.00999 10.5377 1.30014 9.91288 0.790103C9.28808 0.280063 8.50654 0.00101817 7.7 0L6.3 0C5.49346 0.00101817 4.71192 0.280063 4.08712 0.790103C3.46233 1.30014 3.03247 2.00999 2.87 2.8H0.7C0.514348 2.8 0.336301 2.87375 0.205025 3.00503C0.0737498 3.1363 0 3.31435 0 3.5C0 3.68565 0.0737498 3.8637 0.205025 3.99497C0.336301 4.12625 0.514348 4.2 0.7 4.2H1.4V13.3C1.40111 14.2279 1.77022 15.1175 2.42635 15.7736C3.08249 16.4298 3.97208 16.7989 4.9 16.8H9.1C10.0279 16.7989 10.9175 16.4298 11.5736 15.7736C12.2298 15.1175 12.5989 14.2279 12.6 13.3V4.2H13.3C13.4857 4.2 13.6637 4.12625 13.795 3.99497C13.9263 3.8637 14 3.68565 14 3.5C14 3.31435 13.9263 3.1363 13.795 3.00503C13.6637 2.87375 13.4857 2.8 13.3 2.8ZM6.3 1.4H7.7C8.13419 1.40053 8.55759 1.53536 8.91213 1.78601C9.26667 2.03666 9.53499 2.39084 9.6803 2.8H4.3197C4.46501 2.39084 4.73333 2.03666 5.08787 1.78601C5.44241 1.53536 5.86581 1.40053 6.3 1.4ZM11.2 13.3C11.2 13.857 10.9788 14.3911 10.5849 14.7849C10.1911 15.1788 9.65695 15.4 9.1 15.4H4.9C4.34305 15.4 3.8089 15.1788 3.41508 14.7849C3.02125 14.3911 2.8 13.857 2.8 13.3V4.2H11.2V13.3Z"
-                                    fill="white" />
-                                <path
-                                    d="M5.60001 12.6C5.78566 12.6 5.96371 12.5263 6.09498 12.395C6.22626 12.2637 6.30001 12.0857 6.30001 11.9V7.7C6.30001 7.51435 6.22626 7.3363 6.09498 7.20503C5.96371 7.07375 5.78566 7 5.60001 7C5.41436 7 5.23631 7.07375 5.10503 7.20503C4.97376 7.3363 4.90001 7.51435 4.90001 7.7V11.9C4.90001 12.0857 4.97376 12.2637 5.10503 12.395C5.23631 12.5263 5.41436 12.6 5.60001 12.6Z"
-                                    fill="white" />
-                                <path
-                                    d="M8.39998 12.6C8.58563 12.6 8.76368 12.5263 8.89496 12.395C9.02623 12.2637 9.09998 12.0857 9.09998 11.9V7.7C9.09998 7.51435 9.02623 7.3363 8.89496 7.20503C8.76368 7.07375 8.58563 7 8.39998 7C8.21433 7 8.03628 7.07375 7.90501 7.20503C7.77373 7.3363 7.69998 7.51435 7.69998 7.7V11.9C7.69998 12.0857 7.77373 12.2637 7.90501 12.395C8.03628 12.5263 8.21433 12.6 8.39998 12.6Z"
-                                    fill="white" />
-                            </svg>
-
-
-
-                        </div>
-
-                        <div id="btn_reset"
+                        <a href="/riwayat" id="btn_reset"
                             class="bg-[#000000] py-2 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
                             <svg width="23" height="23" viewBox="0 0 23 23" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +94,7 @@
                                 <path d="M8.11631 6.9481L3.18774 6.9481L3.18774 2.01953" stroke="white" stroke-width="2.3"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                        </div>
+                        </a>
                     </div>
 
                 </div>
@@ -99,82 +103,73 @@
     </div>
 
     <div class="h-[75vh] flex flex-col px-6 py-4 overflow-y-auto">
-        <div class="h-full w-full overflow-x-auto">
-            <table class=" w-full border-separate border-spacing-y-4">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" name="" class="" id="checkAll"></th>
-                        <th class="tracking-wide text-start pl-3 text-sm poppins-regular">No Transaksi</th>
-                        <th class="tracking-wide text-center text-sm poppins-regular">Kasir</th>
-                        <th class="tracking-wide text-center text-sm poppins-regular">Tanggal</th>
-                        <th class="tracking-wide text-center text-sm poppins-regular">Bayar</th>
-                        <th class="tracking-wide text-center text-sm poppins-regular">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <form id="form_delete" action="#" method="post">
-                        @csrf
-                        @for ($i = 0; $i < 10; $i++)
-                            <tr class="bg-white border-2 ">
-                                <td class="tracking-wide text-center p-3">
-                                    <div class="flex flex-row justify-center gap-4">
-                                        <input class="mt-2 idcheck" type="checkbox" name="ids[]" id=""
-                                            value="">
+        @if (count($data->items()) != 0)
+            <div class="h-full w-full overflow-x-auto">
+                <table class=" w-full border-separate border-spacing-y-4">
+                    <thead>
+                        <tr>
+                            <th class="tracking-wide text-center pl-3 text-sm poppins-regular">No Transaksi</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Kasir</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Tanggal</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Total</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Bayar</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Kembalian</th>
+                            <th class="tracking-wide text-center text-sm poppins-regular">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form id="form_delete" action="#" method="post">
+                            @csrf
+                            @foreach ($data as $item)
+                                <tr class="bg-white border-2 ">
 
-                                </td>
+                                    <td class="tracking-wide text-center p-3">{{ $item->kode_tr }}</td>
+                                    <td class="tracking-wide text-center p-3">{{ $item->nama_kasir }}</td>
+                                    <td class="tracking-wide text-center p-3">{{ $item->tanggal }}</td>
+                                    <td class="tracking-wide text-center p-3">@money($item->total)</td>
+                                    <td class="tracking-wide text-center p-3">@money($item->bayar)</td>
+                                    <td class="tracking-wide text-center p-3">@money($item->kembalian)</td>
+                                    <td class="tracking-wide text-center p-3">
+                                        <div class="flex flex-row gap-2 justify-center">
+                                            <div onclick="showModalDetail({{ $item }})"
+                                                class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
 
-                                <td class="tracking-wide text-start p-3">#P092722A</td>
-                                <td class="tracking-wide text-center p-3">Rizal Sri Waluyo Juminten</td>
-                                <td class="tracking-wide text-center p-3">2022-12-04 11:17:21</td>
-                                <td class="tracking-wide text-center p-3">@money(40000)</td>
-                                <td class="tracking-wide text-center p-3">
-                                    <div class="flex flex-row gap-2 justify-center">
-                                        <div onclick="showModalDetail()"
-                                            class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
-
-                                            <svg width="16" height="16" viewBox="0 0 21 21" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M14.875 8.75C11.4975 8.75 8.75 11.4975 8.75 14.875C8.75 18.2525 11.4975 21 14.875 21C18.2525 21 21 18.2525 21 14.875C21 11.4975 18.2525 8.75 14.875 8.75ZM14.875 19.25C12.46 19.25 10.5 17.29 10.5 14.875C10.5 12.46 12.46 10.5 14.875 10.5C17.29 10.5 19.25 12.46 19.25 14.875C19.25 17.29 17.29 19.25 14.875 19.25ZM16.1875 12.6875C16.1875 13.4137 15.6012 14 14.875 14C14.1488 14 13.5625 13.4137 13.5625 12.6875C13.5625 11.9613 14.1488 11.375 14.875 11.375C15.6012 11.375 16.1875 11.9613 16.1875 12.6875ZM15.75 15.75V17.5C15.75 17.9813 15.3562 18.375 14.875 18.375C14.3938 18.375 14 17.9813 14 17.5V15.75C14 15.2688 14.3938 14.875 14.875 14.875C15.3562 14.875 15.75 15.2688 15.75 15.75ZM7.875 18.375C7.875 18.8563 7.48125 19.25 7 19.25H4.375C1.96 19.25 0 17.29 0 14.875V4.375C0 1.96 1.96 0 4.375 0H9.415C10.3337 0 11.235 0.37625 11.8913 1.02375L14.7262 3.85875C15.3125 4.445 15.6712 5.22375 15.7413 6.04625C15.7762 6.5275 15.4175 6.9475 14.9362 6.99125C14.91 6.99125 14.8925 6.99125 14.8663 6.99125C14.4113 6.99125 14.035 6.64125 13.9913 6.18625C13.9913 6.16 13.9913 6.1425 13.9913 6.11625H11.3837C10.4213 6.11625 9.63375 5.32875 9.63375 4.36625V1.7675C9.56375 1.7675 9.49375 1.75 9.42375 1.75H4.375C2.93125 1.75 1.75 2.93125 1.75 4.375V14.875C1.75 16.3188 2.93125 17.5 4.375 17.5H7C7.48125 17.5 7.875 17.8937 7.875 18.375Z"
-                                                    fill="black" />
-                                            </svg>
+                                                <svg width="16" height="16" viewBox="0 0 21 21" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M14.875 8.75C11.4975 8.75 8.75 11.4975 8.75 14.875C8.75 18.2525 11.4975 21 14.875 21C18.2525 21 21 18.2525 21 14.875C21 11.4975 18.2525 8.75 14.875 8.75ZM14.875 19.25C12.46 19.25 10.5 17.29 10.5 14.875C10.5 12.46 12.46 10.5 14.875 10.5C17.29 10.5 19.25 12.46 19.25 14.875C19.25 17.29 17.29 19.25 14.875 19.25ZM16.1875 12.6875C16.1875 13.4137 15.6012 14 14.875 14C14.1488 14 13.5625 13.4137 13.5625 12.6875C13.5625 11.9613 14.1488 11.375 14.875 11.375C15.6012 11.375 16.1875 11.9613 16.1875 12.6875ZM15.75 15.75V17.5C15.75 17.9813 15.3562 18.375 14.875 18.375C14.3938 18.375 14 17.9813 14 17.5V15.75C14 15.2688 14.3938 14.875 14.875 14.875C15.3562 14.875 15.75 15.2688 15.75 15.75ZM7.875 18.375C7.875 18.8563 7.48125 19.25 7 19.25H4.375C1.96 19.25 0 17.29 0 14.875V4.375C0 1.96 1.96 0 4.375 0H9.415C10.3337 0 11.235 0.37625 11.8913 1.02375L14.7262 3.85875C15.3125 4.445 15.6712 5.22375 15.7413 6.04625C15.7762 6.5275 15.4175 6.9475 14.9362 6.99125C14.91 6.99125 14.8925 6.99125 14.8663 6.99125C14.4113 6.99125 14.035 6.64125 13.9913 6.18625C13.9913 6.16 13.9913 6.1425 13.9913 6.11625H11.3837C10.4213 6.11625 9.63375 5.32875 9.63375 4.36625V1.7675C9.56375 1.7675 9.49375 1.75 9.42375 1.75H4.375C2.93125 1.75 1.75 2.93125 1.75 4.375V14.875C1.75 16.3188 2.93125 17.5 4.375 17.5H7C7.48125 17.5 7.875 17.8937 7.875 18.375Z"
+                                                        fill="black" />
+                                                </svg>
+                                            </div>
 
 
                                         </div>
-
-                                        <a href="#"
-                                            class="bg-[#000000] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
-                                            <svg width="14" height="17" viewBox="0 0 14 17" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M13.3 2.8H11.13C10.9675 2.00999 10.5377 1.30014 9.91288 0.790103C9.28808 0.280063 8.50654 0.00101817 7.7 0L6.3 0C5.49346 0.00101817 4.71192 0.280063 4.08712 0.790103C3.46233 1.30014 3.03247 2.00999 2.87 2.8H0.7C0.514348 2.8 0.336301 2.87375 0.205025 3.00503C0.0737498 3.1363 0 3.31435 0 3.5C0 3.68565 0.0737498 3.8637 0.205025 3.99497C0.336301 4.12625 0.514348 4.2 0.7 4.2H1.4V13.3C1.40111 14.2279 1.77022 15.1175 2.42635 15.7736C3.08249 16.4298 3.97208 16.7989 4.9 16.8H9.1C10.0279 16.7989 10.9175 16.4298 11.5736 15.7736C12.2298 15.1175 12.5989 14.2279 12.6 13.3V4.2H13.3C13.4857 4.2 13.6637 4.12625 13.795 3.99497C13.9263 3.8637 14 3.68565 14 3.5C14 3.31435 13.9263 3.1363 13.795 3.00503C13.6637 2.87375 13.4857 2.8 13.3 2.8ZM6.3 1.4H7.7C8.13419 1.40053 8.55759 1.53536 8.91213 1.78601C9.26667 2.03666 9.53499 2.39084 9.6803 2.8H4.3197C4.46501 2.39084 4.73333 2.03666 5.08787 1.78601C5.44241 1.53536 5.86581 1.40053 6.3 1.4ZM11.2 13.3C11.2 13.857 10.9788 14.3911 10.5849 14.7849C10.1911 15.1788 9.65695 15.4 9.1 15.4H4.9C4.34305 15.4 3.8089 15.1788 3.41508 14.7849C3.02125 14.3911 2.8 13.857 2.8 13.3V4.2H11.2V13.3Z"
-                                                    fill="white" />
-                                                <path
-                                                    d="M5.60002 12.6C5.78568 12.6 5.96372 12.5262 6.095 12.395C6.22627 12.2637 6.30002 12.0856 6.30002 11.9V7.69999C6.30002 7.51434 6.22627 7.33629 6.095 7.20502C5.96372 7.07374 5.78568 6.99999 5.60002 6.99999C5.41437 6.99999 5.23633 7.07374 5.10505 7.20502C4.97377 7.33629 4.90002 7.51434 4.90002 7.69999V11.9C4.90002 12.0856 4.97377 12.2637 5.10505 12.395C5.23633 12.5262 5.41437 12.6 5.60002 12.6Z"
-                                                    fill="white" />
-                                                <path
-                                                    d="M8.40001 12.6C8.58566 12.6 8.76371 12.5262 8.89499 12.395C9.02626 12.2637 9.10001 12.0856 9.10001 11.9V7.69999C9.10001 7.51434 9.02626 7.33629 8.89499 7.20502C8.76371 7.07374 8.58566 6.99999 8.40001 6.99999C8.21436 6.99999 8.03631 7.07374 7.90504 7.20502C7.77376 7.33629 7.70001 7.51434 7.70001 7.69999V11.9C7.70001 12.0856 7.77376 12.2637 7.90504 12.395C8.03631 12.5262 8.21436 12.6 8.40001 12.6Z"
-                                                    fill="white" />
-                                            </svg>
-                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
 
 
-                                    </div>
-                                </td>
-                            </tr>
-                        @endfor
-
-                    </form>
+                        </form>
 
 
 
-                </tbody>
+                    </tbody>
 
-            </table>
-        </div>
-        <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-between gap-2 py-2 items-center">
-            {{-- {{ $products->onEachSide(2)->links('vendor.pagination.CustomPagination') }} --}}
-        </div>
+                </table>
+            </div>
+            <div class="mt-4 flex flex-col justify-center md:flex-row md:justify-between gap-2 py-2 items-center">
+                {{ $data->onEachSide(2)->links('vendor.pagination.CustomPagination') }}
+            </div>
+        @else
+            <div class="flex items-center w-full h-full">
+                <div class="flex flex-col items-center w-full">
+                    <img class="object-cover w-[90%] lg:w-[40%]" src="{{ asset('/assets/images/nodata.svg') }}"
+                        alt="nodata">
+                    <p class="text-2xl poppins-semibold">No Data</p>
+                </div>
+            </div>
+        @endif
+
 
     </div>
 @endsection

@@ -19,4 +19,16 @@ $(document).ready(function () {
     // $("#bg-sidebar").addClass("bg-white");
   });
 
+  $('#master_data').click(function (e) { 
+    e.preventDefault();
+    // if($("#div_master").hasClass('show')){
+    //   $("#div_master").addClass("h-12");
+    //   $("#div_master").removeClass("h-[170px] show");
+    // } else {
+    //   $("#div_master").addClass("h-[170px] show");
+    //   $("#div_master").removeClass("h-12");
+    // }
+  });
+  
+
 });
