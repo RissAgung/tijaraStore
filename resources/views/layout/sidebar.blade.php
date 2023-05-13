@@ -40,7 +40,7 @@
     <div class="flex flex-col gap-2 pl-8 lg:mt-0 overflow-y-auto md:scrollbar-hide h-full">
 
         {{-- master data --}}
-        <div id="div_master" class="h-[48px] hover:h-[170px] flex flex-col w-full overflow-hidden duration-500 ease-in-out">
+        <div id="div_master" class="h-12 flex flex-col w-full overflow-hidden duration-300 ease-in-out">
             <div id="master_data" class="flex flex-row w-full justify-between h-[48px] cursor-pointer menu flex-none">
     
                 {{-- icon & title --}}

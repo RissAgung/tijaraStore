@@ -7,6 +7,8 @@ use App\Models\riwayat\transaksi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\App;
 
 class TransaksiController extends Controller
 {
@@ -102,5 +104,13 @@ class TransaksiController extends Controller
         if ($request->segment(3) != '') {
             return Excel::download(new RiwayatExport($request), 'riwayat.xlsx');
         }
+
+        return redirect('/riwayat');
+    }
+
+    public function cetak(Request $request, $data = null)
+    {
+        $pdf = Pdf::loadView('riwayat.struk', compact('data'));
+        return $pdf->stream();
     }
 }

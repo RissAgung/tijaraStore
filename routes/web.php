@@ -80,6 +80,7 @@ Route::get('/riwayat', [TransaksiController::class, 'index']);
 Route::get('/riwayat/filter/{data?}', [TransaksiController::class, 'filter']);
 Route::get('/riwayat/search/{data?}', [TransaksiController::class, 'search']);
 Route::get('/riwayat/export/{kategori?}/{data?}', [TransaksiController::class, 'export']);
+Route::get('/riwayat/cetak/{data?}', [TransaksiController::class, 'cetak']);
 
 Route::get('/diskon', [DiscountController::class, 'index']);
 
@@ -94,3 +95,6 @@ Route::get('/diskon/delete/{kode}', [DiscountController::class, 'delete']);
 Route::get('/diskon/kategori', [DiscountController::class, 'filter_kategori']);
 
 Route::get('/diskon/search', [DiscountController::class, 'filter_search']);
+
+
+Route::view('/riwayat/struk', 'riwayat.struk');

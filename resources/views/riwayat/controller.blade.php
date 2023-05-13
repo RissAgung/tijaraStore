@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">
     /* Fungsi */
     function formatRupiah(angka, prefix) {
         var number_string = angka.replace(/[^,\d]/g, "").toString(),
@@ -95,10 +95,15 @@
         // alert(ateharian.getFullYear() + '-' + (dateharian.getMonth() + 1) + '-' + dateharian.getDate());
     });
 
+    let data_selected;
+    let kodetr_selected;
+
     // Detail Transaksi
 
-    function showModalDetail(data) {
-        console.log(data);
+    function showModalDetail(data, kodetr) {
+        data_selected = data;
+        kodetr_selected = kodetr;
+
 
         $("#txt_notransaksi").html(data.kode_tr);
         $("#txt_kasir").html(data.nama_kasir);
@@ -271,6 +276,92 @@
             icon: "warning",
             confirmButtonColor: "#3085d6",
             confirmButtonText: "Ya",
+        });
+    }
+
+    function showModalStruk() {
+
+        $("#struk_tanggal").html(data_selected.tanggal);
+        $("#struk_kasir").html(data_selected.nama_kasir);
+
+        var kontenHtml = '';
+        var total_item = 0;
+        data_selected.detail_transaksi.forEach(element => {
+            total_item = total_item + element.QTY;
+
+            // console.log(element.detail_diskon_transaksi.free_product);
+            kontenHtml += "<tr>";
+            kontenHtml += '<td class="text-start tracking-wide pr-2 w-[150px] max-w-[150px] min-w-[150px]">' +
+                element.barang.nama_br + '</td>';
+            kontenHtml +=
+                '<td class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px]">' + element.QTY +
+                '</td>';
+
+            kontenHtml += '<td class="text-center tracking-wide px-2">' + formatRupiah(element.barang.harga
+                .toString(),
+                "") + '</td>';
+            kontenHtml += '<td class="text-end tracking-wide pl-2">' + formatRupiah(element.subtotal
+                .toString(),
+                "") + '</td>';
+            kontenHtml += '</tr>';
+        });
+
+        $("#detail_struk").html(kontenHtml);
+
+
+        $("#struk_total_item").html(total_item);
+        $("#struk_total_harga").html(formatRupiah(data_selected.total.toString(), ''));
+        $("#struk_total_bayar").html(formatRupiah(data_selected.bayar.toString(), ''));
+        $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString(), ''));
+
+        $('#struk_barcode').attr('src', 'data:image/png;base64,' + kodetr_selected);
+
+        $("#bg_modal_struk").removeClass("pointer-events-none");
+        $("#bg_modal_struk").addClass("opacity-50");
+        $("#bg_modal_struk").removeClass("opacity-0");
+
+        $("#konten_modal_struk").addClass("scale-100");
+        $("#konten_modal_struk").removeClass("scale-0");
+    }
+
+    function closeModalStruk() {
+        $("#bg_modal_struk").addClass("pointer-events-none");
+        $("#bg_modal_struk").removeClass("opacity-50");
+        $("#bg_modal_struk").addClass("opacity-0");
+
+        $("#konten_modal_struk").removeClass("scale-100");
+        $("#konten_modal_struk").addClass("scale-0");
+
+    }
+
+    const downloadStruk = () => {
+        Swal.fire({
+            title: 'Loading',
+            html: '<div class="body-loading"><div class="loadingspinner"></div></div>', // add html attribute if you want or remove
+            allowOutsideClick: false,
+            showConfirmButton: false,
+
+        });
+        var elementHTML = document.querySelector("#html_struk");
+        const {
+            jsPDF
+        } = window.jspdf;
+
+        $("#html_struk").addClass('min-w-[600px]');
+        var pdf = new jsPDF('p', 'pt', 'a4');
+        
+    
+        pdf.setFont("Symbol", 'normal');
+        pdf.html(elementHTML, {
+            callback: (pdf) => {
+                pdf.save('web.pdf');
+                $("#html_struk").removeClass('min-w-[600px]');
+                swal.close();
+            },
+            background: '#000',
+            format: 'PNG',
+            pagesplit: true,
+            margin: [20, 0, 20, 0]
         });
     }
 </script>
