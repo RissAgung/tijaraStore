@@ -11,6 +11,7 @@
 @section('modal')
     @include('riwayat.filter')
     @include('riwayat.detail')
+    @include('riwayat.struk')
 @endsection
 
 @section('content')
@@ -28,7 +29,8 @@
 
 
                 <input id="keyword" class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                    placeholder="Masukkan nama atau kode barang" value="{{ Request::segment(2) == 'search' ? Request::segment(3) : '' }}">
+                    placeholder="Masukkan nama atau kode barang"
+                    value="{{ Request::segment(2) == 'search' ? Request::segment(3) : '' }}">
 
             </div>
 
@@ -131,7 +133,7 @@
                                     <td class="tracking-wide text-center p-3">@money($item->kembalian)</td>
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-row gap-2 justify-center">
-                                            <div onclick="showModalDetail({{ $item }})"
+                                            <div onclick="showModalDetail({{ $item }}, '{{ DNS1D::getBarcodePNG($item->kode_tr, 'C39', 1, 33, [0, 0, 0], true) }}')"
                                                 class="bg-[#FFB015] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
 
                                                 <svg width="16" height="16" viewBox="0 0 21 21" fill="none"
@@ -177,5 +179,7 @@
 @section('otherjs')
     <script src="{{ asset('js/moment.js') }}"></script>
     <script src="{{ asset('js/DatePicker.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.min.js') }}"></script>
+    <script src="{{ asset('js/jspdf.js') }}"></script>
     @include('riwayat.controller')
 @endsection

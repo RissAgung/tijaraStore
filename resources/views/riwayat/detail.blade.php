@@ -102,11 +102,11 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-row justify-center gap-2 pt-4 px-8 items-center">
-                <div class="flex h-fit bg-black px-4 text-white py-2 rounded-sm">
+            <div class="flex flex-row justify-center gap-2 pt-4 px-8 items-center cursor-default">
+                <div onclick="closeModalDetail()" class="flex h-fit bg-black px-4 text-white py-2 rounded-sm">
                     <p>Tutup</p>
                 </div>
-                <div class="flex h-fit bg-primary px-4 text-black py-2 rounded-sm">
+                <div onclick="showModalStruk()" class="flex h-fit bg-primary px-4 text-black py-2 rounded-sm">
                     <p>Cetak</p>
                 </div>
             </div>
