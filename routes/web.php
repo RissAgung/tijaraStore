@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterDataProduct;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -98,3 +99,11 @@ Route::get('/diskon/search', [DiscountController::class, 'filter_search']);
 
 
 Route::view('/riwayat/struk', 'riwayat.struk');
+
+Route::get('/voucher', [VoucherController::class, 'index']);
+Route::post('/voucher/add', [VoucherController::class, 'addData']);
+Route::post('/voucher/update', [VoucherController::class, 'updateData']);
+Route::post('/voucher/delete_selected', [VoucherController::class, 'deleteSelected']);
+Route::get('/voucher/delete/{id}', [VoucherController::class, 'deleteData']);
+Route::get('/voucher/search/{search?}', [VoucherController::class, 'filter_search']);
+Route::get('/voucher/filter/{kategori?}', [VoucherController::class, 'filter_kategori']);

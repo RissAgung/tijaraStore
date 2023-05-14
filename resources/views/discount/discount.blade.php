@@ -15,30 +15,19 @@
 
 @section('content')
     <div class=" h-fit bg-white border-b-2">
-        <div class="flex flex-row px-4 md:px-8 justify-between gap-4 mt-0 md:flex-row py-2">
-            <div class="flex-row w-full max-w-md flex px-4 rounded-md gap-2 items-center">
-                <div class="h-8 w-12">
-                    <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M11.1157 19.7368C15.9968 19.7368 19.9537 15.8252 19.9537 11C19.9537 6.17477 15.9968 2.26315 11.1157 2.26315C6.23466 2.26315 2.27777 6.17477 2.27777 11C2.27777 15.8252 6.23466 19.7368 11.1157 19.7368Z"
-                            fill="white" stroke="black" stroke-width="3" />
-                        <path d="M17.3374 17.7682L23.0022 24.1682" stroke="black" stroke-width="3" />
-                    </svg>
+        <div class="flex flex-row px-4 md:px-8 justify-between gap-0 mt-0 md:flex-row py-2">
+
+            <div class=" flex flex-row justify-between w-full">
+                <div class="flex flex-row px-2 gap-4 mb-2 poppins-medium cursor-default relative">
+                    <p class="px-1 py-3">Diskon</p>
+                    <a href="/voucher"><p class="text-[#8F8F8F]  px-1 py-3 hover:bg-gray-200 rounded-md">Voucher</p></a>
+                    <div class="h-[4px] w-16 bg-primary absolute bottom-0">
+
+                    </div>
                 </div>
-
-
-                <form class="w-full" action="/diskon/search" method="GET">
-                    {{-- @csrf --}}
-                    <input value="@isset($_GET['find']){{ $_GET['find'] }}@endisset" name="find"
-                        class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                        placeholder="Masukkan nama atau kode barang">
-                </form>
-            </div>
-
-            <div class=" flex flex-row justify-between">
-                <div class="flex flex-row gap-2">
+                <div class="flex flex-row gap-2 items-center">
                     <div id="btn_hapus"
-                        class="bg-[#000000] w-[46px] md:w-fit px-4 rounded-md flex gap-2 justify-center items-center drop-shadow-sm cursor-pointer">
+                        class="bg-[#000000] w-[46px] md:w-fit px-4 rounded-md flex gap-2 justify-center items-center drop-shadow-sm cursor-pointer h-fit py-3">
                         <svg class="mt-0" width="14" height="17" viewBox="0 0 14 17" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -54,7 +43,7 @@
                         <p class="text-white poppins-regular hidden lg:flex">Hapus</p>
                     </div>
                     <div onclick="showModalTambah()" id="btn_tambah"
-                        class="bg-[#FFB015] hover:bg-[#e7a013] w-[46px] md:w-fit px-4 gap-2 rounded-md items-center flex justify-center drop-shadow-sm cursor-pointer">
+                        class="bg-[#FFB015] hover:bg-[#e7a013] w-[46px] md:w-fit px-4 gap-2 rounded-md items-center flex justify-center drop-shadow-sm cursor-pointer h-fit py-3">
                         <svg class="mt-0" width="15" height="15" viewBox="0 0 15 15" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -69,11 +58,11 @@
         </div>
     </div>
 
-    <div class="flex flex-row h-fit justify-between bg-white border-b-2 items-center px-4 md:px-8">
-        <div id="btn_filter_tags" class="flex h-full flex-grow py-3 px-4 flex-row w-full cursor-pointer items-center gap-4">
+    <div class="flex flex-row w-full flex-wrap h-fit justify-between bg-white border-b-2 items-center px-4 md:px-8 pt-4 md:pt-0">
+        <div id="btn_filter_tags" class="flex h-full py-3 px-4 flex-row w-8 cursor-pointer items-center gap-4 order-2 flex-grow">
             <p class="poppins-semibold">Jenis</p>
             <select
-                class="h-full py-2 px-4 outline-none rounded-lg appearance-none w-full md:w-[200px] border-2 border-dotted"
+                class="h-full py-2 px-4 outline-none rounded-lg appearance-none w-full max-w-[150px] border-2 border-dotted"
                 name="select" id="filter_kategori">
                 <option hidden></option>
                 <option
@@ -99,7 +88,24 @@
                     value="free">Free Product</option>
             </select>
         </div>
-        <div class="flex overflow-x-scroll gap-3 scrollbar-hide flex-row h-full w-full justify-end">
+
+        <div class="flex-row flex px-4 rounded-md gap-2 items-center order-1 w-full md:w-[310px]">
+            <div class="h-8 w-12">
+                <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M11.1157 19.7368C15.9968 19.7368 19.9537 15.8252 19.9537 11C19.9537 6.17477 15.9968 2.26315 11.1157 2.26315C6.23466 2.26315 2.27777 6.17477 2.27777 11C2.27777 15.8252 6.23466 19.7368 11.1157 19.7368Z"
+                        fill="white" stroke="black" stroke-width="3" />
+                    <path d="M17.3374 17.7682L23.0022 24.1682" stroke="black" stroke-width="3" />
+                </svg>
+            </div>
+            <form class="w-full" action="/diskon/search" method="GET">
+                {{-- @csrf --}}
+                <input value="@isset($_GET['find']){{ $_GET['find'] }}@endisset" name="find"
+                    class=" py-2 px-2 w-full flex-grow outline-none" type="text"
+                    placeholder="Masukkan nama atau kode barang">
+            </form>
+        </div>
+        <div class="flex overflow-x-scroll gap-3 scrollbar-hide flex-row h-full justify-end w-fit order-3 bg-red-400">
             {{-- isi --}}
             <a href="/diskon" id="btn_reset"
                 class="bg-[#000000] px-4 rounded-md flex justify-center items-center drop-shadow-sm h-full py-3">
