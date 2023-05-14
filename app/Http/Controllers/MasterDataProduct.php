@@ -115,9 +115,11 @@ class MasterDataProduct extends Controller
                 alert()->success('Berhasil', 'Berhasil Menghapus Data');
                 return redirect()->route('product');
             } else {
+                alert()->warning('Informasi', 'Token tidak sesuai');
                 return redirect()->route('product');
             }
         } else {
+            alert()->warning('Informasi', 'Token tidak ditemukan');
             return redirect()->route('product');
         }
     }
