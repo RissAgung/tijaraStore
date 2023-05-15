@@ -4,6 +4,7 @@ use App\Http\Controllers\Akumulasi;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
+use App\Http\Controllers\pengeluaran_operasioanal;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
 use App\Http\Controllers\TransaksiController;
@@ -107,3 +108,9 @@ Route::post('/voucher/delete_selected', [VoucherController::class, 'deleteSelect
 Route::get('/voucher/delete/{id}', [VoucherController::class, 'deleteData']);
 Route::get('/voucher/search/{search?}', [VoucherController::class, 'filter_search']);
 Route::get('/voucher/filter/{kategori?}', [VoucherController::class, 'filter_kategori']);
+
+Route::prefix('pengeluaran')->group(function () {
+  Route::get("/", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
+  Route::get("/operasional/{date?}", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
+  Route::post('operasional.store', [pengeluaran_operasioanal::class, 'store'])->middleware('auth');
+});
