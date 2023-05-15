@@ -2,7 +2,7 @@
 <div class="w-screen h-screen bg-black fixed z-[98] opacity-50 hidden transition ease-in delay-300" id="bg-sidebar"></div>
 
 {{-- sidebar --}}
-<div class="main-sidebar flex flex-col w-[80%] md:w-[390px] lg:w-[290px] h-screen bg-white border-r-[1px] border-r-[#DCDADA] box-border fixed z-[99] pb-8 2xl:pb-10"
+<div class="main-sidebar flex flex-col w-[80%] md:w-[390px] lg:w-[290px] h-full bg-white border-r-[1px] border-r-[#DCDADA] box-border fixed z-[99] pb-10 2xl:pb-10 overflow-y-auto md:scrollbar-hide"
     id="sidebar">
 
     {{-- top side --}}
@@ -37,12 +37,12 @@
     {{-- end top side --}}
 
     {{-- bot side --}}
-    <div class="flex flex-col gap-2 pl-8 lg:mt-0 overflow-y-auto md:scrollbar-hide h-full">
+    <div class="flex flex-col gap-2 pl-8 lg:mt-0  h-full">
 
         {{-- master data --}}
         <div id="div_master" class="h-12 flex flex-col w-full overflow-hidden duration-300 ease-in-out">
             <div id="master_data" class="flex flex-row w-full justify-between h-[48px] cursor-pointer menu flex-none">
-    
+
                 {{-- icon & title --}}
                 <div class="flex flex-row menu-hover1 items-center  w-full">
                     <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out"
@@ -50,12 +50,13 @@
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M16.0333 2.59091C16.2193 2.68203 16.4231 2.72866 16.6293 2.72727H25.3333C27.1008 2.72944 28.7953 3.44848 30.045 4.72666C31.2948 6.00485 31.9979 7.73783 32 9.54545V23.1818C31.9979 24.9894 31.2948 26.7224 30.045 28.0006C28.7953 29.2788 27.1008 29.9978 25.3333 30H6.66667C4.89921 29.9978 3.20474 29.2788 1.95496 28.0006C0.705176 26.7224 0.00211714 24.9894 0 23.1818V6.81818C0.00211714 5.01055 0.705176 3.27758 1.95496 1.99939C3.20474 0.721203 4.89921 0.00216526 6.66667 0H10.0373C10.6579 0.000526829 11.2699 0.148016 11.8253 0.430909L16.0333 2.59091ZM10.6333 2.86364C10.4474 2.77251 10.2435 2.72588 10.0373 2.72727H6.66667C5.6058 2.72727 4.58839 3.15828 3.83824 3.92547C3.08809 4.69267 2.66667 5.73321 2.66667 6.81818V8.17364L29.0387 8.02091C28.7415 7.26415 28.23 6.61548 27.5697 6.1582C26.9095 5.70091 26.1307 5.45588 25.3333 5.45455H16.6293C16.0083 5.4519 15.3963 5.30207 14.8413 5.01682L10.6333 2.86364ZM3.83824 26.0745C4.58839 26.8417 5.6058 27.2727 6.66667 27.2727H25.3333C26.3942 27.2727 27.4116 26.8417 28.1618 26.0745C28.9119 25.3073 29.3333 24.2668 29.3333 23.1818V10.7468L2.66667 10.9009V23.1818C2.66667 24.2668 3.08809 25.3073 3.83824 26.0745Z" />
                     </svg>
-                    <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">Master
+                    <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">
+                        Master
                         Data</p>
                 </div>
-    
+
                 {{-- when focus --}}
-                <div class="w-2 h-full menu-hover2 transition ease-in-out"></div>
+                <div class="w-2 h-full  transition ease-in-out"></div>
             </div>
             <div class="flex flex-row w-full">
                 <div class="px-3">
@@ -97,7 +98,7 @@
             </div>
 
             {{-- when focus --}}
-            <div class="w-2 h-full menu-hover2 @if (Route::is('riwayatTr')) menu-active2 @endif transition ease-in-out"></div>
+            <div class="w-2 h-full  @if (Route::is('riwayatTr')) menu-active2 @endif transition ease-in-out"></div>
           </a>
         {{-- end riwayat --}}
 
@@ -116,7 +117,7 @@
           </div>
 
           {{-- when focus --}}
-          <div class="w-2 h-full menu-hover2 @if (Route::is('retur') or Route::is('riwayatRetur')) menu-active2 @endif transition ease-in-out"></div>
+          <div class="w-2 h-full  @if (Route::is('retur') or Route::is('riwayatRetur')) menu-active2 @endif transition ease-in-out"></div>
         </a>
         {{-- end retur --}}
 
@@ -124,7 +125,7 @@
         <a href="{{ Route('pemasukan') }}" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
 
           {{-- icon & title --}}
-          <div class="flex flex-row menu-hover1 @if (Route::is('pemasukan') or Route::is('pengeluaran') or Route::is('akumulasi')) menu-active1 @endif items-center w-full">
+          <div class="flex flex-row  @if (Route::is('pemasukan') or Route::is('pengeluaran') or Route::is('akumulasi')) menu-active1 @else menu-hover1 @endif items-center w-full">
               <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out" viewBox="0 0 33 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8.21966 22.3363L8.21964 22.3363L8.22302 22.3397C8.65479 22.7691 9.2227 22.9833 9.7854 22.9833C10.3472 22.9833 10.91 22.7713 11.3387 22.3456C11.3392 22.3452 11.3396 22.3447 11.34 22.3443L16.5482 17.252C16.5483 17.2519 16.5483 17.2519 16.5484 17.2518C17.0138 16.7981 17.0169 16.0545 16.561 15.5941C16.1061 15.1346 15.3642 15.1269 14.9011 15.5805L9.78521 20.5827L7.26631 18.0167C7.26612 18.0165 7.26594 18.0163 7.26576 18.0162C6.81252 17.5519 6.06946 17.5475 5.60637 17.9942L5.60562 17.9949C5.13996 18.4464 5.12943 19.1899 5.58495 19.6526C5.58501 19.6526 5.58507 19.6527 5.58513 19.6527L8.21966 22.3363ZM25.025 28.35H14.175C13.5283 28.35 13 28.8724 13 29.5208C13 30.1693 13.5283 30.6917 14.175 30.6917H25.025C25.6717 30.6917 26.2 30.1693 26.2 29.5208C26.2 28.8724 25.6717 28.35 25.025 28.35ZM25.025 8.30833H14.175C13.5283 8.30833 13 8.83072 13 9.47917C13 10.1276 13.5283 10.65 14.175 10.65H25.025C25.6717 10.65 26.2 10.1276 26.2 9.47917C26.2 8.83072 25.6717 8.30833 25.025 8.30833ZM25.025 18.3292H18.825C18.1783 18.3292 17.65 18.8516 17.65 19.5C17.65 20.1484 18.1783 20.6708 18.825 20.6708H25.025C25.6717 20.6708 26.2 20.1484 26.2 19.5C26.2 18.8516 25.6717 18.3292 25.025 18.3292ZM8.75 27.5792C7.67552 27.5792 6.8 28.4469 6.8 29.5208C6.8 30.5948 7.67552 31.4625 8.75 31.4625C9.82448 31.4625 10.7 30.5948 10.7 29.5208C10.7 28.4469 9.82448 27.5792 8.75 27.5792ZM8.75 11.4208C9.82448 11.4208 10.7 10.5531 10.7 9.47917C10.7 8.40522 9.82448 7.5375 8.75 7.5375C7.67552 7.5375 6.8 8.40522 6.8 9.47917C6.8 10.5531 7.67552 11.4208 8.75 11.4208ZM32.4 31.0625V7.9375C32.4 3.88968 29.0894 0.6 25.025 0.6H7.975C3.91057 0.6 0.6 3.88968 0.6 7.9375V31.0625C0.6 35.1103 3.91057 38.4 7.975 38.4H25.025C29.0894 38.4 32.4 35.1103 32.4 31.0625ZM25.025 2.94167C27.7976 2.94167 30.05 5.18503 30.05 7.9375V31.0625C30.05 33.815 27.7976 36.0583 25.025 36.0583H7.975C5.20238 36.0583 2.95 33.815 2.95 31.0625V7.9375C2.95 5.18503 5.20238 2.94167 7.975 2.94167H25.025Z" stroke-width="0.8"/>
               </svg>
@@ -133,8 +134,9 @@
           </div>
 
           {{-- when focus --}}
-          <div class="w-2 h-full menu-hover2 @if (Route::is('pemasukan') or Route::is('pengeluaran') or Route::is('akumulasi')) menu-active2 @endif transition ease-in-out"></div>
+          <div class="w-2 h-full  @if (Route::is('pemasukan') or Route::is('pengeluaran') or Route::is('akumulasi')) menu-active2 @endif transition ease-in-out"></div>
         </a>
+        
         {{-- end laporan --}}
 
     </div>

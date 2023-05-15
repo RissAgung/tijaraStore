@@ -5,10 +5,10 @@ let searchParams = new URLSearchParams(window.location.search);
 if (searchParams.get("filter")) {
     for (
         let index = 0;
-        index < JSON.parse(searchParams.get("filter")).length;
+        index < JSON.parse(atob(searchParams.get("filter"))).length;
         index++
     ) {
-        const element = JSON.parse(searchParams.get("filter"))[index];
+        const element = JSON.parse(atob(searchParams.get("filter")))[index];
         selectedTags.push(element);
         $("#" + element).toggleClass(
             "bg-white border-[#D9D9D9] text-[#9B9B9B]"
@@ -91,7 +91,7 @@ $("#btn_filter_tags").click(function (e) {
         location.href =
             window.location.origin +
             "/product/tags?filter=" +
-            encodeURIComponent(JSON.stringify(selectedTags));
+            btoa(JSON.stringify(selectedTags));
     }
     // $("#form_filter").trigger("submit");
 });
