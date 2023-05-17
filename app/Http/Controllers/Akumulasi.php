@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\akumulasi\pemasukan;
+use App\Models\pengeluaran\pengeluaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ class Akumulasi extends Controller
 
     $label = [];
     $data = [];
+    $data_pengeluaran = [];
 
     // filter date
     if ($request->data_date !== null) {
@@ -37,6 +39,22 @@ class Akumulasi extends Controller
           ->groupBy('hari')
           ->get();
 
+        $result_pengeluaran = pengeluaran::select(
+          DB::raw("CASE DATE_FORMAT(tanggal, '%W')
+                        WHEN 'Sunday' THEN 'Minggu'
+                        WHEN 'Monday' THEN 'Senin'
+                        WHEN 'Tuesday' THEN 'Selasa'
+                        WHEN 'Wednesday' THEN 'Rabu'
+                        WHEN 'Thursday' THEN 'Kamis'
+                        WHEN 'Friday' THEN 'Jumat'
+                        WHEN 'Saturday' THEN 'Sabtu'
+                    END AS hari"),
+          DB::raw("(SUM(total)) AS total")
+        )
+          ->whereDate('tanggal', '=', $data_decode_date->data)
+          ->groupBy('hari')
+          ->get();
+
         foreach ($result as $index) {
           array_push($label, $index->hari);
         }
@@ -45,10 +63,15 @@ class Akumulasi extends Controller
           array_push($data, $index->total);
         }
 
+        foreach ($result_pengeluaran as $index) {
+          array_push($data_pengeluaran, $index->total);
+        }
+
         return json_encode(
           array(
             "label" => $label,
-            "data" => $data
+            "data" => $data,
+            "data_pengeluaran" => $data_pengeluaran
           )
         );
       } elseif ($data_decode_date->type === 'mingguan') {
@@ -73,10 +96,26 @@ class Akumulasi extends Controller
           ->orderBy('hari', 'DESC')
           ->get();
 
+        $result_pengeluaran = pengeluaran::selectRaw("
+        CASE DATE_FORMAT(tanggal, '%W')
+            WHEN 'Sunday' THEN 'Minggu'
+            WHEN 'Monday' THEN 'Senin'
+            WHEN 'Tuesday' THEN 'Selasa'
+            WHEN 'Wednesday' THEN 'Rabu'
+            WHEN 'Thursday' THEN 'Kamis'
+            WHEN 'Friday' THEN 'Jumat'
+            WHEN 'Saturday' THEN 'Sabtu'
+       END AS hari")
+          ->selectRaw("(SUM(total)) AS total")
+          ->whereBetween('tanggal', [$start_date, $end_date])
+          ->groupBy('hari')
+          ->orderBy('hari', 'DESC')
+          ->get();
+
         // foreach ($result as $index) {
         //   array_push($label, $index->hari);
         // }
-        if (count($result) !== 0) {
+        if (count($result) !== 0 || count($result_pengeluaran)) {
           $label = [
             'Senin',
             'Selasa',
@@ -89,6 +128,9 @@ class Akumulasi extends Controller
           $data = [
             0, 0, 0, 0, 0, 0, 0
           ];
+          $data_pengeluaran = [
+            0, 0, 0, 0, 0, 0, 0
+          ];
         }
         // foreach ($result as $index) {
         //   array_push($data, $index->total);
@@ -96,6 +138,15 @@ class Akumulasi extends Controller
 
 
 
+        
+        foreach ($result_pengeluaran as $index) {
+          for ($i = 0; $i < count($label); $i++) {
+            if ($label[$i] === $index->hari) {
+              $data_pengeluaran[$i] = $index->total;
+            }
+          }
+        }
+        
         foreach ($result as $index) {
           for ($i = 0; $i < count($label); $i++) {
             if ($label[$i] === $index->hari) {
@@ -103,8 +154,7 @@ class Akumulasi extends Controller
             }
           }
         }
-
-
+        
         // foreach ($result as $index) {
         //   for ($i = 0; $i < count($label); $i++) {
         //     if ($label[$i] === $index->hari) {
@@ -119,6 +169,7 @@ class Akumulasi extends Controller
           array(
             "label" => $label,
             "data" => $data,
+            "data_pengeluaran" => $data_pengeluaran,
             'date' => $start_date . '==' . $end_date
           )
         );
@@ -249,7 +300,7 @@ class Akumulasi extends Controller
           'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
         ];
 
-        $results = DB::table('TRANSAKSI')
+        $results = DB::table('transaksi')
           ->selectRaw('MONTH(tanggal) AS bulan, (SUM(bayar) - SUM(kembalian)) AS total')
           ->whereYear('tanggal', $tahun)
           ->groupBy('bulan')
@@ -291,10 +342,10 @@ class Akumulasi extends Controller
           ->total;
 
         $label = [
-          $date_awal . '-' . $date_akhir,
+          $date_awal . ' / ' . $date_akhir,
         ];
         // foreach ($result as $index) {
-          array_push($data, (integer)$result);
+        array_push($data, (int)$result);
         // }
 
         return json_encode(
@@ -312,8 +363,14 @@ class Akumulasi extends Controller
       'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
     ];
 
-    $results = DB::table('TRANSAKSI')
+    $results = DB::table('transaksi')
       ->selectRaw('MONTH(tanggal) AS bulan, (SUM(bayar) - SUM(kembalian)) AS total')
+      ->whereYear('tanggal', now()->year)
+      ->groupBy('bulan')
+      ->orderBy('bulan')
+      ->pluck('total', 'bulan');
+
+    $results_pengeluaran = pengeluaran::selectRaw('MONTH(tanggal) AS bulan, (SUM(total)) AS total')
       ->whereYear('tanggal', now()->year)
       ->groupBy('bulan')
       ->orderBy('bulan')
@@ -330,8 +387,22 @@ class Akumulasi extends Controller
       ];
     });
 
+    // Membuat koleksi dari hasil query
+    $finalResults_pengeluaran = collect($months)->map(function ($month, $index) use ($results_pengeluaran) {
+      $bulan_ke = $index + 1;
+      $total = $results_pengeluaran->get($bulan_ke, 0);
+
+      return [
+        'bulan' => $month,
+        'total' => $total
+      ];
+    });
+
     foreach ($finalResults as $index) {
       array_push($data, $index['total']);
+    }
+    foreach ($finalResults_pengeluaran as $index) {
+      array_push($data_pengeluaran, $index['total']);
     }
     foreach ($finalResults as $index) {
       array_push($label, $index['bulan']);
@@ -341,7 +412,8 @@ class Akumulasi extends Controller
     return json_encode(
       array(
         "label" => $label,
-        "data" => $data
+        "data" => $data,
+        "data_pengeluaran" => $data_pengeluaran
       )
     );
 

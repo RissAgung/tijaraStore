@@ -19,11 +19,15 @@
     }
 
     var dataPemasukan = []
+    var dataPengeluaran = []
 
     function getSeriesPenjualan() {
         return [{
             name: 'Pemasukkan',
             data: dataPemasukan,
+        }, {
+            name: 'Pengeluaran',
+            data: dataPengeluaran,
         }];
     }
 
@@ -37,6 +41,7 @@
             success: function(res) {
                 const data = JSON.parse(res);
                 dataPemasukan = data.data;
+                dataPengeluaran = data.data_pengeluaran;
                 options.xaxis.categories = data.label;
                 console.log(data);
 

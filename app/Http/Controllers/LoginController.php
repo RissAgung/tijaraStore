@@ -14,6 +14,8 @@ class LoginController extends Controller
   public function index()
   {
     return view('front_view.login');
+    // dd(Hash::make('123'));
+    // dd(User::all());
   }
 
   // check login

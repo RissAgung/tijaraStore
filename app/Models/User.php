@@ -20,21 +20,17 @@ class User extends Authenticatable
    * @var array<int, string>
    */
 
-  protected $table = 'ACCOUNT'; // mendevinisikan nama table
-  protected $primaryKey = 'kode_account'; // mendevinisikan primary key
+  protected $table = 'account'; // mendevinisikan nama table
+  protected $primaryKey = 'kode_pegawai'; // mendevinisikan primary key
   public $incrementing = false; // auto pada primaryKey incremment false
   public $timestamps = false; // create_at dan update_at false
 
   // fillable mendevinisikan field mana saja yang dapat kita isikan
-  protected $fillable = [
-    'kode_account',
-    'username',
-    'password',
-    'level',
-  ];
+  protected $guarded = [];
 
-  public function pegawai(){
-    return $this->hasOne(model_pegawai::class, 'kode_account', 'kode_account');
+  public function pegawai()
+  {
+    return $this->belongsTo(model_pegawai::class, 'kode_pegawai', 'kode_pegawai');
   }
 
   // public function pengeluaran(){

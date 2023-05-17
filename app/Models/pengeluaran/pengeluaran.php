@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class pengeluaran extends Model
 {
   use HasFactory;
-  protected $table = 'PENGELUARAN'; // mendevinisikan nama table
+  protected $table = 'pengeluaran'; // mendevinisikan nama table
   protected $primaryKey = 'kode_pengeluaran'; // mendevinisikan primary key
   public $incrementing = false; // auto pada primaryKey incremment false
   public $timestamps = false; // create_at dan update_at false
@@ -78,7 +78,6 @@ class pengeluaran extends Model
 
     return self::selectRaw('SUM(total) as jumlah_total')
       ->where('jenis_pengeluaran', 'operasional')
-      ->whereDate('tanggal', '=', Carbon::now())
       ->get();
   }
 
@@ -143,7 +142,6 @@ class pengeluaran extends Model
 
     return self::selectRaw('SUM(total) as jumlah_total')
       ->where('jenis_pengeluaran', 'restock')
-      ->whereDate('tanggal', '=', Carbon::now())
       ->get();
   }
 
