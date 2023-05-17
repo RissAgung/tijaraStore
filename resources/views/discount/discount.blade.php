@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('title')
-    Master Data Discount
+    Master Data Diskon
 @endsection
 
 @section('othercss')
@@ -154,7 +154,7 @@
                                         @elseif($item->diskon->kategori == 'persen')
                                             {{ $item->diskon->nominal . '%' }}
                                         @else
-                                            {{ 'Beli ' . json_decode($item->diskon->free_product)->value->buy . ' Gratis ' . json_decode($item->diskon->free_product)->value->gratis }}
+                                            {{ 'Beli ' . $item->diskon->buy . ' Gratis ' . $item->diskon->free }}
                                         @endif
                                     </td>
                                     <td class="tracking-wide text-center p-3">

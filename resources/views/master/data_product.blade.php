@@ -202,7 +202,7 @@
                                                             class="text-[#357800]">@money($item->harga - $item->diskon->nominal)</span> )</p>
                                                 @elseif($item->diskon->free_product != null)
                                                     <p class="text-xs">
-                                                        {{ 'Beli ' . json_decode($item->diskon->free_product)->value->buy . ' Gratis ' . json_decode($item->diskon->free_product)->value->gratis . ' Product ' . (json_decode($item->diskon->free_product)->free == 'sama' ? 'Sama' : 'Bebas') }}
+                                                        {{ 'Beli ' . $item->diskon->buy . ' Gratis ' . $item->diskon->free . ' Product ' . $item->diskon->free_product }}
                                                     </p>
                                                 @endif
                                             @endif

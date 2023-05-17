@@ -14,7 +14,7 @@ class discount extends Model
     public $timestamps = false;
     protected $primaryKey = 'kode_diskon';
 
-    protected $fillable = array('kode_diskon', 'kategori', 'nominal', 'free_product', 'created_at', 'updated_at');
+    protected $fillable = array('kode_diskon', 'kategori', 'nominal', 'free_product', 'buy', 'free', 'created_at', 'updated_at');
 
     public function barang(){
         return $this->belongsTo(barang::class, 'kode_diskon', 'kode_diskon');
