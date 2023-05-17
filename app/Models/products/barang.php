@@ -3,13 +3,14 @@
 namespace App\Models\products;
 
 use App\Models\discounts\discount;
+use App\Models\riwayat\detail_transaksi;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class barang extends Model
 {
     use HasFactory;
-    protected $table = 'BARANG';
+    protected $table = 'barang';
     protected $primaryKey = 'kode_br';
     public $incrementing = false;
     public $timestamps = false;
@@ -25,5 +26,9 @@ class barang extends Model
     public function diskon()
     {
         return $this->hasOne(discount::class, 'kode_diskon', 'kode_diskon');
+    }
+
+    public function detail_transaksi(){
+        $this->hasMany(detail_transaksi::class, 'kode_br', 'kode_br');
     }
 }

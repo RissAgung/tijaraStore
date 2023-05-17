@@ -147,3 +147,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.transition-masterdata {
+  transition: ease-in-out 0.4s;
+}

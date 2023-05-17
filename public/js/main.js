@@ -38,3 +38,13 @@ function formatRupiah(angka, prefix) {
   rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
   return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 }
+$('#master_data').click(function (e) {
+  e.preventDefault();
+  if ($("#div_master").hasClass('show')) {
+    $("#div_master").addClass("h-12");
+    $("#div_master").removeClass("h-44 show");
+  } else {
+    $("#div_master").addClass("h-44 show");
+    $("#div_master").removeClass("h-12");
+  }
+});

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\model_pegawai;
 use App\Models\pengeluaran\pengeluaran;
 use App\Models\pengeluaran\pengeluaran_pegawai;
+use Illuminate\Console\View\Components\Alert;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -95,24 +96,23 @@ class pengeluaran_operasioanal extends Controller
     };
 
     $finalDataPengeluaran = $dataPengeluaran($request, $date);
-    dd($finalDataPengeluaran);
 
     // dd($finalDataPengeluaran);
 
     // apabila terdapat parameter search maka akan tetap pada url
-    // if ($request->has('search')) {
-    //   $finalDataPengeluaran->appends(array(
-    //     'search' => $request->search
-    //   ));
-    // }
+    if ($request->has('search')) {
+      $finalDataPengeluaran->appends(array(
+        'search' => $request->search
+      ));
+    }
 
-    // $dataUrl = array(
-    //   "search" => $search,
-    //   "date" => $ddate
-    // );
+    $dataUrl = array(
+      "search" => $search,
+      "date" => $ddate
+    );
 
 
-    // return view('pengeluaran.operasional', compact('finalDataPengeluaran', 'dataUrl'));
+    return view('pengeluaran.operasional', compact('finalDataPengeluaran', 'dataUrl'));
   }
 
   public function store(Request $request)

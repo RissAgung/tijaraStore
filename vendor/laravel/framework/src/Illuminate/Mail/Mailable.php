@@ -1365,7 +1365,7 @@ class Mailable implements MailableContract, Renderable
      */
     public function assertSeeInOrderInHtml($strings, $escape = true)
     {
-        $strings = $escape ? array_map('e', ($strings)) : $strings;
+        $strings = $escape ? array_map('e', $strings) : $strings;
 
         [$html, $text] = $this->renderForAssertions();
 
@@ -1581,7 +1581,7 @@ class Mailable implements MailableContract, Renderable
      *
      * @return void
      */
-    private function prepareMailableForDelivery()
+    protected function prepareMailableForDelivery()
     {
         if (method_exists($this, 'build')) {
             Container::getInstance()->call([$this, 'build']);

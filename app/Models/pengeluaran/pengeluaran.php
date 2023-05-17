@@ -78,6 +78,7 @@ class pengeluaran extends Model
 
     return self::selectRaw('SUM(total) as jumlah_total')
       ->where('jenis_pengeluaran', 'operasional')
+      ->whereDate('tanggal', '=', Carbon::now())
       ->get();
   }
 
@@ -142,6 +143,7 @@ class pengeluaran extends Model
 
     return self::selectRaw('SUM(total) as jumlah_total')
       ->where('jenis_pengeluaran', 'restock')
+      ->whereDate('tanggal', '=', Carbon::now())
       ->get();
   }
 

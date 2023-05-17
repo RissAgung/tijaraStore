@@ -9,6 +9,8 @@ use App\Http\Controllers\report\pemasukan;
 use App\Http\Controllers\report\pengeluaran;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -81,9 +83,11 @@ Route::get("/landing", function () {
   return view("layout.landing_main");
 });
 
-Route::get('/riwayat', function () {
-  return view('riwayat.riwayat');
-})->name('riwayatTr');
+Route::get('/riwayat', [TransaksiController::class, 'index']);
+Route::get('/riwayat/filter/{data?}', [TransaksiController::class, 'filter']);
+Route::get('/riwayat/search/{data?}', [TransaksiController::class, 'search']);
+Route::get('/riwayat/export/{kategori?}/{data?}', [TransaksiController::class, 'export']);
+Route::get('/riwayat/cetak/{data?}', [TransaksiController::class, 'cetak']);
 
 Route::get('/diskon', [DiscountController::class, 'index']);
 
@@ -98,3 +102,20 @@ Route::get('/diskon/delete/{kode}', [DiscountController::class, 'delete']);
 Route::get('/diskon/kategori', [DiscountController::class, 'filter_kategori']);
 
 Route::get('/diskon/search', [DiscountController::class, 'filter_search']);
+
+
+Route::view('/riwayat/struk', 'riwayat.struk');
+
+Route::get('/voucher', [VoucherController::class, 'index']);
+Route::post('/voucher/add', [VoucherController::class, 'addData']);
+Route::post('/voucher/update', [VoucherController::class, 'updateData']);
+Route::post('/voucher/delete_selected', [VoucherController::class, 'deleteSelected']);
+Route::get('/voucher/delete/{id}', [VoucherController::class, 'deleteData']);
+Route::get('/voucher/search/{search?}', [VoucherController::class, 'filter_search']);
+Route::get('/voucher/filter/{kategori?}', [VoucherController::class, 'filter_kategori']);
+
+Route::prefix('pengeluaran')->group(function () {
+  Route::get("/", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
+  Route::get("/operasional/{date?}", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
+  Route::post('operasional.store', [pengeluaran_operasioanal::class, 'store'])->middleware('auth');
+});

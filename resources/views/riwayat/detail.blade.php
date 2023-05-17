@@ -32,15 +32,18 @@
                 <div class="flex flex-col w-full">
                     <div class="grid grid-cols-10 items-center">
                         <div class="col-span-3 md:col-span-2 text-ellipsis overflow-hidden">No Transaksi</div>
-                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span>TP0R92722A</div>
+                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span><span
+                                id="txt_notransaksi">TP0R92722A</span></div>
                     </div>
                     <div class="grid grid-cols-10 items-center">
                         <div class="col-span-3 md:col-span-2 text-ellipsis overflow-hidden">Kasir</div>
-                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span>Risqi Nyungsep</div>
+                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span><span id="txt_kasir">Risqi
+                                Nyungsep</span></div>
                     </div>
                     <div class="grid grid-cols-10 items-center">
                         <div class="col-span-3 md:col-span-2 text-ellipsis overflow-hidden">Tanggal</div>
-                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span>2022-12-04 11:17:21</div>
+                        <div class="col-span-7 md:col-span-8"><span class="pr-4">:</span><span
+                                id="txt_tanggal">2022-12-04 11:17:21</span></div>
                     </div>
                 </div>
             </div>
@@ -58,16 +61,14 @@
                         </tr>
                     </thead>
                     {{-- ? Isinya --}}
-                    <tbody class="">
-                        @for ($i = 0; $i < 1; $i++)
-                            <tr>
-                                <td class="tracking-wide px-4 py-2 text-left">Dress Panjang Kondangan Anti Peluru</td>
-                                <td class="tracking-wide px-4 py-2 text-left">Rp. 210.000</td>
-                                <td class="tracking-wide px-4 py-2 text-left">Rp. 30.000</td>
-                                <td class="tracking-wide px-4 py-2 text-left">5</td>
-                                <td class="tracking-wide px-4 py-2 text-left">Rp. 1.250.000</td>
-                            </tr>
-                        @endfor
+                    <tbody id="konten_detail_transaksi" class="">
+                        <tr>
+                            <td class="tracking-wide px-4 py-2 text-left">Dress Panjang Kondangan Anti Peluru</td>
+                            <td class="tracking-wide px-4 py-2 text-left">Rp. 210.000</td>
+                            <td class="tracking-wide px-4 py-2 text-left">Rp. 30.000</td>
+                            <td class="tracking-wide px-4 py-2 text-left">5</td>
+                            <td class="tracking-wide px-4 py-2 text-left">Rp. 1.250.000</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -77,35 +78,35 @@
                 <div class="flex flex-row flex-wrap w-full items-center">
                     <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
                         <p class="text-ellipsis overflow-hidden">Jenis Pembayaran</p>
-                        <p class="col-span-2"><span class="pr-4">:</span>Cash</p>
+                        <p class="col-span-2"><span class="pr-4">:</span><span id="txt_jenis_pembayaran">Cash</span></p>
                     </div>
                     <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
                         <p class="text-ellipsis overflow-hidden">Harga Final</p>
-                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 210.000</p>
+                        <p class="col-span-2"><span class="pr-4">:</span><span id="txt_harga_final">Rp. 210.000</span></p>
                     </div>
                     <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
                         <p class="text-ellipsis overflow-hidden">Total</p>
-                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 300.000</p>
+                        <p class="col-span-2"><span class="pr-4">:</span><span id="txt_total">Rp. 300.000</span></p>
                     </div>
                     <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
                         <p class="text-ellipsis overflow-hidden">Bayar</p>
-                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 250.000</p>
+                        <p class="col-span-2"><span class="pr-4">:</span><span id="txt_bayar">Rp. 250.000</span></p>
                     </div>
                     <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
                         <p class="text-ellipsis overflow-hidden">Voucher</p>
-                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 90.000</p>
+                        <p class="col-span-2"><span class="pr-4">:</span><span id="txt_voucher">Rp. 90.000</span></p>
                     </div>
                     <div class="grid grid-cols-3 w-full lg:w-1/2 items-center">
                         <p class="text-ellipsis overflow-hidden">Kembali</p>
-                        <p class="col-span-2"><span class="pr-4">:</span>Rp. 50.000</p>
+                        <p class="col-span-2"><span class="pr-4">:</span><span id="txt_kembalian">Rp. 50.000</span></p>
                     </div>
                 </div>
             </div>
-            <div class="flex flex-row justify-center gap-2 pt-4 px-8 items-center">
-                <div class="flex h-fit bg-black px-4 text-white py-2 rounded-sm">
-                    <p>Cetak</p>
+            <div class="flex flex-row justify-center gap-2 pt-4 px-8 items-center cursor-default">
+                <div onclick="closeModalDetail()" class="flex h-fit bg-black px-4 text-white py-2 rounded-sm">
+                    <p>Tutup</p>
                 </div>
-                <div class="flex h-fit bg-primary px-4 text-black py-2 rounded-sm">
+                <div onclick="showModalStruk()" class="flex h-fit bg-primary px-4 text-black py-2 rounded-sm">
                     <p>Cetak</p>
                 </div>
             </div>

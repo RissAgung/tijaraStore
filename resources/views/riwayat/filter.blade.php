@@ -63,22 +63,21 @@
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11 18L0.607697 0L21.3923 0L11 18Z" fill="#DDDDDD" />
                             </svg>
+                            <?php $date = getdate(); ?>
                             <select id="filterbulanan_bulan"
                                 class="h-full w-full outline-0 border-0 px-4 appearance-none">
-
-
-                                <option value="1">Januari</option>
-                                <option value="2">Februari</option>
-                                <option value="3">Maret</option>
-                                <option value="4">Aprill</option>
-                                <option value="5">Mei</option>
-                                <option value="6">Juni</option>
-                                <option value="7">Juli</option>
-                                <option value="8">Agustus</option>
-                                <option value="9">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Desember</option>
+                                <option <?php echo 1 == $date['mon'] ? 'selected' : ''; ?> value="1">Januari</option>
+                                <option <?php echo 2 == $date['mon'] ? 'selected' : ''; ?> value="2">Februari</option>
+                                <option <?php echo 3 == $date['mon'] ? 'selected' : ''; ?> value="3">Maret</option>
+                                <option <?php echo 4 == $date['mon'] ? 'selected' : ''; ?> value="4">Aprill</option>
+                                <option <?php echo 5 == $date['mon'] ? 'selected' : ''; ?> value="5">Mei</option>
+                                <option <?php echo 6 == $date['mon'] ? 'selected' : ''; ?> value="6">Juni</option>
+                                <option <?php echo 7 == $date['mon'] ? 'selected' : ''; ?> value="7">Juli</option>
+                                <option <?php echo 8 == $date['mon'] ? 'selected' : ''; ?> value="8">Agustus</option>
+                                <option <?php echo 9 == $date['mon'] ? 'selected' : ''; ?> value="9">September</option>
+                                <option <?php echo 10 == $date['mon'] ? 'selected' : ''; ?> value="10">Oktober</option>
+                                <option <?php echo 11 == $date['mon'] ? 'selected' : ''; ?> value="11">November</option>
+                                <option <?php echo 12 == $date['mon'] ? 'selected' : ''; ?> value="12">Desember</option>
                             </select>
                         </div>
                     </div>
@@ -90,7 +89,6 @@
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11 18L0.607697 0L21.3923 0L11 18Z" fill="#DDDDDD" />
                             </svg>
-                            <?php $date = getdate(); ?>
                             <select id="filterbulanan_tahun"
                                 class="h-full w-full outline-0 border-0 px-4 appearance-none">
                                 <?php for ($i = ($date['year'] - 10); $i < ($date['year'] + 10); $i++) : ?>
@@ -122,15 +120,15 @@
                     <div class="flex flex-col items-start w-full gap-2">
                         <h1 class="w-1/2 font-semibold text-sm text-start">From</h1>
                         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg overflow-hidden">
-                            <input type="date" name="daterange"
-                                class="h-full w-full border-0 outline-none px-4"></input>
+                            <input type="date" name="daterange" id="filter_range_awal"
+                                class="h-full w-full border-0 outline-none px-4">
                         </div>
                     </div>
                     <div class="flex flex-col items-start w-full gap-2">
                         <h1 class="w-1/2 font-semibold text-sm text-start">To</h1>
                         <div class="h-[50px] w-full border border-[#C9C9C9] rounded-lg overflow-hidden">
-                            <input type="date" name="daterange"
-                                class="h-full w-full border-0 outline-none px-4"></input>
+                            <input type="date" name="daterange" id="filter_range_akhir"
+                                class="h-full w-full border-0 outline-none px-4">
                         </div>
                     </div>
                 </div>
@@ -142,7 +140,7 @@
                         </button>
                     </div>
                     <div class="w-fit py-4">
-                        <button type="button" id="btn_submit"
+                        <button type="button" id="btn_submit_filter"
                             class="w-full bg-primary flex justify-center py-4 rounded-md px-4">
                             <span id="button_submit" class="text-xs poppins-medium">Set Filter</span>
                         </button>
