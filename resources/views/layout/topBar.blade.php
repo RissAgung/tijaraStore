@@ -27,7 +27,7 @@
     </div>
 
     {{-- setting --}}
-    <form action="logout" method="POST"
+    <form action="{{ url('/logout') }}" method="POST"
         class="flex h-full lg:w-[80px] w-[60px] border-l-[1px] bg-white border-l-[#DCDADA] justify-center items-center">
         @csrf
 

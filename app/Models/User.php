@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\pengeluaran\pengeluaran;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -31,15 +33,23 @@ class User extends Authenticatable
     'level',
   ];
 
-  private function allData()
-  {
-    return collect($this->all());
+  public function pegawai(){
+    return $this->hasOne(model_pegawai::class, 'kode_account', 'kode_account');
   }
 
-  public function autoID()
-  {
-    return $this->allData()->last()->kode_account + 1;
-  }
+  // public function pengeluaran(){
+  //   return $this->hasMany(pengeluaran::class, 'kode_account', 'kode_account');
+  // }
+
+  // private function allData()
+  // {
+  //   return collect($this->all());
+  // }
+
+  // public function autoID()
+  // {
+  //   return $this->allData()->last()->kode_account + 1;
+  // }
 
   // public function cekLevel($username){
   //   $level = $this->allData()->where('username', $username)->pluck('level');

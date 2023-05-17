@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="{{ asset('css/DatePicker.css') }}">
+<script src="{{ asset('js/moment.js') }}"></script>
+<script src="{{ asset('js/DatePicker.js') }}"></script>
 <script>
     function showModalFilter() {
         $("#bg_modal").removeClass("pointer-events-none");
@@ -50,7 +53,7 @@
         todayHighlight: true,
         endDate: '+367d',
         calendarWeeks: true,
-        weekStart: 0,
+        weekStart: 1,
         // ...options
     });
 
@@ -73,7 +76,7 @@
         todayHighlight: true,
         endDate: '+367d',
         calendarWeeks: true,
-        weekStart: 0,
+        weekStart: 1,
 
         // ...options
     });
