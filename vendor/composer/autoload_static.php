@@ -606,6 +606,7 @@ class ComposerStaticInitece1b75120861f6613dd9dc4e968168f
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Exports\\RiwayatExport' => __DIR__ . '/../..' . '/app/Exports/RiwayatExport.php',
         'App\\Http\\Controllers\\Akumulasi' => __DIR__ . '/../..' . '/app/Http/Controllers/Akumulasi.php',
+        'App\\Http\\Controllers\\Api\\ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ApiController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DiscountController' => __DIR__ . '/../..' . '/app/Http/Controllers/DiscountController.php',
         'App\\Http\\Controllers\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoginController.php',

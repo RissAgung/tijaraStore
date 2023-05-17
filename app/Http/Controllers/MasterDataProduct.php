@@ -18,13 +18,15 @@ class MasterDataProduct extends Controller
     public function filter_tags(Request $request)
     {
         try {
+            $tagf = base64_decode($request->filter);
+            // dd($tagf);  
             //code...
             $products = barang::with('detail_barang_tag.tag')
                 ->with('diskon')
                 ->orderBy('created_at', 'desc')
-                ->whereHas('detail_barang_tag', function ($query) use ($request) {
+                ->whereHas('detail_barang_tag', function ($query) use ($tagf, $request) {
                     if ($request->has('filter')) {
-                        $query->whereIn('kode_tag', json_decode(strtoupper($request->filter)));
+                        $query->whereIn('kode_tag', json_decode(strtoupper($tagf)));
                     }
                 })
                 ->paginate(5);
