@@ -378,8 +378,8 @@ class ComposerStaticInit34c75f401b4b22c7a91e575e29caf637
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -606,6 +606,7 @@ class ComposerStaticInit34c75f401b4b22c7a91e575e29caf637
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Exports\\RiwayatExport' => __DIR__ . '/../..' . '/app/Exports/RiwayatExport.php',
         'App\\Http\\Controllers\\Akumulasi' => __DIR__ . '/../..' . '/app/Http/Controllers/Akumulasi.php',
+        'App\\Http\\Controllers\\Api\\ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ApiController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DiscountController' => __DIR__ . '/../..' . '/app/Http/Controllers/DiscountController.php',
         'App\\Http\\Controllers\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoginController.php',

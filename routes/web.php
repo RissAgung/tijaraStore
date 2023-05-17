@@ -84,7 +84,7 @@ Route::get('/riwayat/search/{data?}', [TransaksiController::class, 'search']);
 Route::get('/riwayat/export/{kategori?}/{data?}', [TransaksiController::class, 'export']);
 Route::get('/riwayat/cetak/{data?}', [TransaksiController::class, 'cetak']);
 
-Route::get('/diskon', [DiscountController::class, 'index']);
+Route::get('/diskon', [DiscountController::class, 'index'])->name('diskon');
 
 Route::post('/diskon/add', [DiscountController::class, "tambah_diskon"]);
 
@@ -101,7 +101,7 @@ Route::get('/diskon/search', [DiscountController::class, 'filter_search']);
 
 Route::view('/riwayat/struk', 'riwayat.struk');
 
-Route::get('/voucher', [VoucherController::class, 'index']);
+Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher');
 Route::post('/voucher/add', [VoucherController::class, 'addData']);
 Route::post('/voucher/update', [VoucherController::class, 'updateData']);
 Route::post('/voucher/delete_selected', [VoucherController::class, 'deleteSelected']);

@@ -94,18 +94,13 @@ class DiscountController extends Controller
             $barang->kode_diskon = $kode;
             $barang->save();
 
-            $arr = array(
-                "free" => $request->jenis_free,
-                "value" => array(
-                    "buy" => $request->txt_beli,
-                    "gratis" => $request->txt_gratis,
-                ),
-            );
 
             discount::create([
                 'kode_diskon' => $kode,
                 'kategori' => $request->jenis_discount,
-                'free_product' => json_encode($arr),
+                'free_product' => $request->jenis_free,
+                'buy' => $request->txt_beli,
+                'free' => $request->txt_gratis,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -170,18 +165,12 @@ class DiscountController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update']);
             }
 
-            $arr = array(
-                "free" => $request->jenis_free_update,
-                "value" => array(
-                    "buy" => $request->txt_beli_update,
-                    "gratis" => $request->txt_gratis_update,
-                ),
-            );
-
             $diskon = discount::find($request->txt_kode_update);
             $diskon->kategori = $request->jenis_discount_update;
             $diskon->nominal = null;
-            $diskon->free_product = json_encode($arr);
+            $diskon->free_product = $request->jenis_free_update;
+            $diskon->buy = $request->txt_beli_update;
+            $diskon->free = $request->txt_gratis_update;
             $diskon->updated_at = Carbon::now();
             $diskon->save();
         }
@@ -194,6 +183,9 @@ class DiscountController extends Controller
     {
         foreach ($request->ids as $value) {
             discount::find($value)->delete();
+            barang::where('kode_diskon', $value)->update([
+                'kode_diskon' => null,
+            ]);
         }
         alert()->success('Berhasil', 'Berhasil Menghapus Data');
         return redirect('/diskon');
@@ -211,8 +203,13 @@ class DiscountController extends Controller
                 // seperti memaksa menggunakan token yang telah dipakai sebelumnya untuk menghapus data yang lain
                 $request->session()->regenerateToken();
 
+
                 $diskon = discount::find($kode);
                 $diskon->delete();
+
+                barang::where('kode_diskon', $kode)->update([
+                    'kode_diskon' => null,
+                ]);
 
                 alert()->success('Berhasil', 'Berhasil Menghapus Data');
                 return redirect('/diskon');
