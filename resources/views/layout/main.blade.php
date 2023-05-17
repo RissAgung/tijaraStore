@@ -26,7 +26,7 @@
         {{-- end sidebar --}}
 
         {{-- content --}}
-        <div class="flex flex-col w-full lg:ml-[290px]">
+        <div class="flex flex-col w-full lg:pl-[290px]">
 
             {{-- top bar --}}
             <div>

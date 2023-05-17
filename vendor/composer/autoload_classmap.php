@@ -20,6 +20,8 @@ return array(
     'App\\Http\\Controllers\\TransaksiController' => $baseDir . '/app/Http/Controllers/TransaksiController.php',
     'App\\Http\\Controllers\\VoucherController' => $baseDir . '/app/Http/Controllers/VoucherController.php',
     'App\\Http\\Controllers\\pengeluaran_operasioanal' => $baseDir . '/app/Http/Controllers/pengeluaran_operasioanal.php',
+    'App\\Http\\Controllers\\report\\pemasukan' => $baseDir . '/app/Http/Controllers/report/pemasukan.php',
+    'App\\Http\\Controllers\\report\\pengeluaran' => $baseDir . '/app/Http/Controllers/report/pengeluaran.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',

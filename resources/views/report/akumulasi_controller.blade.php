@@ -14,26 +14,44 @@
     }
 
     function loadPieChart() {
-        chartpie.render();
+        chartpie_wanita.render();
+        chartpie_pria.render();
     }
 
     var dataPemasukan = []
+    var dataPengeluaran = []
 
     function getSeriesPenjualan() {
         return [{
             name: 'Pemasukkan',
             data: dataPemasukan,
+        }, {
+            name: 'Pengeluaran',
+            data: dataPengeluaran,
         }];
     }
 
-    async function loadDefaultSeries() {
+    async function loadDefaultSeries(data = null) {
         await $.ajax({
             type: "GET",
+            data: {
+                data_date: data,
+            },
             url: "{{ route('getAkumulasi') }}",
             success: function(res) {
                 const data = JSON.parse(res);
                 dataPemasukan = data.data;
-                options.xaxis.categories = data.bulan;
+                dataPengeluaran = data.data_pengeluaran;
+                options.xaxis.categories = data.label;
+                console.log(data);
+
+                var total = 0;
+
+                for (var index = 0; index < dataPemasukan.length; index++) {
+                    total += parseInt(dataPemasukan[index]);
+                }
+
+                $('#value_pemasukan').html(formatRupiah(String(total), 'Rp. '));
             }
 
         });
@@ -41,6 +59,8 @@
         chart.updateSeries(getSeriesPenjualan(), true);
         // console.log("pal adwbjawgdagd")
     }
+
+
 
     var divChart = document.getElementById("container_chart").getBoundingClientRect();
     var chartWidth = divChart.width * 0.9;
@@ -183,10 +203,10 @@
     ////////////////////////////////// PIE CHART //////////////////////////////////
 
     var divChart = document.getElementById("container_pie_chart").getBoundingClientRect();
-    var heightPenjualan = divChart.height - 10;
-    var widthPenjualan = divChart.width - 10;
+    var heightPenjualan = divChart.height;
+    var widthPenjualan = divChart.width;
 
-    var optionspieframe = {
+    var optionspieframe_wanita = {
         redrawOnWindowResize: true,
         chart: {
             height: (heightPenjualan),
@@ -195,7 +215,39 @@
 
         },
         title: {
-            text: 'Produk Terjual',
+            text: 'Produk Wanita',
+            align: 'center',
+            margin: 60,
+            offsetX: 0,
+            offsetY: -20,
+            floating: true,
+            style: {
+                fontSize: '19px',
+                fontWeight: 'bold',
+                fontFamily: undefined,
+                color: '#263238'
+            },
+        },
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+
+        },
+        labels: ['bintang', 'kontol', 'memek', 'pokeh', 'plerrrr', 'blok awoakwokoawkow'],
+        // series: getSeriesPie(),
+        series: [30, 40, 90, 80, 60, 20],
+
+    }
+    var optionspieframe_pria = {
+        redrawOnWindowResize: true,
+        chart: {
+            height: (heightPenjualan),
+            width: (widthPenjualan),
+            type: 'pie',
+
+        },
+        title: {
+            text: 'Produk Pria',
             align: 'center',
             margin: 60,
             offsetX: 0,
@@ -219,11 +271,13 @@
 
     }
 
-    var seriesPie = [];
 
-    function getSeriesPie() {
-        return seriesPie;
-    }
+    var chartpie_wanita = new ApexCharts(document.querySelector("#pie_chart_wanita"), optionspieframe_wanita);
+    var chartpie_pria = new ApexCharts(document.querySelector("#pie_chart_pria"), optionspieframe_pria);
 
-    var chartpie = new ApexCharts(document.querySelector("#pie_chart"), optionspieframe);
+    // var seriesPie = [];
+
+    // function getSeriesPie() {
+    //     return seriesPie;
+    // }
 </script>

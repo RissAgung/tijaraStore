@@ -5,6 +5,8 @@ use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
 use App\Http\Controllers\pengeluaran_operasioanal;
+use App\Http\Controllers\report\pemasukan;
+use App\Http\Controllers\report\pengeluaran;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
 use App\Http\Controllers\TransaksiController;
@@ -50,19 +52,22 @@ Route::post("/logout", [LoginController::class, 'logout']);
 // Route::post("/register", [LoginController::class, 'registerhahai'])->middleware('guest');
 
 Route::prefix("laporan")->group(function () {
-  Route::get("/", function () {
-    return view("report.pemasukan");
-  })->name("pemasukan")->middleware('auth');
-  Route::get("/pemasukan", function () {
-    return view("report.pemasukan");
-  })->name("pemasukan")->middleware('auth');
-  Route::get("/pengeluaran", function () {
-    return view("report.pengeluaran");
-  })->name("pengeluaran")->middleware('auth');
+  Route::get("/", [pemasukan::class, 'index'])->name("pemasukan")->middleware('auth');
+
+  Route::get("/pemasukan", [pemasukan::class, 'index'])->name("pemasukan")->middleware('auth');
+
+  Route::get("/pengeluaran/{date?}", [pengeluaran::class, 'index'])->name("pengeluaran")->middleware('auth');
+
   Route::get("/akumulasi", function () {
     return view("report.akumulasi");
   })->name("akumulasi")->middleware('auth');
   Route::get("/getAkumulasi", [Akumulasi::class, "getPemasukan"])->name("getAkumulasi")->middleware('auth');
+});
+
+Route::prefix('pengeluaran')->group(function () {
+  Route::get("/", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
+  Route::get("/operasional/{date?}", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
+  Route::post('operasional.store', [pengeluaran_operasioanal::class, 'store'])->middleware('auth');
 });
 
 Route::prefix("retur")->group(function () {
