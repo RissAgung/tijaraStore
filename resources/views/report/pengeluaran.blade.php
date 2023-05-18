@@ -230,7 +230,7 @@
                 </div>
                 <p
                     class="flex justify-center p-4 md:p-6 2xl:p-9 lg:p-5 text-[12px] md:text-[15px] 2xl:text-[17px] border-t-[1px] border-t-[#DCDADA] poppins-semibold">
-                    {{ rupiah($total['operasional'] - $total['restock']) }}</p>
+                    {{ rupiah($total['operasional'] + $total['restock']) }}</p>
             </div>
 
         </div>

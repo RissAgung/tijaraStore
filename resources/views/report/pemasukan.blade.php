@@ -1,7 +1,9 @@
 @extends('layout.main')
 
 @section('modal')
-    @include('modal.detail_laporan_pemasukan')
+    @include('modal.laporan_pemasukan.detail_laporan_pemasukan_pria')
+    @include('modal.laporan_pemasukan.detail_laporan_pemasukan_wanita')
+    @include('modal.laporan_pemasukan.detail_laporan_pemasukan_anak')
 @endsection
 
 @section('title')
@@ -104,7 +106,8 @@
             {{-- left --}}
             <div
                 class="flex flex-col w-full lg:w-[65%] h-80 md:h-96 lg:min-h-full overflow-y-auto bg-white border-[1px] border-[#DCDADA] rounded-md">
-                <p id="title_table" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pemasukan hari ini</p>
+                <p id="title_table" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pemasukan
+                    hari ini</p>
                 <div class="flex w-full border-y-[1px] border-y-[#DCDADA] bg-[#F7F7F7] text-[11px] md:text-[14px]">
                     <p class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">No</p>
                     <p class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">Waktu</p>
@@ -112,14 +115,16 @@
                 </div>
                 <div class="w-full h-full overflow-y-auto">
                     <table class="text-[11px] md:text-[14px] w-full">
-                        @for ($i = 0; $i < 30; $i++)
+                        <?php $i = 1; ?>
+                        @foreach ($data_pemasukan as $index)
                             <tr class="border-b-[1px] border-b-[#DCDADA]">
-                                <td class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-white">{{ $i + 1 }}</td>
-                                <td class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-white">Jan-2023</td>
-                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">Rp.
-                                    320.000</td>
+                                <td class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-white">{{ $i }}</td>
+                                <td class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-white">{{ $index->tanggal }}</td>
+                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">
+                                    {{ rupiah($index->total) }}</td>
                             </tr>
-                        @endfor
+                            <?php $i++; ?>
+                        @endforeach
                     </table>
                 </div>
             </div>
@@ -127,7 +132,8 @@
             {{-- right --}}
             <div
                 class="flex flex-col w-full lg:w-[35%] lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
-                <p id="title_detail" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
+                <p id="title_detail"
+                    class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
                     Detail Pemasukan hari ini</p>
                 <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-evenly">
 
@@ -182,7 +188,7 @@
                     <div class="w-full h-[1px] bg-[#DCDADA]"></div>
 
                     {{-- Wanita --}}
-                    <div onclick="showDetail()"
+                    <div onclick="showDetail_wanita()"
                         class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
                             <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
@@ -223,7 +229,7 @@
                     <div class="w-full h-[1px] bg-[#DCDADA]"></div>
 
                     {{-- Anak --}}
-                    <div onclick="showDetail()"
+                    <div onclick="showDetail_anak()"
                         class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
                             <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"

@@ -186,8 +186,8 @@
 
                         {{-- value --}}
                         <div class="flex flex-col w-[60%]">
-                            <h4 class="poppins-semibold md:text-2xl lg:text-lg text-[#E20000]">Rp. 6.00.000</h4>
-                            <p class="poppins-semibold md:text-xl lg:text-base text-[#565656] text-sm">Pemasukan</p>
+                            <h4 class="poppins-semibold md:text-2xl lg:text-lg text-[#E20000]" id="value_pengeluaran"></h4>
+                            <p class="poppins-semibold md:text-xl lg:text-base text-[#565656] text-sm">Pengeluaran</p>
                         </div>
 
                     </div>

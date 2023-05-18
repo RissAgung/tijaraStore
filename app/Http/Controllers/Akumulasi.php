@@ -138,7 +138,7 @@ class Akumulasi extends Controller
 
 
 
-        
+
         foreach ($result_pengeluaran as $index) {
           for ($i = 0; $i < count($label); $i++) {
             if ($label[$i] === $index->hari) {
@@ -146,7 +146,7 @@ class Akumulasi extends Controller
             }
           }
         }
-        
+
         foreach ($result as $index) {
           for ($i = 0; $i < count($label); $i++) {
             if ($label[$i] === $index->hari) {
@@ -154,7 +154,7 @@ class Akumulasi extends Controller
             }
           }
         }
-        
+
         // foreach ($result as $index) {
         //   for ($i = 0; $i < count($label); $i++) {
         //     if ($label[$i] === $index->hari) {
@@ -184,6 +184,10 @@ class Akumulasi extends Controller
         $yearweek = ["", "", "", "", "", "",];
 
         $data = [
+          0, 0, 0, 0, 0, 0
+        ];
+
+        $data_pengeluaran = [
           0, 0, 0, 0, 0, 0
         ];
 
@@ -271,10 +275,24 @@ class Akumulasi extends Controller
           ->groupByRaw('YEARWEEK(date(tanggal))')
           ->get();
 
+        $result_pengeluaran = pengeluaran::selectRaw('YEARWEEK(date(tanggal)) AS yearweek, (SUM(total)) AS total')
+          ->whereMonth('tanggal', '=', $bulan)
+          ->whereYear('tanggal', '=', $tahun)
+          ->groupByRaw('YEARWEEK(date(tanggal))')
+          ->get();
+
         foreach ($result as $index) {
           for ($i = 0; $i < count($yearweek); $i++) {
             if ($yearweek[$i] === $index->yearweek) {
               $data[$i] = $index->total;
+            }
+          }
+        }
+
+        foreach ($result_pengeluaran as $index) {
+          for ($i = 0; $i < count($yearweek); $i++) {
+            if ($yearweek[$i] === $index->yearweek) {
+              $data_pengeluaran[$i] = $index->total;
             }
           }
         }
@@ -287,7 +305,8 @@ class Akumulasi extends Controller
         return json_encode(
           array(
             "label" => $label,
-            "data" => $data
+            "data" => $data,
+            "data_pengeluaran" => $data_pengeluaran
           )
         );
       } elseif ($data_decode_date->type === 'tahunan') {
@@ -307,6 +326,13 @@ class Akumulasi extends Controller
           ->orderBy('bulan')
           ->pluck('total', 'bulan');
 
+        // pengeluaran
+        $results_pengeluaran = pengeluaran::selectRaw('MONTH(tanggal) AS bulan, (SUM(total)) AS total')
+          ->whereYear('tanggal', $tahun)
+          ->groupBy('bulan')
+          ->orderBy('bulan')
+          ->pluck('total', 'bulan');
+
         // Membuat koleksi dari hasil query
         $finalResults = collect($months)->map(function ($month, $index) use ($results) {
           $bulan_ke = $index + 1;
@@ -318,8 +344,23 @@ class Akumulasi extends Controller
           ];
         });
 
+
+        // sampe sini cuk -> blm masukin pengeluaran
+        $finalResults_pengeluaran = collect($months)->map(function ($month, $index) use ($results_pengeluaran) {
+          $bulan_ke = $index + 1;
+          $total = $results_pengeluaran->get($bulan_ke, 0);
+
+          return [
+            'bulan' => $month,
+            'total' => $total
+          ];
+        });
+
         foreach ($finalResults as $index) {
           array_push($data, $index['total']);
+        }
+        foreach ($finalResults_pengeluaran as $index) {
+          array_push($data_pengeluaran, $index['total']);
         }
         foreach ($finalResults as $index) {
           array_push($label, $index['bulan']);
@@ -329,15 +370,21 @@ class Akumulasi extends Controller
         return json_encode(
           array(
             "label" => $label,
-            "data" => $data
+            "data" => $data,
+            "data_pengeluaran" => $data_pengeluaran
           )
         );
       } elseif ($data_decode_date->type === 'range') {
         $date_awal = $data_decode_date->data->awal;
         $date_akhir = $data_decode_date->data->akhir;
 
-        $result = pemasukan::whereBetween('tanggal', [$date_awal, $date_akhir])
+        $result = pemasukan::whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
           ->selectRaw('(SUM(bayar) - SUM(kembalian)) AS total')
+          ->first()
+          ->total;
+
+        $result_pengeluaran = pengeluaran::whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
+          ->selectRaw('(SUM(total)) AS total')
           ->first()
           ->total;
 
@@ -346,12 +393,14 @@ class Akumulasi extends Controller
         ];
         // foreach ($result as $index) {
         array_push($data, (int)$result);
+        array_push($data_pengeluaran, (int)$result_pengeluaran);
         // }
 
         return json_encode(
           array(
             "label" => $label,
-            "data" => $data
+            "data" => $data,
+            "data_pengeluaran" => $data_pengeluaran
           )
         );
       }

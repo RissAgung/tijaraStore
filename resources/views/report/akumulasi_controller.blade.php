@@ -46,12 +46,18 @@
                 console.log(data);
 
                 var total = 0;
+                var total_pengeluaran = 0;
 
                 for (var index = 0; index < dataPemasukan.length; index++) {
                     total += parseInt(dataPemasukan[index]);
                 }
 
+                for (var index = 0; index < dataPengeluaran.length; index++) {
+                    total_pengeluaran += parseInt(dataPengeluaran[index]);
+                }
+
                 $('#value_pemasukan').html(formatRupiah(String(total), 'Rp. '));
+                $('#value_pengeluaran').html(formatRupiah(String(total_pengeluaran), 'Rp. '));
             }
 
         });
