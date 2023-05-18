@@ -55,16 +55,17 @@ class pengeluaran extends Controller
           );
         } elseif ($data->type === 'range') {
           $titleFilter = 'Range';
+
           $date_awal = $data->data->awal;
           $date_akhir = $data->data->akhir;
 
           // return filter date range
-          return (ModelPengeluaran::whereBetween('tanggal', [$date_awal, $date_akhir])
+          return (ModelPengeluaran::whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])->get()
           );
         }
       }
 
-      $titleFilter = 'Harian';
+      $titleFilter = '';
 
       // without filter date
       return ModelPengeluaran::get();
@@ -73,14 +74,33 @@ class pengeluaran extends Controller
 
     $dataPengeluaranFinal = $dataPengeluaran($dataFilterDate);
 
-    $total_operasional = ModelPengeluaran::getJumlahTotalOperasional($dataFilterDate)[0]->jumlah_total;
-    $total_restock = ModelPengeluaran::getJumlahTotalRestock($dataFilterDate)[0]->jumlah_total;
+    $total_operasional = function ($data) {
+      $value = 0;
+      foreach ($data as $index) {
+        if ($index->jenis_pengeluaran === 'operasional') {
+          $value += $index->total;
+        }
+      }
+      return $value;
+    };
+
+    $total_restock = function ($data) {
+      $value = 0;
+      foreach ($data as $index) {
+        if ($index->jenis_pengeluaran === 'restock') {
+          $value += $index->total;
+        }
+      }
+      return $value;
+    };
 
     $total = array(
-      'operasional' => $total_operasional,
-      'restock' => $total_restock,
+      'operasional' => $total_operasional($dataPengeluaranFinal),
+      'restock' => $total_restock($dataPengeluaranFinal),
       'title' => $titleFilter,
     );
+
+    // dd($dataFilterDate);
 
     return view('report.pengeluaran', compact('dataPengeluaranFinal', 'total'));
   }
