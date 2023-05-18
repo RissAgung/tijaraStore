@@ -1,7 +1,11 @@
 @extends('layout.main')
 
+@section('other_css')
+    <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}">
+@endsection
+
 @section('modal')
-    @include('modal.detail_laporan_pengeluaran')
+    @include('modal.filterDate.filter')
 @endsection
 
 @section('title')
@@ -21,10 +25,11 @@
             {{-- menu --}}
             <div id="menuLaporan" class="md:hidden poppins-medium cursor-pointer flex h-full items-center gap-2">
                 <p class="text-selector-none">Pengeluaran</p>
-                <div id="arrowMenu" class="transition ease-in-out delay-75">
-                    <svg class="w-[11px] h-[5px]" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div id="arrowMenu" class="rotate-180 transition ease-in-out delay-75">
+
+                    <svg class="w-[11px] h-[5px]" viewBox="0 0 59 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
-                            d="M7 8C6.83259 8 6.67061 7.96946 6.51408 7.9084C6.35671 7.84733 6.22571 7.7659 6.12108 7.66412L0.345291 2.0458C0.115097 1.82188 0 1.53689 0 1.19084C0 0.844783 0.115097 0.559796 0.345291 0.335877C0.575485 0.111959 0.86846 0 1.22421 0C1.57997 0 1.87294 0.111959 2.10314 0.335877L7 5.09924L11.8969 0.335877C12.1271 0.111959 12.42 0 12.7758 0C13.1315 0 13.4245 0.111959 13.6547 0.335877C13.8849 0.559796 14 0.844783 14 1.19084C14 1.53689 13.8849 1.82188 13.6547 2.0458L7.87892 7.66412C7.75336 7.78626 7.61734 7.87257 7.47085 7.92305C7.32436 7.97435 7.16741 8 7 8Z"
+                            d="M29.5 0.499999C30.1936 0.499999 30.8646 0.610691 31.5131 0.832065C32.1651 1.05344 32.7078 1.3486 33.1413 1.71756L57.0695 22.084C58.0232 22.8957 58.5 23.9288 58.5 25.1832C58.5 26.4377 58.0232 27.4707 57.0695 28.2824C56.1158 29.0941 54.9021 29.5 53.4283 29.5C51.9544 29.5 50.7407 29.0941 49.787 28.2824L29.5 11.0153L9.21301 28.2824C8.25935 29.0941 7.04559 29.5 5.57175 29.5C4.09791 29.5 2.88417 29.0941 1.93051 28.2824C0.976843 27.4707 0.500002 26.4377 0.500002 25.1832C0.500002 23.9288 0.976843 22.8957 1.93051 22.084L25.8587 1.71756C26.3789 1.27481 26.9425 0.961936 27.5493 0.778934C28.1562 0.59298 28.8064 0.499999 29.5 0.499999Z"
                             fill="black" />
                     </svg>
                 </div>
@@ -32,7 +37,7 @@
 
             {{-- dropdown --}}
             <div id="menuDropDown"
-                class=" max-md:shadow-md text-selector-none flex flex-col md:flex-row md:items-end max-md:hidden max-md:absolute gap-2 min-[360px]:gap-3 md:gap-5 poppins-medium text-[#2c2c2c] p-2 min-[360px]:p-3 md:p-0 w-24 min-[360px]:w-32 md:w-auto rounded-sm min-[360px]:rounded-[5px] bg-white top-8 min-[360px]:top-10 max-md:border-[1px] max-md:border-[#DCDADA] md:h-full">
+                class=" max-md:shadow-md text-selector-none flex flex-col md:flex-row md:items-end max-md:hidden max-md:absolute max-md:z-20 gap-2 min-[360px]:gap-3 md:gap-5 poppins-medium text-[#2c2c2c] p-2 min-[360px]:p-3 md:p-0 w-24 min-[360px]:w-32 md:w-auto rounded-sm min-[360px]:rounded-[5px] bg-white top-8 min-[360px]:top-10 max-md:border-[1px] max-md:border-[#DCDADA] md:h-full">
                 <a id="menu_pemasukan1" href="{{ route('pemasukan') }}"
                     class="hover:text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
                     <p>Pemasukan</p>
@@ -59,7 +64,7 @@
             <div class="flex poppins-medium gap-2">
 
                 {{-- filter --}}
-                <button
+                <button onclick="showModalFilter()"
                     class="text-selector-none flex items-center gap-2 py-2 px-3 md:py-2 md:px-3 rounded-md shadow-lg bg-[#FFB015] hover:bg-[#d48e00] transition ease-in-out">
                     <p>Filter</p>
                     <svg class="w-[17px] h-[15px] md:w-[20px] md:h-[18px]" viewBox="0 0 24 26" fill="none"
@@ -80,7 +85,7 @@
                 </button>
 
                 {{-- reset --}}
-                <button
+                <a href="{{ url('/laporan/akumulasi') }}"
                     class="flex items-center py-2 px-[10px] md:py-2 md:px-3 gap-2 rounded-md shadow-lg bg-black hover:bg-[#3b3b3b] transition ease-in-out">
 
                     <svg class="w-[15px] h-[15px] md:w-[18px] md:h-[18px]" viewBox="0 0 25 25" fill="none"
@@ -92,7 +97,7 @@
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
 
-                </button>
+                </a>
             </div>
 
         </div>
@@ -104,24 +109,30 @@
             {{-- container chart --}}
             <div id="container_chart"
                 class="flex justify-center items-center w-full lg:w-[70%] h-80 md:h-96 lg:min-h-full bg-white border-[1px] border-[#DCDADA] rounded-md">
-                <div id="chart"></div>
+                <div id="chart" class=""></div>
             </div>
 
             {{-- right --}}
-            <div class="w-full flex flex-col lg:flex-col-reverse gap-2 lg:justify-between lg:min-h-full lg:w-[30%]">
+            <div class="w-full flex flex-col lg:flex-col-reverse max-lg:gap-2 lg:justify-between lg:min-h-full lg:w-[30%]">
 
                 {{-- pie chart --}}
-                <div id="container_pie_chart"
-                    class="w-full lg:h-[70%] flex items-center aspect-square bg-white border-[1px] border-[#DCDADA] rounded-md">
-                    <div id="pie_chart"></div>
-                </div>
+                <swiper-container pagination="true" pagination-dynamic-bullets="true" pagination-clickable="true"
+                    autoplay-delay="6000" autoplay-disable-on-interaction="false" loop="true"
+                    class="mySwiper w-full lg:h-[65%] max-lg:aspect-square bg-white border-[1px] border-[#DCDADA] rounded-md">
+                    <swiper-slide class="w-full h-full" id="container_pie_chart">
+                        <div id="pie_chart_wanita"></div>
+                    </swiper-slide>
+                    <swiper-slide class="w-full h-full" id="container_pie_chart">
+                        <div id="pie_chart_pria"></div>
+                    </swiper-slide>
+                </swiper-container>
 
                 {{-- pemasukan & pengeluaran --}}
-                <div class="flex flex-col w-full gap-2 lg:h-[30%]">
+                <div class="flex flex-col justify-between w-full max-lg:gap-2 lg:h-[30%]">
 
                     {{-- pemasukan --}}
                     <div
-                        class="flex justify-between items-center w-full lg:h-[50%] p-3 bg-white border-[1px] border-[#DCDADA] rounded-md">
+                        class="flex justify-between items-center w-full lg:h-[45%] p-3 bg-white border-[1px] border-[#DCDADA] rounded-md">
 
                         {{-- icon --}}
                         <svg class="w-[30%] lg:w-[20%] aspect-video" viewBox="0 0 111 72" fill="none"
@@ -143,7 +154,7 @@
 
                         {{-- value --}}
                         <div class="flex flex-col w-[60%]">
-                            <h4 class="poppins-semibold md:text-2xl lg:text-lg text-[#097E62]">Rp. 7.000.000</h4>
+                            <h4 class="poppins-semibold md:text-2xl lg:text-lg text-[#097E62]" id="value_pemasukan"></h4>
                             <p class="poppins-semibold md:text-xl lg:text-base text-[#565656] text-sm">Pemasukan</p>
                         </div>
 
@@ -151,7 +162,7 @@
 
                     {{-- pengeluaran --}}
                     <div
-                        class="flex justify-between items-center w-full lg:h-[50%] p-3 bg-white border-[1px] border-[#DCDADA] rounded-md">
+                        class="flex justify-between items-center w-full lg:h-[45%] p-3 bg-white border-[1px] border-[#DCDADA] rounded-md">
 
                         {{-- icon --}}
 
@@ -175,8 +186,8 @@
 
                         {{-- value --}}
                         <div class="flex flex-col w-[60%]">
-                            <h4 class="poppins-semibold md:text-2xl lg:text-lg text-[#E20000]">Rp. 6.00.000</h4>
-                            <p class="poppins-semibold md:text-xl lg:text-base text-[#565656] text-sm">Pemasukan</p>
+                            <h4 class="poppins-semibold md:text-2xl lg:text-lg text-[#E20000]" id="value_pengeluaran"></h4>
+                            <p class="poppins-semibold md:text-xl lg:text-base text-[#565656] text-sm">Pengeluaran</p>
                         </div>
 
                     </div>
@@ -189,5 +200,9 @@
 
 @section('otherjs')
     <script src="{{ asset('js/apexcharts.js') }}"></script>
+    <script src="{{ asset('js/swiper-element-bundle.min.js') }}"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script> --}}
+    <script src="{{ asset('js/controllers/akumulasi.js') }}"></script>
     @include('report.akumulasi_controller')
+    @include('modal.filterDate.controller')
 @endsection

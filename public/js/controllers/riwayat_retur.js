@@ -63,6 +63,7 @@ $(document).keyup(function (event) {
 });
 
 $(document).ready(function () {
+  
   $('#btn_submit_filter').click(function () {
 
     if (getDataFilter() !== false) {

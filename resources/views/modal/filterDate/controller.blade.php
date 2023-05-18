@@ -57,7 +57,7 @@
         todayHighlight: true,
         endDate: '+367d',
         calendarWeeks: true,
-        weekStart: 0,
+        weekStart: 1,
         // ...options
     });
 
@@ -80,7 +80,7 @@
         todayHighlight: true,
         endDate: '+367d',
         calendarWeeks: true,
-        weekStart: 0,
+        weekStart: 1,
 
         // ...options
     });

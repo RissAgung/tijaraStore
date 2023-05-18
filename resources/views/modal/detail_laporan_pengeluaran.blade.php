@@ -4,13 +4,13 @@
 
 
 {{-- TODO: INI KONTEN MODAL --}}
-<div id="konten_modal"
+<div id="konten_modal_detail"
     class="fixed flex-nowrap w-[95%] md:w-[662px] lg:h-[525px] max-h-[90%] flex flex-col justify-between p-4 min-[374px]:p-5 md:p-7 z-[101] left-[50%] top-[50%] -translate-y-[50%] scale-0 -translate-x-[50%] rounded-md drop-shadow-lg transition ease-linear duration-200 bg-white">
 
     {{-- top --}}
     <div
         class="flex justify-between w-full h-10 min-[374px]:h-11 lg:text-[18px] md:text-[17px] text-[14px] pt-1 min-[374px]:mb-3 md:mb-8">
-        <h1 class="poppins-medium leading-none">Detail Produk</h1>
+        <h1 class="poppins-medium leading-none" id="title_detail"></h1>
 
         {{-- X --}}
         <div onclick="closeModal()" class="cursor-pointer">
@@ -24,58 +24,68 @@
     </div>
 
     {{-- tab bar --}}
-    <div class="flex max-md:mt-6">
+    {{-- <div class="flex max-md:mt-6">
         <div
             class="flex rounded-md border-[2px] border-[#CCCCCC] text-xs min-[390px]:text-sm md:text-base p-1 gap-1 poppins-medium">
-            <div onclick="tab_terjual()" id="tab_terjual"
+            <div onclick="tab_restock()" id="tab_restock"
                 class="cursor-pointer py-1 px-3 rounded-sm transition ease-in-out hover:bg-[#FFB015] bg-[#FFB015]">
-                Terjual</div>
-            <div onclick="tab_tidak_terjual()" id="tab_tidak_terjual"
+                Restock</div>
+            <div onclick="tab_operasional()" id="tab_operasional"
                 class="cursor-pointer py-1 px-3 rounded-sm transition ease-in-out hover:bg-[#FFB015]">Tidak
-                Terjual
+                Operasional
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    {{-- table terjual --}}
-    <div id="tb_terjual" class="w-full overflow-auto whitespace-nowrap mt-6 bg-white border-[1px] border-[#CCCCCC]">
-        <table class="w-full text-xs min-[390px]:text-sm md:text-base">
-            <thead class="bg-[#F2F2F2] sticky top-0 text-[#C68300]">
+    <div class="w-full h-full overflow-auto" id="tb_restock">
+        <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
+            <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
                 <tr>
-                    <th class="p-2 md:p-4 text-left">Produk</th>
-                    <th class="p-2 md:p-4">Jumlah</th>
+                    <th class="text-left p-3">No Transaksi</th>
+                    <th class="text-center p-3">Tanggal</th>
+                    <th class="text-center p-3">Keterangan</th>
+                    <th class="text-right p-3">Total</th>
                 </tr>
             </thead>
-            <tbody class="text-center">
-                @for ($i = 0; $i < 50; $i++)
-                    <tr>
-                        <td class="p-2 md:p-4 text-left" id="nama_br">Lorem ipsum dolor sit</td>
-                        <td class="p-2 md:p-4" id="jumlah_produk">16X</td>
-                    </tr>
-                @endfor
+            <tbody class="bg-white border-[1px] border-[#CCCCCC]">
+                @foreach ($dataPengeluaranFinal as $data)
+                    @if ($data->jenis_pengeluaran === 'restock')
+                        <tr>
+                            <td class="text-left p-3">{{ $data->kode_pengeluaran }}</td>
+                            <td class="text-center p-3">{{ $data->tanggal }}</td>
+                            <td class="text-center p-3">{{ $data->item_operasional }}</td>
+                            <td class="text-right p-3">{{ rupiah($data->total) }}</td>
+                        </tr>
+                    @endif
+                @endforeach
             </tbody>
         </table>
     </div>
 
-    {{-- table tidak terjual --}}
-    <div id="tb_t_terjual"
-        class="w-full hidden overflow-auto whitespace-nowrap mt-6 bg-white border-[1px] border-[#CCCCCC]">
-        <table class="w-full text-xs min-[390px]:text-sm md:text-base">
-            <thead class="bg-[#F2F2F2] sticky top-0 text-[#C68300]">
-                <tr>
-                    <th class="p-2 md:p-4 text-left">Produk</th>
-                    <th class="p-2 md:p-4">Jumlah</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                @for ($i = 0; $i < 50; $i++)
-                    <tr>
-                        <td class="p-2 md:p-4 text-left" id="nama_br">Hahai hayyuk awokowakoaw</td>
-                        <td class="p-2 md:p-4" id="jumlah_produk">16X</td>
-                    </tr>
-                @endfor
-            </tbody>
-        </table>
-    </div>
+    {{-- operasional --}}
+    <div class="w-full h-full overflow-auto hidden" id="tb_operasional">
+      <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
+          <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
+              <tr>
+                  <th class="text-left p-3">No Transaksi</th>
+                  <th class="text-center p-3">Tanggal</th>
+                  <th class="text-center p-3">Keterangan</th>
+                  <th class="text-right p-3">Total</th>
+              </tr>
+          </thead>
+          <tbody class="bg-white border-[1px] border-[#CCCCCC]">
+              @foreach ($dataPengeluaranFinal as $data)
+                  @if ($data->jenis_pengeluaran === 'operasional')
+                      <tr>
+                          <td class="text-left p-3">{{ $data->kode_pengeluaran }}</td>
+                          <td class="text-center p-3">{{ $data->tanggal }}</td>
+                          <td class="text-center p-3">{{ $data->item_operasional }}</td>
+                          <td class="text-right p-3">{{ rupiah($data->total) }}</td>
+                      </tr>
+                  @endif
+              @endforeach
+          </tbody>
+      </table>
+  </div>
 
 </div>

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class model_pegawai extends Model
 {
   use HasFactory;
-  protected $table = 'PEGAWAI'; // mendevinisikan nama table
+  protected $table = 'pegawai'; // mendevinisikan nama table
   protected $primaryKey = 'kode_pegawai'; // mendevinisikan primary key
   public $incrementing = false; // auto pada primaryKey incremment false
   public $timestamps = false; // create_at dan update_at false
@@ -18,7 +18,7 @@ class model_pegawai extends Model
 
   public function account()
   {
-    return $this->belongsTo(User::class, 'kode_account', 'kode_account');
+    return $this->hasOne(User::class, 'kode_pegawai', 'kode_pegawai');
   }
 
   public function pengeluaran_pegawai()
