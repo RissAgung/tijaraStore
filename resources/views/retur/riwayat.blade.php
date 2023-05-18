@@ -72,7 +72,7 @@
                     <form action="/riwayatRetur/{{ $dataUrl['date'] }}" method="GET" id="form_search">
                         <input type="search" id="field_search" name="search"
                             class="placeholder:text-[11px] md:placeholder:text-[15px] outline-none w-[80%]"
-                            placeholder="Kode / Nama Barang" value="{{ $dataUrl['search'] }}">
+                            placeholder="Kode atau Nama Barang" value="{{ $dataUrl['search'] }}">
                     </form>
                 </div>
 
