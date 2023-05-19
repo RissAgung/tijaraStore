@@ -1073,6 +1073,10 @@ video {
   height: 100vh;
 }
 
+.h-\[80vh\] {
+  height: 80vh;
+}
+
 .max-h-\[40vh\] {
   max-height: 40vh;
 }
@@ -1312,6 +1316,18 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-7 {
+  width: 1.75rem;
+}
+
+.w-14 {
+  width: 3.5rem;
+}
+
+.w-32 {
+  width: 8rem;
 }
 
 .min-w-\[150px\] {
@@ -2112,6 +2128,10 @@ video {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .uppercase {
@@ -3548,6 +3568,10 @@ body {
     height: 100vh;
   }
 
+  .lg\:h-\[85\%\] {
+    height: 85%;
+  }
+
   .lg\:min-h-full {
     min-height: 100%;
   }
@@ -3934,6 +3958,10 @@ body {
 
   .\32xl\:h-auto {
     height: auto;
+  }
+
+  .\32xl\:h-\[75\%\] {
+    height: 75%;
   }
 
   .\32xl\:w-\[29px\] {
