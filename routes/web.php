@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterDataProduct;
 use App\Http\Controllers\pengeluaran_operasioanal;
 use App\Http\Controllers\report\pemasukan;
 use App\Http\Controllers\report\pengeluaran;
+use App\Http\Controllers\retur_customer;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
 use App\Http\Controllers\TransaksiController;
@@ -17,8 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", function () {
-  return view("layout.main");
-});
+  return view("front_view.landing");
+})->name('landing')->middleware('guest');
 
 Route::prefix("product")->group(function () {
   Route::get("/", [MasterDataProduct::class, 'products'])->name('product');
@@ -76,6 +77,8 @@ Route::prefix("retur")->group(function () {
   Route::get("/{search?}", [ReturController::class, 'index'])->name('retur')->middleware('auth');
   Route::post("/add", [ReturController::class, 'submit_retur'])->middleware('auth');
 });
+
+Route::get('/retur_cs', [retur_customer::class, 'index']);
 
 Route::prefix("riwayatRetur")->group(function () {
   Route::get("/{date?}", [RiwayatRetur::class, "index"])->name('riwayatRetur')->middleware('auth');

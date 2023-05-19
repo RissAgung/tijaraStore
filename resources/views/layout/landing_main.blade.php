@@ -6,20 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/output/landing.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+    @yield('other_css')
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    {{-- @vite([]) --}}
+    @vite([])
 </head>
 
-<body>
+<body class="flex flex-col justify-center items-center">
 
-    {{-- container --}}
-    <div class="flex flex-col md:flex-row lg:flex-col w-screen min-h-screen lg:h-screen">
+    {{-- navbar --}}
+    <div class="p-3 h-[60px] md:h-[70px] xl:h-[80px] w-screen bg-white fixed top-0 shadow-sm">
 
-        {{-- navbar --}}
-        <div
-            class="flex flex-row justify-between items-center p-3 h-[60px] md:h-[70px] xl:h-[80px] w-screen fixed bg-white shadow-sm lg:px-16 2xl:px-24">
-
+        <div class="h-full md:max-w-[1350px] mx-auto flex flex-row justify-between items-center lg:px-16 2xl:px-24">
             {{-- logo tijara --}}
             <div class="md:w-[50%]">
                 <svg class="w-[120px] md:w-[140px] lg:w-[160px]" viewBox="0 0 174 46" fill="none"
@@ -48,18 +46,24 @@
             <div id="menu_navbar"
                 class="hidden md:flex rounded-md flex-col md:flex-row md:justify-end max-md:py-3 max-md:px-4 max-md:border-[2px] bg-white max-md:border-black max-md:right-3 max-md:top-14 max-md:absolute max-md:w-[120px] poppins-medium md:text-[17px] min-[1481px]:text-[18px] md:w-[50%] lg:w-[33%] min-[1481px]:w-[28%]">
                 <div class="flex flex-col md:flex-row lg:gap-4">
-                    <a class="text-left md:text-center rounded-lg py-1 md:hover:bg-[#FFB015] md:py-2 transition ease-in-out cursor-pointer md:px-6"
-                        href="#">Home</a>
-                    <a class="text-left md:text-center rounded-lg py-1 md:hover:bg-[#FFB015] md:py-2 transition ease-in-out cursor-pointer md:px-6"
-                        href="#">Login</a>
+                    <a class="text-left md:text-center rounded-lg py-1 @if (Route::is('landing')) bg-[#FFB015] @endif md:hover:bg-[#FFB015] md:py-2 transition ease-in-out cursor-pointer md:px-6"
+                        href="{{ route('landing') }}">Home</a>
+                    <a class="text-left md:text-center rounded-lg py-1 @if (Route::is('login')) bg-[#FFB015] @endif md:hover:bg-[#FFB015] md:py-2 transition ease-in-out cursor-pointer md:px-6"
+                        href="{{ route('login') }}">Login</a>
                 </div>
             </div>
-
         </div>
-        {{-- end navbar --}}
+
+
+
+    </div>
+    {{-- end navbar --}}
+    {{-- container --}}
+    <div
+        class="flex flex-col md:flex-row lg:flex-col w-screen md:max-w-[1350px] min-h-screen lg:h-screen pt-[60px] md:pt-[70px] xl:pt-[80px]">
 
         {{-- content --}}
-        <div class="flex flex-col mt-[60px] md:mt-[70px] xl:mt-[80px] w-full max-md:h-full lg:h-full justify-between">
+        <div class="flex flex-col w-full max-md:h-full lg:h-full justify-between lg:px-16 2xl:px-24">
             @yield('content')
         </div>
         {{-- content --}}

@@ -15,8 +15,8 @@
             class="flex flex-row 2xl:flex-col justify-between items-center 2xl:items-start w-full mt-7 -ml-1 md:mt-[45px] lg:mt-7 gap-3">
 
             {{-- avatar --}}
-            <div class="rounded-full overflow-hidden">
-                <img src="{{ asset('assets/images/avatar.png') }}" alt="avatar" class="object-cover">
+            <div class="w-24 aspect-square rounded-full overflow-hidden">
+                <img src="{{ asset('assets/images/profile_female.jpg') }}" alt="avatar" class="object-cover">
             </div>
 
             <div class="flex flex-col justify-center gap-1 w-[65%] 2xl:w-full h-full 2xl:h-auto">

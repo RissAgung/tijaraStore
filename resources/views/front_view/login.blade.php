@@ -6,14 +6,14 @@
 
         {{-- left --}}
         <div
-            class="flex flex-col items-center gap-1 min-[360px]:gap-3 md:gap-7 xl:gap-5 lg:h-full lg:pl-16 2xl:pl-24 lg:items-start lg:w-[60%] lg:justify-center">
+            class="flex flex-col items-center gap-1 min-[360px]:gap-3 md:gap-7 xl:gap-5 lg:h-full lg:items-start lg:w-[60%] lg:justify-center">
 
             {{-- text --}}
             <h1
-                class="capitalize poppins-semibold text-[25px] min-[360px]:text-[30px] md:text-[40px] lg:text-[30px] w-[70%] md:w-[90%] text-center md:leading-[45px] lg:w-[75%] lg:text-left xl:w-[50%] xl:text-[32px] 2xl:text-[43px] 2xl:leading-[55px]">
+                class="capitalize poppins-semibold text-[25px] min-[360px]:text-[30px] md:text-[40px] lg:text-[30px] w-[70%] md:w-[90%] text-center md:leading-[45px] lg:w-[75%] lg:text-left xl:text-[32px] 2xl:text-[43px] 2xl:leading-[55px]">
                 selamat datang di tijaraStore</h1>
             <p
-                class="w-[95%] md:w-[70%] min-[360px]:w-[90%] text-[10px] min-[360px]:text-[13px] md:text-[18px] text-center text-[#606060] mb-6 lg:mb-0 lg:text-left lg:text-[15px] lg:w-full xl:w-[80%] 2xl:w-[75%] 2xl:text-[18px]">
+                class="w-[95%] md:w-[70%] min-[360px]:w-[90%] text-[10px] min-[360px]:text-[13px] md:text-[18px] text-center text-[#606060] mb-6 lg:mb-0 lg:text-left lg:text-[15px] lg:w-full 2xl:w-[75%] 2xl:text-[18px]">
                 Silahkan login untuk menuju halaman selanjutnya</p>
 
             {{-- icon --}}
@@ -758,7 +758,7 @@
 
         {{-- right/form --}}
         <form action="/login" method="POST" id="form_login"
-            class="flex flex-col items-center w-[85%] md:w-[60%] mt-7 md:mt-10 gap-4 min-[360px]:gap-5 md:gap-6 lg:w-[40%] lg:pr-16 2xl:pr-24 lg:-mt-20 xl:-mt-32 lg:items-end 2xl:w-[35%]">
+            class="flex flex-col items-center w-[85%] md:w-[60%] mt-7 md:mt-10 gap-4 min-[360px]:gap-5 md:gap-6 lg:w-[40%] lg:-mt-20 xl:-mt-32 lg:items-end 2xl:w-[35%]">
             @csrf
             <input type="text" name="username" autofocus
                 class="w-full h-[40px] min-[360px]:h-[45px] md:h-[60px] lg:h-[55px] 2xl:h-[70px] pl-4 placeholder:text-[15px] text-[15px] md:placeholder:text-[20px] lg:placeholder:text-[17px] 2xl:placeholder:text-[20px] md:text-[20px] lg:text-[17px] 2xl:text-[20px] lg:w-[90%] rounded-md md:rounded-lg 2xl:rounded-xl bg-[#F9F2E4]"
@@ -788,8 +788,8 @@
 
     {{-- footer --}}
     <div
-        class="py-6 lg:py-4 mb-0 lg:px-16 2xl:px-24 text-[10px] min-[360px]:text-[12px] poppins-medium w-full text-center lg:text-end 2xl:text-[14px]">
-        Copyright @2022 Tijara Store. All Right Reserved
+        class="py-6 lg:py-4 mb-0 text-[10px] min-[360px]:text-[12px] poppins-medium w-full text-center lg:text-end 2xl:text-[14px]">
+        Copyright @2023 Tijara Store. All Right Reserved
     </div>
     {{-- end footer --}}
 @endsection
