@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="{{ asset('css/DatePicker.css') }}">
-<script src="{{ asset('js/moment.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/Datepicker.css') }}">
 <script src="{{ asset('js/DatePicker.js') }}"></script>
+<script src="{{ asset('js/moment.js') }}"></script>
 <script>
     function showModalFilter() {
         $("#bg_modal").removeClass("pointer-events-none");
@@ -30,6 +30,10 @@
 
     var selectedFilterHarian = datenow.getFullYear() + '-' + Bulan + '-' + Tanggal
     var selectedFilterMingguan = datenow.getFullYear() + '-' + Bulan + '-' + Tanggal
+
+    function setBulanan(){
+        selectedTab = 'bulanan';
+    }
 
     function clickTab(name) {
         for (let index = 0; index < pilihan.length; index++) {

@@ -12,6 +12,8 @@ use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\GajiController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -121,4 +123,22 @@ Route::prefix('pengeluaran')->group(function () {
   Route::get("/", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
   Route::get("/operasional/{date?}", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
   Route::post('operasional.store', [pengeluaran_operasioanal::class, 'store'])->middleware('auth');
+});
+
+
+Route::prefix("supplier")->group(function() {
+  Route::resource("/", \App\Http\Controllers\SupplierController::class);
+  Route::post('/add',[SupplierController::class, 'store']);
+  Route::post('/edit', [SupplierController::class, 'update']);
+  Route::get('/delete/{kode}', [SupplierController::class, 'delete']);
+  Route::post('/delete_selected', [SupplierController::class, 'delete_selected']);
+  Route::get('/search', [SupplierController::class, 'search'])->name('search');
+});
+
+
+Route::prefix("/salary")->group(function() {
+  //Route::resource("/{date?}", \App\Http\Controllers\GajiController::class);
+  Route::get('/{search?}', [GajiController::class, 'index']);
+  Route::post('/add', [GajiController::class, 'add_gaji']);
+  Route::post('/edit', [GajiController::class, 'edit_gaji']);
 });

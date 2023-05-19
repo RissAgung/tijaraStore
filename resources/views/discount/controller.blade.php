@@ -241,7 +241,7 @@
         e.preventDefault();
         $.ajax({
             type: "GET",
-            url: "/api/product/nodiscount?search=" + $("#field_search").val(),
+            url: "/api/product/nodiscount?apikey=DWuqUHWDUhDQUDadaq&search=" + $("#field_search").val(),
             beforeSend: function() {
                 Swal.fire({
                     title: 'Loading',
@@ -265,7 +265,7 @@
     const showDataProduct = () => {
         $.ajax({
             type: "GET",
-            url: "/api/product/nodiscount",
+            url: "/api/product/nodiscount?apikey=DWuqUHWDUhDQUDadaq",
             beforeSend: function() {
                 Swal.fire({
                     title: 'Loading',
