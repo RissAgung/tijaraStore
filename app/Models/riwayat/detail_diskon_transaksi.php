@@ -16,6 +16,6 @@ class detail_diskon_transaksi extends Model
     protected $fillable = array('kode_diskon', 'kategori', 'nominal', 'free_product', 'buy', 'free');
 
     public function detail_transaksi(){
-        return $this->hasOne(detail_transaksi::class, 'kode_diskon', 'kode_diskon');
+        return $this->belongsTo(detail_transaksi::class, 'kode_diskon', 'kode_diskon');
     }
 }

@@ -63,7 +63,7 @@
                                         selected
                                     @endif
                                 @endisset
-                                    value="pria">Laki-Laki</option>
+                                    value="pria">Pria</option>
                                 <option
                                     @isset($_GET['select'])
                                 @if ($_GET['select'] == 'wanita')
@@ -77,7 +77,7 @@
                                     selected
                                 @endif
                             @endisset
-                                    value="anak">Anak Anak</option>
+                                    value="anak">Anak</option>
                             </select>
                         </div>
                     </form>
