@@ -102,7 +102,7 @@
                 {{-- @csrf --}}
                 <input value="@isset($_GET['find']){{ $_GET['find'] }}@endisset" name="find"
                     class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                    placeholder="Masukkan nama atau kode barang">
+                    placeholder="Masukkan kode diskon">
             </form>
         </div>
         <div class="flex overflow-x-scroll gap-3 scrollbar-hide flex-row h-full justify-end w-fit order-3 bg-red-400">

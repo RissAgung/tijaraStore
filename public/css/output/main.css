@@ -1101,6 +1101,10 @@ video {
   height: 4rem;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
 .max-h-\[40vh\] {
   max-height: 40vh;
 }
@@ -1540,8 +1544,16 @@ video {
   justify-content: space-between;
 }
 
+.justify-around {
+  justify-content: space-around;
+}
+
 .justify-evenly {
   justify-content: space-evenly;
+}
+
+.justify-items-stretch {
+  justify-items: stretch;
 }
 
 .gap-0 {
@@ -1687,6 +1699,10 @@ video {
 
 .border-t-\[1px\] {
   border-top-width: 1px;
+}
+
+.border-t-2 {
+  border-top-width: 2px;
 }
 
 .border-dashed {
@@ -1881,6 +1897,14 @@ video {
 
 .fill-white {
   fill: #fff;
+}
+
+.fill-red-400 {
+  fill: #f87171;
+}
+
+.fill-red-600 {
+  fill: #dc2626;
 }
 
 .object-cover {

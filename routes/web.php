@@ -116,7 +116,7 @@ Route::post('/voucher/add', [VoucherController::class, 'addData']);
 Route::post('/voucher/update', [VoucherController::class, 'updateData']);
 Route::post('/voucher/delete_selected', [VoucherController::class, 'deleteSelected']);
 Route::get('/voucher/delete/{id}', [VoucherController::class, 'deleteData']);
-Route::get('/voucher/search/{search?}', [VoucherController::class, 'filter_search']);
+Route::get('/voucher/search/{search?}', [VoucherController::class, 'filter_search'])->where('search', '.*');
 Route::get('/voucher/filter/{kategori?}', [VoucherController::class, 'filter_kategori']);
 
 Route::prefix('pengeluaran')->group(function () {

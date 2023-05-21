@@ -222,6 +222,11 @@
         }
     });
 
+    $("#checkAll").change(function(e) {
+        e.preventDefault();
+        $(".idcheck").prop("checked", $(this).prop("checked"));
+    });
+
     $("#btn_hapus").click(function(e) {
         e.preventDefault();
         var checkedCount = $(".idcheck:checked").length;

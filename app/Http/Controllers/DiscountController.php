@@ -248,6 +248,9 @@ class DiscountController extends Controller
     public function filter_search(Request $request)
     {
         if ($request->has('find')) {
+            if($request->find == ''){
+                return redirect('/diskon');
+            }
             $barang = barang::with('diskon')
                 ->whereHas('diskon', function ($query) use ($request) {
                     $query

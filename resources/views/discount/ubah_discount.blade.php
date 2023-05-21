@@ -31,7 +31,7 @@
             <input maxlength="30" id="txt_kode_update" name="txt_kode_update" type="hidden" @readonly(true) placeholder=""
                 class="border-2 rounded-l-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_kode_update') }}">
             <div class="flex flex-col gap-2 w-full mt-8">
-                <span>Pilih Product</span>
+                <span>Pilih Produk</span>
                 <div class="flex flex-row gap-2 w-full">
                     <input maxlength="30" id="txt_product_update" name="txt_product_update" type="text" @readonly(true)
                         placeholder="" class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex"
@@ -45,7 +45,7 @@
 
 
             <div class="flex flex-col gap-2 w-full">
-                <span>Jenis Discount</span>
+                <span>Jenis Diskon</span>
                 <div class="flex flex-row gap-2 w-full">
                     <div class="relative w-full">
                         <svg class="absolute pointer-events-none top-[50%] -translate-y-[50%] -translate-x-[50%] right-0"
@@ -58,7 +58,7 @@
                             value="">
                             <option {{ old('jenis_discount_update') == 'persen' ? 'selected' : '' }} value="persen">Persen</option>
                             <option {{ old('jenis_discount_update') == 'nominal' ? 'selected' : '' }} value="nominal">Nominal</option>
-                            <option {{ old('jenis_discount_update') == 'free' ? 'selected' : '' }} value="free">Free Product</option>
+                            <option {{ old('jenis_discount_update') == 'free' ? 'selected' : '' }} value="free">Free Produk</option>
                         </select>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
             </div>
 
             <div id="container-free-product_update" class="hidden flex-col gap-2 w-full">
-                <span>Jenis Free Product</span>
+                <span>Jenis Free Produk</span>
                 <div class="flex flex-row gap-2 w-full">
                     <div class="flex flex-row flex-wrap gap-3 ml-2">
                         <div class="flex flex-row gap-3">
@@ -91,7 +91,7 @@
             <div id="container-nominal_update" class="flex flex-col gap-2 w-full">
                 <span>Nominal</span>
                 <div class="flex flex-row gap-2 w-full">
-                    <input maxlength="3" id="txt_nominal_update" name="txt_nominal_update" type="text" placeholder=""
+                    <input maxlength="2" id="txt_nominal_update" name="txt_nominal_update" type="text" placeholder=""
                         class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_nominal_update') }}">
                 </div>
                 @error('txt_nominal_update')

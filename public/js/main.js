@@ -48,3 +48,14 @@ $('#master_data').click(function (e) {
     $("#div_master").removeClass("h-12");
   }
 });
+
+$('#master_retur').click(function (e) {
+  e.preventDefault();
+  if ($("#div_retur").hasClass('show')) {
+    $("#div_retur").addClass("h-12");
+    $("#div_retur").removeClass("h-32 show");
+  } else {
+    $("#div_retur").addClass("h-32 show");
+    $("#div_retur").removeClass("h-12");
+  }
+});

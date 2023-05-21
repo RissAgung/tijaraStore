@@ -29,7 +29,7 @@
 
 
                 <input id="keyword" class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                    placeholder="Masukkan nama atau kode barang"
+                    placeholder="Masukkan kode transaksi"
                     value="{{ Request::segment(2) == 'search' ? Request::segment(3) : '' }}">
 
             </div>
