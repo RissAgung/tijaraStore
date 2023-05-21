@@ -21,7 +21,7 @@ Route::get("/", function () {
   return view("front_view.landing");
 })->name('landing')->middleware('guest');
 
-Route::prefix("product")->group(function () {
+Route::prefix("produk")->group(function () {
   Route::get("/", [MasterDataProduct::class, 'products'])->name('product');
 
   Route::post('/add', [MasterDataProduct::class, 'add_products']);

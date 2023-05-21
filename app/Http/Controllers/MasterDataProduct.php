@@ -32,7 +32,7 @@ class MasterDataProduct extends Controller
                 ->paginate(5);
         } catch (\Throwable $th) {
             //throw $th;
-            return redirect('/product');
+            return redirect('/produt');
         }
 
         if ($request->has('filter')) {

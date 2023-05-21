@@ -86,11 +86,11 @@ $("#btn_tambah").click(function (e) {
 $("#btn_filter_tags").click(function (e) {
     e.preventDefault();
     if (selectedTags.length == 0) {
-        location.href = window.location.origin + "/product";
+        location.href = window.location.origin + "/produk";
     } else {
         location.href =
             window.location.origin +
-            "/product/tags?filter=" +
+            "/produk/tags?filter=" +
             btoa(JSON.stringify(selectedTags));
     }
     // $("#form_filter").trigger("submit");
@@ -147,7 +147,7 @@ function resetForm() {
     $('input[type="checkbox"]').attr("checked", false);
     $('input[type="radio"]').attr("checked", false);
 
-    $("#form_product").attr("action", "/product/add");
+    $("#form_product").attr("action", "/produk/add");
 
     $("#form_product").trigger("reset");
 }
