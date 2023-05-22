@@ -9,7 +9,7 @@
     {{-- ? start header ? --}}
     <div class="flex flex-row justify-between">
         <div class="flex justify-start px-4 md:px-8 py-6">
-            <p id="title_modal">Data Product</p>
+            <p id="title_modal">Data Produk</p>
         </div>
         <div class="flex flex-row justify-start px-4 md:px-8 py-6 gap-3">
             <div onclick="closeModalData()">
@@ -51,7 +51,7 @@
 
             <form id="form_search" class="w-full" action="#" method="GET">
                 <input id="field_search" name="search" class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                    placeholder="Nama product">
+                    placeholder="Nama produk">
             </form>
         </div>
 

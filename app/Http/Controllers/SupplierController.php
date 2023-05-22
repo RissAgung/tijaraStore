@@ -19,14 +19,19 @@ class SupplierController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'nama' => 'required',
-            'ket' => 'required',
-            'kontak' => 'required|numeric',
-            'alamat' => 'required'
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|max:30',
+            'ket' => 'required|max:25',
+            'kontak' => 'required|max:13',
+            'alamat' => 'required|max:45'
         ], [
-            'required' => 'Field Wajib Diisi!'
+            'required' => 'Field Wajib Diisi!',
+            'max' => 'Input tidak boleh melebihi :max karakter',
         ]);       
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with(['tambah' => 'error tambah']);
+        }
 
         $kode = time();
 
@@ -48,12 +53,13 @@ class SupplierController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_update' => 'required',
-            'nama_update' => 'required',
-            'ket_update' => 'required',
-            'kontak_update' => 'required|numeric',
-            'alamat_update' => 'required'
+            'nama_update' => 'required|max:30',
+            'ket_update' => 'required|max:25',
+            'kontak_update' => 'required|max:13',
+            'alamat_update' => 'required|max:45'
         ], [
-            'required' => 'Field wajib diisi!'
+            'required' => 'Field wajib diisi!',
+            'max' => 'Input tidak boleh melebihi :max karakter',
         ]);
 
         $sup = supplier::find($request->id_update);

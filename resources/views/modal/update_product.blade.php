@@ -3,7 +3,7 @@
 
 
 {{-- TODO: INI KONTEN MODAL --}}
-<form id="form_productUpdate" action="/product/update" method="post" enctype="multipart/form-data">
+<form id="form_productUpdate" action="/produk/update" method="post" enctype="multipart/form-data">
     @csrf
     <div id="konten_modalUpdate"
         class="bg-white w-[90%] md:w-[70%] z-[101] h-[80%] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">

@@ -22,7 +22,7 @@ Route::prefix('product')->group(function () {
 
     Route::get('/', [ApiController::class, 'product']);
 
-    Route::get('/jual', [ApiController::class, 'product_jual']);
+    Route::get('/jual/{search?}', [ApiController::class, 'product_jual'])->where('search', '.*');
 
     Route::get('/free', [ApiController::class, 'product_free']);
 });
@@ -35,11 +35,15 @@ Route::prefix('voucher')->group(function () {
 
 Route::get('/pemasukan_hari_ini', [ApiController::class, 'pemasukan_hari_ini']);
 
+Route::get('/detail_transaksi/{kode_transaksi?}', [ApiController::class, 'detail_transaksi'])->where('kode_transaksi', '.*');
 
+Route::post('/submit_retur_customer', [ApiController::class, 'input_retur_customer']);
 
 
 
 Route::get("/akumulasi", [Akumulasi::class, 'getPemasukan']);
+
+Route::post('/login', [ApiController::class, 'checkLoginMobile']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

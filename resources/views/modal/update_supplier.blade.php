@@ -35,7 +35,7 @@
                 <Label class="ml-2 text-sm">Nama Supplier</Label>
                 <input id="nama_update" name="nama_update" type="text" placeholder=""
                     class="border-2 w-full rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('nama_update') }}">
-                @error('nama')
+                @error('nama_update')
                     <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
@@ -45,7 +45,7 @@
                 <Label class="ml-2 text-sm">Keterangan</Label>
                 <input id="ket_update" name="ket_update" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('ket_update') }}">
-                @error('ket')
+                @error('ket_update')
                     <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
@@ -55,7 +55,7 @@
                 <Label class="ml-2 text-sm">Nomor Telepon</Label>
                 <input id="kontak_update" name="kontak_update" type="text" onkeypress="return hanyaAngka(event)" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('kontak_update') }}">
-                @error('kontak')
+                @error('kontak_update')
                     <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
@@ -65,7 +65,7 @@
                 <Label class="ml-2 text-sm">Alamat</Label>
                 <input id="alamat_update" name="alamat_update" type="text" placeholder=""
                     class="border-2 rounded-md py-2 px-4 mt-1 outline-none" value="{{ old('alamat_update') }}">
-                @error('alamat')
+                @error('alamat_update')
                     <p class="label-error text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>

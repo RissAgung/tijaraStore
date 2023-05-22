@@ -1,7 +1,7 @@
 <script>
     if ($("#jenis_discount").val() == "persen") {
         $("#txt_nominal").val("");
-        $("#txt_nominal").attr("maxlength", 3);
+        $("#txt_nominal").attr("maxlength", 2);
         $("#container-jumlah").addClass("hidden");
         $("#container-free-product").addClass("hidden");
         $("#container-jumlah").removeClass("flex");
@@ -313,7 +313,7 @@
             if ($("#txt_product").val() == "") {
                 isError = {
                     "status": true,
-                    "message": "Product tidak boleh kosong",
+                    "message": "Produk tidak boleh kosong",
                 };
             } else if ($("#txt_nominal").val() == "") {
                 isError = {
@@ -351,7 +351,7 @@
             if ($("#txt_product").val() == "") {
                 isError = {
                     "status": true,
-                    "message": "Product tidak boleh kosong",
+                    "message": "Produk tidak boleh kosong",
                 };
             } else if ($("#txt_nominal").val() == "") {
                 isError = {
@@ -388,7 +388,7 @@
             if ($("#txt_product").val() == "") {
                 isError = {
                     "status": true,
-                    "message": "Product tidak boleh kosong",
+                    "message": "Produk tidak boleh kosong",
                 };
             } else if (!$("#bebas").is(":checked") && !$("#sama").is(":checked")) {
                 isError = {
@@ -468,7 +468,7 @@
             if ($("#txt_product_update").val() == "") {
                 isError = {
                     "status": true,
-                    "message": "Product tidak boleh kosong",
+                    "message": "Produk tidak boleh kosong",
                 };
             } else if ($("#txt_nominal_update").val() == "") {
                 isError = {
@@ -506,7 +506,7 @@
             if ($("#txt_product_update").val() == "") {
                 isError = {
                     "status": true,
-                    "message": "Product tidak boleh kosong",
+                    "message": "Produk tidak boleh kosong",
                 };
             } else if ($("#txt_nominal_update").val() == "") {
                 isError = {
@@ -543,7 +543,7 @@
             if ($("#txt_product_update").val() == "") {
                 isError = {
                     "status": true,
-                    "message": "Product tidak boleh kosong",
+                    "message": "Produk tidak boleh kosong",
                 };
             } else if (!$("#bebas_update").is(":checked") && !$("#sama_update").is(":checked")) {
                 isError = {
@@ -591,7 +591,7 @@
 
     if ($("#jenis_discount_update").val() == "persen") {
         $("#txt_nominal_update").val("");
-        $("#txt_nominal_update").attr("maxlength", 3);
+        $("#txt_nominal_update").attr("maxlength", 2);
         $("#container-jumlah_update").addClass("hidden");
         $("#container-free-product_update").addClass("hidden");
         $("#container-jumlah_update").removeClass("flex");
@@ -643,7 +643,7 @@
         e.preventDefault();
         if ($("#jenis_discount_update").val() == "persen") {
             $("#txt_nominal_update").val("");
-            $("#txt_nominal_update").attr("maxlength", 3);
+            $("#txt_nominal_update").attr("maxlength", 2);
             $("#container-jumlah_update").addClass("hidden");
             $("#container-free-product_update").addClass("hidden");
             $("#container-jumlah_update").removeClass("flex");
@@ -679,7 +679,7 @@
 
         if (arr.diskon.kategori == "persen") {
             $("#txt_nominal_update").val("");
-            $("#txt_nominal_update").attr("maxlength", 3);
+            $("#txt_nominal_update").attr("maxlength", 2);
             $("#container-jumlah_update").addClass("hidden");
             $("#container-free-product_update").addClass("hidden");
             $("#container-jumlah_update").removeClass("flex");
@@ -714,13 +714,13 @@
 
             $("#jenis_discount_update").val(arr.diskon.kategori);
 
-            if (JSON.parse(arr.diskon.free_product).free == "sama") {
+            if (arr.diskon.free_product == "sama") {
                 $("#sama_update").attr("checked", "");
             } else {
                 $("#bebas_update").attr("checked", "");
             }
-            $("#txt_beli_update").val(JSON.parse(arr.diskon.free_product).value.buy);
-            $("#txt_gratis_update").val(JSON.parse(arr.diskon.free_product).value.gratis);
+            $("#txt_beli_update").val(arr.diskon.buy);
+            $("#txt_gratis_update").val(arr.diskon.free);
         }
         showModalUbah();
     }
