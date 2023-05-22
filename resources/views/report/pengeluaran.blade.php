@@ -2,6 +2,7 @@
 
 @section('modal')
     @include('modal.detail_laporan_pengeluaran')
+    @include('modal.filterDate.filter')
 @endsection
 
 @section('title')
@@ -21,10 +22,11 @@
             {{-- menu --}}
             <div id="menuLaporan" class="md:hidden poppins-medium cursor-pointer flex h-full items-center gap-2">
                 <p class="text-selector-none">Pengeluaran</p>
-                <div id="arrowMenu" class="transition ease-in-out delay-75">
-                    <svg class="w-[11px] h-[5px]" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div id="arrowMenu" class="rotate-180 transition ease-in-out delay-75">
+
+                    <svg class="w-[11px] h-[5px]" viewBox="0 0 59 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
-                            d="M7 8C6.83259 8 6.67061 7.96946 6.51408 7.9084C6.35671 7.84733 6.22571 7.7659 6.12108 7.66412L0.345291 2.0458C0.115097 1.82188 0 1.53689 0 1.19084C0 0.844783 0.115097 0.559796 0.345291 0.335877C0.575485 0.111959 0.86846 0 1.22421 0C1.57997 0 1.87294 0.111959 2.10314 0.335877L7 5.09924L11.8969 0.335877C12.1271 0.111959 12.42 0 12.7758 0C13.1315 0 13.4245 0.111959 13.6547 0.335877C13.8849 0.559796 14 0.844783 14 1.19084C14 1.53689 13.8849 1.82188 13.6547 2.0458L7.87892 7.66412C7.75336 7.78626 7.61734 7.87257 7.47085 7.92305C7.32436 7.97435 7.16741 8 7 8Z"
+                            d="M29.5 0.499999C30.1936 0.499999 30.8646 0.610691 31.5131 0.832065C32.1651 1.05344 32.7078 1.3486 33.1413 1.71756L57.0695 22.084C58.0232 22.8957 58.5 23.9288 58.5 25.1832C58.5 26.4377 58.0232 27.4707 57.0695 28.2824C56.1158 29.0941 54.9021 29.5 53.4283 29.5C51.9544 29.5 50.7407 29.0941 49.787 28.2824L29.5 11.0153L9.21301 28.2824C8.25935 29.0941 7.04559 29.5 5.57175 29.5C4.09791 29.5 2.88417 29.0941 1.93051 28.2824C0.976843 27.4707 0.500002 26.4377 0.500002 25.1832C0.500002 23.9288 0.976843 22.8957 1.93051 22.084L25.8587 1.71756C26.3789 1.27481 26.9425 0.961936 27.5493 0.778934C28.1562 0.59298 28.8064 0.499999 29.5 0.499999Z"
                             fill="black" />
                     </svg>
                 </div>
@@ -59,7 +61,7 @@
             <div class="flex poppins-medium gap-2">
 
                 {{-- filter --}}
-                <button
+                <button onclick="showModalFilter()"
                     class="text-selector-none flex items-center gap-2 py-2 px-3 md:py-2 md:px-3 rounded-md shadow-lg bg-[#FFB015] hover:bg-[#d48e00] transition ease-in-out">
                     <p>Filter</p>
                     <svg class="w-[17px] h-[15px] md:w-[20px] md:h-[18px]" viewBox="0 0 24 26" fill="none"
@@ -80,7 +82,7 @@
                 </button>
 
                 {{-- reset --}}
-                <button
+                <a href="{{ url('laporan/pengeluaran') }}"
                     class="flex items-center py-2 px-[10px] md:py-2 md:px-3 gap-2 rounded-md shadow-lg bg-black hover:bg-[#3b3b3b] transition ease-in-out">
 
                     <svg class="w-[15px] h-[15px] md:w-[18px] md:h-[18px]" viewBox="0 0 25 25" fill="none"
@@ -92,7 +94,7 @@
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
 
-                </button>
+                </a>
             </div>
 
         </div>
@@ -103,7 +105,7 @@
             {{-- left --}}
             <div
                 class="flex flex-col w-full lg:w-[65%] h-80 md:h-96 lg:min-h-full overflow-y-auto bg-white border-[1px] border-[#DCDADA] rounded-md">
-                <p class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pemasukan</p>
+                <p id="title_table" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pengeluaran {{ $total['title'] }}</p>
                 <div class="flex w-full border-y-[1px] border-y-[#DCDADA] bg-[#F7F7F7] text-[11px] md:text-[14px]">
                     <p class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">No</p>
                     <p class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">Waktu</p>
@@ -111,14 +113,16 @@
                 </div>
                 <div class="w-full h-full overflow-y-auto">
                     <table class="text-[11px] md:text-[14px] w-full">
-                        @for ($i = 0; $i < 30; $i++)
+                        <?php $i = 1; ?>
+                        @foreach ($dataPengeluaranFinal as $data)
                             <tr class="border-b-[1px] border-b-[#DCDADA]">
-                                <td class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-white">{{ $i + 1 }}</td>
-                                <td class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-white">Jan-2023</td>
-                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">Rp.
-                                    320.000</td>
+                                <td class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-white">{{ $i }}</td>
+                                <td class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-white">{{ $data->tanggal }}</td>
+                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">
+                                    {{ rupiah($data->total) }}</td>
                             </tr>
-                        @endfor
+                            <?php $i++; ?>
+                        @endforeach
                     </table>
                 </div>
             </div>
@@ -127,11 +131,11 @@
             <div
                 class="flex flex-col w-full lg:w-[35%] lg:h-[80%] lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
                 <p class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
-                    Detail Pemasukan</p>
+                    Detail Pemasukan {{ $total['title'] }}</p>
                 <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-evenly">
 
-                    {{-- Produk --}}
-                    <div onclick="showDetail()"
+                    {{-- restock --}}
+                    <div onclick="showDetail('restock')"
                         class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
 
@@ -158,7 +162,7 @@
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Re-Stock</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
+                                <p class="poppins-semibold">{{ rupiah($total['restock']) }}</p>
                             </div>
                         </div>
 
@@ -175,13 +179,13 @@
                     {{-- line --}}
                     <div class="w-full h-[1px] bg-[#DCDADA]"></div>
 
-                    {{-- Lainnya --}}
-                    <div onclick="showDetail()"
+                    {{-- operasional --}}
+                    <div onclick="showDetail('operasional')"
                         class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
 
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]" viewBox="0 0 105 111" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="104.765" height="110.893" rx="14" fill="#64798A" />
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M104.765 50.4658V96.893C104.765 104.625 98.4973 110.893 90.7653 110.893H66.0288L27 86.5L46.5 60.5L64 34L72.5 31L104.765 50.4658Z"
@@ -210,7 +214,7 @@
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Operasional</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
+                                <p class="poppins-semibold">{{ rupiah($total['operasional']) }}</p>
                             </div>
                         </div>
 
@@ -226,7 +230,7 @@
                 </div>
                 <p
                     class="flex justify-center p-4 md:p-6 2xl:p-9 lg:p-5 text-[12px] md:text-[15px] 2xl:text-[17px] border-t-[1px] border-t-[#DCDADA] poppins-semibold">
-                    Rp. 2.280.000</p>
+                    {{ rupiah($total['operasional'] + $total['restock']) }}</p>
             </div>
 
         </div>
@@ -236,4 +240,5 @@
 
 @section('otherjs')
     <script src="{{ asset('js/controllers/laporan_pengeluaran.js') }}"></script>
+    @include('modal.filterDate.controller')
 @endsection

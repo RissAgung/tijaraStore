@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 <link rel="stylesheet" href="{{ asset('css/DatePicker.css') }}">
 <script src="{{ asset('js/DatePicker.js') }}"></script>
 <script src="{{ asset('js/moment.js') }}"></script>
 
+=======
+<link rel="stylesheet" href="{{ asset('css/Datepicker.css') }}">
+<script src="{{ asset('js/DatePicker.js') }}"></script>
+<script src="{{ asset('js/moment.js') }}"></script>
+>>>>>>> origin/master
 <script>
     function showModalFilter() {
         $("#bg_modal").removeClass("pointer-events-none");
@@ -32,6 +38,10 @@
     var selectedFilterHarian = datenow.getFullYear() + '-' + Bulan + '-' + Tanggal
     var selectedFilterMingguan = datenow.getFullYear() + '-' + Bulan + '-' + Tanggal
 
+    function setBulanan(){
+        selectedTab = 'bulanan';
+    }
+
     function clickTab(name) {
         for (let index = 0; index < pilihan.length; index++) {
             const element = pilihan[index];
@@ -54,7 +64,7 @@
         todayHighlight: true,
         endDate: '+367d',
         calendarWeeks: true,
-        weekStart: 0,
+        weekStart: 1,
         // ...options
     });
 
@@ -77,7 +87,7 @@
         todayHighlight: true,
         endDate: '+367d',
         calendarWeeks: true,
-        weekStart: 0,
+        weekStart: 1,
 
         // ...options
     });

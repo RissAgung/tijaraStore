@@ -4,10 +4,6 @@
     Riwayat Retur
 @endsection
 
-@section('othercss')
-    <link rel="stylesheet" href="{{ asset('css/DatePicker.css') }}">
-@endsection
-
 @section('modal')
     @include('modal.riwayat_retur')
     @include('modal.filterDate.filter')
@@ -72,7 +68,7 @@
                     <form action="/riwayatRetur/{{ $dataUrl['date'] }}" method="GET" id="form_search">
                         <input type="search" id="field_search" name="search"
                             class="placeholder:text-[11px] md:placeholder:text-[15px] outline-none w-[80%]"
-                            placeholder="Kode / Nama Barang" value="{{ $dataUrl['search'] }}">
+                            placeholder="Kode atau Nama Barang" value="{{ $dataUrl['search'] }}">
                     </form>
                 </div>
 
@@ -139,50 +135,47 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <form id="form_delete" action="/product/delete_selected" method="post">
-                                @csrf
-                                @foreach ($dataRetur as $item)
-                                    <tr class="bg-white border-2 outline outline-[1px] outline-[#DCDADA] rounded-md">
-                                        <td class="text-center p-3">{{ $item->kode_retur }}</td>
-                                        <td class="text-center p-3">{{ $item->tanggal }}</td>
-                                        <td class="text-center p-3">{{ $item->nama_br }}</td>
-                                        <td class="text-center p-3">{{ $item->QTY }}</td>
-                                        <td class="text-center p-3">{{ $item->nama_sp }}</td>
-                                        <td class="text-center p-3">
-                                            <svg onclick="showModal({{ $item }})"
-                                                class="cursor-pointer w-[30px] h-[30px] md:w-[50px] md:h-[50px] lg:w-[40px] lg:h-[40px] m-auto"
-                                                viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <g filter="url(#filter0_d_653_130)">
-                                                    <rect x="2" y="4" width="46" height="46"
-                                                        rx="6" fill="#FFB015" />
-                                                </g>
-                                                <path
-                                                    d="M28.875 24.75C25.4975 24.75 22.75 27.4975 22.75 30.875C22.75 34.2525 25.4975 37 28.875 37C32.2525 37 35 34.2525 35 30.875C35 27.4975 32.2525 24.75 28.875 24.75ZM28.875 35.25C26.46 35.25 24.5 33.29 24.5 30.875C24.5 28.46 26.46 26.5 28.875 26.5C31.29 26.5 33.25 28.46 33.25 30.875C33.25 33.29 31.29 35.25 28.875 35.25ZM30.1875 28.6875C30.1875 29.4137 29.6012 30 28.875 30C28.1488 30 27.5625 29.4137 27.5625 28.6875C27.5625 27.9613 28.1488 27.375 28.875 27.375C29.6012 27.375 30.1875 27.9613 30.1875 28.6875ZM29.75 31.75V33.5C29.75 33.9813 29.3562 34.375 28.875 34.375C28.3938 34.375 28 33.9813 28 33.5V31.75C28 31.2688 28.3938 30.875 28.875 30.875C29.3562 30.875 29.75 31.2688 29.75 31.75ZM21.875 34.375C21.875 34.8563 21.4812 35.25 21 35.25H18.375C15.96 35.25 14 33.29 14 30.875V20.375C14 17.96 15.96 16 18.375 16H23.415C24.3337 16 25.235 16.3762 25.8913 17.0237L28.7262 19.8587C29.3125 20.445 29.6712 21.2237 29.7413 22.0462C29.7762 22.5275 29.4175 22.9475 28.9362 22.9913C28.91 22.9913 28.8925 22.9913 28.8663 22.9913C28.4113 22.9913 28.035 22.6413 27.9913 22.1863C27.9913 22.16 27.9913 22.1425 27.9913 22.1163H25.3837C24.4213 22.1163 23.6337 21.3287 23.6337 20.3663V17.7675C23.5638 17.7675 23.4938 17.75 23.4237 17.75H18.375C16.9313 17.75 15.75 18.9313 15.75 20.375V30.875C15.75 32.3188 16.9313 33.5 18.375 33.5H21C21.4812 33.5 21.875 33.8937 21.875 34.375Z"
-                                                    fill="black" />
-                                                <defs>
-                                                    <filter id="filter0_d_653_130" x="0" y="0"
-                                                        width="54" height="54" filterUnits="userSpaceOnUse"
-                                                        color-interpolation-filters="sRGB">
-                                                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                                        <feColorMatrix in="SourceAlpha" type="matrix"
-                                                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                                                            result="hardAlpha" />
-                                                        <feOffset dx="2" />
-                                                        <feGaussianBlur stdDeviation="2" />
-                                                        <feComposite in2="hardAlpha" operator="out" />
-                                                        <feColorMatrix type="matrix"
-                                                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0" />
-                                                        <feBlend mode="normal" in2="BackgroundImageFix"
-                                                            result="effect1_dropShadow_653_130" />
-                                                        <feBlend mode="normal" in="SourceGraphic"
-                                                            in2="effect1_dropShadow_653_130" result="shape" />
-                                                    </filter>
-                                                </defs>
-                                            </svg>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </form>
+                            @foreach ($dataRetur as $item)
+                                <tr class="bg-white border-2 outline outline-[1px] outline-[#DCDADA] rounded-md">
+                                    <td class="text-center p-3">{{ $item->kode_retur }}</td>
+                                    <td class="text-center p-3">{{ $item->tanggal }}</td>
+                                    <td class="text-center p-3">{{ $item->nama_br }}</td>
+                                    <td class="text-center p-3">{{ $item->QTY }}</td>
+                                    <td class="text-center p-3">{{ $item->nama_sp }}</td>
+                                    <td class="text-center p-3">
+                                        <svg onclick="showModal({{ $item }})"
+                                            class="cursor-pointer w-[30px] h-[30px] md:w-[50px] md:h-[50px] lg:w-[40px] lg:h-[40px] m-auto"
+                                            viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g filter="url(#filter0_d_653_130)">
+                                                <rect x="2" y="4" width="46" height="46"
+                                                    rx="6" fill="#FFB015" />
+                                            </g>
+                                            <path
+                                                d="M28.875 24.75C25.4975 24.75 22.75 27.4975 22.75 30.875C22.75 34.2525 25.4975 37 28.875 37C32.2525 37 35 34.2525 35 30.875C35 27.4975 32.2525 24.75 28.875 24.75ZM28.875 35.25C26.46 35.25 24.5 33.29 24.5 30.875C24.5 28.46 26.46 26.5 28.875 26.5C31.29 26.5 33.25 28.46 33.25 30.875C33.25 33.29 31.29 35.25 28.875 35.25ZM30.1875 28.6875C30.1875 29.4137 29.6012 30 28.875 30C28.1488 30 27.5625 29.4137 27.5625 28.6875C27.5625 27.9613 28.1488 27.375 28.875 27.375C29.6012 27.375 30.1875 27.9613 30.1875 28.6875ZM29.75 31.75V33.5C29.75 33.9813 29.3562 34.375 28.875 34.375C28.3938 34.375 28 33.9813 28 33.5V31.75C28 31.2688 28.3938 30.875 28.875 30.875C29.3562 30.875 29.75 31.2688 29.75 31.75ZM21.875 34.375C21.875 34.8563 21.4812 35.25 21 35.25H18.375C15.96 35.25 14 33.29 14 30.875V20.375C14 17.96 15.96 16 18.375 16H23.415C24.3337 16 25.235 16.3762 25.8913 17.0237L28.7262 19.8587C29.3125 20.445 29.6712 21.2237 29.7413 22.0462C29.7762 22.5275 29.4175 22.9475 28.9362 22.9913C28.91 22.9913 28.8925 22.9913 28.8663 22.9913C28.4113 22.9913 28.035 22.6413 27.9913 22.1863C27.9913 22.16 27.9913 22.1425 27.9913 22.1163H25.3837C24.4213 22.1163 23.6337 21.3287 23.6337 20.3663V17.7675C23.5638 17.7675 23.4938 17.75 23.4237 17.75H18.375C16.9313 17.75 15.75 18.9313 15.75 20.375V30.875C15.75 32.3188 16.9313 33.5 18.375 33.5H21C21.4812 33.5 21.875 33.8937 21.875 34.375Z"
+                                                fill="black" />
+                                            <defs>
+                                                <filter id="filter0_d_653_130" x="0" y="0"
+                                                    width="54" height="54" filterUnits="userSpaceOnUse"
+                                                    color-interpolation-filters="sRGB">
+                                                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                                    <feColorMatrix in="SourceAlpha" type="matrix"
+                                                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                                                        result="hardAlpha" />
+                                                    <feOffset dx="2" />
+                                                    <feGaussianBlur stdDeviation="2" />
+                                                    <feComposite in2="hardAlpha" operator="out" />
+                                                    <feColorMatrix type="matrix"
+                                                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0" />
+                                                    <feBlend mode="normal" in2="BackgroundImageFix"
+                                                        result="effect1_dropShadow_653_130" />
+                                                    <feBlend mode="normal" in="SourceGraphic"
+                                                        in2="effect1_dropShadow_653_130" result="shape" />
+                                                </filter>
+                                            </defs>
+                                        </svg>
+                                    </td>
+                                </tr>
+                            @endforeach
 
 
 
@@ -211,8 +204,6 @@
 @endsection
 
 @section('otherjs')
-    <script src="{{ asset('js/moment.js') }}"></script>
-    <script src="{{ asset('js/DatePicker.js') }}"></script>
     <script src="{{ asset('js/controllers/riwayat_retur.js') }}"></script>
     @include('modal.filterDate.controller')
     {{-- @if ($errors->any())

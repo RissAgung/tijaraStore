@@ -127,7 +127,7 @@ class pengeluaran_operasioanal extends Controller
     ]);
 
     $id = str_shuffle(date('YmdHis') . 'RTR');
-    $kode_pegawai = model_pegawai::select('kode_pegawai')->where('kode_account', '=', Auth::user()->kode_account)->pluck('kode_pegawai')->toArray()[0];
+    $kode_pegawai = model_pegawai::select('kode_pegawai')->where('kode_pegawai', '=', Auth::user()->kode_pegawai)->pluck('kode_pegawai')->toArray()[0];
     $total = (int)preg_replace('/\D/', '', $request->total);
 
     pengeluaran::create([
