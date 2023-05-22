@@ -65,9 +65,11 @@
                     <div class="bg-[#FFF6E3] text-primary text-sm py-2 px-2 rounded-md w-full">
                         <p>Produk</p>
                     </div>
-                    <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-slate-50">
+                    <a href="{{ route('halaman_utama') }}">
+                        <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-slate-50">
                         <p>Pegawai</p>
                     </div>
+                    </a>
                     <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-slate-50">
                         <p>Supplier</p>
                     </div>

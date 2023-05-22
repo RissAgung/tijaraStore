@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class pengeluaran_pegawai extends Model
 {
   use HasFactory;
-  protected $table = 'PENGELUARAN_PEGAWAI'; // mendevinisikan nama table
+  protected $table = 'pengeluaran_pegawai'; // mendevinisikan nama table
   public $incrementing = false; // auto pada primaryKey incremment false
   public $timestamps = false; // create_at dan update_at false
 

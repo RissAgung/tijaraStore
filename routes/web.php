@@ -4,7 +4,9 @@ use App\Http\Controllers\Akumulasi;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
+use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\pengeluaran_operasioanal;
+use App\Http\Controllers\pengeluaran_re_stock;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
 use App\Http\Controllers\TransaksiController;
@@ -113,4 +115,17 @@ Route::prefix('pengeluaran')->group(function () {
   Route::get("/", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
   Route::get("/operasional/{date?}", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
   Route::post('operasional.store', [pengeluaran_operasioanal::class, 'store'])->middleware('auth');
+  Route::get('/re-stock',[pengeluaran_re_stock::class,'index'])->name('halaman_restock')->middleware('auth');
+  Route::post('re-stock.store',[pengeluaran_re_stock::class,'store'])->name('proses')->middleware('auth');
+  Route::get('/re-stock/search',[pengeluaran_re_stock::class,'index'])->name('cari_restock');
+  Route::get('/re-stock/{date?}',[pengeluaran_re_stock::class,'index'])->name('tanggal');
+});
+
+Route::prefix('/pegawai')-> group(function(){
+  Route::get('/',[PegawaiController::class, 'index'])-> name('halaman_utama');
+  Route::post('/tambah',[PegawaiController::class,'store'])->name('tambah_pegawai');
+  Route::get('/delete/{kodeP}/',[PegawaiController::class,'delete'])->name('hapus_pegawai');
+  Route::post('/edit',[PegawaiController::class,'edit'])->name('edit_pegawai');
+  Route::post('/delete_selected',[PegawaiController::class,'delete_selected'])->name('delete_selected');
+  Route::get('/search',[PegawaiController::class,'search'])->name('cari');
 });

@@ -3,6 +3,7 @@
 namespace App\Models\products;
 
 use App\Models\discounts\discount;
+use App\Models\pengeluaran\pengeluaran_barang;
 use App\Models\riwayat\detail_transaksi;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,8 +16,7 @@ class barang extends Model
     public $incrementing = false;
     public $timestamps = false;
 
-    protected $fillable = array('kode_br', 'kategori', 'kode_barang_tag', 'nama_br', 'stok', 'gambar', 'harga', 'ukuran', 'warna', 'jenis', 'created_at', 'updated_at');
-
+    protected $fillable = ['kode_br', 'kategori', 'kode_barang_tag', 'nama_br', 'stok', 'gambar', 'harga', 'ukuran', 'warna', 'jenis', 'created_at', 'updated_at'];
 
     public function detail_barang_tag()
     {
@@ -28,7 +28,13 @@ class barang extends Model
         return $this->hasOne(discount::class, 'kode_diskon', 'kode_diskon');
     }
 
-    public function detail_transaksi(){
+    public function detail_transaksi()
+    {
         $this->hasMany(detail_transaksi::class, 'kode_br', 'kode_br');
+    }
+
+    public function pengeluaran_barang()
+    {
+        return $this->hasMany(pengeluaran_barang::class, 'kode_br', 'kode_br');
     }
 }
