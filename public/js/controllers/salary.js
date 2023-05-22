@@ -140,10 +140,10 @@ function ubah(gaji){
     $("#id_gajiUpdate").val(gaji.kode_gaji);
     $("#nama").val(gaji.nama_pegawai);
     $("#posisi").val(gaji.posisi);
-    $("#bonus").val(gaji.bonus);
-    $("#pinjaman").val(gaji.pinjaman);
-    $("#gajiPokok").val(gaji.gaji_pokok);
-    $("#total").val(gaji.gaji_total);
+    // $("#bonus").val(gaji.bonus);
+    // $("#pinjaman").val(gaji.pinjaman);
+    // $("#gajiPokok").val(gaji.gaji_pokok);
+    // $("#total").val(gaji.gaji_total);
     
     
 
@@ -156,18 +156,29 @@ function ubah(gaji){
     // let vals3 = document.getElementById("gajiPokok").value;
     // console.log(vals3);
 
+    if(gaji.bonus == 0){
+        $("#bonus").val("");
+    } else {
+        $("#bonus").val(formatRupiah(gaji.bonus.toString(), "Rp. "));
+    }
+
+    if(gaji.pinjaman == 0){
+        $("#pinjaman").val("");
+    } else {
+        $("#pinjaman").val(formatRupiah(gaji.pinjaman.toString(), "Rp. "));
+    }
+
     $("#gajiPokok").val(formatRupiah(gaji.gaji_pokok.toString(), "Rp. "));
-    $("#bonus").val(formatRupiah(gaji.bonus.toString(), "Rp. "));
-    $("#pinjaman").val(formatRupiah(gaji.pinjaman.toString(), "Rp. "));
     $("#total").val(formatRupiah(gaji.gaji_total.toString(), "Rp. "));
 
     showModalUpdate();
     hitungTotal();
 }
 
+$("#gajiPokok, #bonus, #pinjaman").on("input", hitungTotal);
+
 function hitungTotal() {
-   
-    $("#gajiPokok, #bonus, #pinjaman").on("input", hitungTotal);
+
 
     var awal = $("#gajiPokok").val();
     var intAwal = parseInt(awal.replace(/[^0-9]/g, "")) || 0;
@@ -250,5 +261,11 @@ $(document).ready(function () {
     $('#mingguan').addClass("hidden");
     $('#div-harian').addClass("hidden");
     $('#div-mingguan').addClass("hidden");
+    $('#div-bulanan').removeClass('hidden');
+
+    $('#bulanan').addClass('text-primary');
+    $('#div-bulanan').addClass('flex');
+
+    selectedTab = 'bulanan';
 
   });

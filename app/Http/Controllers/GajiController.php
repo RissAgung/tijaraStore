@@ -205,7 +205,7 @@ class GajiController extends Controller
         ], [
             'required' => 'Field Wajib Diisi!'
         ]);            
-       
+      
         
         $data_pegawai = employee::with('account')->get();
 
@@ -238,6 +238,7 @@ class GajiController extends Controller
                             ->exists();
         //jika data sdh ada maka kembali ke halaman awal 
         if($dateExist) { 
+          alert()->error('Gagal', 'Data gaji bulan ini sudah ada');   
             return redirect()->back();
         }
 

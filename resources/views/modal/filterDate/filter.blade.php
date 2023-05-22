@@ -4,7 +4,7 @@
 
 {{-- TODO: INI KONTEN MODAL --}}
 <div id="konten_modal"
-    class="bg-white w-[330px] md:w-[540px] z-[105] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">
+    class="bg-white w-[90%] md:w-[540px] z-[105] fixed  left-[50%] top-[50%] -translate-y-[50%] -translate-x-[50%] rounded-md drop-shadow-lg flex flex-col scale-0 transition ease-linear duration-200">
     {{-- ? start header ? --}}
     {{-- <div class="flex flex-row justify-between">
         <div class="flex justify-start px-4 md:px-8 py-6">

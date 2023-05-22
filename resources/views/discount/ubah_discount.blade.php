@@ -112,7 +112,7 @@
                     @enderror
                 </div>
                 <div class="flex flex-col gap-2 w-full">
-                    <span>Dapat</span>
+                    <span>Gratis</span>
                     <div class="flex flex-row gap-2 w-full">
                         <input maxlength="15" id="txt_gratis_update" name="txt_gratis_update" type="number" placeholder=""
                             class="border-2 rounded-md py-2 px-4 w-full outline-none flex-grow flex" value="{{ old('txt_gratis_update') }}">
