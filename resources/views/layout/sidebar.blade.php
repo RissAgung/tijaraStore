@@ -39,13 +39,38 @@
     {{-- bot side --}}
     <div class="flex flex-col gap-2 pl-8 lg:mt-0  h-full">
 
+        {{-- Dashboard --}}
+        <a href="#" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
+
+            {{-- icon & title --}}
+            <div
+                class="flex flex-row  @if (Request::segment(1) == 'dashboard') menu-active1 @else menu-hover1 @endif items-center w-full">
+
+                <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out"
+                    width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <path
+                        d="M26.5833 6.92064V2.42165C26.5833 1.75478 26.0432 1.21354 25.375 1.21354C24.7068 1.21354 24.1667 1.75478 24.1667 2.42165V5.28003L17.8797 1.03837C15.8268 -0.346123 13.1733 -0.346123 11.1203 1.03837L2.66196 6.74546C0.995667 7.87021 0 9.74157 0 11.7531V22.9595C0 26.2902 2.71029 29 6.04167 29H9.66667C10.3349 29 10.875 28.4588 10.875 27.7919V18.127C10.875 17.4614 11.4163 16.9189 12.0833 16.9189H16.9167C17.5837 16.9189 18.125 17.4614 18.125 18.127V27.7919C18.125 28.4588 18.6651 29 19.3333 29H22.9583C26.2897 29 29 26.2902 29 22.9595V11.7531C29 9.84305 28.101 8.05868 26.5833 6.92064ZM26.5833 22.9595C26.5833 24.9577 24.9569 26.5838 22.9583 26.5838H20.5417V18.127C20.5417 16.1288 18.9153 14.5027 16.9167 14.5027H12.0833C10.0848 14.5027 8.45833 16.1288 8.45833 18.127V26.5838H6.04167C4.04308 26.5838 2.41667 24.9577 2.41667 22.9595V11.7531C2.41667 10.5462 3.01358 9.42263 4.01408 8.74851L12.4724 3.04141C13.7049 2.21023 15.2951 2.21023 16.5264 3.04141L24.9847 8.74851C25.9852 9.42263 26.5821 10.5462 26.5821 11.7531L26.5833 22.9595Z"
+                        />
+                </svg>
+
+                <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">
+                    Dashboard</p>
+            </div>
+
+            {{-- when focus --}}
+            <div class="w-2 h-full  @if (Request::segment(1) == 'dashboard') menu-active2 @endif transition ease-in-out"></div>
+        </a>
+        {{-- end         
+            {{-- Dashboard --}}
+
+
         {{-- master data --}}
         <div id="div_master" class="h-12 flex flex-col w-full overflow-hidden duration-300 ease-in-out">
             <div id="master_data" class="flex flex-row w-full justify-between h-[48px] cursor-pointer menu flex-none">
 
                 {{-- icon & title --}}
                 <div
-                    class="flex flex-row @if (Request::segment(1) == 'product') menu-active1 @else menu-hover1 @endif items-center  w-full">
+                    class="flex flex-row @if (Request::segment(1) == 'produk' || Request::segment(1) == 'supplier' || Request::segment(1) == 'pegawai') menu-active1 @else menu-hover1 @endif items-center  w-full">
                     <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out"
                         viewBox="0 0 32 30" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -57,7 +82,7 @@
                 </div>
 
                 {{-- when focus --}}
-                <div class="w-2 h-full @if (Request::segment(1) == 'product') menu-active2 @endif transition ease-in-out">
+                <div class="w-2 h-full @if (Request::segment(1) == 'produk' || Request::segment(1) == 'supplier' || Request::segment(1) == 'pegawai') menu-active2 @endif transition ease-in-out">
                 </div>
             </div>
             <div class="flex flex-row w-full">
@@ -67,16 +92,20 @@
                 <div class="flex w-full flex-col flex-grow px-2 pr-6 poppins-regular cursor-default">
                     <a href="{{ route('product') }}">
                         <div
-                            class=" @if (Request::segment(1) == 'product') bg-[#FFF6E3] text-primary @else hover:bg-gray-200 @endif text-sm py-2 px-2 rounded-md w-full">
+                            class="@if (Request::segment(1) == 'produk') bg-[#FFF6E3] text-primary @else hover:bg-gray-200 @endif text-sm py-2 px-2 rounded-md w-full">
                             <p>Produk</p>
                         </div>
                     </a>
-                    <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-gray-200">
+                    <div
+                        class="text-sm py-2 px-2 rounded-md w-full @if (Request::segment(1) == 'pegawai') bg-[#FFF6E3] text-primary @else hover:bg-gray-200 @endif">
                         <p>Pegawai</p>
                     </div>
-                    <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-gray-200">
-                        <p>Supplier</p>
-                    </div>
+                    <a href="/supplier">
+                        <div
+                            class="text-sm py-2 px-2 rounded-md w-full @if (Request::segment(1) == 'supplier') bg-[#FFF6E3] text-primary @else hover:bg-gray-200 @endif">
+                            <p>Supplier</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -87,7 +116,7 @@
 
             {{-- icon & title --}}
             <div
-                class="flex flex-row menu-hover1 @if (Route::is('riwayatTr')) menu-active1 @endif items-center w-full">
+                class="flex flex-row  @if (Request::segment(1) == 'riwayat') menu-active1 @else menu-hover1 @endif items-center w-full">
 
                 <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out"
                     width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -103,28 +132,75 @@
             </div>
 
             {{-- when focus --}}
-            <div class="w-2 h-full  @if (Route::is('riwayatTr')) menu-active2 @endif transition ease-in-out"></div>
+            <div class="w-2 h-full  @if (Request::segment(1) == 'riwayat') menu-active2 @endif transition ease-in-out"></div>
         </a>
         {{-- end riwayat --}}
 
         {{-- retur --}}
-        <a href="{{ Route('retur') }}" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
 
-        {{-- icon & title --}}
-            <div class="flex flex-row menu-hover1 @if (Route::is('retur') or Route::is('riwayatRetur')) menu-active1 @endif items-center w-full">
-            
-                <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out" viewBox="0 0 38 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M36.4168 32C35.9969 32 35.5941 31.8362 35.2972 31.5447C35.0003 31.2532 34.8335 30.8578 34.8335 30.4455C34.831 27.9726 33.8294 25.6017 32.0484 23.8531C30.2675 22.1045 27.8527 21.1211 25.3341 21.1186H16.1037V23.584C16.1036 24.1988 15.9178 24.7998 15.5699 25.3109C15.2219 25.8221 14.7274 26.2204 14.1489 26.4557C13.5704 26.691 12.9338 26.7525 12.3197 26.6326C11.7055 26.5127 11.1414 26.2167 10.6985 25.7821L1.39066 16.6432C0.50022 15.7687 0 14.5827 0 13.3462C0 12.1096 0.50022 10.9236 1.39066 10.0491L10.6985 0.910267C11.1414 0.475603 11.7055 0.179609 12.3197 0.0597032C12.9338 -0.0602023 13.5704 0.00136441 14.1489 0.236621C14.7274 0.471877 15.2219 0.870259 15.5699 1.38141C15.9178 1.89255 16.1036 2.49351 16.1037 3.10831V5.57373H23.7508C27.5286 5.57784 31.1505 7.05315 33.8219 9.67596C36.4932 12.2988 37.9958 15.8549 38 19.5641V30.4455C38 30.8578 37.8332 31.2532 37.5363 31.5447C37.2394 31.8362 36.8367 32 36.4168 32ZM12.9373 3.10831L3.62936 12.2471C3.33255 12.5386 3.16581 12.934 3.16581 13.3462C3.16581 13.7584 3.33255 14.1537 3.62936 14.4452L12.9373 23.584V19.5641C12.9373 19.1518 13.1041 18.7564 13.401 18.4649C13.6979 18.1734 14.1006 18.0096 14.5205 18.0096H25.3341C27.132 18.0091 28.9093 18.3851 30.5474 19.1127C32.1856 19.8402 33.6468 20.9024 34.8335 22.2285V19.5641C34.8302 16.6792 33.6614 13.9134 31.5838 11.8734C29.5061 9.83348 26.6891 8.68599 23.7508 8.6827H14.5205C14.1006 8.6827 13.6979 8.51892 13.401 8.2274C13.1041 7.93588 12.9373 7.54049 12.9373 7.12821V3.10831Z"/>
+        <div id="div_retur" class="h-12 flex flex-col w-full overflow-hidden duration-300 ease-in-out">
+            <div id="master_retur" class="flex flex-row w-full justify-between h-[48px] cursor-pointer menu flex-none">
+
+                {{-- icon & title --}}
+                <div
+                    class="flex flex-row @if (Request::segment(1) == 'retur') menu-active1 @else menu-hover1 @endif items-center  w-full">
+                    <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out" viewBox="0 0 38 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M36.4168 32C35.9969 32 35.5941 31.8362 35.2972 31.5447C35.0003 31.2532 34.8335 30.8578 34.8335 30.4455C34.831 27.9726 33.8294 25.6017 32.0484 23.8531C30.2675 22.1045 27.8527 21.1211 25.3341 21.1186H16.1037V23.584C16.1036 24.1988 15.9178 24.7998 15.5699 25.3109C15.2219 25.8221 14.7274 26.2204 14.1489 26.4557C13.5704 26.691 12.9338 26.7525 12.3197 26.6326C11.7055 26.5127 11.1414 26.2167 10.6985 25.7821L1.39066 16.6432C0.50022 15.7687 0 14.5827 0 13.3462C0 12.1096 0.50022 10.9236 1.39066 10.0491L10.6985 0.910267C11.1414 0.475603 11.7055 0.179609 12.3197 0.0597032C12.9338 -0.0602023 13.5704 0.00136441 14.1489 0.236621C14.7274 0.471877 15.2219 0.870259 15.5699 1.38141C15.9178 1.89255 16.1036 2.49351 16.1037 3.10831V5.57373H23.7508C27.5286 5.57784 31.1505 7.05315 33.8219 9.67596C36.4932 12.2988 37.9958 15.8549 38 19.5641V30.4455C38 30.8578 37.8332 31.2532 37.5363 31.5447C37.2394 31.8362 36.8367 32 36.4168 32ZM12.9373 3.10831L3.62936 12.2471C3.33255 12.5386 3.16581 12.934 3.16581 13.3462C3.16581 13.7584 3.33255 14.1537 3.62936 14.4452L12.9373 23.584V19.5641C12.9373 19.1518 13.1041 18.7564 13.401 18.4649C13.6979 18.1734 14.1006 18.0096 14.5205 18.0096H25.3341C27.132 18.0091 28.9093 18.3851 30.5474 19.1127C32.1856 19.8402 33.6468 20.9024 34.8335 22.2285V19.5641C34.8302 16.6792 33.6614 13.9134 31.5838 11.8734C29.5061 9.83348 26.6891 8.68599 23.7508 8.6827H14.5205C14.1006 8.6827 13.6979 8.51892 13.401 8.2274C13.1041 7.93588 12.9373 7.54049 12.9373 7.12821V3.10831Z"/>
+                    </svg>
+                    <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">
+                        Retur</p>
+                </div>
+
+                {{-- when focus --}}
+                <div class="w-2 h-full @if (Request::segment(1) == 'retur') menu-active2 @endif transition ease-in-out">
+                </div>
+            </div>
+            <div class="flex flex-row w-full">
+                <div class="px-3">
+                    <div class="bg-primary w-[2px] h-full"></div>
+                </div>
+                <div class="flex w-full flex-col flex-grow px-2 pr-6 poppins-regular cursor-default">
+                    <a href="/supplier">
+                        <div
+                            class=" @if (Request::segment(1) == 'retur') bg-[#FFF6E3] text-primary @else hover:bg-gray-200 @endif text-sm py-2 px-2 rounded-md w-full">
+                            <p>Supplier</p>
+                        </div>
+                    </a>
+                    <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-gray-200">
+                        <p>Customer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        {{-- end retur --}}
+
+        <a href="#" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
+
+            {{-- icon & title --}}
+            <div
+                class="flex flex-row  @if (Request::segment(1) == 'gaji') menu-active1 @else menu-hover1 @endif items-center w-full">
+
+                
+                <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 transition ease-in-out" width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                    <path opacity="0.5" d="M7 10.5H11.6667" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M24.3052 11.6667H21.2695C19.187 11.6667 17.5 13.2336 17.5 15.1667C17.5 17.0999 19.1882 18.6667 21.2683 18.6667H24.3052C24.4032 18.6667 24.451 18.6667 24.4918 18.6644C25.1218 18.6259 25.6235 18.1604 25.6643 17.5759C25.6667 17.5386 25.6667 17.4931 25.6667 17.4032V12.9302C25.6667 12.8404 25.6667 12.7949 25.6643 12.7576C25.6223 12.1731 25.1218 11.7076 24.4918 11.6691C24.451 11.6667 24.4032 11.6667 24.3052 11.6667Z" stroke="black" stroke-width="1.5" fill="transparent"/>
+                    <path d="M24.4588 11.6668C24.3678 9.48283 24.0762 8.1435 23.1323 7.20083C21.7662 5.8335 19.5658 5.8335 15.1663 5.8335H11.6663C7.26684 5.8335 5.06651 5.8335 3.70034 7.20083C2.33301 8.567 2.33301 10.7673 2.33301 15.1668C2.33301 19.5663 2.33301 21.7667 3.70034 23.1328C5.06651 24.5002 7.26684 24.5002 11.6663 24.5002H15.1663C19.5658 24.5002 21.7662 24.5002 23.1323 23.1328C24.0762 22.1902 24.369 20.8508 24.4588 18.6668" stroke="black" stroke-width="1.5" fill="transparent"/>
+                    <path opacity="0.5" d="M7 5.83338L11.3575 2.94354C11.9703 2.54494 12.6856 2.33276 13.4167 2.33276C14.1477 2.33276 14.863 2.54494 15.4758 2.94354L19.8333 5.83338" stroke="black" stroke-width="1.5" stroke-linecap="round" fill="transparent"/>
+                    <path opacity="0.5" d="M20.9893 15.1667H20.9994"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
+    
 
-                <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">
-                Retur Supplier</p>
+                <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">Gaji</p>
             </div>
 
-        {{-- when focus --}}
-            <div class="w-2 h-full  @if (Route::is('retur') or Route::is('riwayatRetur')) menu-active2 @endif transition ease-in-out"></div>
+            {{-- when focus --}}
+            <div class="w-2 h-full  @if (Request::segment(1) == 'gaji') menu-active2 @endif transition ease-in-out"></div>
         </a>
-        {{-- end retur --}}
+        {{-- end riwayat --}}
+
+
 
         {{-- laporan --}}
         <a href="{{ Route('pemasukan') }}" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
@@ -159,7 +235,7 @@
           </div>
 
           {{-- when focus --}}
-          <div class="w-2 h-full menu-hover2 @if (Route::is('operasional') or Route::is('restock')) menu-active2 @endif transition ease-in-out"></div>
+          <div class="w-2 h-full @if (Route::is('operasional') or Route::is('restock')) menu-active2 @endif transition ease-in-out"></div>
         </a>
         {{-- end pengeluaran --}}
         {{-- voucher & diskon --}}

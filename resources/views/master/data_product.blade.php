@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('title')
-    Master Data Product
+    Master Data Produk
 @endsection
 
 @section('produk')
@@ -37,14 +37,14 @@
                     {{-- @csrf --}}
                     <input value="@isset($_GET['find']){{ $_GET['find'] }}@endisset" name="find"
                         class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                        placeholder="Masukkan nama atau kode barang">
+                        placeholder="Masukkan nama atau kode produk">
                 </form>
             </div>
 
             <div class=" flex flex-row justify-between">
                 <div class="flex flex-row gap-4 items-center text-center mr-4 md:mr-8">
                     <p class="text-center items-center w-12 md:w-full">Filter By: </p>
-                    <form id="form_filter_kategori" action="/product/kategori" method="GET">
+                    <form id="form_filter_kategori" action="/produk/kategori" method="GET">
                         <div class="relative">
                             @if (!isset($_GET['select']))
                                 <svg class="absolute pointer-events-none top-[50%] -translate-y-[50%] -translate-x-[50%] right-0"
@@ -63,21 +63,21 @@
                                         selected
                                     @endif
                                 @endisset
-                                    value="pria">Laki-Laki</option>
+                                    value="pria">Pria</option>
                                 <option
                                     @isset($_GET['select'])
                                 @if ($_GET['select'] == 'wanita')
                                     selected
                                 @endif
                             @endisset
-                                    value="wanita">Perempuan</option>
+                                    value="wanita">Wanita</option>
                                 <option
                                     @isset($_GET['select'])
                                 @if ($_GET['select'] == 'anak')
                                     selected
                                 @endif
                             @endisset
-                                    value="anak">Anak Anak</option>
+                                    value="anak">Anak</option>
                             </select>
                         </div>
                     </form>
@@ -110,7 +110,7 @@
                         </svg>
                         <p class="text-black poppins-regular hidden lg:flex">Tambah</p>
                     </div>
-                    <a href="/product" id="btn_reset"
+                    <a href="/produk" id="btn_reset"
                         class="bg-[#000000] w-[46px] px-2 rounded-md flex justify-center items-center drop-shadow-sm">
                         <svg width="15" height="15" viewBox="0 0 23 23" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -139,7 +139,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="flex px-4 md:px-4 overflow-x-scroll gap-3 scrollbar-hide flex-row flex-grow">
+            <div class="flex px-4 md:px-4 overflow-x-scroll gap-3 scrollbar-hide flex-row flex-grow mr-8">
                 @foreach ($tags as $item_tags)
                     <div id="{{ strtolower($item_tags->kode_tag) }}"
                         class="bg-white  border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md"
@@ -153,30 +153,30 @@
         </div>
     @endif
 
-    <div class="h-[70vh] flex flex-col px-6 py-4">
+    <div class="h-[70vh] flex flex-col px-6 py-4 w-full">
         @if (count($products->items()) != 0)
             <div class="h-full w-full overflow-x-auto">
                 <table class=" w-full border-separate border-spacing-y-4">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" name="" class="" id="checkAll"></th>
-                            <th class="tracking-wide text-center text-sm poppins-regular">Nama Produk</th>
-                            <th class="tracking-wide text-center text-sm poppins-regular">Kategori</th>
+                            <th class="text-left pl-8 w-20"><input type="checkbox" name="" class="" id="checkAll"></th>
+                            <th class="tracking-wide text-left text-sm poppins-regular pl-3">Nama Produk</th>
+                            <th class="tracking-wide text-left text-sm poppins-regular pl-3">Kategori</th>
                             <th class="tracking-wide text-center text-sm poppins-regular">Stock</th>
                             <th class="tracking-wide text-center text-sm poppins-regular">Harga</th>
                             <th class="tracking-wide text-center text-sm poppins-regular">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <form id="form_delete" action="/product/delete_selected" method="post">
+                        <form id="form_delete" action="/produk/delete_selected" method="post">
                             @csrf
                             @foreach ($products as $item)
-                                <tr class="bg-white border-2 ">
-                                    <td class="tracking-wide text-center p-3">
-                                        <div class="flex flex-row justify-center gap-4">
+                                <tr class="bg-white border-2">
+                                    <td class="text-start p-3 w-fit pr-12">
+                                        <div class="flex flex-row justify-start ml-4 gap-4">
                                             <input class="mt-2 idcheck" type="checkbox" name="ids[]" id=""
                                                 value="{{ $item->kode_br }}">
-                                            <div class="h-10 w-10 rounded-full overflow-hidden">
+                                            <div class="h-16 w-16 rounded-full overflow-hidden">
                                                 <img class="h-full object-cover w-full"
                                                     onError="this.onerror=null;this.src='https://oneshaf.com/wp-content/uploads/2022/12/placeholder-5-300x200.png';"
                                                     src="{{ asset('uploads/products/' . $item->gambar) }}"
@@ -185,8 +185,8 @@
                                         </div>
                                     </td>
 
-                                    <td class="tracking-wide text-center p-3">{{ $item->nama_br }}</td>
-                                    <td class="tracking-wide text-center p-3">{{ $item->kategori }}</td>
+                                    <td class="tracking-wide text-left p-3 w-[30%]">{{ $item->nama_br }}</td>
+                                    <td class="tracking-wide text-left p-3">{{ $item->kategori }}</td>
                                     <td class="tracking-wide text-center p-3">{{ $item->stok }}</td>
                                     <td class="tracking-wide text-center p-3">
                                         <div class="flex flex-col items-center w-full justify-center">
@@ -224,7 +224,7 @@
 
                                             </div>
 
-                                            <div onclick="hapusData('/product/delete/{{ $item->kode_br }}?token={{ csrf_token() }}')"
+                                            <div onclick="hapusData('/produk/delete/{{ $item->kode_br }}?token={{ csrf_token() }}')"
                                                 class="bg-[#000000] py-4 w-[46px] px-2 rounded-md flex justify-center drop-shadow-sm">
                                                 <svg width="14" height="17" viewBox="0 0 14 17" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
