@@ -3,6 +3,10 @@ $(document).ready(function () {
     $('#menuDropDown').toggleClass('max-md:hidden');
     $("#arrowMenu").toggleClass('rotate-180');
   });
+
+  $('#btn_submit_filter').click(function (e) {
+    location.replace("/laporan/pemasukan/" + getDataFilter())
+  });
 });
 
 function showDetail() {

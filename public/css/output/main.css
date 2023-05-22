@@ -736,6 +736,10 @@ video {
   margin-bottom: 0.5rem;
 }
 
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
 .mb-6 {
   margin-bottom: 1.5rem;
 }
@@ -1137,10 +1141,6 @@ video {
   width: 1.5rem;
 }
 
-.w-7 {
-  width: 1.75rem;
-}
-
 .w-8 {
   width: 2rem;
 }
@@ -1241,6 +1241,10 @@ video {
   width: 46px;
 }
 
+.w-\[5\%\] {
+  width: 5%;
+}
+
 .w-\[50\%\] {
   width: 50%;
 }
@@ -1320,14 +1324,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-14 {
-  width: 3.5rem;
-}
-
-.w-32 {
-  width: 8rem;
 }
 
 .min-w-\[150px\] {
@@ -1522,6 +1518,10 @@ video {
   justify-content: space-between;
 }
 
+.justify-around {
+  justify-content: space-around;
+}
+
 .justify-evenly {
   justify-content: space-evenly;
 }
@@ -1697,6 +1697,11 @@ video {
 .border-\[\#D9D9D9\] {
   --tw-border-opacity: 1;
   border-color: rgb(217 217 217 / var(--tw-border-opacity));
+}
+
+.border-\[\#DADADA\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(218 218 218 / var(--tw-border-opacity));
 }
 
 .border-\[\#DCDADA\] {
@@ -1948,6 +1953,11 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .py-6 {
@@ -2654,12 +2664,20 @@ body {
     aspect-ratio: 1 / 1;
   }
 
+  .max-lg\:aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+
   .max-lg\:items-center {
     align-items: center;
   }
 
   .max-lg\:gap-2 {
     gap: 0.5rem;
+  }
+
+  .max-lg\:text-center {
+    text-align: center;
   }
 }
 
@@ -2686,6 +2704,10 @@ body {
 
   .max-md\:hidden {
     display: none;
+  }
+
+  .max-md\:h-64 {
+    height: 16rem;
   }
 
   .max-md\:h-full {
@@ -3300,6 +3322,11 @@ body {
     padding-right: 1rem;
   }
 
+  .md\:px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
   .md\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -3514,6 +3541,10 @@ body {
     display: none;
   }
 
+  .lg\:h-1\/2 {
+    height: 50%;
+  }
+
   .lg\:h-6 {
     height: 1.5rem;
   }
@@ -3566,10 +3597,6 @@ body {
     height: 73vh;
   }
 
-  .lg\:h-\[80\%\] {
-    height: 80%;
-  }
-
   .lg\:h-\[80px\] {
     height: 80px;
   }
@@ -3580,6 +3607,14 @@ body {
 
   .lg\:h-\[85vh\] {
     height: 85vh;
+  }
+
+  .lg\:h-\[87vh\] {
+    height: 87vh;
+  }
+
+  .lg\:h-\[90\%\] {
+    height: 90%;
   }
 
   .lg\:h-\[95\%\] {

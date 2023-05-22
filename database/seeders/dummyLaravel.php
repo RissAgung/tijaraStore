@@ -19,68 +19,91 @@ class dummyLaravel extends Seeder
     // pemasukan::truncate();
     // detail_tr::truncate();
 
-    for ($i = 0; $i < 50; $i++) {
+    for ($i = 0; $i < 1; $i++) {
       # code...
       $id = uniqid();
       transaksi::create([
         'kode_tr' => $id,
-        'total' => 50000,
-        'bayar' => 50000,
+        'total' => 200000,
+        'bayar' => 200000,
         'nama_kasir' => 'rizal',
         'kembalian' => 0,
-        'tanggal' => Carbon::now(),
+        'tanggal' => '2023-05-19 01:58:28',
         'jenis_pembayaran' => 'Cash'
       ]);
 
       detail_transaksi::create([
         'kode_tr' => $id,
         'QTY' => 5,
-        'subtotal' => 400000,
-        'kode_br' => 1680855250
+        'subtotal' => 40000,
+        'kode_br' => 1684643612
       ]);
     }
 
-    for ($i = 0; $i < 50; $i++) {
+    for ($i = 0; $i < 1; $i++) {
       # code...
       $id = uniqid();
       transaksi::create([
         'kode_tr' => $id,
-        'total' => 50000,
-        'bayar' => 50000,
+        'total' => 300000,
+        'bayar' => 300000,
         'nama_kasir' => 'rizal',
         'kembalian' => 0,
-        'tanggal' => Carbon::now(),
+        'tanggal' => '2023-05-19 01:58:28',
         'jenis_pembayaran' => 'Cash'
       ]);
 
       detail_transaksi::create([
         'kode_tr' => $id,
         'QTY' => 5,
-        'subtotal' => 400000,
-        'kode_br' => 1680856746
+        'subtotal' => 60000,
+        'kode_br' => 1684643520
       ]);
     }
 
-    for ($i = 0; $i < 50; $i++) {
+    for ($i = 0; $i < 1; $i++) {
       # code...
       $id = uniqid();
       transaksi::create([
         'kode_tr' => $id,
-        'total' => 50000,
-        'bayar' => 50000,
+        'total' => 600000,
+        'bayar' => 600000,
         'nama_kasir' => 'rizal',
         'kembalian' => 0,
-        'tanggal' => Carbon::now(),
+        'tanggal' => '2023-05-19 01:58:28',
         'jenis_pembayaran' => 'Cash'
       ]);
-
+      // 2023-05-18 01:58:28
       detail_transaksi::create([
         'kode_tr' => $id,
-        'QTY' => 5,
-        'subtotal' => 400000,
-        'kode_br' => 1680856989
+        'QTY' => 6,
+        'subtotal' => 100000,
+        'kode_br' => 1684641177
       ]);
     }
+
+    for ($i = 0; $i < 1; $i++) {
+      # code...
+      $id = uniqid();
+      transaksi::create([
+        'kode_tr' => $id,
+        'total' => 1200000,
+        'bayar' => 1200000,
+        'nama_kasir' => 'rizal',
+        'kembalian' => 0,
+        'tanggal' => '2023-05-19 01:58:28',
+        'jenis_pembayaran' => 'Cash'
+      ]);
+      // 2023-05-18 01:58:28
+      detail_transaksi::create([
+        'kode_tr' => $id,
+        'QTY' => 6,
+        'subtotal' => 200000,
+        'kode_br' => 1684642926
+      ]);
+    }
+
+    // 1680856928
 
 
     // Membuat data pengguna dummy menggunakan factory

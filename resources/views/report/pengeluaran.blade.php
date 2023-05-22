@@ -105,7 +105,8 @@
             {{-- left --}}
             <div
                 class="flex flex-col w-full lg:w-[65%] h-80 md:h-96 lg:min-h-full overflow-y-auto bg-white border-[1px] border-[#DCDADA] rounded-md">
-                <p id="title_table" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pengeluaran {{ $total['title'] }}</p>
+                <p id="title_table" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pengeluaran
+                    {{ $total['title'] }}</p>
                 <div class="flex w-full border-y-[1px] border-y-[#DCDADA] bg-[#F7F7F7] text-[11px] md:text-[14px]">
                     <p class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">No</p>
                     <p class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">Waktu</p>
@@ -129,7 +130,7 @@
 
             {{-- right --}}
             <div
-                class="flex flex-col w-full lg:w-[35%] lg:h-[80%] lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
+                class="flex flex-col w-full lg:w-[35%] lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
                 <p class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
                     Detail Pemasukan {{ $total['title'] }}</p>
                 <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-evenly">
@@ -227,6 +228,69 @@
                             </svg>
                         </div>
                     </div>
+
+                    {{-- line --}}
+                    <div class="w-full h-[1px] bg-[#DCDADA]"></div>
+
+                    {{-- Anak --}}
+                    <div onclick=""
+                        class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
+                        <div class="flex gap-5">
+                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                viewBox="0 0 105 112" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <rect y="0.149902" width="104.765" height="110.893" rx="14" fill="#C2BF61" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M104.765 58.6577V97.0429C104.765 104.775 98.4973 111.043 90.7653 111.043H52.6525L18.5 80.5L67.5 31.5L85 37L104.765 58.6577Z"
+                                    fill="#757347" />
+                                <path d="M86.0003 69.6708L57.617 86.0108L28.9082 69.6708V36.4702H86.0003V69.6708Z"
+                                    fill="#0F7C79" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M43.9068 78.2078L28.9072 69.6706V51.4595C38.5038 51.8686 46.1584 59.778 46.1584 69.4753C46.1584 72.6434 45.3415 75.6206 43.9068 78.2078Z"
+                                    fill="#0C5D57" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M57.5518 85.9736L57.617 86.0108L86.0002 69.6708V36.4702H75.3063L57.5518 53.0705V85.9736Z"
+                                    fill="#148C8B" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M76.1042 36.47H75.8927L67.3809 44.3391V80.3886L76.1042 75.3667V36.47Z"
+                                    fill="#DEF1F8" />
+                                <path d="M57.7472 20L28.9082 36.3399L57.7472 53.0704L86.0003 36.3399L57.7472 20Z"
+                                    fill="#3BC9CA" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M75.9751 42.2757L75.9737 42.264L47.5479 25.7781L38.8701 30.6949L38.9322 30.7415L67.1436 47.5054L75.9751 42.2757Z"
+                                    fill="white" />
+                                <circle cx="27.801" cy="70.1914" r="13.801" fill="#F47A53" />
+                                <rect x="20.415" y="62.7129" width="14.519" height="14.519"
+                                    fill="url(#pattern0)" />
+                                <defs>
+                                    <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1"
+                                        height="1">
+                                        <use xlink:href="#image0_1029_14" transform="scale(0.0232558)" />
+                                    </pattern>
+                                    <image id="image0_1029_14" width="43" height="43"
+                                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKrSURBVHgBzZmNWeMwDIYVFriO4JvgssFlg+ttkBHKBM0GsEHLBLBBskHKBAkTlA2EhF2aBvkvcRve51ED/v3iyrbsZjACEdf0yMn2WZb1EADVUabOikwNsnpjB2rrHVJCnT7gJYWl3IqsJHsmO2IYLdnO1mas0Fzo4EUQuY0QaKMjK2Eq/MZCo80gf5tApCQ6D9V45ytAjSmylv6sQPtkShQZu8c2pHAGZ1EFPepRfg9aoE8kT55XOE+oE7kR9Af8HMj+B01qixu4YJd4xIAJY74dnpAN+t1CpRbLIie5hOmn8whehTTigxsKnhCe/ipHP7VUx+ezY+5B+yeY5yF047AIzk2f0kjeU9uPtoqxPntiDTNAvb5LSyKnqdRiO5iJo+8aHG84hSMkAPWklShsFWqMp4IEoN7KJXf48ttsVEHRYwPhO1VDk2APiTAvPt7NeCL/Th61zcUxugXne2ODW2JG70nI+lxxfpRYw0FI+3vxH+r9O3VUFY3RMeY4LLAbZDzAwqDMijNKIWPWrpRAbC9oUuyzSiifJFhJjW2CLe27v6REFtuHFr4h3waLozub2MXcAOV4uecPFiuta/mCy1ghpL3xx53ZNd6EAiUswz8h7Xx/gXJ45js1JMeyIeCFa6A9+C3ghlB/e0FDJxWslxxdx6iWUuHSUngDNwDl4zmnKVuF1iL4qksZ6ns0icpVyea7x2sJdgj1H0TRfnBjwUkDHPx+HzxEhTbSOhrZ4swNA83NpKOPKraxztEY55UQiWl3j24qiCVA8En0jmyNgk+jPgDy1r3BsGN+BVMxnT1jHN3AYkizRKL7xm8uHaZeaTDM32Lg1YUH4XrR3UD01B9D2qkiM5gB6nW3AB2s8+8GkgAOPzlmbkDf5zYwkVlix5jR+hI856JZ4gNyAEFYAU7CuwAAAABJRU5ErkJggg==" />
+                                </defs>
+                            </svg>
+
+
+                            <div
+                                class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
+                                <p>Retur</p>
+                                <p class="poppins-semibold">Rp. 0</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
+                            <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
+                                    fill="black" />
+                            </svg>
+                        </div>
+                    </div>
+
+
                 </div>
                 <p
                     class="flex justify-center p-4 md:p-6 2xl:p-9 lg:p-5 text-[12px] md:text-[15px] 2xl:text-[17px] border-t-[1px] border-t-[#DCDADA] poppins-semibold">

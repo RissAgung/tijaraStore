@@ -23,7 +23,7 @@
                 {{-- name --}}
                 <h3
                     class="poppins-medium text-[15px] md:text-[18px] lg:text-[16px] w-[90%] 2xl:w-full whitespace-nowrap text-ellipsis overflow-hidden">
-                    Bintang Kabel Prekes</h3>
+                    Bintang Malindo</h3>
 
                 {{-- username --}}
                 <p class="poppins-medium text-[12px] md:text-[14px] lg:text-[13px] text-[#535353]">mphstar</p>

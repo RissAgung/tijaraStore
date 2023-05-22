@@ -116,7 +116,7 @@ class ReturController extends Controller
       return redirect()->route('retur');
     } catch (\Throwable $e) {
       // dd($e);
-      alert()->error('Gagal', 'Data retur gagal disimpan')->autoClose(3000);
+      alert()->error('Gagal', 'Data retur gagal disimpan');
       return redirect()->route('retur');
     }
   }

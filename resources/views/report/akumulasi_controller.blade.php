@@ -208,7 +208,7 @@
 
     ////////////////////////////////// PIE CHART //////////////////////////////////
 
-    var divChart = document.getElementById("container_pie_chart").getBoundingClientRect();
+    var divChart = document.getElementById("container_pie_chart").getBoundingClientRect()
     var heightPenjualan = divChart.height;
     var widthPenjualan = divChart.width;
 
@@ -239,7 +239,7 @@
             horizontalAlign: 'center',
 
         },
-        labels: ['bintang', 'kontol', 'memek', 'pokeh', 'plerrrr', 'blok awoakwokoawkow'],
+        labels: ['kemeja', 'rok', 'jilbab', 'rok panjang', 'jaket', 'sweater'],
         // series: getSeriesPie(),
         series: [30, 40, 90, 80, 60, 20],
 
@@ -271,7 +271,7 @@
             horizontalAlign: 'center',
 
         },
-        labels: ['bintang', 'kontol', 'memek', 'pokeh', 'plerrrr', 'blok awoakwokoawkow'],
+        labels: ['chinos', 'baju koko', 'hodie', 'sweater', 'baju polo', 'jeans'],
         // series: getSeriesPie(),
         series: [30, 40, 90, 80, 60, 20],
 

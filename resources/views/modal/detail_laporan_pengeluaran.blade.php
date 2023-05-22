@@ -48,7 +48,7 @@
                 </tr>
             </thead>
             <tbody class="bg-white border-[1px] border-[#CCCCCC]">
-                @foreach ($dataPengeluaranFinal as $data)
+                @foreach ($detailDataPengeluaranFinal as $data)
                     @if ($data->jenis_pengeluaran === 'restock')
                         <tr>
                             <td class="text-left p-3">{{ $data->kode_pengeluaran }}</td>
@@ -74,7 +74,7 @@
               </tr>
           </thead>
           <tbody class="bg-white border-[1px] border-[#CCCCCC]">
-              @foreach ($dataPengeluaranFinal as $data)
+              @foreach ($detailDataPengeluaranFinal as $data)
                   @if ($data->jenis_pengeluaran === 'operasional')
                       <tr>
                           <td class="text-left p-3">{{ $data->kode_pengeluaran }}</td>

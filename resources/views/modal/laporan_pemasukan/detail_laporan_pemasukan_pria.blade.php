@@ -52,7 +52,7 @@
                     @if ($index->kategori === 'pria')
                         <tr>
                             <td class="p-2 md:p-4 text-left" id="nama_br">{{ $index->nama_br }}</td>
-                            <td class="p-2 md:p-4" id="jumlah_produk">16X</td>
+                            <td class="p-2 md:p-4" id="jumlah_produk">{{ $index->jumlah }}X</td>
                         </tr>
                     @endif
                 @endforeach

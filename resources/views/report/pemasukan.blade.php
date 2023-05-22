@@ -4,6 +4,7 @@
     @include('modal.laporan_pemasukan.detail_laporan_pemasukan_pria')
     @include('modal.laporan_pemasukan.detail_laporan_pemasukan_wanita')
     @include('modal.laporan_pemasukan.detail_laporan_pemasukan_anak')
+    @include('modal.filterDate.filter')
 @endsection
 
 @section('title')
@@ -62,7 +63,7 @@
             <div class="flex poppins-medium gap-2">
 
                 {{-- filter --}}
-                <button
+                <button onclick="showModalFilter()"
                     class="text-selector-none flex items-center gap-2 py-2 px-3 md:py-2 md:px-3 rounded-md shadow-lg bg-[#FFB015] hover:bg-[#d48e00] transition ease-in-out">
                     <p>Filter</p>
                     <svg class="w-[17px] h-[15px] md:w-[20px] md:h-[18px]" viewBox="0 0 24 26" fill="none"
@@ -83,7 +84,7 @@
                 </button>
 
                 {{-- reset --}}
-                <button
+                <a href="{{ route('pemasukan') }}"
                     class="flex items-center py-2 px-[10px] md:py-2 md:px-3 gap-2 rounded-md shadow-lg bg-black hover:bg-[#3b3b3b] transition ease-in-out">
 
                     <svg class="w-[15px] h-[15px] md:w-[18px] md:h-[18px]" viewBox="0 0 25 25" fill="none"
@@ -95,7 +96,7 @@
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
 
-                </button>
+                </a>
             </div>
 
         </div>
@@ -108,23 +109,39 @@
                 class="flex flex-col w-full lg:w-[65%] h-80 md:h-96 lg:min-h-full overflow-y-auto bg-white border-[1px] border-[#DCDADA] rounded-md">
                 <p id="title_table" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pemasukan
                     hari ini</p>
-                <div class="flex w-full border-y-[1px] border-y-[#DCDADA] bg-[#F7F7F7] text-[11px] md:text-[14px]">
-                    <p class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">No</p>
-                    <p class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">Waktu</p>
-                    <p class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-[#F7F7F7]">Total</p>
-                </div>
-                <div class="w-full h-full overflow-y-auto">
-                    <table class="text-[11px] md:text-[14px] w-full">
-                        <?php $i = 1; ?>
-                        @foreach ($data_pemasukan as $index)
-                            <tr class="border-b-[1px] border-b-[#DCDADA]">
-                                <td class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-white">{{ $i }}</td>
-                                <td class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-white">{{ $index->tanggal }}</td>
-                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">
-                                    {{ rupiah($index->total) }}</td>
+
+                <div class="w-full h-full overflow-auto">
+                    <table class="w-full text-[11px] md:text-[14px]">
+                        <thead class="bg-[#F7F7F7] sticky top-0">
+                            <tr>
+                                <th class="border-y-[1px] border-[#DADADA] p-3 md:p-4" rowspan="2">Tanggal</th>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4" rowspan="2">Transaksi Penjualan</th>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4" colspan="2">Retur</th>
+                                <th class="border-y-[1px] border-[#DADADA] p-3 md:p-4" rowspan="2">Total</th>
                             </tr>
-                            <?php $i++; ?>
-                        @endforeach
+                            <tr>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4">Customer</th>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4">Supplier</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach ($data as $index)
+                                <tr>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">{{ $index['tanggal'] }}
+                                    </td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['transaksi']) }}</td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['retur_supp']) }}</td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['retur_cs']) }}</td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['transaksi'] + (int) $index['retur_supp'] + (int) $index['retur_cs']) }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -134,7 +151,7 @@
                 class="flex flex-col w-full lg:w-[35%] lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
                 <p id="title_detail"
                     class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
-                    Detail Pemasukan hari ini</p>
+                    Detail Penjualan hari ini</p>
                 <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-evenly">
 
                     {{-- pria --}}
@@ -170,7 +187,7 @@
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Pakaian Pria</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
+                                <p class="poppins-semibold">{{ rupiah($finalDataDetailKategori['pria']) }}</p>
                             </div>
                         </div>
 
@@ -211,7 +228,7 @@
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Pakaian Wanita</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
+                                <p class="poppins-semibold">{{ rupiah($finalDataDetailKategori['wanita']) }}</p>
                             </div>
                         </div>
 
@@ -265,7 +282,7 @@
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Pakaian Anak</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
+                                <p class="poppins-semibold">{{ rupiah($finalDataDetailKategori['anak']) }}</p>
                             </div>
                         </div>
 
@@ -281,7 +298,7 @@
                 </div>
                 <p
                     class="flex justify-center p-4 md:p-6 2xl:p-9 lg:p-5 text-[12px] md:text-[15px] 2xl:text-[17px] border-t-[1px] border-t-[#DCDADA] poppins-semibold">
-                    Rp. 2.280.000</p>
+                    {{ rupiah($total) }}</p>
             </div>
 
         </div>
@@ -291,4 +308,5 @@
 
 @section('otherjs')
     <script src="{{ asset('js/controllers/laporan_pemasukan.js') }}"></script>
+    @include('modal.filterDate.controller')
 @endsection

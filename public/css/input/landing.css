@@ -83,15 +83,15 @@ body {
 
 /* landing */
 .button_tab:hover button{
-  background-color: #FFB015;
+  background-color: #7D5A00;
 }
 
 .button_tab:hover svg{
-  fill: #000000;
+  fill: #FFFFFF;
 }
 
 .button_tab:hover p{
-  color: #FFB015;
+  color: #7D5A00;
 }
 
 .active_tab_catalog button{

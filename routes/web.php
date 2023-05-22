@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Akumulasi;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
@@ -43,6 +44,8 @@ Route::prefix("product")->group(function () {
   Route::post('/tag/add', [MasterDataProduct::class, 'tambah_tag']);
 });
 
+Route::get('/dashboard', [DashboardController::class, 'index']);
+
 //apabila belum login atau statusnya belum auth secara otomatis akan terlempar ke home, path home sendiri diatur pada App/Providers/RouteServiceProvider.php baris 20
 Route::get("/login", [LoginController::class, 'index'])->name('login')->middleware('guest');
 
@@ -55,9 +58,9 @@ Route::post("/logout", [LoginController::class, 'logout']);
 // Route::post("/register", [LoginController::class, 'registerhahai'])->middleware('guest');
 
 Route::prefix("laporan")->group(function () {
-  Route::get("/", [pemasukan::class, 'index'])->name("pemasukan")->middleware('auth');
+  Route::get("/", [pemasukan::class, 'index'])->middleware('auth');
 
-  Route::get("/pemasukan", [pemasukan::class, 'index'])->name("pemasukan")->middleware('auth');
+  Route::get("/pemasukan/{date?}", [pemasukan::class, 'index'])->name("pemasukan")->middleware('auth');
 
   Route::get("/pengeluaran/{date?}", [pengeluaran::class, 'index'])->name("pengeluaran")->middleware('auth');
 
