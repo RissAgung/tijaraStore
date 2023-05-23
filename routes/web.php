@@ -158,6 +158,7 @@ Route::prefix("/salary")->group(function () {
   Route::get('/{search?}', [GajiController::class, 'index']);
   Route::post('/add', [GajiController::class, 'add_gaji']);
   Route::post('/edit', [GajiController::class, 'edit_gaji']);
+  Route::get('/export/{kategori?}/{date?}', [GajiController::class, 'export']);
 });
 
 Route::prefix('/pegawai')->group(function () {
@@ -181,3 +182,4 @@ Route::prefix('pengeluaran')->group(function () {
   Route::get('/re-stock/export', [pengeluaran_re_stock::class, 'export'])->name('kirim');
   Route::get('/re-stock/{date?}', [pengeluaran_re_stock::class, 'index'])->name('tanggal');
 });
+  

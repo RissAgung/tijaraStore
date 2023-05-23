@@ -16,6 +16,20 @@
 
 @section('content')
 
+    <?php $urlexport = '/salary/export/all'; 
+        if(Request::segment(2) != '' && Request::query('search')){
+            $urlexport = '/salary/export/filter-with-search/' . Request::segment(2) . '?search=' . Request::query('search');
+        } else {
+            if(Request::segment(2) != ''){
+                $urlexport = '/salary/export/filter/' . Request::segment(2);
+            }
+        }
+
+        if(Request::has('search') && Request::segment(2) == ''){
+            $urlexport = '/salary/export/search';
+        }
+    ?>
+
     <div class=" h-fit bg-white border-b-2">
         <div class=" flex flex-col px-4 md:px-12 justify-between gap-4 md:flex-row py-4 md:items-center">
 
@@ -53,7 +67,8 @@
                 <div class="flex flex-row gap-2">
                     <div class="flex flex-row gap-2">
                         @if (count($dataGaji->items()) != 0)
-                            <a href="/riwayat/export/@if (isset($_GET['search'])) search @elseif(isset($_GET['filter'])) filter @else all @endif"
+                            
+                            <a href="{{ $urlexport }}"
                                 id="btn_export"
                                 class="bg-[#000000] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
                                 <p class="poppins-regular text-slate-200 hidden md:flex">Export</p>

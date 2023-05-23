@@ -243,7 +243,15 @@ $("#submit_editGaji").click(function (e) {
     }
 });
 
-
+const showAlert = (msg) => {
+    Swal.fire({
+        title: "Informasi",
+        text: msg,
+        icon: "warning",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Ya",
+    });
+}
 
 
 $(document).ready(function () {
