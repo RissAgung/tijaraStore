@@ -133,7 +133,12 @@ class GajiController extends Controller
         ->paginate(10);
     };
 
-    $dataGaji = $dataGajiDB($request, $date);
+    try {
+      $dataGaji = $dataGajiDB($request, $date);
+    } catch (\Throwable $th) {
+      return redirect('/salary');
+    }
+    
 
 
     if ($request->has('search')) {
