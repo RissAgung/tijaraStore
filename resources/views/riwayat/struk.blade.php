@@ -71,6 +71,23 @@
                                 <td class="text-center tracking-wide px-2">10.000</td>
                                 <td class="text-end tracking-wide pl-2">50.000</td>
                             </tr>
+                            <tr>
+                                <td class="text-start tracking-wide pr-2 w-[150px] max-w-[150px] min-w-[150px] poppins-semibold">Diskon</td>
+                                <td class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px] poppins-semibold">20%</td>
+                                <td class="text-center tracking-wide px-2 poppins-semibold">8.000</td>
+                                <td class="text-end tracking-wide pl-2 poppins-semibold">40.000</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start tracking-wide pr-2 w-[150px] max-w-[150px] min-w-[150px]">Dress
+                                    Panjang Kondangan Anti Peluru</td>
+                                <td class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px]">5</td>
+                                <td class="text-center tracking-wide px-2">10.000</td>
+                                <td class="text-end tracking-wide pl-2">50.000</td>
+                            </tr>
+                            <tr>
+                                <td class="text-start tracking-wide pr-2 w-[150px] max-w-[150px] min-w-[150px] poppins-semibold">Diskon</td>
+                                <td colspan="3" class="text-start tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px] poppins-semibold">Buy 3 free 2 produk sama</td>
+                            </tr>
                         </tbody>
 
                         <tr>
@@ -87,6 +104,18 @@
                                 class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px]">13</td>
                             <td class="text-center tracking-wide px-2"></td>
                             <td id="struk_total_harga" class="text-end tracking-wide pl-2">550.000</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start tracking-wide pr-2 w-[150px] max-w-[150px] min-w-[150px]">Voucher</td>
+                            <td class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px]"></td>
+                            <td class="text-center tracking-wide px-2"></td>
+                            <td id="struk_voucher" class="text-end tracking-wide pl-2">600.000</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start tracking-wide pr-2 w-[150px] max-w-[150px] min-w-[150px]">Total Harga</td>
+                            <td class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px]"></td>
+                            <td class="text-center tracking-wide px-2"></td>
+                            <td id="struk_total_harga_final" class="text-end tracking-wide pl-2">600.000</td>
                         </tr>
                         <tr>
                             <td class="text-start tracking-wide pr-2 w-[150px] max-w-[150px] min-w-[150px]">Tunai</td>
