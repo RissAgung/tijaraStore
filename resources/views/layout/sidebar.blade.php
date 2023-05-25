@@ -65,17 +65,6 @@
                     <div class="bg-primary w-[2px] h-full"></div>
                 </div>
                 <div class="flex w-full flex-col flex-grow px-2 pr-6 poppins-regular cursor-default">
-<<<<<<< HEAD
-                    <div class="bg-[#FFF6E3] text-primary text-sm py-2 px-2 rounded-md w-full">
-                        <p>Produk</p>
-                    </div>
-                    <a href="{{ route('halaman_utama') }}">
-                        <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-slate-50">
-                        <p>Pegawai</p>
-                    </div>
-                    </a>
-                    <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-slate-50">
-=======
                     <a href="{{ route('product') }}">
                         <div
                             class=" @if (Request::segment(1) == 'product') bg-[#FFF6E3] text-primary @else hover:bg-gray-200 @endif text-sm py-2 px-2 rounded-md w-full">
@@ -86,7 +75,6 @@
                         <p>Pegawai</p>
                     </div>
                     <div class="text-black text-sm py-2 px-2 rounded-md w-full hover:bg-gray-200">
->>>>>>> origin/master
                         <p>Supplier</p>
                     </div>
                 </div>

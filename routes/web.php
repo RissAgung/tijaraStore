@@ -6,13 +6,10 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\pengeluaran_operasioanal;
-<<<<<<< HEAD
 use App\Http\Controllers\pengeluaran_re_stock;
-=======
 use App\Http\Controllers\report\pemasukan;
 use App\Http\Controllers\report\pengeluaran;
 use App\Http\Controllers\retur_customer;
->>>>>>> origin/master
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\RiwayatRetur;
 use App\Http\Controllers\TransaksiController;
@@ -131,6 +128,7 @@ Route::prefix('pengeluaran')->group(function () {
   Route::get('/re-stock',[pengeluaran_re_stock::class,'index'])->name('halaman_restock')->middleware('auth');
   Route::post('re-stock.store',[pengeluaran_re_stock::class,'store'])->name('proses')->middleware('auth');
   Route::get('/re-stock/search',[pengeluaran_re_stock::class,'index'])->name('cari_restock');
+  Route::get('/re-stock/export', [pengeluaran_re_stock::class, 'export'])->name('kirim');
   Route::get('/re-stock/{date?}',[pengeluaran_re_stock::class,'index'])->name('tanggal');
 });
 

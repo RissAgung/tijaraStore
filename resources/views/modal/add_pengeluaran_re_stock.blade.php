@@ -55,7 +55,7 @@
             {{-- alamat  --}}
             <div class="block mt-2 min-[374px]:mt-4">
                 <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">jumlah</p>
-                <input type="textarea" name="jumlah" id="jumlah" 
+                <input type="numeric" name="jumlah" id="jumlah" 
                     class="text-[#535353] outline-none w-full h-10 min-[374px]:h-11 md:h-14 border-[2px] border-[#DDDDDD] rounded-md pl-2">
                 @error('alamat')
                     <p class="label-error-update text-sm text-red-700">{{ $message }}</p>

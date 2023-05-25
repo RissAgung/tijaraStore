@@ -17,7 +17,7 @@ class PegawaiController extends Controller
 {
     public function index()
     {
-        $pegawai = ModelsPegawai::with('account')->get();
+        $pegawai = ModelsPegawai::with('account')->paginate(5);
         // dd($pegawai);
       
         // $pegawai = ModelsPegawai::paginate(5);
@@ -27,7 +27,10 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $role = $request->role;
-        
+        $request->validate([
+
+        'no_hp'=>'required|max:14|numeric'
+        ]);
         // $idA = 'AC' . uniqid(4);
         // $idA = IdGenerator::generate(['table'=>'account','field'=>'kode_account','length'=>4, 'prefix'=>'AC']);
         // $idP = IdGenerator::generate(['table'=>'account','field'=>'kode_account','length'=>4, 'prefix'=>'PG']);

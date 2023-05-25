@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 <link rel="stylesheet" href="{{ asset('css/DatePicker.css') }}">
 <script src="{{ asset('js/DatePicker.js') }}"></script>
 <script src="{{ asset('js/moment.js') }}"></script>
-
-=======
-<link rel="stylesheet" href="{{ asset('css/Datepicker.css') }}">
-<script src="{{ asset('js/DatePicker.js') }}"></script>
-<script src="{{ asset('js/moment.js') }}"></script>
->>>>>>> origin/master
 <script>
     function showModalFilter() {
         $("#bg_modal").removeClass("pointer-events-none");

@@ -26,16 +26,7 @@ class User extends Authenticatable
   public $timestamps = false; // create_at dan update_at false
 
   // fillable mendevinisikan field mana saja yang dapat kita isikan
-<<<<<<< HEAD
-  protected $fillable = [
-    'kode_pegawai',
-    'username',
-    'password',
-    'level',
-  ];
-=======
   protected $guarded = [];
->>>>>>> origin/master
 
   public function pegawai()
   {

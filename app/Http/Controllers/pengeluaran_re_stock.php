@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\re_stock;
+use App\Exports\re_stock2;
 use App\Models\model_pegawai;
 use App\Models\pengeluaran\pengeluaran;
 use App\Models\pengeluaran\pengeluaran_barang;
@@ -13,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 
 class pengeluaran_re_stock extends Controller
 {
@@ -83,12 +86,13 @@ class pengeluaran_re_stock extends Controller
         // dd($request);
         // $barang = barang::get();
         $request->validate([
-            'jumlah' => 'required',
-            'total' => 'required|max:20|numeric',
+            'jumlah' => 'required|max:20|',
+            'total' => 'required|max:20',
         ]);
-
+        
         // dd($request);
-
+        // dd('awjowajojwaojwa');
+        
         $id = str_shuffle(date('YmdHis') . 'RTR');
         $total = (int) preg_replace('/\D/', '', $request->total);
         // $pegawai = modelAuth::user()->kode_pegawai);
@@ -112,6 +116,7 @@ class pengeluaran_re_stock extends Controller
                 'pegawai_pengeluaran' => 'PEG' . $id,
                 'kode_pegawai' => Auth::user()->kode_pegawai,
             ]);
+
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -140,5 +145,10 @@ class pengeluaran_re_stock extends Controller
         //     ->orWhere('kode_pegawai', 'like', '%' . $search . '%')
         //     ->get();
         // return view('pegawai.data_pegawai', ['pegawai' => $pegawai]);
+    }
+
+    public function export(){
+        return Excel::download(new re_stock(), 're-stock.xlsx');
+        // return redirect()->route('halaman_restock');
     }
 }
