@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\products\barang;
 use App\Models\retur\supplier;
+use App\Models\supplier as ModelsSupplier;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class ReturController extends Controller
     };
 
     $finalProduct = $products($request, $search);
+    $supplier = ModelsSupplier::all();
 
     if ($request->has('filter')) {
       $finalProduct->appends(array(
@@ -66,7 +68,7 @@ class ReturController extends Controller
       "kategori" => $skategori
     );
 
-    return view('retur.retur', compact('finalProduct', 'dataUrl'));
+    return view('retur.retur', compact('finalProduct', 'dataUrl', 'supplier'));
   }
 
   private function isSearch($search)
@@ -97,15 +99,16 @@ class ReturController extends Controller
 
     $now = DB::raw('CURRENT_TIMESTAMP');
     $id = str_shuffle(date('YmdHis') . 'RTR');
+    $data_sp = ModelsSupplier::where('kode_supplier', $request->supplier)->first();
 
     $supplier = new supplier([
       'kode_retur' => $id,
       'tanggal' => $now,
       'nama_br' => $request->nama_produk,
       'QTY' => $request->jumlah_barang,
-      'nama_sp' => $request->supplier,
-      'no_hp_sp' => '081233764580',
-      'instansi' => 'soklin',
+      'nama_sp' => $data_sp->nama_supplier,
+      'no_hp_sp' => $data_sp->no_hp_supplier,
+      'instansi' => $data_sp->keterangan_sup,
       'jml_barang' => $request->jumlah_retur,
       'jml_nominal' => $request->uang_kembali
     ]);
@@ -116,7 +119,7 @@ class ReturController extends Controller
       return redirect()->route('retur');
     } catch (\Throwable $e) {
       // dd($e);
-      alert()->error('Gagal', 'Data retur gagal disimpan')->autoClose(3000);
+      alert()->error('Gagal', 'Data retur gagal disimpan ' . $e);
       return redirect()->route('retur');
     }
   }

@@ -1,9 +1,9 @@
 @extends('layout.main')
 
 @section('modal')
-    @include('modal.laporan_pemasukan.detail_laporan_pemasukan_pria')
-    @include('modal.laporan_pemasukan.detail_laporan_pemasukan_wanita')
-    @include('modal.laporan_pemasukan.detail_laporan_pemasukan_anak')
+    @include('modal.laporan_pemasukan.detail_produk_terjual_tidak_terjual')
+    @include('modal.laporan_pemasukan.detail_retur')
+    @include('modal.filterDate.filter')
 @endsection
 
 @section('title')
@@ -11,9 +11,13 @@
 @endsection
 
 @section('content')
+    {{-- loading --}}
+    <div id="loading" class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
+        <div class="loadingspinner"></div>
+    </div>
+
     {{-- container --}}
     <div class="flex flex-col w-full h-full lg:h-[85vh] xl:h-[88vh]">
-
         {{-- top --}}
         <div
             class="flex justify-between items-center relative w-full px-5 md:px-[30px] gap-4 h-11 min-[360px]:h-14 md:h-16 2xl:h-24 bg-white text-[12px] md:text-[15px] border-b-[1px] border-b-[#DCDADA]">
@@ -35,7 +39,7 @@
 
             {{-- dropdown --}}
             <div id="menuDropDown"
-                class=" max-md:shadow-md text-selector-none flex flex-col md:flex-row md:items-end max-md:hidden max-md:absolute gap-2 min-[360px]:gap-3 md:gap-5 poppins-medium text-[#2c2c2c] p-2 min-[360px]:p-3 md:p-0 w-24 min-[360px]:w-32 md:w-auto rounded-sm min-[360px]:rounded-[5px] bg-white top-8 min-[360px]:top-10 max-md:border-[1px] max-md:border-[#DCDADA] md:h-full">
+                class=" max-md:shadow-md z-[99] text-selector-none flex flex-col md:flex-row md:items-end max-md:hidden max-md:absolute gap-2 min-[360px]:gap-3 md:gap-5 poppins-medium text-[#2c2c2c] p-2 min-[360px]:p-3 md:p-0 w-24 min-[360px]:w-32 md:w-auto rounded-sm min-[360px]:rounded-[5px] bg-white top-8 min-[360px]:top-10 max-md:border-[1px] max-md:border-[#DCDADA] md:h-full">
                 <a id="menu_pemasukan1" href="{{ route('pemasukan') }}"
                     class="text-[#ff9215] md:relative transition ease-in-out flex items-center h-full">
                     <p>Pemasukan</p>
@@ -61,10 +65,22 @@
             {{-- right --}}
             <div class="flex poppins-medium gap-2">
 
+                {{-- export --}}
+                <a href="/laporan/pemasukan.export/{{ Request::segment(3) !== null ? Request::segment(3) : '' }}"
+                    class="text-selector-none flex items-center gap-2 py-2 px-3 md:py-2 md:px-3 rounded-md shadow-lg bg-black hover:bg-[#2b2b2b] transition ease-in-out">
+                    <p class="text-white max-md:hidden">export</p>
+                    <svg class="mt-[1px]" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M6 2C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2M13 3.5L18.5 9H13M8.93 12.22H16V19.29L13.88 17.17L11.05 20L8.22 17.17L11.05 14.35"
+                            fill="white" />
+                    </svg>
+                </a>
+
                 {{-- filter --}}
-                <button
+                <button onclick="showModalFilter()"
                     class="text-selector-none flex items-center gap-2 py-2 px-3 md:py-2 md:px-3 rounded-md shadow-lg bg-[#FFB015] hover:bg-[#d48e00] transition ease-in-out">
-                    <p>Filter</p>
+                    <p class="max-md:hidden">Filter</p>
                     <svg class="w-[17px] h-[15px] md:w-[20px] md:h-[18px]" viewBox="0 0 24 26" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <mask id="path-1-outside-1_233_13" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -83,7 +99,7 @@
                 </button>
 
                 {{-- reset --}}
-                <button
+                <a href="{{ route('pemasukan') }}"
                     class="flex items-center py-2 px-[10px] md:py-2 md:px-3 gap-2 rounded-md shadow-lg bg-black hover:bg-[#3b3b3b] transition ease-in-out">
 
                     <svg class="w-[15px] h-[15px] md:w-[18px] md:h-[18px]" viewBox="0 0 25 25" fill="none"
@@ -95,7 +111,7 @@
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
 
-                </button>
+                </a>
             </div>
 
         </div>
@@ -108,180 +124,295 @@
                 class="flex flex-col w-full lg:w-[65%] h-80 md:h-96 lg:min-h-full overflow-y-auto bg-white border-[1px] border-[#DCDADA] rounded-md">
                 <p id="title_table" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pemasukan
                     hari ini</p>
-                <div class="flex w-full border-y-[1px] border-y-[#DCDADA] bg-[#F7F7F7] text-[11px] md:text-[14px]">
-                    <p class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">No</p>
-                    <p class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">Waktu</p>
-                    <p class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-[#F7F7F7]">Total</p>
-                </div>
-                <div class="w-full h-full overflow-y-auto">
-                    <table class="text-[11px] md:text-[14px] w-full">
-                        <?php $i = 1; ?>
-                        @foreach ($data_pemasukan as $index)
-                            <tr class="border-b-[1px] border-b-[#DCDADA]">
-                                <td class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-white">{{ $i }}</td>
-                                <td class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-white">{{ $index->tanggal }}</td>
-                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">
-                                    {{ rupiah($index->total) }}</td>
+
+                <div class="w-full h-full overflow-auto">
+                    <table class="w-full text-[11px] md:text-[14px]">
+                        <thead class="bg-[#F7F7F7] sticky top-0">
+                            <tr>
+                                <th class="border-y-[1px] border-[#DADADA] p-3 md:p-4" rowspan="2">Tanggal</th>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4" rowspan="2">Transaksi Penjualan
+                                </th>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4" colspan="2">Retur</th>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4" rowspan="2">Total</th>
+                                <th class="border-y-[1px] border-[#DADADA] p-3 md:p-4" rowspan="2">Aksi</th>
                             </tr>
-                            <?php $i++; ?>
-                        @endforeach
+                            <tr>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4">Customer</th>
+                                <th class="border-[1px] border-[#DADADA] p-3 md:p-4">Supplier</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php $i = 1; ?>
+                            @foreach ($data as $index)
+                                <tr id="row_table_{{ $i }}" class="hover:bg-[#e9e9e9] transition ease-in-out">
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ $index['tanggal'] }}
+                                    </td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['transaksi']) }}</td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['retur_cs']) }}</td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['retur_supp']) }}</td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['transaksi'] + (int) $index['retur_supp'] + (int) $index['retur_cs']) }}
+                                    </td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        <svg onclick="pilih_data('{{ $i }}', '{{ $index['tanggal'] }}', '{{ url('laporan/getDetailPemasukan') }}')"
+                                            class="cursor-pointer w-[30px] h-[30px] md:w-[50px] md:h-[50px] lg:w-[40px] lg:h-[40px] m-auto"
+                                            viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g filter="url(#filter0_d_653_130)">
+                                                <rect x="2" y="4" width="46" height="46"
+                                                    rx="6" fill="#FFB015" />
+                                            </g>
+                                            <path
+                                                d="M28.875 24.75C25.4975 24.75 22.75 27.4975 22.75 30.875C22.75 34.2525 25.4975 37 28.875 37C32.2525 37 35 34.2525 35 30.875C35 27.4975 32.2525 24.75 28.875 24.75ZM28.875 35.25C26.46 35.25 24.5 33.29 24.5 30.875C24.5 28.46 26.46 26.5 28.875 26.5C31.29 26.5 33.25 28.46 33.25 30.875C33.25 33.29 31.29 35.25 28.875 35.25ZM30.1875 28.6875C30.1875 29.4137 29.6012 30 28.875 30C28.1488 30 27.5625 29.4137 27.5625 28.6875C27.5625 27.9613 28.1488 27.375 28.875 27.375C29.6012 27.375 30.1875 27.9613 30.1875 28.6875ZM29.75 31.75V33.5C29.75 33.9813 29.3562 34.375 28.875 34.375C28.3938 34.375 28 33.9813 28 33.5V31.75C28 31.2688 28.3938 30.875 28.875 30.875C29.3562 30.875 29.75 31.2688 29.75 31.75ZM21.875 34.375C21.875 34.8563 21.4812 35.25 21 35.25H18.375C15.96 35.25 14 33.29 14 30.875V20.375C14 17.96 15.96 16 18.375 16H23.415C24.3337 16 25.235 16.3762 25.8913 17.0237L28.7262 19.8587C29.3125 20.445 29.6712 21.2237 29.7413 22.0462C29.7762 22.5275 29.4175 22.9475 28.9362 22.9913C28.91 22.9913 28.8925 22.9913 28.8663 22.9913C28.4113 22.9913 28.035 22.6413 27.9913 22.1863C27.9913 22.16 27.9913 22.1425 27.9913 22.1163H25.3837C24.4213 22.1163 23.6337 21.3287 23.6337 20.3663V17.7675C23.5638 17.7675 23.4938 17.75 23.4237 17.75H18.375C16.9313 17.75 15.75 18.9313 15.75 20.375V30.875C15.75 32.3188 16.9313 33.5 18.375 33.5H21C21.4812 33.5 21.875 33.8937 21.875 34.375Z"
+                                                fill="black" />
+                                            <defs>
+                                                <filter id="filter0_d_653_130" x="0" y="0"
+                                                    width="54" height="54" filterUnits="userSpaceOnUse"
+                                                    color-interpolation-filters="sRGB">
+                                                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                                    <feColorMatrix in="SourceAlpha" type="matrix"
+                                                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                                                        result="hardAlpha" />
+                                                    <feOffset dx="2" />
+                                                    <feGaussianBlur stdDeviation="2" />
+                                                    <feComposite in2="hardAlpha" operator="out" />
+                                                    <feColorMatrix type="matrix"
+                                                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0" />
+                                                    <feBlend mode="normal" in2="BackgroundImageFix"
+                                                        result="effect1_dropShadow_653_130" />
+                                                    <feBlend mode="normal" in="SourceGraphic"
+                                                        in2="effect1_dropShadow_653_130" result="shape" />
+                                                </filter>
+                                            </defs>
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <?php $i++; ?>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
 
             {{-- right --}}
             <div
-                class="flex flex-col w-full lg:w-[35%] lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
+                class="flex flex-col w-full lg:w-[35%] lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md lg:h-1">
                 <p id="title_detail"
                     class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
-                    Detail Pemasukan hari ini</p>
-                <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-evenly">
+                    Detail Penjualan hari ini</p>
+                <div class="flex px-4 md:px-7 2xl:px-12 h-full overflow-y-auto w-full">
+                    <div class="flex flex-col w-full h-full">
+                        {{-- pria --}}
+                        <div onclick="showDetail('pria')"
+                            class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
+                            <div class="flex gap-5">
+                                <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                    viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="104.765" height="110.893" rx="14" fill="#DFDFDF" />
+                                    <path
+                                        d="M63.9998 18H40.9998C37.4998 28.5 44.4998 47 47.9998 50C51.4998 53 64.9998 41 65.9998 37C66.7998 33.8 64.9998 23 63.9998 18Z"
+                                        fill="#84879C" />
+                                    <path
+                                        d="M28.5 24.5L41 18C42.5 38 53 47.5 53.5 48C53.9 48.4 54 49.1667 54 49.5V82L44 92C43.2 92.8 42.3333 93 42 93L27.5 87C26.7 86.6 26.1667 85.5 26 85V54.5C34.5 40 29 28 28.5 26.5C28.1 25.3 28.3333 24.6667 28.5 24.5Z"
+                                        fill="#B0B3C1" />
+                                    <rect x="31" y="72" width="14" height="3" rx="0.3"
+                                        fill="#9297AB" />
+                                    <path
+                                        d="M50 49.5C50 47.9 51.3333 46.8333 52 46.5C54 48.1 54.1667 48.8918 54 49.0876V82L52 84L50 82V49.5Z"
+                                        fill="#9297AB" />
+                                    <path
+                                        d="M76.5 24.5L64 18C62.5 38 52 47.5 51.5 48C51.1 48.4 51 49.1667 51 49.5V82L61 92C61.8 92.8 62.6667 93 63 93L77.5 87C78.3 86.6 78.8333 85.5 79 85V54.5C70.5 40 76 28 76.5 26.5C76.9 25.3 76.6667 24.6667 76.5 24.5Z"
+                                        fill="#B0B3C1" />
+                                    <rect x="58" y="72" width="14" height="3" rx="0.3"
+                                        fill="#9297AB" />
+                                    <path
+                                        d="M63.178 48.1864C63.5757 47.6124 64.4243 47.6124 64.822 48.1864L68.1088 52.9305C68.5683 53.5937 68.0936 54.5 67.2868 54.5H60.7132C59.9064 54.5 59.4317 53.5937 59.8912 52.9305L63.178 48.1864Z"
+                                        fill="#F26176" />
+                                    <rect x="58" y="53" width="12" height="3" rx="0.3"
+                                        fill="#9297AB" />
+                                </svg>
 
-                    {{-- pria --}}
-                    <div onclick="showDetail()"
-                        class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
-                        <div class="flex gap-5">
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
-                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="104.765" height="110.893" rx="14" fill="#DFDFDF" />
-                                <path
-                                    d="M63.9998 18H40.9998C37.4998 28.5 44.4998 47 47.9998 50C51.4998 53 64.9998 41 65.9998 37C66.7998 33.8 64.9998 23 63.9998 18Z"
-                                    fill="#84879C" />
-                                <path
-                                    d="M28.5 24.5L41 18C42.5 38 53 47.5 53.5 48C53.9 48.4 54 49.1667 54 49.5V82L44 92C43.2 92.8 42.3333 93 42 93L27.5 87C26.7 86.6 26.1667 85.5 26 85V54.5C34.5 40 29 28 28.5 26.5C28.1 25.3 28.3333 24.6667 28.5 24.5Z"
-                                    fill="#B0B3C1" />
-                                <rect x="31" y="72" width="14" height="3" rx="0.3"
-                                    fill="#9297AB" />
-                                <path
-                                    d="M50 49.5C50 47.9 51.3333 46.8333 52 46.5C54 48.1 54.1667 48.8918 54 49.0876V82L52 84L50 82V49.5Z"
-                                    fill="#9297AB" />
-                                <path
-                                    d="M76.5 24.5L64 18C62.5 38 52 47.5 51.5 48C51.1 48.4 51 49.1667 51 49.5V82L61 92C61.8 92.8 62.6667 93 63 93L77.5 87C78.3 86.6 78.8333 85.5 79 85V54.5C70.5 40 76 28 76.5 26.5C76.9 25.3 76.6667 24.6667 76.5 24.5Z"
-                                    fill="#B0B3C1" />
-                                <rect x="58" y="72" width="14" height="3" rx="0.3"
-                                    fill="#9297AB" />
-                                <path
-                                    d="M63.178 48.1864C63.5757 47.6124 64.4243 47.6124 64.822 48.1864L68.1088 52.9305C68.5683 53.5937 68.0936 54.5 67.2868 54.5H60.7132C59.9064 54.5 59.4317 53.5937 59.8912 52.9305L63.178 48.1864Z"
-                                    fill="#F26176" />
-                                <rect x="58" y="53" width="12" height="3" rx="0.3"
-                                    fill="#9297AB" />
-                            </svg>
+                                <div
+                                    class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
+                                    <p>Pakaian Pria</p>
+                                    <p id="total_Produk_pria" class="poppins-semibold"></p>
+                                </div>
+                            </div>
 
-                            <div
-                                class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
-                                <p>Pakaian Pria</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
+                            <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
+                                <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
+                                        fill="black" />
+                                </svg>
                             </div>
                         </div>
 
-                        <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
-                            <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
-                                    fill="black" />
-                            </svg>
-                        </div>
-                    </div>
+                        {{-- line --}}
+                        <div class="w-full h-[1px] bg-[#DCDADA]"></div>
 
-                    {{-- line --}}
-                    <div class="w-full h-[1px] bg-[#DCDADA]"></div>
+                        {{-- Wanita --}}
+                        <div onclick="showDetail('wanita')"
+                            class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
+                            <div class="flex gap-5">
+                                <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                    viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="104.765" height="110.893" rx="14" fill="#EDD9ED" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M44.0137 15.5H36.5017C34.2284 16.4741 29.551 20.0104 28.5709 26.4785L26.4571 28.875C26.2744 29.0821 26.2942 29.398 26.5013 29.5807L35.1716 37.2265C35.3787 37.4091 35.6947 37.3893 35.8774 37.1822L39.0513 33.5838C40.5194 36.0888 41.2933 40.0444 40.5021 44L22 84.5C22.5001 86.3333 25.3004 89.8 32.5012 89C33.0013 90.6667 35.7016 93.8 42.5023 93C43.7754 94.1138 47.5399 96.0175 52.7517 95.1436C57.9628 96.0175 61.7269 94.1138 62.9998 93C69.7998 93.8 72.4998 90.6667 72.9998 89C80.1998 89.8 82.9998 86.3333 83.4998 84.5L64.9998 44C64.2086 40.0443 64.9825 36.0887 66.4505 33.5837L69.6241 37.1822C69.8068 37.3893 70.1227 37.4091 70.3298 37.2265L78.9991 29.5807C79.2062 29.398 79.226 29.0821 79.0434 28.875L76.9296 26.4783C75.9496 20.0103 71.2727 16.4741 68.9998 15.5H61.9863C61.7269 20.238 57.8028 24 53 24C48.1972 24 44.2731 20.238 44.0137 15.5Z"
+                                        fill="#B88CB8" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M75.5551 89.1098L75.5002 89L61.5002 56L72.5002 88.5L72.9824 89.0564C72.9885 89.0374 72.9944 89.0186 73 89C73.9224 89.1025 74.7726 89.135 75.5551 89.1098ZM65.0216 93.1282L65.0002 93L58.5002 59L63.0002 92.5L63.2435 93.0272C63.8715 93.0933 64.4636 93.1255 65.0216 93.1282ZM53.3454 95.2322L53.5002 95L52.0002 59L51.5348 95.3013C51.9309 95.2652 52.3368 95.2132 52.7518 95.1436C52.9518 95.1772 53.1497 95.2066 53.3454 95.2322ZM42.5001 93.0003L42.5002 93L47.0002 59L40.8334 93.1227C41.3594 93.1087 41.9145 93.0691 42.5001 93.0003ZM32.5001 89.0001L32.5002 89L44.0002 56L30.1382 89.1148C30.8669 89.1292 31.653 89.0942 32.5001 89.0001Z"
+                                        fill="#AD74AE" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M76.9062 26.3289L76.5 26.5L67.5 34.5L67.5442 34.8238L69.6241 37.1822C69.8068 37.3893 70.1227 37.4091 70.3298 37.2264L78.9991 29.5807C79.2062 29.398 79.226 29.082 79.0434 28.8749L76.9296 26.4782C76.922 26.4283 76.9142 26.3785 76.9062 26.3289ZM37.9464 34.8365L38.0002 34.5L28.5299 26.5249L26.4571 28.875C26.2744 29.0821 26.2942 29.398 26.5013 29.5806L35.1716 37.2264C35.3787 37.4091 35.6947 37.3893 35.8774 37.1822L37.9464 34.8365Z"
+                                        fill="#AD74AE" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M64.7022 40H40.7994C40.8601 41.2947 40.7725 42.6473 40.502 44H64.9996C64.7291 42.6473 64.6415 41.2947 64.7022 40Z"
+                                        fill="#AD74AE" />
+                                </svg>
 
-                    {{-- Wanita --}}
-                    <div onclick="showDetail_wanita()"
-                        class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
-                        <div class="flex gap-5">
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
-                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="104.765" height="110.893" rx="14" fill="#EDD9ED" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M44.0137 15.5H36.5017C34.2284 16.4741 29.551 20.0104 28.5709 26.4785L26.4571 28.875C26.2744 29.0821 26.2942 29.398 26.5013 29.5807L35.1716 37.2265C35.3787 37.4091 35.6947 37.3893 35.8774 37.1822L39.0513 33.5838C40.5194 36.0888 41.2933 40.0444 40.5021 44L22 84.5C22.5001 86.3333 25.3004 89.8 32.5012 89C33.0013 90.6667 35.7016 93.8 42.5023 93C43.7754 94.1138 47.5399 96.0175 52.7517 95.1436C57.9628 96.0175 61.7269 94.1138 62.9998 93C69.7998 93.8 72.4998 90.6667 72.9998 89C80.1998 89.8 82.9998 86.3333 83.4998 84.5L64.9998 44C64.2086 40.0443 64.9825 36.0887 66.4505 33.5837L69.6241 37.1822C69.8068 37.3893 70.1227 37.4091 70.3298 37.2265L78.9991 29.5807C79.2062 29.398 79.226 29.0821 79.0434 28.875L76.9296 26.4783C75.9496 20.0103 71.2727 16.4741 68.9998 15.5H61.9863C61.7269 20.238 57.8028 24 53 24C48.1972 24 44.2731 20.238 44.0137 15.5Z"
-                                    fill="#B88CB8" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M75.5551 89.1098L75.5002 89L61.5002 56L72.5002 88.5L72.9824 89.0564C72.9885 89.0374 72.9944 89.0186 73 89C73.9224 89.1025 74.7726 89.135 75.5551 89.1098ZM65.0216 93.1282L65.0002 93L58.5002 59L63.0002 92.5L63.2435 93.0272C63.8715 93.0933 64.4636 93.1255 65.0216 93.1282ZM53.3454 95.2322L53.5002 95L52.0002 59L51.5348 95.3013C51.9309 95.2652 52.3368 95.2132 52.7518 95.1436C52.9518 95.1772 53.1497 95.2066 53.3454 95.2322ZM42.5001 93.0003L42.5002 93L47.0002 59L40.8334 93.1227C41.3594 93.1087 41.9145 93.0691 42.5001 93.0003ZM32.5001 89.0001L32.5002 89L44.0002 56L30.1382 89.1148C30.8669 89.1292 31.653 89.0942 32.5001 89.0001Z"
-                                    fill="#AD74AE" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M76.9062 26.3289L76.5 26.5L67.5 34.5L67.5442 34.8238L69.6241 37.1822C69.8068 37.3893 70.1227 37.4091 70.3298 37.2264L78.9991 29.5807C79.2062 29.398 79.226 29.082 79.0434 28.8749L76.9296 26.4782C76.922 26.4283 76.9142 26.3785 76.9062 26.3289ZM37.9464 34.8365L38.0002 34.5L28.5299 26.5249L26.4571 28.875C26.2744 29.0821 26.2942 29.398 26.5013 29.5806L35.1716 37.2264C35.3787 37.4091 35.6947 37.3893 35.8774 37.1822L37.9464 34.8365Z"
-                                    fill="#AD74AE" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M64.7022 40H40.7994C40.8601 41.2947 40.7725 42.6473 40.502 44H64.9996C64.7291 42.6473 64.6415 41.2947 64.7022 40Z"
-                                    fill="#AD74AE" />
-                            </svg>
+                                <div
+                                    class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
+                                    <p>Pakaian Wanita</p>
+                                    <p id="total_Produk_wanita" class="poppins-semibold"></p>
+                                </div>
+                            </div>
 
-                            <div
-                                class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
-                                <p>Pakaian Wanita</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
+                            <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
+                                <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
+                                        fill="black" />
+                                </svg>
                             </div>
                         </div>
 
-                        <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
-                            <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
-                                    fill="black" />
-                            </svg>
-                        </div>
-                    </div>
+                        {{-- line --}}
+                        <div class="w-full h-[1px] bg-[#DCDADA]"></div>
 
-                    {{-- line --}}
-                    <div class="w-full h-[1px] bg-[#DCDADA]"></div>
+                        {{-- Anak --}}
+                        <div onclick="showDetail('anak')"
+                            class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
+                            <div class="flex gap-5">
+                                <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                    viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="104.765" height="110.893" rx="14" fill="#D5ECFE" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M52 27C54 26.8333 58.7 25.4 61.5 21C61.6667 20.6667 62.4 20.2 64 21C64.4579 21.2289 65.3088 21.5103 66.3908 21.868C70.0353 23.073 76.3013 25.1447 79 29L84.5 37.5V42.5L80 47C79.3333 47.5 77.6 48.3 76 47.5C74.4 46.7 72.3333 45.5 71.5 45C73.3333 52 76.2 69.7 73 84.5C72.6667 86.1667 71.4 89.5 69 89.5H61.5C61 89.1667 59.7 87.7 58.5 84.5L56 77.5C56 77 55.6 76 54.0001 76L54 76.0004H49.5C47.9 76.0004 47.5 77.0003 47.5 77.5003L45 84.5001C43.8 87.7001 42.5 89.1667 42 89.5H34.5C32.1 89.5 30.8333 86.1668 30.5 84.5001C27.3 69.7005 30.1667 52.001 32 45.0011C31.1667 45.5011 29.1 46.7011 27.5 47.5011C25.9 48.301 24.1667 47.5011 23.5 47.0011L19 42.5012V37.5013L24.5 29.0015C27.1987 25.1463 33.4648 23.0746 37.1092 21.8697C38.1912 21.512 39.0421 21.2306 39.5 21.0017C41.1 20.2017 41.8333 20.6684 42 21.0017C44.8 25.4016 49.5 26.8349 51.5 27.0016L51.7406 27.0216L52 27Z"
+                                        fill="#80C9FF" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M66.7201 21.977C64.2787 27.8701 58.6069 32 51.9999 32C45.339 32 39.6288 27.8026 37.2207 21.8328C38.2496 21.4925 39.0579 21.2227 39.4999 21.0017C41.0999 20.2017 41.8332 20.6684 41.9999 21.0017C44.7999 25.4016 49.4999 26.8349 51.4999 27.0016L51.7405 27.0216L51.9999 27C53.9999 26.8333 58.6999 25.4 61.4999 21C61.6665 20.6667 62.3999 20.2 63.9999 21C64.4577 21.2289 65.3087 21.5103 66.3907 21.868C66.4982 21.9036 66.6081 21.9399 66.7201 21.977Z"
+                                        fill="#6DAAD9" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M29.7887 46.2782C29.0346 46.7 28.22 47.141 27.5 47.501C25.9 48.301 24.1667 47.501 23.5 47.0011L19 42.5012V37.5013L19.9806 35.9859C19.987 35.9906 19.9935 35.9953 19.9999 36L29.7887 46.2782ZM83.5201 35.9856L84.5 37.5V42.5L80 47C79.3333 47.5 77.6 48.3 76 47.5C75.3827 47.1914 74.696 46.8232 74.0374 46.4586L83.5 36L83.5201 35.9856Z"
+                                        fill="#6DAAD9" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M73.1057 84L58.3216 84L58.5001 84.5C59.7001 87.7 61.0001 89.1667 61.5001 89.5H69.0001C71.4001 89.5 72.6668 86.1667 73.0001 84.5C73.0361 84.3337 73.0713 84.167 73.1057 84ZM45.1788 84L45.0001 84.5001C43.8001 87.7 42.5001 89.1667 42.0001 89.5H34.5001C32.1001 89.5 30.8335 86.1667 30.5001 84.5001C30.4642 84.3338 30.429 84.1671 30.3945 84L45.1788 84Z"
+                                        fill="#6DAAD9" />
+                                    <circle cx="60.5" cy="44.5" r="4.5" fill="#D98F2D" />
+                                    <circle cx="43.5" cy="44.5" r="4.5" fill="#D98F2D" />
+                                    <ellipse cx="52" cy="51" rx="11" ry="10"
+                                        fill="#FFB641" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M50.5 50C50.5 49.6667 50.6 49 51 49H53C53.4 49 53.5 49.6667 53.5 50C53.5 50.8 52.5 51 52 51C51.5 51 50.5 50.8 50.5 50Z"
+                                        fill="#38484A" />
+                                    <rect x="57" y="48" width="2" height="3" rx="1"
+                                        fill="#38484A" />
+                                    <rect x="45" y="48" width="2" height="3" rx="1"
+                                        fill="#38484A" />
+                                    <path
+                                        d="M50 52C50.8 52.8 51.6667 53 52 53C52.5 53 53 52.5 54 52C55 51.5 55.5 52 55.5 53C55.5 54 53 55 52 55C51 55 49 54.5 48.5 53C48.1 51.8 49.3333 51.8333 50 52Z"
+                                        fill="#38484A" />
+                                </svg>
 
-                    {{-- Anak --}}
-                    <div onclick="showDetail_anak()"
-                        class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
-                        <div class="flex gap-5">
-                            <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
-                                viewBox="0 0 105 111" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="104.765" height="110.893" rx="14" fill="#D5ECFE" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M52 27C54 26.8333 58.7 25.4 61.5 21C61.6667 20.6667 62.4 20.2 64 21C64.4579 21.2289 65.3088 21.5103 66.3908 21.868C70.0353 23.073 76.3013 25.1447 79 29L84.5 37.5V42.5L80 47C79.3333 47.5 77.6 48.3 76 47.5C74.4 46.7 72.3333 45.5 71.5 45C73.3333 52 76.2 69.7 73 84.5C72.6667 86.1667 71.4 89.5 69 89.5H61.5C61 89.1667 59.7 87.7 58.5 84.5L56 77.5C56 77 55.6 76 54.0001 76L54 76.0004H49.5C47.9 76.0004 47.5 77.0003 47.5 77.5003L45 84.5001C43.8 87.7001 42.5 89.1667 42 89.5H34.5C32.1 89.5 30.8333 86.1668 30.5 84.5001C27.3 69.7005 30.1667 52.001 32 45.0011C31.1667 45.5011 29.1 46.7011 27.5 47.5011C25.9 48.301 24.1667 47.5011 23.5 47.0011L19 42.5012V37.5013L24.5 29.0015C27.1987 25.1463 33.4648 23.0746 37.1092 21.8697C38.1912 21.512 39.0421 21.2306 39.5 21.0017C41.1 20.2017 41.8333 20.6684 42 21.0017C44.8 25.4016 49.5 26.8349 51.5 27.0016L51.7406 27.0216L52 27Z"
-                                    fill="#80C9FF" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M66.7201 21.977C64.2787 27.8701 58.6069 32 51.9999 32C45.339 32 39.6288 27.8026 37.2207 21.8328C38.2496 21.4925 39.0579 21.2227 39.4999 21.0017C41.0999 20.2017 41.8332 20.6684 41.9999 21.0017C44.7999 25.4016 49.4999 26.8349 51.4999 27.0016L51.7405 27.0216L51.9999 27C53.9999 26.8333 58.6999 25.4 61.4999 21C61.6665 20.6667 62.3999 20.2 63.9999 21C64.4577 21.2289 65.3087 21.5103 66.3907 21.868C66.4982 21.9036 66.6081 21.9399 66.7201 21.977Z"
-                                    fill="#6DAAD9" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M29.7887 46.2782C29.0346 46.7 28.22 47.141 27.5 47.501C25.9 48.301 24.1667 47.501 23.5 47.0011L19 42.5012V37.5013L19.9806 35.9859C19.987 35.9906 19.9935 35.9953 19.9999 36L29.7887 46.2782ZM83.5201 35.9856L84.5 37.5V42.5L80 47C79.3333 47.5 77.6 48.3 76 47.5C75.3827 47.1914 74.696 46.8232 74.0374 46.4586L83.5 36L83.5201 35.9856Z"
-                                    fill="#6DAAD9" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M73.1057 84L58.3216 84L58.5001 84.5C59.7001 87.7 61.0001 89.1667 61.5001 89.5H69.0001C71.4001 89.5 72.6668 86.1667 73.0001 84.5C73.0361 84.3337 73.0713 84.167 73.1057 84ZM45.1788 84L45.0001 84.5001C43.8001 87.7 42.5001 89.1667 42.0001 89.5H34.5001C32.1001 89.5 30.8335 86.1667 30.5001 84.5001C30.4642 84.3338 30.429 84.1671 30.3945 84L45.1788 84Z"
-                                    fill="#6DAAD9" />
-                                <circle cx="60.5" cy="44.5" r="4.5" fill="#D98F2D" />
-                                <circle cx="43.5" cy="44.5" r="4.5" fill="#D98F2D" />
-                                <ellipse cx="52" cy="51" rx="11" ry="10" fill="#FFB641" />
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M50.5 50C50.5 49.6667 50.6 49 51 49H53C53.4 49 53.5 49.6667 53.5 50C53.5 50.8 52.5 51 52 51C51.5 51 50.5 50.8 50.5 50Z"
-                                    fill="#38484A" />
-                                <rect x="57" y="48" width="2" height="3" rx="1"
-                                    fill="#38484A" />
-                                <rect x="45" y="48" width="2" height="3" rx="1"
-                                    fill="#38484A" />
-                                <path
-                                    d="M50 52C50.8 52.8 51.6667 53 52 53C52.5 53 53 52.5 54 52C55 51.5 55.5 52 55.5 53C55.5 54 53 55 52 55C51 55 49 54.5 48.5 53C48.1 51.8 49.3333 51.8333 50 52Z"
-                                    fill="#38484A" />
-                            </svg>
+                                <div
+                                    class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
+                                    <p>Pakaian Anak</p>
+                                    <p id="total_Produk_anak" class="poppins-semibold"></p>
+                                </div>
+                            </div>
 
-                            <div
-                                class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
-                                <p>Pakaian Anak</p>
-                                <p class="poppins-semibold">Rp. 760.000</p>
+                            <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
+                                <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
+                                        fill="black" />
+                                </svg>
                             </div>
                         </div>
 
-                        <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
-                            <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
-                                    fill="black" />
-                            </svg>
+                        {{-- line --}}
+                        <div class="w-full h-[1px] bg-[#DCDADA]"></div>
+
+                        {{-- retur --}}
+                        <div onclick="showDetail_retur()"
+                            class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
+                            <div class="flex gap-5">
+
+                                <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
+                                    viewBox="0 0 105 112" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <rect y="0.149902" width="104.765" height="110.893" rx="14"
+                                        fill="#C2BF61" />
+                                    <path d="M86.0003 69.6708L57.617 86.0108L28.9082 69.6708V36.4702H86.0003V69.6708Z"
+                                        fill="#0F7C79" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M43.9068 78.2078L28.9072 69.6706V51.4595C38.5038 51.8686 46.1584 59.778 46.1584 69.4753C46.1584 72.6434 45.3415 75.6206 43.9068 78.2078Z"
+                                        fill="#0C5D57" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M57.5518 85.9736L57.617 86.0108L86.0002 69.6708V36.4702H75.3063L57.5518 53.0705V85.9736Z"
+                                        fill="#148C8B" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M76.1042 36.47H75.8927L67.3809 44.3391V80.3886L76.1042 75.3667V36.47Z"
+                                        fill="#DEF1F8" />
+                                    <path d="M57.7472 20L28.9082 36.3399L57.7472 53.0704L86.0003 36.3399L57.7472 20Z"
+                                        fill="#3BC9CA" />
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M75.9751 42.2757L75.9737 42.264L47.5479 25.7781L38.8701 30.6949L38.9322 30.7415L67.1436 47.5054L75.9751 42.2757Z"
+                                        fill="white" />
+                                    <circle cx="27.801" cy="70.1914" r="13.801" fill="#F47A53" />
+                                    <rect x="20.415" y="62.7129" width="14.519" height="14.519"
+                                        fill="url(#pattern0)" />
+                                    <defs>
+                                        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1"
+                                            height="1">
+                                            <use xlink:href="#image0_1195_2" transform="scale(0.0232558)" />
+                                        </pattern>
+                                        <image id="image0_1195_2" width="43" height="43"
+                                            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKrSURBVHgBzZmNWeMwDIYVFriO4JvgssFlg+ttkBHKBM0GsEHLBLBBskHKBAkTlA2EhF2aBvkvcRve51ED/v3iyrbsZjACEdf0yMn2WZb1EADVUabOikwNsnpjB2rrHVJCnT7gJYWl3IqsJHsmO2IYLdnO1mas0Fzo4EUQuY0QaKMjK2Eq/MZCo80gf5tApCQ6D9V45ytAjSmylv6sQPtkShQZu8c2pHAGZ1EFPepRfg9aoE8kT55XOE+oE7kR9Af8HMj+B01qixu4YJd4xIAJY74dnpAN+t1CpRbLIie5hOmn8whehTTigxsKnhCe/ipHP7VUx+ezY+5B+yeY5yF047AIzk2f0kjeU9uPtoqxPntiDTNAvb5LSyKnqdRiO5iJo+8aHG84hSMkAPWklShsFWqMp4IEoN7KJXf48ttsVEHRYwPhO1VDk2APiTAvPt7NeCL/Th61zcUxugXne2ODW2JG70nI+lxxfpRYw0FI+3vxH+r9O3VUFY3RMeY4LLAbZDzAwqDMijNKIWPWrpRAbC9oUuyzSiifJFhJjW2CLe27v6REFtuHFr4h3waLozub2MXcAOV4uecPFiuta/mCy1ghpL3xx53ZNd6EAiUswz8h7Xx/gXJ45js1JMeyIeCFa6A9+C3ghlB/e0FDJxWslxxdx6iWUuHSUngDNwDl4zmnKVuF1iL4qksZ6ns0icpVyea7x2sJdgj1H0TRfnBjwUkDHPx+HzxEhTbSOhrZ4swNA83NpKOPKraxztEY55UQiWl3j24qiCVA8En0jmyNgk+jPgDy1r3BsGN+BVMxnT1jHN3AYkizRKL7xm8uHaZeaTDM32Lg1YUH4XrR3UD01B9D2qkiM5gB6nW3AB2s8+8GkgAOPzlmbkDf5zYwkVlix5jR+hI856JZ4gNyAEFYAU7CuwAAAABJRU5ErkJggg==" />
+                                    </defs>
+                                </svg>
+
+
+                                <div
+                                    class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
+                                    <p>Retur</p>
+                                    <p id="total_retur" class="poppins-semibold"></p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px]">
+                                <svg class="w-[8px] h-[14px]" viewBox="0 0 16 27" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.2721 13.97C15.2721 14.2813 15.215 14.5824 15.1008 14.8734C14.9865 15.1659 14.8342 15.4094 14.6438 15.604L4.13297 26.3411C3.71406 26.769 3.1809 26.983 2.5335 26.983C1.88609 26.983 1.35294 26.769 0.934026 26.3411C0.515118 25.9132 0.305664 25.3685 0.305664 24.7072C0.305664 24.0458 0.515118 23.5012 0.934026 23.0733L9.84536 13.97L0.934026 4.86681C0.515118 4.43888 0.305664 3.89424 0.305664 3.2329C0.305664 2.57155 0.515118 2.02692 0.934026 1.59899C1.35294 1.17106 1.88609 0.957087 2.5335 0.957087C3.1809 0.957087 3.71406 1.17106 4.13297 1.59899L14.6438 12.3361C14.8723 12.5695 15.0337 12.8224 15.1282 13.0947C15.2241 13.3671 15.2721 13.6588 15.2721 13.97Z"
+                                        fill="black" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <p
+                <p id="total_detail_pemasukan"
                     class="flex justify-center p-4 md:p-6 2xl:p-9 lg:p-5 text-[12px] md:text-[15px] 2xl:text-[17px] border-t-[1px] border-t-[#DCDADA] poppins-semibold">
-                    Rp. 2.280.000</p>
+                </p>
             </div>
 
         </div>
@@ -291,4 +422,10 @@
 
 @section('otherjs')
     <script src="{{ asset('js/controllers/laporan_pemasukan.js') }}"></script>
+    <script>
+        $(document).ready(async function() {
+            await loadDefaultDetail('{{ $first_date }}', '{{ url('laporan/getDetailPemasukan') }}');
+        });
+    </script>
+    @include('modal.filterDate.controller')
 @endsection

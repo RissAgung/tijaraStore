@@ -1,26 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\report;
+namespace App\Exports;
 
-use App\Exports\ExportLaporanPemasukan;
-use App\Http\Controllers\Controller;
-use App\Models\products\barang;
 use App\Models\retur\customer;
 use App\Models\retur\supplier;
-use App\Models\riwayat\detail_transaksi;
 use App\Models\riwayat\transaksi;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
-class pemasukan extends Controller
+class ExportLaporanPemasukan implements FromCollection
 {
-  public function index($date = null)
-  {
+  /**
+   * @return \Illuminate\Support\Collection
+   */
 
-    /////////////////////////////////////////////////////// Data Table ///////////////////////////////////////////////////////
+  protected $kategori;
+
+  public function __construct(Request $kategori)
+  {
+    $this->kategori = $kategori->segment(3);
+  }
+
+  public function collection()
+  {
 
     // data dari transaksi
     $data_pemasukan = function ($date) {
@@ -227,9 +231,9 @@ class pemasukan extends Controller
 
     $data = array();
 
-    $data_transaksi = $data_pemasukan($date)->toArray();
-    $data_retur_supp = $data_pemasukan_from_retur($date)->toArray();
-    $data_retur_cs = $data_pemasukan_from_retur_cs($date)->toArray();
+    $data_transaksi = $data_pemasukan($this->kategori)->toArray();
+    $data_retur_supp = $data_pemasukan_from_retur($this->kategori)->toArray();
+    $data_retur_cs = $data_pemasukan_from_retur_cs($this->kategori)->toArray();
 
     foreach ($data_transaksi as $transaksi) {
       $tanggal = $transaksi["date"];
@@ -257,76 +261,29 @@ class pemasukan extends Controller
 
     foreach ($data as &$transaksi) {
       if (!isset($transaksi["transaksi"])) {
-        $transaksi["transaksi"] = "-";
+        $transaksi["transaksi"] = '0';
       }
       if (!isset($transaksi["retur_supp"])) {
-        $transaksi["retur_supp"] = "-";
+        $transaksi["retur_supp"] = '0';
       }
       if (!isset($transaksi["retur_cs"])) {
-        $transaksi["retur_cs"] = "-";
+        $transaksi["retur_cs"] = '0';
       }
     }
 
 
     $data = collect($data)->sortBy('tanggal');
-    /////////////////////////////////////////////////////// end Data Table ///////////////////////////////////////////////////////
+    $data_export = [];
+    foreach ($data as $index) {
+      $tmp = [$index['tanggal'], $index['transaksi'], $index['retur_cs'], $index['retur_supp'], $index['transaksi'] + $index['retur_cs'] + $index['retur_supp']];
+      array_push($data_export, $tmp);
+    }
 
-    $first_date = $data->first() !== null ? $data->first()['tanggal'] : '';
-
-    return view('report.pemasukan', compact('data', 'first_date'));
-  }
-
-  function getDetail(Request $request)
-  {
-
-    // produk terjual
-    $produk_terjual_raw = function ($data) {
-      return detail_transaksi::join('transaksi', 'transaksi.kode_tr', 'detail_transaksi.kode_tr',)
-        ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
-        ->select('barang.kategori', 'barang.nama_br', 'barang.harga', DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
-        ->whereDate('transaksi.tanggal', '=', $data->data_date !== null ? $data->data_date : '')
-        ->groupBy('barang.nama_br', 'barang.kategori', 'barang.harga')
-        ->get();
-    };
-
-    // produk tidak terjual
-    $barang_terjual = transaksi::join('detail_transaksi', 'transaksi.kode_tr', '=', 'detail_transaksi.kode_tr')
-      ->join('barang', 'barang.kode_br', '=', 'detail_transaksi.kode_br')
-      ->whereDate('transaksi.tanggal', '=', $request->data_date !== null ? $request->data_date : '')
-      ->distinct()
-      ->pluck('barang.nama_br');
-
-    $produk_tidak_terjual = Barang::whereNotIn('nama_br', $barang_terjual)
-      ->select('kategori', 'nama_br')
-      ->get();
-
-    // retur cs & supp
-    $detailDataRetur_cs = function ($data) {
-      return customer::with('barangReturCS', 'barangKeluarReturCS')
-        ->where('bayar_kurang', '>', 0)
-        ->whereDate('tanggal', '=', $data->data_date !== null ? $data->data_date : '')
-        ->get()
-        ->toArray(); //menggunakan array agar dapat mengembalikan data beserta relasinya
-    };
-
-    $detailDataRetur_sp = function ($data) {
-      return supplier::where('jml_nominal', '>', 0)
-        ->whereDate('tanggal', '=', $data->data_date !== null ? $data->data_date : '')
-        ->get();
-    };
-
-    return json_encode(
-      array(
-        'produk_terjual' => $produk_terjual_raw($request),
-        'produk_tidak_terjual' => $produk_tidak_terjual,
-        'retur_cs' => $detailDataRetur_cs($request),
-        'retur_sp' => $detailDataRetur_sp($request)
-      )
+    return new Collection(
+      [
+        ["Tanggal", "Transaksi Penjualan", "Retur Customer", "Retur Supplier", "Total"],
+        $data_export
+      ]
     );
-  }
-
-  public function export(Request $request)
-  {
-    return Excel::download(new ExportLaporanPemasukan($request), 'laporan_pemasukan.xlsx');
   }
 }

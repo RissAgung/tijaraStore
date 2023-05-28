@@ -1,25 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\report;
+namespace App\Exports;
 
-use App\Exports\ExportLaporanPengeluaran;
-use App\Http\Controllers\Controller;
-use App\Models\pengeluaran\pengeluaran as ModelPengeluaran;
+use App\Models\pengeluaran\pengeluaran;
 use App\Models\retur\customer;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
-class pengeluaran extends Controller
+class ExportLaporanPengeluaran implements FromCollection
 {
-  public function index($date = null)
+  /**
+   * @return \Illuminate\Support\Collection
+   */
+  protected $kategori;
+
+  public function __construct(Request $kategori)
+  {
+    $this->kategori = $kategori->segment(3);
+  }
+
+  public function collection()
   {
 
-    $dataFilterDate = json_decode(base64_decode($date));
-
     // data dari transaksi pengeluaran
-    $dataPengeluaran = function ($data) use (&$titleFilter) {
+    $dataPengeluaran = function ($date) {
 
+      $data = json_decode(base64_decode($date));
       // with filter date
       if ($data !== null) {
 
@@ -27,54 +35,49 @@ class pengeluaran extends Controller
 
         // harian 
         if ($data->type === 'harian') {
-          $titleFilter = 'Harian';
-          return (ModelPengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
+          return (pengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
             ->whereDate('tanggal', '=', $data->data)
             ->groupByRaw('DATE(tanggal)')
             ->get()
           );
         } elseif ($data->type === 'mingguan') {
-          $titleFilter = 'Mingguan';
           // set range date for between sql
           $start_date = Carbon::parse((string)$data->data)->startOfWeek();
           $end_date = Carbon::parse((string)$data->data)->endOfWeek();
 
-          return (ModelPengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
+          return (pengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
             ->whereBetween('tanggal', [$start_date, $end_date])
             ->groupByRaw('DATE(tanggal)')
             ->get()
           );
         } elseif ($data->type === 'bulanan') {
-          $titleFilter = 'Bulanan';
           // set tahun & bulan
           $tahun = $data->data->tahun;
           $bulan = $data->data->bulan;
 
-          return (ModelPengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
+          return (pengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
             ->whereMonth('tanggal', '=', $bulan)
             ->whereYear('tanggal', '=', $tahun)
             ->groupByRaw('DATE(tanggal)')
             ->get()
           );
         } elseif ($data->type === 'tahunan') {
-          $titleFilter = 'Tahunan';
           // set tahun
           $tahun = $data->data->tahun;
 
           // return filter date bulanan
-          return (ModelPengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
+          return (pengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
             ->whereYear('tanggal', '=', $tahun)
             ->groupByRaw('DATE(tanggal)')
             ->get()
           );
         } elseif ($data->type === 'range') {
-          $titleFilter = 'Range';
 
           $date_awal = $data->data->awal;
           $date_akhir = $data->data->akhir;
 
           // return filter date range
-          return (ModelPengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
+          return (pengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
             ->whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
             ->groupByRaw('DATE(tanggal)')
             ->get()
@@ -82,16 +85,16 @@ class pengeluaran extends Controller
         }
       }
 
-      $titleFilter = '';
-
       // without filter date
-      return ModelPengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
+      return pengeluaran::selectRaw('DATE(tanggal) AS tanggal, SUM(total) AS total')
         ->groupByRaw('DATE(tanggal)')
         ->get();
     };
 
     // data dari retur customer
-    $data_pengeluaran_from_retur_cs = function ($data) {
+    $data_pengeluaran_from_retur_cs = function ($date) {
+
+      $data = json_decode(base64_decode($date));
 
       // cek jika ada filter date
       if ($data !== null) {
@@ -174,8 +177,8 @@ class pengeluaran extends Controller
 
     $data = array();
 
-    $data_transaksi = $dataPengeluaran($dataFilterDate)->toArray();
-    $data_retur_cus = $data_pengeluaran_from_retur_cs($dataFilterDate)->toArray();
+    $data_transaksi = $dataPengeluaran($this->kategori)->toArray();
+    $data_retur_cus = $data_pengeluaran_from_retur_cs($this->kategori)->toArray();
 
     // dd($data_pemasukan_from_retur_cs($dataFilterDate));
 
@@ -197,64 +200,25 @@ class pengeluaran extends Controller
 
     foreach ($data as &$transaksi) {
       if (!isset($transaksi["transaksi"])) {
-        $transaksi["transaksi"] = "-";
+        $transaksi["transaksi"] = "0";
       }
       if (!isset($transaksi["retur_cs"])) {
-        $transaksi["retur_cs"] = "-";
+        $transaksi["retur_cs"] = "0";
       }
     }
 
     $data = collect($data)->sortBy('tanggal');
+    $data_export = [];
+    foreach ($data as $index) {
+      $tmp = [$index['tanggal'], $index['transaksi'], $index['retur_cs'], $index['transaksi'] + $index['retur_cs']];
+      array_push($data_export, $tmp);
+    }
 
-    $first_date = $data->first() !== null ? $data->first()['tanggal'] : '';
-    // dd($data);
-
-    return view('report.pengeluaran', compact('data', 'titleFilter', 'first_date'));
-  }
-
-  function getDetail(Request $request)
-  {
-
-    ////////////////////////////////// get all data detail //////////////////////////////////
-    $operasional = function ($data) {
-      return (ModelPengeluaran::with('pengeluaran_pegawai.pegawai')
-        ->where('jenis_pengeluaran', 'operasional')
-        ->whereDate('tanggal', '=', $data->data_date !== null ? $data->data_date : '')
-        ->get()
-      );
-    };
-
-    $restock = function ($data) {
-      return (ModelPengeluaran::with('pengeluaran_pegawai.pegawai', 'pengeluaran_barang.barang')
-        ->where('jenis_pengeluaran', 'restock')
-        ->whereDate('tanggal', '=', $data->data_date !== null ? $data->data_date : '')
-        ->get()
-      );
-    };
-
-    $retur = function ($data) {
-      return customer::with('barangReturCS', 'barangKeluarReturCS')
-        ->where(function ($query) use ($data) {
-          $query->where('kembalian_tunai', '>', 0)
-            ->orWhere('bayar_tunai', '>', 0);
-        })
-        ->whereDate('tanggal', '=', $data->data_date !== null ? $data->data_date : '')
-        ->get();
-    };
-    ////////////////////////////////// end get all data detail //////////////////////////////////
-
-
-    return json_encode(
-      array(
-        'operasional' => $operasional($request),
-        'restock' => $restock($request),
-        'retur_cs' => $retur($request),
-      )
+    return new Collection(
+      [
+        ["Tanggal", "Transaksi Pengeluaran", "Retur Customer", "Total"],
+        $data_export
+      ]
     );
-  }
-
-  public function export(Request $request)
-  {
-    return Excel::download(new ExportLaporanPengeluaran($request), 'laporan_pengeluaran.xlsx');
   }
 }

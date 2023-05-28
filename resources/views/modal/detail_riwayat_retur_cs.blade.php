@@ -5,12 +5,12 @@
 
 {{-- TODO: INI KONTEN MODAL --}}
 <div id="konten_modal_detail"
-    class="fixed flex-nowrap w-[95%] md:w-[662px] lg:h-[525px] max-h-[90%] flex flex-col justify-between p-4 min-[374px]:p-5 md:p-7 z-[101] left-[50%] top-[50%] -translate-y-[50%] scale-0 -translate-x-[50%] rounded-md drop-shadow-lg transition ease-linear duration-200 bg-white">
+    class="fixed flex-nowrap w-[95%] lg:w-[900px] lg:h-[525px] max-h-[90%] flex flex-col justify-between p-4 min-[374px]:p-5 md:p-7 z-[101] left-[50%] top-[50%] -translate-y-[50%] scale-0 -translate-x-[50%] rounded-md drop-shadow-lg transition ease-linear duration-200 bg-white">
 
     {{-- top --}}
     <div
         class="flex justify-between w-full h-10 min-[374px]:h-11 lg:text-[18px] md:text-[17px] text-[14px] pt-1 min-[374px]:mb-3 md:mb-8">
-        <h1 class="poppins-medium leading-none" id="title_detail"></h1>
+        <h1 class="poppins-medium leading-none">Detail Retur Customer</h1>
 
         {{-- X --}}
         <div onclick="closeModal()" class="cursor-pointer">
@@ -24,52 +24,35 @@
     </div>
 
     {{-- re-stock --}}
-    <div class="w-full h-full overflow-auto" id="tb_restock">
+    <div class="w-full h-full overflow-auto">
         <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
             <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
                 <tr>
-                    <th class="text-left p-3">No Transaksi</th>
+                    <th class="text-left p-3">Kode Retur</th>
+                    <th class="text-center p-3">Kode Transaksi</th>
                     <th class="text-center p-3">Tanggal</th>
-                    <th class="text-center p-3">Produk</th>
-                    <th class="text-right p-3">Jumlah</th>
-                    <th class="text-right p-3">Total</th>
-                </tr>
-            </thead>
-            <tbody id="data_tb_restock" class="bg-white border-[1px] border-[#CCCCCC]">
-            </tbody>
-        </table>
-    </div>
-
-    {{-- operasional --}}
-    <div class="w-full h-full overflow-auto hidden" id="tb_operasional">
-        <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
-            <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
-                <tr>
-                    <th class="text-left p-3">No Transaksi</th>
-                    <th class="text-center p-3">Tanggal</th>
-                    <th class="text-center p-3">Keterangan</th>
-                    <th class="text-right p-3">Total</th>
-                </tr>
-            </thead>
-            <tbody id="data_tb_operasional" class="bg-white border-[1px] border-[#CCCCCC]">
-            </tbody>
-        </table>
-    </div>
-
-    {{-- retur --}}
-    <div class="w-full h-full overflow-auto hidden" id="tb_retur">
-        <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
-            <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
-                <tr>
-                    <th class="text-left p-3">No Retur</th>
-                    <th class="text-center p-3">Tanggal</th>
+                    <th class="text-center p-3">Pegawai</th>
                     <th class="text-center p-3">Produk Retur</th>
-                    <th class="text-center p-3">Produk Keluar</th>
-                    <th class="text-center p-3">Kembalian Tunai</th>
-                    <th class="text-right p-3">Bayar Tunai</th>
+                    <th class="text-center p-3">Jumlah</th>
+                    <th class="text-center p-3">Produk Substitusi</th>
+                    <th class="text-center p-3">Bayar Kurang</th>
+                    <th class="text-center p-3">Uang Substitusi</th>
+                    <th class="text-right p-3">Kembalian Substitusi</th>
                 </tr>
             </thead>
-            <tbody id="data_tb_retur" class="bg-white border-[1px] border-[#CCCCCC]">
+            <tbody class="bg-white border-[1px] border-[#CCCCCC]">
+                <tr>
+                    <td class="text-left p-3" id="kode_retur"></td>
+                    <td class="text-center p-3" id="kode_tr"></td>
+                    <td class="text-center p-3" id="tgl"></td>
+                    <td class="text-center p-3" id="pegawai"></td>
+                    <td class="text-center p-3" id="produk_retur"></td>
+                    <td class="text-center p-3" id="jumlah"></td>
+                    <td class="text-center p-3" id="produk_substitusi"></td>
+                    <td class="text-center p-3" id="bayar_kurang"></td>
+                    <td class="text-center p-3" id="uang_substitusi"></td>
+                    <td class="text-right p-3" id="kembalian_substitusi"></td>
+                </tr>'
             </tbody>
         </table>
     </div>

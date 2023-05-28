@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Akumulasi;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterDataProduct;
@@ -45,6 +46,8 @@ Route::prefix("produk")->group(function () {
   Route::post('/tag/add', [MasterDataProduct::class, 'tambah_tag']);
 });
 
+Route::get('/dashboard', [DashboardController::class, 'index']);
+
 //apabila belum login atau statusnya belum auth secara otomatis akan terlempar ke home, path home sendiri diatur pada App/Providers/RouteServiceProvider.php baris 20
 Route::get("/login", [LoginController::class, 'index'])->name('login')->middleware('guest');
 
@@ -55,18 +58,26 @@ Route::post("/logout", [LoginController::class, 'logout']);
 //   return view('front_view.register');
 // });
 // Route::post("/register", [LoginController::class, 'registerhahai'])->middleware('guest');
+Route::redirect('/laporan', '/laporan/pemasukan');
+Route::prefix("laporan")->middleware('auth')->group(function () {
+  Route::get("/pemasukan/{date?}", [pemasukan::class, 'index'])->name("pemasukan");
 
-Route::prefix("laporan")->group(function () {
-  Route::get("/", [pemasukan::class, 'index'])->name("pemasukan")->middleware('auth');
-
-  Route::get("/pemasukan", [pemasukan::class, 'index'])->name("pemasukan")->middleware('auth');
-
-  Route::get("/pengeluaran/{date?}", [pengeluaran::class, 'index'])->name("pengeluaran")->middleware('auth');
+  Route::get("/pengeluaran/{date?}", [pengeluaran::class, 'index'])->name("pengeluaran");
 
   Route::get("/akumulasi", function () {
     return view("report.akumulasi");
-  })->name("akumulasi")->middleware('auth');
-  Route::get("/getAkumulasi", [Akumulasi::class, "getPemasukan"])->name("getAkumulasi")->middleware('auth');
+  })->name("akumulasi");
+
+  // for ajax
+  Route::get("/getAkumulasi", [Akumulasi::class, "getPemasukanPengeluaran"])->name("getAkumulasi");
+  Route::get("/getPieChart", [Akumulasi::class, "getDataPie"])->name("getPieChart");
+  Route::get('/getDetailPemasukan', [pemasukan::class, 'getDetail']);
+  Route::get('/getDetailPengeluaran', [pengeluaran::class, 'getDetail']);
+
+  // export
+  Route::get('/pemasukan.export/{date?}', [pemasukan::class, "export"]);
+  Route::get('/pengeluaran.export/{date?}', [pengeluaran::class, "export"]);
+  Route::get('/akumulasi.export/{date?}', [Akumulasi::class, "export"]);
 });
 
 Route::prefix('pengeluaran')->group(function () {
@@ -80,7 +91,7 @@ Route::prefix("retur")->group(function () {
   Route::post("/add", [ReturController::class, 'submit_retur'])->middleware('auth');
 });
 
-Route::get('/retur_cs', [retur_customer::class, 'index']);
+Route::get('/retur_cs/{date?}', [retur_customer::class, 'index']);
 
 Route::prefix("riwayatRetur")->group(function () {
   Route::get("/{date?}", [RiwayatRetur::class, "index"])->name('riwayatRetur')->middleware('auth');
@@ -131,19 +142,6 @@ Route::prefix('pengeluaran')->group(function () {
   Route::get('/re-stock/export', [pengeluaran_re_stock::class, 'export'])->name('kirim');
   Route::get('/re-stock/{date?}',[pengeluaran_re_stock::class,'index'])->name('tanggal');
 });
-
-Route::prefix('/pegawai')-> group(function(){
-  Route::get('/',[PegawaiController::class, 'index'])-> name('halaman_utama');
-  Route::post('/tambah',[PegawaiController::class,'store'])->name('tambah_pegawai');
-  Route::get('/delete/{kodeP}/',[PegawaiController::class,'delete'])->name('hapus_pegawai');
-  Route::post('/edit',[PegawaiController::class,'edit'])->name('edit_pegawai');
-  Route::post('/delete_selected',[PegawaiController::class,'delete_selected'])->name('delete_selected');
-  Route::get('/search',[PegawaiController::class,'search'])->name('cari');
-  Route::get('/filterG/{gender}',[PegawaiController::class,'filter'])->name('filterG');
-  Route::get('/filterR/{role}',[PegawaiController::class,'filterR'])->name('filterR');
-
-});
-
 
 Route::prefix("supplier")->group(function () {
   Route::resource("/", \App\Http\Controllers\SupplierController::class);

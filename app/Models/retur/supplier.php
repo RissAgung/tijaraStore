@@ -2,6 +2,7 @@
 
 namespace App\Models\retur;
 
+use App\Models\supplier as ModelsSupplier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

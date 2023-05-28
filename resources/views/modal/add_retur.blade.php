@@ -39,7 +39,7 @@
 
             {{-- Jumlah --}}
             <div class="block mt-2 min-[374px]:mt-4">
-                <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">Jumlah</p>
+                <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">Jumlah Produk</p>
                 <input id="jumlah_barang" type="number" name="jumlah_barang" value="{{ old('jumlah_barang') }}"
                     @error('jumlah_barang')
                   autofocus
@@ -61,16 +61,11 @@
                 @enderror
                     class="text-[#535353] outline-none w-full h-10 min-[374px]:h-11 md:h-14 border-[2px] border-[#DDDDDD] bg-white rounded-md pl-2">
                     <option disabled selected value></option>
-                    <option value="Rizal" {{ old('supplier') === 'Rizal' ? 'selected' : '' }}
-                        class="bg-white text-[#535353]">Rizal</option>
-                    <option value="Risqi" {{ old('supplier') === 'Risqi' ? 'selected' : '' }}
-                        class="bg-white text-[#535353]">Risqi</option>
-                    <option value="Bintang" {{ old('supplier') === 'Bintang' ? 'selected' : '' }}
-                        class="bg-white text-[#535353]">Bintang</option>
-                    <option value="Fathur" {{ old('supplier') === 'Fathur' ? 'selected' : '' }}
-                        class="bg-white text-[#535353]">Fathur</option>
-                    <option value="Athiya" {{ old('supplier') === 'Athiya' ? 'selected' : '' }}
-                        class="bg-white text-[#535353]">Athiya</option>
+                    @foreach ($supplier as $index)
+                        <option value="{{ $index->kode_supplier }}"
+                            {{ old('supplier') === $index->kode_supplier ? 'selected' : '' }}
+                            class="bg-white text-[#535353]">{{ $index->nama_supplier }}</option>
+                    @endforeach
                 </select>
                 @error('supplier')
                     <div class="flex w-full justify-end pr-3">
@@ -81,7 +76,7 @@
 
             {{-- Jumlah Barang Retur --}}
             <div class="block mt-2 min-[374px]:mt-4">
-                <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">Jumlah Barang di Retur</p>
+                <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">Jumlah Substitusi</p>
                 <input type="number" id="jumlah_retur" name="jumlah_retur" value="{{ old('jumlah_retur') }}"
                     @error('jumlah_retur')
                   autofocus

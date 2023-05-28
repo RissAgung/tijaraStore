@@ -1052,6 +1052,10 @@ video {
   height: 80%;
 }
 
+.h-\[80vh\] {
+  height: 80vh;
+}
+
 .h-\[90\%\] {
   height: 90%;
 }
@@ -1071,10 +1075,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-\[80vh\] {
-  height: 80vh;
 }
 
 .max-h-\[40vh\] {
@@ -1316,18 +1316,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-7 {
-  width: 1.75rem;
-}
-
-.w-14 {
-  width: 3.5rem;
-}
-
-.w-32 {
-  width: 8rem;
 }
 
 .min-w-\[150px\] {
@@ -1820,29 +1808,14 @@ video {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
-.bg-blue-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(191 219 254 / var(--tw-bg-opacity));
-}
-
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
-.bg-green-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
-}
-
 .bg-primary {
   --tw-bg-opacity: 1;
   background-color: rgb(255 176 21 / var(--tw-bg-opacity));
-}
-
-.bg-red-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
 }
 
 .bg-red-400 {
@@ -1853,16 +1826,6 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-green-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(187 247 208 / var(--tw-bg-opacity));
-}
-
-.bg-blue-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(147 197 253 / var(--tw-bg-opacity));
 }
 
 .fill-\[\#696969\] {
@@ -2126,12 +2089,12 @@ video {
   line-height: 1rem;
 }
 
-.font-semibold {
-  font-weight: 600;
-}
-
 .font-bold {
   font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
 }
 
 .uppercase {
@@ -2486,15 +2449,15 @@ body {
 /* landing */
 
 .button_tab:hover button{
-  background-color: #FFB015;
+  background-color: #7D5A00;
 }
 
 .button_tab:hover svg{
-  fill: #000000;
+  fill: #FFFFFF;
 }
 
 .button_tab:hover p{
-  color: #FFB015;
+  color: #7D5A00;
 }
 
 .active_tab_catalog button{
@@ -3552,6 +3515,10 @@ body {
     height: 80px;
   }
 
+  .lg\:h-\[85\%\] {
+    height: 85%;
+  }
+
   .lg\:h-\[85vh\] {
     height: 85vh;
   }
@@ -3566,10 +3533,6 @@ body {
 
   .lg\:h-screen {
     height: 100vh;
-  }
-
-  .lg\:h-\[85\%\] {
-    height: 85%;
   }
 
   .lg\:min-h-full {
@@ -3860,10 +3823,6 @@ body {
     height: 88vh;
   }
 
-  .xl\:w-\[50\%\] {
-    width: 50%;
-  }
-
   .xl\:w-\[60px\] {
     width: 60px;
   }
@@ -3944,6 +3903,10 @@ body {
     height: 70vh;
   }
 
+  .\32xl\:h-\[75\%\] {
+    height: 75%;
+  }
+
   .\32xl\:h-\[79vh\] {
     height: 79vh;
   }
@@ -3958,10 +3921,6 @@ body {
 
   .\32xl\:h-auto {
     height: auto;
-  }
-
-  .\32xl\:h-\[75\%\] {
-    height: 75%;
   }
 
   .\32xl\:w-\[29px\] {

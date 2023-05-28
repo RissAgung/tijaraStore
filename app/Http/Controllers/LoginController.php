@@ -41,7 +41,7 @@ class LoginController extends Controller
         // https://github.com/realrashid/sweet-alert
         toast('Berhasil Login', 'success')->position('top')->autoClose(3000);
 
-        return redirect()->intended('/retur');
+        return redirect()->intended('/dashboard');
       } else {
 
         // apabila level bukan superadmin maka akan menjalankan fungsi logout, session di invalidasi, dan token akan di buat ulang

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     @yield('othercss')
     <title>Document</title>
-    @vite([])
+    {{-- @vite([]) --}}
 </head>
 
 <body class="bg-[#F7F7F7] w-full h-full box-border">
