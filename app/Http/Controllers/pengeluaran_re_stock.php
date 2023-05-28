@@ -9,7 +9,7 @@ use App\Models\pengeluaran\pengeluaran;
 use App\Models\pengeluaran\pengeluaran_barang;
 use App\Models\pengeluaran\pengeluaran_pegawai;
 use App\Models\products\barang;
-use App\Models\supplier;
+use App\Models\suplaier\suplaier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,7 +74,7 @@ class pengeluaran_re_stock extends Controller
         };
         $barang = barang::all();
         $pegawai = pengeluaran::with('pengeluaran_pegawai.pegawai')->where('pengeluaran_pegawai.kode_pegawai', Auth::user()->kode_pegawai);
-        $suplaier = supplier::all();
+        $suplaier = suplaier::all();
         $data = $datafinal($request,$date);
 
         $combinedata = compact('data', 'barang', 'pegawai', 'suplaier');

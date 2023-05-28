@@ -91,6 +91,7 @@ class PegawaiController extends Controller
       }
     }
   }
+  
 
   public function delete($kodeP, $kodeA = null)
   {
