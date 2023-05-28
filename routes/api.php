@@ -24,7 +24,7 @@ Route::prefix('product')->group(function () {
 
     Route::get('/jual/{search?}', [ApiController::class, 'product_jual'])->where('search', '.*');
 
-    Route::get('/free', [ApiController::class, 'product_free']);
+    Route::get('/free/{search?}', [ApiController::class, 'product_free'])->where('search', '.*');
 });
 
 
@@ -44,6 +44,8 @@ Route::post('/submit_retur_customer', [ApiController::class, 'input_retur_custom
 Route::get("/akumulasi", [Akumulasi::class, 'getPemasukan']);
 
 Route::post('/login', [ApiController::class, 'checkLoginMobile']);
+
+Route::post('/transaksi', [ApiController::class, 'submitTransaksi']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

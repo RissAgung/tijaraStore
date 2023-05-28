@@ -296,8 +296,18 @@ class GajiController extends Controller
       return redirect()->back()->withErrors($validator)->withInput()->with(['update' => 'error update']);
     }
 
-    $salary->bonus =  str_replace(".", "", str_replace("Rp. ", "", $request->bonus));
-    $salary->pinjaman =  str_replace(".", "", str_replace("Rp. ", "", $request->pinjaman));
+    if($request->bonus){
+      $salary->bonus =  str_replace(".", "", str_replace("Rp. ", "", $request->bonus));
+    } else {
+      $salary->bonus =  0;
+    }
+
+    if($request->pinjaman){
+      $salary->pinjaman =  str_replace(".", "", str_replace("Rp. ", "", $request->pinjaman));
+    } else {
+      $salary->pinjaman =  0;
+    }
+
     $salary->gaji_total = str_replace(".", "", str_replace("Rp. ", "", $request->total));
     $salary->updated_at = Carbon::now();
 

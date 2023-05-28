@@ -157,7 +157,7 @@
         </div>
     @endif
 
-    <div class="h-[70vh] flex flex-col px-6 py-4 w-full">
+    <div class="flex-grow flex flex-col px-6 py-4 w-full">
         @if (count($products->items()) != 0)
             <div class="h-full w-full overflow-x-auto">
                 <table class=" w-full border-separate border-spacing-y-4">
@@ -166,6 +166,7 @@
                             <th class="text-left pl-8 w-20"><input type="checkbox" name="" class=""
                                     id="checkAll"></th>
                             <th class="tracking-wide text-left text-sm poppins-regular pl-3">Nama Produk</th>
+                            <th class="tracking-wide text-left text-sm poppins-regular pl-3">Kode Produk</th>
                             <th class="tracking-wide text-left text-sm poppins-regular pl-3">Kategori</th>
                             <th class="tracking-wide text-center text-sm poppins-regular">Stock</th>
                             <th class="tracking-wide text-center text-sm poppins-regular">Harga</th>
@@ -190,7 +191,8 @@
                                         </div>
                                     </td>
 
-                                    <td class="tracking-wide text-left p-3 w-[30%]">{{ $item->nama_br }}</td>
+                                    <td class="tracking-wide text-left p-3 w-[20%]">{{ $item->nama_br }}</td>
+                                    <td class="tracking-wide text-left p-3">{{ $item->kode_br }}</td>
                                     <td class="tracking-wide text-left p-3">{{ $item->kategori }}</td>
                                     <td class="tracking-wide text-center p-3">{{ $item->stok }}</td>
                                     <td class="tracking-wide text-center p-3">

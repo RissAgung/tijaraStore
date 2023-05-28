@@ -1,6 +1,6 @@
 <script>
     function formatRupiah(angka, prefix) {
-        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        var number_string = angka.replace(/[^\d]/g, "").toString(),
             split = number_string.split(","),
             sisa = split[0].length % 3,
             rupiah = split[0].substr(0, sisa),
@@ -42,7 +42,7 @@
             if (item.kategori == 'nominal') {
                 $("#txt_nominal_update").val(formatRupiah(item.nominal.toString()));
             } else {
-                $("#txt_nominal_update").val(item.nominal);
+                $("#txt_nominal_update").val(formatRupiah(item.nominal.toString()));
             }
         } catch (error) {
 
@@ -194,7 +194,7 @@
 
     $("#txt_nominal").keyup(function(e) {
         if (selected_jenis == 'persen') {
-            $("#txt_nominal").val(this.value);
+            $("#txt_nominal").val(formatRupiah(this.value));
         } else {
             $("#txt_nominal").val(formatRupiah(this.value));
         }
@@ -216,7 +216,7 @@
 
     $("#txt_nominal_update").keyup(function(e) {
         if (selected_jenis_update == 'persen') {
-            $("#txt_nominal_update").val(this.value);
+            $("#txt_nominal_update").val(formatRupiah(this.value));
         } else {
             $("#txt_nominal_update").val(formatRupiah(this.value));
         }

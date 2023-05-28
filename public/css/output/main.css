@@ -846,10 +846,6 @@ video {
   margin-top: 30px;
 }
 
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
 .box-border {
   box-sizing: border-box;
 }
@@ -2290,10 +2286,6 @@ video {
 
 .opacity-50 {
   opacity: 0.5;
-}
-
-.opacity-25 {
-  opacity: 0.25;
 }
 
 .shadow {

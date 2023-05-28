@@ -150,8 +150,14 @@
                 kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">-</td>';
             } else {
                 if (element.detail_diskon_transaksi.free_product == null) {
-                    kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element
-                        .detail_diskon_transaksi.nominal.toString(), "Rp. ") + '</td>';
+                    let nom;
+                    if(element.detail_diskon_transaksi.kategori == "nominal"){
+                        nom = formatRupiah(element
+                        .detail_diskon_transaksi.nominal.toString(), "Rp. ");
+                    } else if(element.detail_diskon_transaksi.kategori == "persen"){
+                        nom = element.detail_diskon_transaksi.nominal + "%";
+                    }
+                    kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + nom + '</td>';
                 } else {
                     kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">Beli ' + element
                         .detail_diskon_transaksi.buy + ' Free ' + element.detail_diskon_transaksi.free +
@@ -313,11 +319,9 @@
                 '</td>';
 
             kontenHtml += '<td class="text-center tracking-wide px-2">' + formatRupiah(element.barang.harga
-                .toString(),
-                "") + '</td>';
+                .toString()) + '</td>';
             kontenHtml += '<td class="text-end tracking-wide pl-2">' + formatRupiah(element.subtotal
-                .toString(),
-                "") + '</td>';
+                .toString()) + '</td>';
             kontenHtml += '</tr>';
 
             // cek diskon
@@ -334,9 +338,9 @@
                     if (element.detail_diskon_transaksi.kategori == 'nominal') {
                         kontenHtml +=
                             '<td class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px] poppins-semibold">' +
-                            formatRupiah(element.detail_diskon_transaksi.nominal.toString()) + '</td>';
+                            formatRupiah(element.detail_diskon_transaksi.nominal.toString(), ) + '</td>';
                         kontenHtml += '<td class="text-center tracking-wide px-2 poppins-semibold">' +
-                            formatRupiah((element.barang.harga - element.detail_diskon_transaksi.nominal)
+                            formatRupiah((element.barang.harga - (element.detail_diskon_transaksi.nominal * element.QTY))
                                 .toString()) + '</td>';
                         kontenHtml += '<td class="text-end tracking-wide pl-2 poppins-semibold">' +
                             formatRupiah(((element.barang.harga - element.detail_diskon_transaksi.nominal) *
@@ -361,16 +365,16 @@
 
 
         $("#struk_total_item").html(total_item);
-        $("#struk_total_harga_final").html(formatRupiah(data_selected.total.toString(), ''));
+        $("#struk_total_harga_final").html(formatRupiah(data_selected.total.toString()));
 
         if (data_selected.voucher != null) {
             if (data_selected.jenis_voucher == 'nominal') {
-                $("#struk_voucher").html(formatRupiah(data_selected.voucher.toString(), ''));
+                $("#struk_voucher").html(formatRupiah(data_selected.voucher.toString()));
                 $("#struk_total_harga").html(formatRupiah((data_selected.total + data_selected.voucher)
                     .toString(),
                     ''));
 
-                $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString(), ''));
+                $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString()));
 
             } else {
                 $("#struk_voucher").html(data_selected.voucher + '%');
@@ -383,16 +387,16 @@
                     .toString(),
                     ''));
 
-                $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString(), ''));
+                $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString()));
             }
 
         } else {
             $("#struk_voucher").html("0");
-            $("#struk_total_harga_final").html(formatRupiah((data_selected.total).toString(), ''));
-            $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString(), ''));
+            $("#struk_total_harga_final").html(formatRupiah((data_selected.total).toString()));
+            $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString()));
         }
 
-        $("#struk_total_bayar").html(formatRupiah(data_selected.bayar.toString(), ''));
+        $("#struk_total_bayar").html(formatRupiah(data_selected.bayar.toString()));
 
 
         $('#struk_barcode').attr('src', 'data:image/png;base64,' + kodetr_selected);

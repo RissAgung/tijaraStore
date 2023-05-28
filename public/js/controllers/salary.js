@@ -192,7 +192,12 @@ function hitungTotal() {
     var IntPinjaman = parseInt(pinjaman.replace(/[^0-9]/g, "")) || 0;
     //console.log(IntPinjaman);
    
-    var total = intAwal + intBonus - IntPinjaman;
+    var total = (intAwal + intBonus) - IntPinjaman;
+    console.log(total);
+    if(total < 0){
+        $("#total").val("-" + formatRupiah(total.toString(), "Rp. "));
+        return;
+    }
 
     //console.log(total);
 
