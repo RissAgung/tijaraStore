@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    Gaji
+@endsection
+
 @section('title')
     Gaji
 @endsection

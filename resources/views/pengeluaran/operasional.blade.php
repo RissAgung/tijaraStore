@@ -1,6 +1,7 @@
 @extends('layout.main')
 
-@section('othercss')
+@section('title_page')
+    Operasional
 @endsection
 
 @section('modal')

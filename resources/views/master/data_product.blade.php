@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    MD Produk
+@endsection
+
 @section('title')
     Master Data Produk
 @endsection
@@ -159,7 +163,8 @@
                 <table class=" w-full border-separate border-spacing-y-4">
                     <thead>
                         <tr>
-                            <th class="text-left pl-8 w-20"><input type="checkbox" name="" class="" id="checkAll"></th>
+                            <th class="text-left pl-8 w-20"><input type="checkbox" name="" class=""
+                                    id="checkAll"></th>
                             <th class="tracking-wide text-left text-sm poppins-regular pl-3">Nama Produk</th>
                             <th class="tracking-wide text-left text-sm poppins-regular pl-3">Kategori</th>
                             <th class="tracking-wide text-center text-sm poppins-regular">Stock</th>

@@ -1,12 +1,18 @@
 @extends('layout.main')
 
+@section('title_page')
+    Dashboard
+@endsection
+
 @section('title')
     Dashboard
 @endsection
 
 @section('content')
     {{-- top bar --}}
-    <div class="w-full py-3 min-[400px]:py-4 px-[20px] md:px-[30px] bg-white border-b-[1px] border-b-[#DCDADA] poppins-medium text-black lg:text-[16px] md:text-[15px] text-[12px]">Informasi Terkini</div>
+    <div
+        class="w-full py-3 min-[400px]:py-4 px-[20px] md:px-[30px] bg-white border-b-[1px] border-b-[#DCDADA] poppins-medium text-black lg:text-[16px] md:text-[15px] text-[12px]">
+        Informasi Terkini</div>
 
     {{-- main container --}}
     <div class="flex flex-col w-full h-full lg:h-[80vh] p-3 min-[400px]:p-6">

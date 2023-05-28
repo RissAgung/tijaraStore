@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    RTR Supplier
+@endsection
+
 @section('modal')
     @include('modal.add_retur')
 @endsection

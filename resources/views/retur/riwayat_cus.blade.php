@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    RTR Customer
+@endsection
+
 @section('title')
     Riwayat Retur Custommer
 @endsection
