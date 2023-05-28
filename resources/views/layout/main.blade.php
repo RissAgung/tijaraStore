@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/output/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/Logo_App.png') }}">
     @yield('othercss')
     <title>Document</title>
     {{-- @vite([]) --}}
