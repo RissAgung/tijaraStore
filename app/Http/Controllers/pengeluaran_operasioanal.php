@@ -16,6 +16,7 @@ class pengeluaran_operasioanal extends Controller
   public function index(Request $request, $date = null)
   {
 
+    // dd('anu');
     $dataPengeluaran = function ($request, $date) use (&$search, &$ddate) {
 
       // filter search
@@ -110,6 +111,8 @@ class pengeluaran_operasioanal extends Controller
       "search" => $search,
       "date" => $ddate
     );
+
+    // dd($finalDataPengeluaran);
 
 
     return view('pengeluaran.operasional', compact('finalDataPengeluaran', 'dataUrl'));
