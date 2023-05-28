@@ -10,6 +10,12 @@
 @endsection
 
 @section('content')
+    {{-- loading --}}
+    <div id="loading"
+        class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
+        <div class="loadingspinner"></div>
+    </div>
+
     {{-- container --}}
     <div class="flex flex-col w-full h-full lg:h-[85vh] xl:h-[88vh]">
 
@@ -60,6 +66,18 @@
             {{-- right --}}
             <div class="flex poppins-medium gap-2">
 
+                {{-- export --}}
+                <a href="/laporan/pengeluaran.export/{{ Request::segment(3) !== null ? Request::segment(3) : '' }}"
+                    class="text-selector-none flex items-center gap-2 py-2 px-3 md:py-2 md:px-3 rounded-md shadow-lg bg-black hover:bg-[#2b2b2b] transition ease-in-out">
+                    <p class="text-white max-md:hidden">export</p>
+                    <svg class="mt-[1px]" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M6 2C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2M13 3.5L18.5 9H13M8.93 12.22H16V19.29L13.88 17.17L11.05 20L8.22 17.17L11.05 14.35"
+                            fill="white" />
+                    </svg>
+                </a>
+
                 {{-- filter --}}
                 <button onclick="showModalFilter()"
                     class="text-selector-none flex items-center gap-2 py-2 px-3 md:py-2 md:px-3 rounded-md shadow-lg bg-[#FFB015] hover:bg-[#d48e00] transition ease-in-out">
@@ -104,26 +122,72 @@
 
             {{-- left --}}
             <div
-                class="flex flex-col w-full lg:w-[65%] h-80 md:h-96 lg:min-h-full overflow-y-auto bg-white border-[1px] border-[#DCDADA] rounded-md">
-                <p id="title_table" class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data Pengeluaran
-                    {{ $total['title'] }}</p>
-                <div class="flex w-full border-y-[1px] border-y-[#DCDADA] bg-[#F7F7F7] text-[11px] md:text-[14px]">
-                    <p class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">No</p>
-                    <p class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-[#F7F7F7]">Waktu</p>
-                    <p class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-[#F7F7F7]">Total</p>
-                </div>
+                class="flex flex-col w-full lg:w-[65%] h-80 md:h-96 lg:min-h-full bg-white border-[1px] border-[#DCDADA] rounded-md">
+                <p id="title_table" class="sticky top-0 p-4 md:p-6 2xl:p-9 text-[12px] md:text-[14px] 2xl:text-[17px]">Data
+                    Pengeluaran
+                    {{ $titleFilter }}</p>
                 <div class="w-full h-full overflow-y-auto">
-                    <table class="text-[11px] md:text-[14px] w-full">
-                        <?php $i = 1; ?>
-                        @foreach ($dataPengeluaranFinal as $data)
-                            <tr class="border-b-[1px] border-b-[#DCDADA]">
-                                <td class="text-center w-[20%] p-3 md:p-4 2xl:p-7 bg-white">{{ $i }}</td>
-                                <td class="text-center w-[40%] p-3 md:p-4 2xl:p-7 bg-white">{{ $data->tanggal }}</td>
-                                <td class="text-right w-[40%] py-3 md:py-4 2xl:py-7 pr-5 md:pr-7 2xl:pr-10 bg-white">
-                                    {{ rupiah($data->total) }}</td>
+                    <table class="w-full text-[11px] md:text-[14px]">
+                        <thead class="bg-[#F7F7F7] sticky top-0">
+                            <tr>
+                                <th class="border-y-[1px] border-[#DADADA] p-5">Tanggal</th>
+                                <th class="border-[1px] border-[#DADADA] p-5">Transaksi Penjualan</th>
+                                <th class="border-[1px] border-[#DADADA] p-5">Retur Customer</th>
+                                <th class="border-[1px] border-[#DADADA] p-5">Total</th>
+                                <th class="border-y-[1px] border-[#DADADA] p-5">Aksi</th>
                             </tr>
-                            <?php $i++; ?>
-                        @endforeach
+                        </thead>
+
+                        <tbody>
+                            <?php $i = 1; ?>
+                            @foreach ($data as $index)
+                                <tr id="row_table_{{ $i }}" class="hover:bg-[#e9e9e9] transition ease-in-out">
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ $index['tanggal'] }}
+                                    </td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['transaksi']) }}</td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['retur_cs']) }}</td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        {{ rupiah((int) $index['transaksi'] + (int) $index['retur_cs']) }}
+                                    </td>
+                                    <td class="text-center border-y-[1px] border-[#DADADA] p-3 md:p-4">
+                                        <svg onclick="pilih_data('{{ $i }}', '{{ $index['tanggal'] }}', '{{ url('laporan/getDetailPengeluaran') }}')"
+                                            class="cursor-pointer w-[30px] h-[30px] md:w-[50px] md:h-[50px] lg:w-[40px] lg:h-[40px] m-auto"
+                                            viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g filter="url(#filter0_d_653_130)">
+                                                <rect x="2" y="4" width="46" height="46"
+                                                    rx="6" fill="#FFB015" />
+                                            </g>
+                                            <path
+                                                d="M28.875 24.75C25.4975 24.75 22.75 27.4975 22.75 30.875C22.75 34.2525 25.4975 37 28.875 37C32.2525 37 35 34.2525 35 30.875C35 27.4975 32.2525 24.75 28.875 24.75ZM28.875 35.25C26.46 35.25 24.5 33.29 24.5 30.875C24.5 28.46 26.46 26.5 28.875 26.5C31.29 26.5 33.25 28.46 33.25 30.875C33.25 33.29 31.29 35.25 28.875 35.25ZM30.1875 28.6875C30.1875 29.4137 29.6012 30 28.875 30C28.1488 30 27.5625 29.4137 27.5625 28.6875C27.5625 27.9613 28.1488 27.375 28.875 27.375C29.6012 27.375 30.1875 27.9613 30.1875 28.6875ZM29.75 31.75V33.5C29.75 33.9813 29.3562 34.375 28.875 34.375C28.3938 34.375 28 33.9813 28 33.5V31.75C28 31.2688 28.3938 30.875 28.875 30.875C29.3562 30.875 29.75 31.2688 29.75 31.75ZM21.875 34.375C21.875 34.8563 21.4812 35.25 21 35.25H18.375C15.96 35.25 14 33.29 14 30.875V20.375C14 17.96 15.96 16 18.375 16H23.415C24.3337 16 25.235 16.3762 25.8913 17.0237L28.7262 19.8587C29.3125 20.445 29.6712 21.2237 29.7413 22.0462C29.7762 22.5275 29.4175 22.9475 28.9362 22.9913C28.91 22.9913 28.8925 22.9913 28.8663 22.9913C28.4113 22.9913 28.035 22.6413 27.9913 22.1863C27.9913 22.16 27.9913 22.1425 27.9913 22.1163H25.3837C24.4213 22.1163 23.6337 21.3287 23.6337 20.3663V17.7675C23.5638 17.7675 23.4938 17.75 23.4237 17.75H18.375C16.9313 17.75 15.75 18.9313 15.75 20.375V30.875C15.75 32.3188 16.9313 33.5 18.375 33.5H21C21.4812 33.5 21.875 33.8937 21.875 34.375Z"
+                                                fill="black" />
+                                            <defs>
+                                                <filter id="filter0_d_653_130" x="0" y="0"
+                                                    width="54" height="54" filterUnits="userSpaceOnUse"
+                                                    color-interpolation-filters="sRGB">
+                                                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                                    <feColorMatrix in="SourceAlpha" type="matrix"
+                                                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                                                        result="hardAlpha" />
+                                                    <feOffset dx="2" />
+                                                    <feGaussianBlur stdDeviation="2" />
+                                                    <feComposite in2="hardAlpha" operator="out" />
+                                                    <feColorMatrix type="matrix"
+                                                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0" />
+                                                    <feBlend mode="normal" in2="BackgroundImageFix"
+                                                        result="effect1_dropShadow_653_130" />
+                                                    <feBlend mode="normal" in="SourceGraphic"
+                                                        in2="effect1_dropShadow_653_130" result="shape" />
+                                                </filter>
+                                            </defs>
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <?php $i++; ?>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -132,7 +196,7 @@
             <div
                 class="flex flex-col w-full lg:w-[35%] lg:min-h-full lg:justify-between bg-white border-[1px] border-[#DCDADA] rounded-md">
                 <p class="p-4 md:p-6 2xl:p-9 text-[12px] md:text-[15px] 2xl:text-[17px] border-b-[1px] border-b-[#DCDADA]">
-                    Detail Pemasukan {{ $total['title'] }}</p>
+                    Detail Pemasukan {{ $titleFilter }}</p>
                 <div class="flex flex-col px-4 md:px-7 2xl:px-12 h-full justify-evenly">
 
                     {{-- restock --}}
@@ -163,7 +227,7 @@
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Re-Stock</p>
-                                <p class="poppins-semibold">{{ rupiah($total['restock']) }}</p>
+                                <p id="total_restock" class="poppins-semibold"></p>
                             </div>
                         </div>
 
@@ -215,7 +279,7 @@
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Operasional</p>
-                                <p class="poppins-semibold">{{ rupiah($total['operasional']) }}</p>
+                                <p id="total_operasional" class="poppins-semibold"></p>
                             </div>
                         </div>
 
@@ -232,8 +296,8 @@
                     {{-- line --}}
                     <div class="w-full h-[1px] bg-[#DCDADA]"></div>
 
-                    {{-- Anak --}}
-                    <div onclick=""
+                    {{-- retur --}}
+                    <div onclick="showDetail('retur')"
                         class="transition ease-in-out hover:bg-slate-50 flex w-full cursor-pointer justify-between py-4 2xl:h-[30%] items-center">
                         <div class="flex gap-5">
                             <svg class="w-[51px] h-[51px] md:w-[70px] md:h-[70px] lg:w-[50px] lg:h-[50px] xl:w-[60px] xl:h-[60px] 2xl:w-[80px] 2xl:h-[80px]"
@@ -276,7 +340,7 @@
                             <div
                                 class="flex flex-col h-[51px] md:h-[70px] lg:h-[50px] xl:h-[60px] 2xl:h-[80px] text-[11px] md:text-[14px] 2xl:text-[16px] justify-center gap-2">
                                 <p>Retur</p>
-                                <p class="poppins-semibold">Rp. 0</p>
+                                <p id="total_retur" class="poppins-semibold"></p>
                             </div>
                         </div>
 
@@ -292,9 +356,9 @@
 
 
                 </div>
-                <p
+                <p id="total_keseluruhan"
                     class="flex justify-center p-4 md:p-6 2xl:p-9 lg:p-5 text-[12px] md:text-[15px] 2xl:text-[17px] border-t-[1px] border-t-[#DCDADA] poppins-semibold">
-                    {{ rupiah($total['operasional'] + $total['restock']) }}</p>
+                </p>
             </div>
 
         </div>
@@ -304,5 +368,10 @@
 
 @section('otherjs')
     <script src="{{ asset('js/controllers/laporan_pengeluaran.js') }}"></script>
+    <script>
+        $(document).ready(async function() {
+            await loadDefaultDetail('{{ $first_date }}', '{{ url('laporan/getDetailPengeluaran') }}');
+        });
+    </script>
     @include('modal.filterDate.controller')
 @endsection

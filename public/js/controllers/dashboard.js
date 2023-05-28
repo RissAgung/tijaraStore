@@ -1,9 +1,33 @@
 $(document).ready(function () {
   loadChart();
-  loadPieChart();
 });
 
+var GetDataChart = (res) => {
+  const data = JSON.parse(atob(res));
+  console.log(data);
+
+  dataPemasukan = data.data;
+  dataPengeluaran = data.data_pengeluaran;
+  options.xaxis.categories = data.label;
+
+  chart.updateOptions(options);
+  chart.updateSeries(getSeriesPenjualan(), true);
+}
+
 //////////////////////////// chart ////////////////////////////
+
+var dataPemasukan = []
+var dataPengeluaran = []
+
+function getSeriesPenjualan() {
+  return [{
+    name: 'Pemasukkan',
+    data: dataPemasukan,
+  }, {
+    name: 'Pengeluaran',
+    data: dataPengeluaran,
+  }];
+}
 
 var divChart = document.getElementById("container_chart").getBoundingClientRect();
 var chartWidth = divChart.width - 30;
@@ -66,7 +90,7 @@ var options = {
   },
 
   title: {
-    text: 'Pemasukan Pengeluaran',
+    text: 'Pemasukan Pengeluaran bulan ini',
     align: 'left',
     margin: 60,
     offsetX: 0,
@@ -142,13 +166,47 @@ var options = {
 
 }
 var chart = new ApexCharts(document.querySelector("#chart"), options);
+////////////////////////////  end chart ////////////////////////////
 
 ////////////////////////////  pie chart ////////////////////////////
+
+var seriesPiePria = [];
+var seriesPieWanita = [];
+var seriesPieAnak = [];
+
+function getSeriesPiePria() {
+  return seriesPiePria;
+}
+
+function getSeriesPieWanita() {
+  return seriesPieWanita;
+}
+
+function getSeriesPieAnak() {
+  return seriesPieAnak;
+}
+
+var labelsPiePria = [];
+var labelsPieWanita = [];
+var labelsPieAnak = [];
+
+function getLabelsPiePria() {
+  return labelsPiePria;
+}
+
+function getLabelsPieWanita() {
+  return labelsPieWanita;
+}
+
+function getLabelsPieAnak() {
+  return labelsPieAnak;
+}
+
 var divChart = document.getElementById("container_pie_chart").getBoundingClientRect();
 var heightPenjualan = divChart.height;
 var widthPenjualan = divChart.width * 0.8;
 
-var optionspieframe_pria = {
+var optionspie_wanita = {
   redrawOnWindowResize: true,
   chart: {
     height: (heightPenjualan),
@@ -161,19 +219,110 @@ var optionspieframe_pria = {
     horizontalAlign: 'center',
 
   },
-  labels: ['chinos', 'baju koko', 'hodie', 'sweater', 'baju polo', 'jeans'],
-  // series: getSeriesPie(),
-  series: [30, 40, 90, 80, 60, 20],
+  labels: getLabelsPieWanita(),
+  series: getSeriesPieWanita(),
+
+}
+var optionspie_pria = {
+  redrawOnWindowResize: true,
+  chart: {
+    height: (heightPenjualan),
+    width: (widthPenjualan),
+    type: 'pie',
+
+  },
+  legend: {
+    position: 'bottom',
+    horizontalAlign: 'center',
+
+  },
+  labels: getLabelsPiePria(),
+  series: getSeriesPiePria(),
+
+}
+var optionspie_anak = {
+  redrawOnWindowResize: true,
+  chart: {
+    height: (heightPenjualan),
+    width: (widthPenjualan),
+    type: 'pie',
+
+  },
+  legend: {
+    position: 'bottom',
+    horizontalAlign: 'center',
+
+  },
+  labels: getLabelsPieAnak(),
+  series: getSeriesPieAnak(),
 
 }
 
-var chartpie_pria = new ApexCharts(document.querySelector("#pie_chart_pria"), optionspieframe_pria);
+
+var chartpie_wanita = new ApexCharts(document.querySelector("#pie_chart_wanita"), optionspie_wanita);
+var chartpie_pria = new ApexCharts(document.querySelector("#pie_chart_pria"), optionspie_pria);
+var chartpie_anak = new ApexCharts(document.querySelector("#pie_chart_anak"), optionspie_anak);
+
+var loadDefaultPie = (res) => {
+
+  const data = JSON.parse(atob(res));
+
+  //////////////// pria ////////////////
+  const series_pria = data.pria.series;
+  const labels_pria = data.pria.labels;
+
+  seriesPiePria.length = 0;
+  series_pria.forEach((series) => {
+    seriesPiePria.push(series);
+  });
+
+  labelsPiePria.length = 0;
+  labels_pria.forEach((labels) => {
+    labelsPiePria.push(labels);
+  });
+  //////////////// end pria ////////////////
+
+  //////////////// wanita ////////////////
+  const series_wanita = data.wanita.series;
+  const labels_wanita = data.wanita.labels;
+
+  seriesPieWanita.length = 0;
+  series_wanita.forEach((series) => {
+    seriesPieWanita.push(series);
+  });
+
+  labelsPieWanita.length = 0;
+  labels_wanita.forEach((labels) => {
+    labelsPieWanita.push(labels);
+  });
+  //////////////// end wanita ////////////////
+
+  //////////////// anak ////////////////
+  const series_anak = data.anak.series;
+  const labels_anak = data.anak.labels;
+
+  seriesPieAnak.length = 0;
+  series_anak.forEach((series) => {
+    seriesPieAnak.push(series);
+  });
+
+  labelsPieAnak.length = 0;
+  labels_anak.forEach((labels) => {
+    labelsPieAnak.push(labels);
+  });
+
+  loadPieChart();
+  //////////////// end anak ////////////////
+};
+////////////////////////////  end pie chart ////////////////////////////
 
 function loadChart() {
   chart.render();
 }
 
 function loadPieChart() {
+  chartpie_wanita.render();
   chartpie_pria.render();
+  chartpie_anak.render();
   // chartpie_wanita.render();
 }

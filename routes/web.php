@@ -56,18 +56,26 @@ Route::post("/logout", [LoginController::class, 'logout']);
 //   return view('front_view.register');
 // });
 // Route::post("/register", [LoginController::class, 'registerhahai'])->middleware('guest');
+Route::redirect('/laporan', '/laporan/pemasukan');
+Route::prefix("laporan")->middleware('auth')->group(function () {
+  Route::get("/pemasukan/{date?}", [pemasukan::class, 'index'])->name("pemasukan");
 
-Route::prefix("laporan")->group(function () {
-  Route::get("/", [pemasukan::class, 'index'])->middleware('auth');
-
-  Route::get("/pemasukan/{date?}", [pemasukan::class, 'index'])->name("pemasukan")->middleware('auth');
-
-  Route::get("/pengeluaran/{date?}", [pengeluaran::class, 'index'])->name("pengeluaran")->middleware('auth');
+  Route::get("/pengeluaran/{date?}", [pengeluaran::class, 'index'])->name("pengeluaran");
 
   Route::get("/akumulasi", function () {
     return view("report.akumulasi");
-  })->name("akumulasi")->middleware('auth');
-  Route::get("/getAkumulasi", [Akumulasi::class, "getPemasukan"])->name("getAkumulasi")->middleware('auth');
+  })->name("akumulasi");
+
+  // for ajax
+  Route::get("/getAkumulasi", [Akumulasi::class, "getPemasukanPengeluaran"])->name("getAkumulasi");
+  Route::get("/getPieChart", [Akumulasi::class, "getDataPie"])->name("getPieChart");
+  Route::get('/getDetailPemasukan', [pemasukan::class, 'getDetail']);
+  Route::get('/getDetailPengeluaran', [pengeluaran::class, 'getDetail']);
+
+  // export
+  Route::get('/pemasukan.export/{date?}', [pemasukan::class, "export"]);
+  Route::get('/pengeluaran.export/{date?}', [pengeluaran::class, "export"]);
+  Route::get('/akumulasi.export/{date?}', [Akumulasi::class, "export"]);
 });
 
 Route::prefix('pengeluaran')->group(function () {
@@ -81,7 +89,7 @@ Route::prefix("retur")->group(function () {
   Route::post("/add", [ReturController::class, 'submit_retur'])->middleware('auth');
 });
 
-Route::get('/retur_cs', [retur_customer::class, 'index']);
+Route::get('/retur_cs/{date?}', [retur_customer::class, 'index']);
 
 Route::prefix("riwayatRetur")->group(function () {
   Route::get("/{date?}", [RiwayatRetur::class, "index"])->name('riwayatRetur')->middleware('auth');
@@ -129,9 +137,9 @@ Route::prefix('pengeluaran')->group(function () {
 });
 
 
-Route::prefix("supplier")->group(function() {
+Route::prefix("supplier")->group(function () {
   Route::resource("/", \App\Http\Controllers\SupplierController::class);
-  Route::post('/add',[SupplierController::class, 'store']);
+  Route::post('/add', [SupplierController::class, 'store']);
   Route::post('/edit', [SupplierController::class, 'update']);
   Route::get('/delete/{kode}', [SupplierController::class, 'delete']);
   Route::post('/delete_selected', [SupplierController::class, 'delete_selected']);
@@ -139,7 +147,7 @@ Route::prefix("supplier")->group(function() {
 });
 
 
-Route::prefix("/salary")->group(function() {
+Route::prefix("/salary")->group(function () {
   //Route::resource("/{date?}", \App\Http\Controllers\GajiController::class);
   Route::get('/{search?}', [GajiController::class, 'index']);
   Route::post('/add', [GajiController::class, 'add_gaji']);

@@ -23,21 +23,25 @@
 
     </div>
 
-    {{-- tab bar --}}
-    {{-- <div class="flex max-md:mt-6">
-        <div
-            class="flex rounded-md border-[2px] border-[#CCCCCC] text-xs min-[390px]:text-sm md:text-base p-1 gap-1 poppins-medium">
-            <div onclick="tab_restock()" id="tab_restock"
-                class="cursor-pointer py-1 px-3 rounded-sm transition ease-in-out hover:bg-[#FFB015] bg-[#FFB015]">
-                Restock</div>
-            <div onclick="tab_operasional()" id="tab_operasional"
-                class="cursor-pointer py-1 px-3 rounded-sm transition ease-in-out hover:bg-[#FFB015]">Tidak
-                Operasional
-            </div>
-        </div>
-    </div> --}}
-
+    {{-- re-stock --}}
     <div class="w-full h-full overflow-auto" id="tb_restock">
+        <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
+            <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
+                <tr>
+                    <th class="text-left p-3">No Transaksi</th>
+                    <th class="text-center p-3">Tanggal</th>
+                    <th class="text-center p-3">Produk</th>
+                    <th class="text-right p-3">Jumlah</th>
+                    <th class="text-right p-3">Total</th>
+                </tr>
+            </thead>
+            <tbody id="data_tb_restock" class="bg-white border-[1px] border-[#CCCCCC]">
+            </tbody>
+        </table>
+    </div>
+
+    {{-- operasional --}}
+    <div class="w-full h-full overflow-auto hidden" id="tb_operasional">
         <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
             <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
                 <tr>
@@ -47,45 +51,27 @@
                     <th class="text-right p-3">Total</th>
                 </tr>
             </thead>
-            <tbody class="bg-white border-[1px] border-[#CCCCCC]">
-                @foreach ($detailDataPengeluaranFinal as $data)
-                    @if ($data->jenis_pengeluaran === 'restock')
-                        <tr>
-                            <td class="text-left p-3">{{ $data->kode_pengeluaran }}</td>
-                            <td class="text-center p-3">{{ $data->tanggal }}</td>
-                            <td class="text-center p-3">{{ $data->item_operasional }}</td>
-                            <td class="text-right p-3">{{ rupiah($data->total) }}</td>
-                        </tr>
-                    @endif
-                @endforeach
+            <tbody id="data_tb_operasional" class="bg-white border-[1px] border-[#CCCCCC]">
             </tbody>
         </table>
     </div>
 
-    {{-- operasional --}}
-    <div class="w-full h-full overflow-auto hidden" id="tb_operasional">
-      <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
-          <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
-              <tr>
-                  <th class="text-left p-3">No Transaksi</th>
-                  <th class="text-center p-3">Tanggal</th>
-                  <th class="text-center p-3">Keterangan</th>
-                  <th class="text-right p-3">Total</th>
-              </tr>
-          </thead>
-          <tbody class="bg-white border-[1px] border-[#CCCCCC]">
-              @foreach ($detailDataPengeluaranFinal as $data)
-                  @if ($data->jenis_pengeluaran === 'operasional')
-                      <tr>
-                          <td class="text-left p-3">{{ $data->kode_pengeluaran }}</td>
-                          <td class="text-center p-3">{{ $data->tanggal }}</td>
-                          <td class="text-center p-3">{{ $data->item_operasional }}</td>
-                          <td class="text-right p-3">{{ rupiah($data->total) }}</td>
-                      </tr>
-                  @endif
-              @endforeach
-          </tbody>
-      </table>
-  </div>
+    {{-- retur --}}
+    <div class="w-full h-full overflow-auto hidden" id="tb_retur">
+        <table class="w-full whitespace-nowrap text-xs min-[390px]:text-sm md:text-base">
+            <thead class="sticky top-0 bg-[#F2F2F2] border-[1px] border-[#F2F2F2] text-[#C68300]">
+                <tr>
+                    <th class="text-left p-3">No Retur</th>
+                    <th class="text-center p-3">Tanggal</th>
+                    <th class="text-center p-3">Produk Retur</th>
+                    <th class="text-center p-3">Produk Keluar</th>
+                    <th class="text-center p-3">Kembalian Tunai</th>
+                    <th class="text-right p-3">Bayar Tunai</th>
+                </tr>
+            </thead>
+            <tbody id="data_tb_retur" class="bg-white border-[1px] border-[#CCCCCC]">
+            </tbody>
+        </table>
+    </div>
 
 </div>

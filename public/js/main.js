@@ -22,6 +22,10 @@ $(document).ready(function () {
 
 });
 
+$(window).on('load', function () {
+  $('#loading').hide();
+});
+
 function formatRupiah(angka, prefix) {
   var number_string = angka.replace(/[^,\d]/g, '').toString(),
     split = number_string.split(','),

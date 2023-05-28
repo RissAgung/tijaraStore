@@ -127,8 +127,8 @@
                         <thead>
                             <tr>
                                 <th class="text-center text-[#787777]">Kode Retur</th>
-                                <th class="text-center text-[#787777]">Tgl</th>
-                                <th class="text-center text-[#787777]">Barang</th>
+                                <th class="text-center text-[#787777]">Tanggal</th>
+                                <th class="text-center text-[#787777]">Produk</th>
                                 <th class="text-center text-[#787777]">Jumlah</th>
                                 <th class="text-center text-[#787777]">Supplier</th>
                                 <th class="text-center text-[#787777]">Detail</th>

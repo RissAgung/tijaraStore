@@ -20,7 +20,7 @@
                         Tijara Store Fashion & Boutique</h1>
                     <p
                         class="w-full md:w-[50%] text-[10px] min-[360px]:text-[13px] md:text-[18px] text-center text-[#606060] mb-6 lg:mb-0 lg:text-left lg:text-[15px] lg:w-full xl:w-[80%] 2xl:w-[75%] 2xl:text-[18px] mt-3">
-                        Silahkan login untuk menuju halaman selanjutnya</p>
+                        Kamulah yang menentukan gayamu, bukan gayamu yang menentukanmu</p>
                 </div>
 
                 {{-- icon --}}
@@ -1252,7 +1252,8 @@
                             class="w-full flex lg:flex-col justify-center lg:items-start lg:pl-[40%] gap-5 md:gap-9 lg:gap-7">
 
                             {{-- pria --}}
-                            <div id="tab_pria" onclick="select_tab('pria')" class="button_tab cursor-pointer flex justify-center items-center gap-3">
+                            <div id="tab_pria" onclick="select_tab('pria')"
+                                class="button_tab cursor-pointer flex justify-center items-center gap-3">
                                 <button
                                     class="transition ease-in-out flex items-center justify-center w-12 md:w-16 lg:w-12 aspect-square bg-[#535353] rounded-full">
                                     <svg class="transition ease-in-out w-[50%] aspect-square fill-white"
@@ -1268,7 +1269,8 @@
                             </div>
 
                             {{-- wanita --}}
-                            <div id="tab_wanita" onclick="select_tab('wanita')" class="button_tab cursor-pointer flex justify-center items-center gap-3">
+                            <div id="tab_wanita" onclick="select_tab('wanita')"
+                                class="button_tab cursor-pointer flex justify-center items-center gap-3">
                                 <button
                                     class="w-12 md:w-16 lg:w-12 transition ease-in-out flex items-center justify-center aspect-square bg-[#535353] rounded-full">
                                     <svg class="transition ease-in-out w-[53%] aspect-square fill-white"
@@ -1282,7 +1284,8 @@
                             </div>
 
                             {{-- anak --}}
-                            <div id="tab_anak" onclick="select_tab('anak')" class="button_tab cursor-pointer flex justify-center items-center gap-3">
+                            <div id="tab_anak" onclick="select_tab('anak')"
+                                class="button_tab cursor-pointer flex justify-center items-center gap-3">
                                 <button
                                     class="w-12 md:w-16 lg:w-12 transition ease-in-out flex items-center justify-center aspect-square bg-[#535353] rounded-full">
 
@@ -1314,15 +1317,18 @@
                             class="w-full h-full rounded-lg md:rounded-2xl overflow-hidden">
                             <swiper-slide class="w-full h-full">
                                 <img class="w-full h-full object-cover"
-                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}" alt="Product">
+                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}"
+                                    alt="Product">
                             </swiper-slide>
                             <swiper-slide class="w-full h-full">
                                 <img class="w-full h-full object-cover"
-                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}" alt="Product">
+                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}"
+                                    alt="Product">
                             </swiper-slide>
                             <swiper-slide class="w-full h-full">
                                 <img class="w-full h-full object-cover"
-                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}" alt="Product">
+                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}"
+                                    alt="Product">
                             </swiper-slide>
                         </swiper-container>
                     </div>
@@ -1373,7 +1379,8 @@
         </div>
 
         {{-- text --}}
-        <p class="text-center text-[8px] min-[360px]:text-[11px] md:text-[16px] poppins-medium my-3">Copyright @2023 <span class="poppins-bold">Tijara
+        <p class="text-center text-[8px] min-[360px]:text-[11px] md:text-[16px] poppins-medium my-3">Copyright @2023 <span
+                class="poppins-bold">Tijara
                 Store.</span> All Right Reserved</p>
     </div>
 @endsection

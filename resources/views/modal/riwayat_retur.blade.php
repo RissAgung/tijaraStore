@@ -32,7 +32,7 @@
                     <tr>
                         <th class="p-3 md:p-5 text-left">Produk</th>
                         <th class="p-3 md:p-5">Jumlah Produk</th>
-                        <th class="p-3 md:p-5">Jumlh Retur</th>
+                        <th class="p-3 md:p-5">Jumlah Substitusi</th>
                         <th class="p-3 md:p-5 text-right">Uang Kembai</th>
                     </tr>
                 </thead>
@@ -86,7 +86,7 @@
 
                     {{-- Instansi --}}
                     <tr>
-                        <td class="px-2 py-1 poppins-medium">Instansi</td>
+                        <td class="px-2 py-1 poppins-medium">Keterangan Sp</td>
                         <td class="px-2 py-1 poppins-medium">:</td>
                         <td class="px-2 py-1 poppins-regular" id="instansi"></td>
                     </tr>

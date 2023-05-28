@@ -20,4 +20,9 @@ class pengeluaran extends Model
   {
     return $this->hasOne(pengeluaran_pegawai::class, 'pegawai_pengeluaran', 'detail_pengeluaran_pegawai');
   }
+
+  public function pengeluaran_barang()
+  {
+    return $this->hasOne(pengeluaran_barang::class, 'detail_pengeluaran_barang', 'detail_pengeluaran_barang');
+  }
 }

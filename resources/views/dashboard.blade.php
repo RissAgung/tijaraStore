@@ -5,11 +5,11 @@
 @endsection
 
 @section('content')
-    {{-- main container --}}
-    <div class="flex flex-col w-full h-full lg:h-[85vh] p-3 min-[400px]::p-6">
+    {{-- top bar --}}
+    <div class="w-full py-3 min-[400px]:py-4 px-[20px] md:px-[30px] bg-white border-b-[1px] border-b-[#DCDADA] poppins-medium text-black lg:text-[16px] md:text-[15px] text-[12px]">Informasi Terkini</div>
 
-        {{-- top --}}
-        <h2 class="mb-3 poppins-medium">Informasi Terkini</h2>
+    {{-- main container --}}
+    <div class="flex flex-col w-full h-full lg:h-[80vh] p-3 min-[400px]:p-6">
 
         <div class="flex flex-col lg:flex-row w-full h-full gap-3">
             {{-- left --}}
@@ -75,18 +75,35 @@
                     <div class="w-full px-8 py-5">
                         <h2 class="max-lg:text-center">Produk terlaris</h2>
                     </div>
-                    <div class="flex justify-center items-center w-full h-full">
-                        <div id="pie_chart_pria" class=""></div>
-                    </div>
+                    <swiper-container pagination="true" pagination-dynamic-bullets="true" pagination-clickable="true"
+                        autoplay-delay="6000" autoplay-disable-on-interaction="false" loop="true"
+                        class="mySwiper w-full h-full">
+
+                        <swiper-slide class="w-full h-full flex justify-center items-center" id="container_pie_chart_pria">
+                            <div id="pie_chart_pria" class=""></div>
+                        </swiper-slide>
+                        <swiper-slide class="w-full h-full flex justify-center items-center" id="container_pie_chart">
+                            <div id="pie_chart_wanita" class=""></div>
+                        </swiper-slide>
+                        <swiper-slide class="w-full h-full flex justify-center items-center" id="container_pie_chart">
+                            <div id="pie_chart_anak" class=""></div>
+                        </swiper-slide>
+                    </swiper-container>
                 </div>
 
             </div>
         </div>
-
     </div>
 @endsection
 
 @section('otherjs')
     <script src="{{ asset('js/apexcharts.js') }}"></script>
+    <script src="{{ asset('js/swiper-element-bundle.min.js') }}"></script>
     <script src="{{ asset('js/controllers/dashboard.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            GetDataChart('{{ $data_chart }}');
+            loadDefaultPie('{{ $data_pie_chart }}');
+        });
+    </script>
 @endsection

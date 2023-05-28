@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportLaporanAkumulasi;
 use App\Models\akumulasi\pemasukan;
 use App\Models\pengeluaran\pengeluaran;
+use App\Models\retur\customer;
+use App\Models\retur\supplier;
+use App\Models\riwayat\detail_transaksi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Akumulasi extends Controller
 {
-  public function getPemasukan(Request $request)
+  public function getPemasukanPengeluaran(Request $request)
   {
 
     $label = [];
@@ -23,6 +28,8 @@ class Akumulasi extends Controller
       $data_decode_date = json_decode(base64_decode($request->data_date));
 
       if ($data_decode_date->type === 'harian') {
+
+        ////////////////////////////////// pemasukan //////////////////////////////////
         $result = pemasukan::select(
           DB::raw("CASE DATE_FORMAT(tanggal, '%W')
                         WHEN 'Sunday' THEN 'Minggu'
@@ -39,6 +46,81 @@ class Akumulasi extends Controller
           ->groupBy('hari')
           ->get();
 
+        $result_retur_supp = supplier::select(
+          DB::raw("CASE DATE_FORMAT(tanggal, '%W')
+                          WHEN 'Sunday' THEN 'Minggu'
+                          WHEN 'Monday' THEN 'Senin'
+                          WHEN 'Tuesday' THEN 'Selasa'
+                          WHEN 'Wednesday' THEN 'Rabu'
+                          WHEN 'Thursday' THEN 'Kamis'
+                          WHEN 'Friday' THEN 'Jumat'
+                          WHEN 'Saturday' THEN 'Sabtu'
+                      END AS hari"),
+          DB::raw("SUM(jml_nominal) AS total")
+        )
+          ->where('jml_nominal', '>', 0)
+          ->whereDate('tanggal', '=', $data_decode_date->data)
+          ->groupBy('hari')
+          ->get();
+
+        $result_retur_cs = customer::select(
+          DB::raw("CASE DATE_FORMAT(tanggal, '%W')
+                            WHEN 'Sunday' THEN 'Minggu'
+                            WHEN 'Monday' THEN 'Senin'
+                            WHEN 'Tuesday' THEN 'Selasa'
+                            WHEN 'Wednesday' THEN 'Rabu'
+                            WHEN 'Thursday' THEN 'Kamis'
+                            WHEN 'Friday' THEN 'Jumat'
+                            WHEN 'Saturday' THEN 'Sabtu'
+                        END AS hari"),
+          DB::raw("SUM(bayar_kurang) AS total")
+        )
+          ->where('bayar_kurang', '>', 0)
+          ->whereDate('tanggal', '=', $data_decode_date->data)
+          ->groupBy('hari')
+          ->get();
+
+        $data_pemasukan = array();
+
+        foreach ($result as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          $data_pemasukan[$tanggal]['hari'] = $tanggal;
+          $data_pemasukan[$tanggal]['total'] = $total;
+        }
+
+        // Menggabungkan array ke dalam data_pemasukan
+        foreach ($result_retur_supp as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          if (isset($data_pemasukan[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pemasukan[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pemasukan[$tanggal]['hari'] = $tanggal;
+            $data_pemasukan[$tanggal]['total'] = $total;
+          }
+        }
+
+        foreach ($result_retur_cs as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          if (isset($data_pemasukan[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pemasukan[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pemasukan[$tanggal]['hari'] = $tanggal;
+            $data_pemasukan[$tanggal]['total'] = $total;
+          }
+        }
+        ////////////////////////////////// end pemasukan //////////////////////////////////
+
+        ////////////////////////////////// pengeluaran //////////////////////////////////
         $result_pengeluaran = pengeluaran::select(
           DB::raw("CASE DATE_FORMAT(tanggal, '%W')
                         WHEN 'Sunday' THEN 'Minggu'
@@ -55,16 +137,69 @@ class Akumulasi extends Controller
           ->groupBy('hari')
           ->get();
 
-        foreach ($result as $index) {
-          array_push($label, $index->hari);
+        $result_pengeluaran_cs = customer::select(
+          DB::raw("CASE DATE_FORMAT(tanggal, '%W')
+                          WHEN 'Sunday' THEN 'Minggu'
+                          WHEN 'Monday' THEN 'Senin'
+                          WHEN 'Tuesday' THEN 'Selasa'
+                          WHEN 'Wednesday' THEN 'Rabu'
+                          WHEN 'Thursday' THEN 'Kamis'
+                          WHEN 'Friday' THEN 'Jumat'
+                          WHEN 'Saturday' THEN 'Sabtu'
+                      END AS hari"),
+          DB::raw("(SUM(IFNULL(bayar_tunai, 0)) + SUM(IFNULL(kembalian_tunai, 0))) AS total")
+        )
+          ->where(function ($query) {
+            $query->whereNotNull('kembalian_tunai')
+              ->orWhereNotNull('bayar_tunai');
+          })
+          ->whereDate('tanggal', '=', $data_decode_date->data)
+          ->groupBy('hari')
+          ->get();
+
+
+        $data_pengeluaran_raw = array();
+
+        foreach ($result_pengeluaran as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          $data_pengeluaran_raw[$tanggal]['hari'] = $tanggal;
+          $data_pengeluaran_raw[$tanggal]['total'] = $total;
         }
 
-        foreach ($result as $index) {
-          array_push($data, $index->total);
+        // Menggabungkan array ke dalam data_pemasukan
+        foreach ($result_pengeluaran_cs as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          if (isset($data_pengeluaran_raw[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pengeluaran_raw[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pengeluaran_raw[$tanggal]['hari'] = $tanggal;
+            $data_pengeluaran_raw[$tanggal]['total'] = $total;
+          }
+        }
+        ////////////////////////////////// pengeluaran //////////////////////////////////
+
+        if (count($data_pemasukan) > 0) {
+          foreach ($data_pemasukan as $index) {
+            array_push($label, $index['hari']);
+          }
+        } elseif (count($data_pengeluaran_raw) > 0) {
+          foreach ($data_pengeluaran_raw as $index) {
+            array_push($label, $index['hari']);
+          }
         }
 
-        foreach ($result_pengeluaran as $index) {
-          array_push($data_pengeluaran, $index->total);
+        foreach ($data_pemasukan as $index) {
+          array_push($data, $index['total']);
+        }
+
+        foreach ($data_pengeluaran_raw as $index) {
+          array_push($data_pengeluaran, $index['total']);
         }
 
         return json_encode(
@@ -80,6 +215,8 @@ class Akumulasi extends Controller
         $start_date = Carbon::parse((string)$data_decode_date->data)->startOfWeek();
         $end_date = Carbon::parse((string)$data_decode_date->data)->endOfWeek();
 
+        ////////////////////////////////// pemasukan //////////////////////////////////
+
         $result = pemasukan::selectRaw("
         CASE DATE_FORMAT(tanggal, '%W')
             WHEN 'Sunday' THEN 'Minggu'
@@ -89,14 +226,92 @@ class Akumulasi extends Controller
             WHEN 'Thursday' THEN 'Kamis'
             WHEN 'Friday' THEN 'Jumat'
             WHEN 'Saturday' THEN 'Sabtu'
-       END AS hari")
+        END AS hari")
           ->selectRaw("(SUM(bayar) - SUM(kembalian)) AS total")
           ->whereBetween('tanggal', [$start_date, $end_date])
           ->groupBy('hari')
           ->orderBy('hari', 'DESC')
           ->get();
 
-        $result_pengeluaran = pengeluaran::selectRaw("
+        $result_retur_supp = supplier::selectRaw("
+        CASE DATE_FORMAT(tanggal, '%W')
+            WHEN 'Sunday' THEN 'Minggu'
+            WHEN 'Monday' THEN 'Senin'
+            WHEN 'Tuesday' THEN 'Selasa'
+            WHEN 'Wednesday' THEN 'Rabu'
+            WHEN 'Thursday' THEN 'Kamis'
+            WHEN 'Friday' THEN 'Jumat'
+            WHEN 'Saturday' THEN 'Sabtu'
+        END AS hari")
+          ->selectRaw("SUM(jml_nominal) AS total")
+          ->where('jml_nominal', '>', 0)
+          ->whereBetween('tanggal', [$start_date, $end_date])
+          ->groupBy('hari')
+          ->orderBy('hari', 'DESC')
+          ->get();
+
+        $result_retur_cs = customer::selectRaw("
+          CASE DATE_FORMAT(tanggal, '%W')
+              WHEN 'Sunday' THEN 'Minggu'
+              WHEN 'Monday' THEN 'Senin'
+              WHEN 'Tuesday' THEN 'Selasa'
+              WHEN 'Wednesday' THEN 'Rabu'
+              WHEN 'Thursday' THEN 'Kamis'
+              WHEN 'Friday' THEN 'Jumat'
+              WHEN 'Saturday' THEN 'Sabtu'
+          END AS hari")
+          ->selectRaw("SUM(bayar_kurang) AS total")
+          ->where('bayar_kurang', '>', 0)
+          ->whereBetween('tanggal', [$start_date, $end_date])
+          ->groupBy('hari')
+          ->orderBy('hari', 'DESC')
+          ->get();
+
+        $data_pemasukan = array();
+
+        foreach ($result as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          $data_pemasukan[$tanggal]['hari'] = $tanggal;
+          $data_pemasukan[$tanggal]['total'] = $total;
+        }
+
+        // Menggabungkan array ke dalam data_pemasukan
+        foreach ($result_retur_supp as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          if (isset($data_pemasukan[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pemasukan[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pemasukan[$tanggal]['hari'] = $tanggal;
+            $data_pemasukan[$tanggal]['total'] = $total;
+          }
+        }
+
+        foreach ($result_retur_cs as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          if (isset($data_pemasukan[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pemasukan[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pemasukan[$tanggal]['hari'] = $tanggal;
+            $data_pemasukan[$tanggal]['total'] = $total;
+          }
+        }
+
+        ////////////////////////////////// end pemasukan //////////////////////////////////
+
+
+        ////////////////////////////////// pengeluaran //////////////////////////////////
+
+        $result = pengeluaran::selectRaw("
         CASE DATE_FORMAT(tanggal, '%W')
             WHEN 'Sunday' THEN 'Minggu'
             WHEN 'Monday' THEN 'Senin'
@@ -112,10 +327,54 @@ class Akumulasi extends Controller
           ->orderBy('hari', 'DESC')
           ->get();
 
-        // foreach ($result as $index) {
-        //   array_push($label, $index->hari);
-        // }
-        if (count($result) !== 0 || count($result_pengeluaran)) {
+        $result_pengeluaran_cs = customer::selectRaw("
+        CASE DATE_FORMAT(tanggal, '%W')
+            WHEN 'Sunday' THEN 'Minggu'
+            WHEN 'Monday' THEN 'Senin'
+            WHEN 'Tuesday' THEN 'Selasa'
+            WHEN 'Wednesday' THEN 'Rabu'
+            WHEN 'Thursday' THEN 'Kamis'
+            WHEN 'Friday' THEN 'Jumat'
+            WHEN 'Saturday' THEN 'Sabtu'
+       END AS hari")
+          ->selectRaw("(SUM(IFNULL(bayar_tunai, 0)) + SUM(IFNULL(kembalian_tunai, 0))) AS total")
+          ->where(function ($query) {
+            $query->whereNotNull('kembalian_tunai')
+              ->orWhereNotNull('bayar_tunai');
+          })
+          ->whereBetween('tanggal', [$start_date, $end_date])
+          ->groupBy('hari')
+          ->orderBy('hari', 'DESC')
+          ->get();
+
+        $result_pengeluaran = array();
+
+        foreach ($result as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          $result_pengeluaran[$tanggal]['hari'] = $tanggal;
+          $result_pengeluaran[$tanggal]['total'] = $total;
+        }
+
+        // Menggabungkan array ke dalam data_pemasukan
+        foreach ($result_pengeluaran_cs as $transaksi) {
+          $tanggal = $transaksi->hari;
+          $total = $transaksi->total;
+
+          if (isset($result_pengeluaran[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $result_pengeluaran[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $result_pengeluaran[$tanggal]['hari'] = $tanggal;
+            $result_pengeluaran[$tanggal]['total'] = $total;
+          }
+        }
+
+        ////////////////////////////////// end pengeluaran //////////////////////////////////
+
+        if (count($data_pemasukan) !== 0 || count($result_pengeluaran) !== 0) {
           $label = [
             'Senin',
             'Selasa',
@@ -141,28 +400,23 @@ class Akumulasi extends Controller
 
         foreach ($result_pengeluaran as $index) {
           for ($i = 0; $i < count($label); $i++) {
-            if ($label[$i] === $index->hari) {
-              $data_pengeluaran[$i] = $index->total;
+            if ($label[$i] === $index['hari']) {
+              $data_pengeluaran[$i] = $index['total'];
             }
           }
         }
 
-        foreach ($result as $index) {
+        foreach ($data_pemasukan as $index) {
           for ($i = 0; $i < count($label); $i++) {
-            if ($label[$i] === $index->hari) {
-              $data[$i] = $index->total;
+            if ($label[$i] === $index['hari']) {
+              $data[$i] = $index['total'];
             }
           }
         }
 
-        // foreach ($result as $index) {
-        //   for ($i = 0; $i < count($label); $i++) {
-        //     if ($label[$i] === $index->hari) {
-        //       array_push($data, $index->total);
-        //     } else {
-        //       array_push($data, 0);
-        //     }
-        //   }
+        // $p=array();
+        // foreach($data_pemasukan as $index){
+        //   array_push($p, $index['total']);
         // }
 
         return json_encode(
@@ -269,30 +523,120 @@ class Akumulasi extends Controller
           $yearweek[$i] = $WeekinThisMonth[$i]->yearweek;
         }
 
+        ////////////////////////////////// pemasukan //////////////////////////////////
         $result = pemasukan::selectRaw('YEARWEEK(date(tanggal)) AS yearweek, (SUM(bayar) - SUM(kembalian)) AS total')
           ->whereMonth('tanggal', '=', $bulan)
           ->whereYear('tanggal', '=', $tahun)
           ->groupByRaw('YEARWEEK(date(tanggal))')
           ->get();
 
-        $result_pengeluaran = pengeluaran::selectRaw('YEARWEEK(date(tanggal)) AS yearweek, (SUM(total)) AS total')
+        $result_retur_supp = supplier::selectRaw('YEARWEEK(date(tanggal)) AS yearweek, SUM(jml_nominal) AS total')
+          ->where('jml_nominal', '>', 0)
           ->whereMonth('tanggal', '=', $bulan)
           ->whereYear('tanggal', '=', $tahun)
           ->groupByRaw('YEARWEEK(date(tanggal))')
           ->get();
 
-        foreach ($result as $index) {
+        $result_retur_cs = customer::selectRaw('YEARWEEK(date(tanggal)) AS yearweek, SUM(bayar_kurang) AS total')
+          ->where('bayar_kurang', '>', 0)
+          ->whereMonth('tanggal', '=', $bulan)
+          ->whereYear('tanggal', '=', $tahun)
+          ->groupByRaw('YEARWEEK(date(tanggal))')
+          ->get();
+
+        $data_pemasukan = array();
+
+        foreach ($result as $transaksi) {
+          $yearweek_raw = $transaksi->yearweek;
+          $total = $transaksi->total;
+
+          $data_pemasukan[$yearweek_raw]['yearweek'] = $yearweek_raw;
+          $data_pemasukan[$yearweek_raw]['total'] = $total;
+        }
+
+        // Menggabungkan array ke dalam data_pemasukan
+        foreach ($result_retur_supp as $transaksi) {
+          $yearweek_raw = $transaksi->yearweek;
+          $total = $transaksi->total;
+
+          if (isset($data_pemasukan[$yearweek_raw])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pemasukan[$yearweek_raw]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pemasukan[$yearweek_raw]['yearweek'] = $yearweek_raw;
+            $data_pemasukan[$yearweek_raw]['total'] = $total;
+          }
+        }
+
+        foreach ($result_retur_cs as $transaksi) {
+          $yearweek_raw = $transaksi->yearweek;
+          $total = $transaksi->total;
+
+          if (isset($data_pemasukan[$yearweek_raw])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pemasukan[$yearweek_raw]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pemasukan[$yearweek_raw]['yearweek'] = $yearweek_raw;
+            $data_pemasukan[$yearweek_raw]['total'] = $total;
+          }
+        }
+        ////////////////////////////////// end pemasukan //////////////////////////////////
+
+        ////////////////////////////////// pengeluaran //////////////////////////////////
+        $result = pengeluaran::selectRaw('YEARWEEK(date(tanggal)) AS yearweek, (SUM(total)) AS total')
+          ->whereMonth('tanggal', '=', $bulan)
+          ->whereYear('tanggal', '=', $tahun)
+          ->groupByRaw('YEARWEEK(date(tanggal))')
+          ->get();
+
+        $result_pengeluaran_cs = customer::selectRaw("YEARWEEK(date(tanggal)) AS yearweek,(SUM(IFNULL(bayar_tunai, 0)) + SUM(IFNULL(kembalian_tunai, 0))) AS total")
+          ->where(function ($query) {
+            $query->whereNotNull('kembalian_tunai')
+              ->orWhereNotNull('bayar_tunai');
+          })
+          ->whereMonth('tanggal', '=', $bulan)
+          ->whereYear('tanggal', '=', $tahun)
+          ->groupByRaw('YEARWEEK(date(tanggal))')
+          ->get();
+
+        $result_pengeluaran = array();
+
+        foreach ($result as $transaksi) {
+          $yearweek_raw = $transaksi->yearweek;
+          $total = $transaksi->total;
+
+          $result_pengeluaran[$yearweek_raw]['yearweek'] = $yearweek_raw;
+          $result_pengeluaran[$yearweek_raw]['total'] = $total;
+        }
+
+        // Menggabungkan array ke dalam data_pemasukan
+        foreach ($result_pengeluaran_cs as $transaksi) {
+          $yearweek_raw = $transaksi->yearweek;
+          $total = $transaksi->total;
+
+          if (isset($result_pengeluaran[$yearweek_raw])) {
+            $result_pengeluaran[$yearweek_raw]['total'] += $total;
+          } else {
+            $result_pengeluaran[$yearweek_raw]['yearweek'] = $yearweek_raw;
+            $result_pengeluaran[$yearweek_raw]['total'] = $total;
+          }
+        }
+        ////////////////////////////////// end pengeluaran //////////////////////////////////
+
+        foreach ($data_pemasukan as $index) {
           for ($i = 0; $i < count($yearweek); $i++) {
-            if ($yearweek[$i] === $index->yearweek) {
-              $data[$i] = $index->total;
+            if ($yearweek[$i] === $index['yearweek']) {
+              $data[$i] = $index['total'];
             }
           }
         }
 
         foreach ($result_pengeluaran as $index) {
           for ($i = 0; $i < count($yearweek); $i++) {
-            if ($yearweek[$i] === $index->yearweek) {
-              $data_pengeluaran[$i] = $index->total;
+            if ($yearweek[$i] === $index['yearweek']) {
+              $data_pengeluaran[$i] = $index['total'];
             }
           }
         }
@@ -314,58 +658,176 @@ class Akumulasi extends Controller
         // set tahun
         $tahun = $data_decode_date->data->tahun;
 
-        $months = [
+        $label = [
           'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
           'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
         ];
+        $data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $data_pengeluaran = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        $mont = function ($month) {
+          switch ($month) {
+            case 1:
+              return "Jan";
+              break;
+            case 2:
+              return "Feb";
+              break;
+            case 3:
+              return "Mar";
+              break;
+            case 4:
+              return "Apr";
+              break;
+            case 5:
+              return "Mei";
+              break;
+            case 6:
+              return "Jun";
+              break;
+            case 7:
+              return "Jul";
+              break;
+            case 8:
+              return "Agu";
+              break;
+            case 9:
+              return "Sep";
+              break;
+            case 10:
+              return "Okt";
+              break;
+            case 11:
+              return "Nov";
+              break;
+            case 12:
+              return "Des";
+              break;
+          }
+        };
+
+        ////////////////////////////////// pemasukan //////////////////////////////////
 
         $results = DB::table('transaksi')
           ->selectRaw('MONTH(tanggal) AS bulan, (SUM(bayar) - SUM(kembalian)) AS total')
           ->whereYear('tanggal', $tahun)
           ->groupBy('bulan')
           ->orderBy('bulan')
-          ->pluck('total', 'bulan');
+          ->get();
 
-        // pengeluaran
+        $result_retur_supp = supplier::selectRaw('MONTH(tanggal) AS bulan, SUM(jml_nominal) AS total')
+          ->where('jml_nominal', '>', 0)
+          ->whereYear('tanggal', $tahun)
+          ->groupBy('bulan')
+          ->orderBy('bulan')
+          ->get();
+
+        $result_retur_cs = customer::selectRaw('MONTH(tanggal) AS bulan, SUM(bayar_kurang) AS total')
+          ->where('bayar_kurang', '>', 0)
+          ->whereYear('tanggal', $tahun)
+          ->groupBy('bulan')
+          ->orderBy('bulan')
+          ->get();
+
+        $data_pemasukan = array();
+
+        foreach ($results as $transaksi) {
+          $tanggal = $transaksi->bulan;
+          $total = $transaksi->total;
+
+          $data_pemasukan[$tanggal]['bulan'] = $tanggal;
+          $data_pemasukan[$tanggal]['total'] = $total;
+        }
+
+        // Menggabungkan array ke dalam data_pemasukan
+        foreach ($result_retur_supp as $transaksi) {
+          $tanggal = $transaksi->bulan;
+          $total = $transaksi->total;
+
+          if (isset($data_pemasukan[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pemasukan[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pemasukan[$tanggal]['bulan'] = $tanggal;
+            $data_pemasukan[$tanggal]['total'] = $total;
+          }
+        }
+
+        foreach ($result_retur_cs as $transaksi) {
+          $tanggal = $transaksi->bulan;
+          $total = $transaksi->total;
+
+          if (isset($data_pemasukan[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pemasukan[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pemasukan[$tanggal]['bulan'] = $tanggal;
+            $data_pemasukan[$tanggal]['total'] = $total;
+          }
+        }
+
+        ////////////////////////////////// end pemasukan //////////////////////////////////
+
+        ////////////////////////////////// pengeluaran //////////////////////////////////
         $results_pengeluaran = pengeluaran::selectRaw('MONTH(tanggal) AS bulan, (SUM(total)) AS total')
           ->whereYear('tanggal', $tahun)
           ->groupBy('bulan')
           ->orderBy('bulan')
-          ->pluck('total', 'bulan');
+          ->get();
 
-        // Membuat koleksi dari hasil query
-        $finalResults = collect($months)->map(function ($month, $index) use ($results) {
-          $bulan_ke = $index + 1;
-          $total = $results->get($bulan_ke, 0);
+        $results_pengeluaran_cs = customer::selectRaw('MONTH(tanggal) AS bulan, (SUM(IFNULL(bayar_tunai, 0)) + SUM(IFNULL(kembalian_tunai, 0))) AS total')
+          ->where(function ($query) {
+            $query->whereNotNull('kembalian_tunai')
+              ->orWhereNotNull('bayar_tunai');
+          })
+          ->whereYear('tanggal', $tahun)
+          ->groupBy('bulan')
+          ->orderBy('bulan')
+          ->get();
 
-          return [
-            'bulan' => $month,
-            'total' => $total
-          ];
-        });
+        $data_pengeluaran_raw = array();
 
+        foreach ($results_pengeluaran as $transaksi) {
+          $tanggal = $transaksi->bulan;
+          $total = $transaksi->total;
 
-        // sampe sini cuk -> blm masukin pengeluaran
-        $finalResults_pengeluaran = collect($months)->map(function ($month, $index) use ($results_pengeluaran) {
-          $bulan_ke = $index + 1;
-          $total = $results_pengeluaran->get($bulan_ke, 0);
-
-          return [
-            'bulan' => $month,
-            'total' => $total
-          ];
-        });
-
-        foreach ($finalResults as $index) {
-          array_push($data, $index['total']);
-        }
-        foreach ($finalResults_pengeluaran as $index) {
-          array_push($data_pengeluaran, $index['total']);
-        }
-        foreach ($finalResults as $index) {
-          array_push($label, $index['bulan']);
+          $data_pengeluaran_raw[$tanggal]['bulan'] = $tanggal;
+          $data_pengeluaran_raw[$tanggal]['total'] = $total;
         }
 
+        // Menggabungkan array ke dalam data_pemasukan
+        foreach ($results_pengeluaran_cs as $transaksi) {
+          $tanggal = $transaksi->bulan;
+          $total = $transaksi->total;
+
+          if (isset($data_pengeluaran_raw[$tanggal])) {
+            // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+            $data_pengeluaran_raw[$tanggal]['total'] += $total;
+          } else {
+            // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+            $data_pengeluaran_raw[$tanggal]['bulan'] = $tanggal;
+            $data_pengeluaran_raw[$tanggal]['total'] = $total;
+          }
+        }
+        ////////////////////////////////// end pengeluaran //////////////////////////////////
+
+        foreach ($data_pemasukan as $index) {
+          for ($i = 0; $i < count($label); $i++) {
+            if ($label[$i] === $mont($index['bulan'])) {
+              $data[$i] = $index['total'];
+            }
+          }
+        }
+
+        foreach ($data_pengeluaran_raw as $index) {
+          for ($i = 0; $i < count($label); $i++) {
+            if ($label[$i] === $mont($index['bulan'])) {
+              $data_pengeluaran[$i] = $index['total'];
+            }
+          }
+        }
 
         return json_encode(
           array(
@@ -378,21 +840,49 @@ class Akumulasi extends Controller
         $date_awal = $data_decode_date->data->awal;
         $date_akhir = $data_decode_date->data->akhir;
 
+        ////////////////////////////////// pemasukan //////////////////////////////////
         $result = pemasukan::whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
           ->selectRaw('(SUM(bayar) - SUM(kembalian)) AS total')
           ->first()
           ->total;
 
-        $result_pengeluaran = pengeluaran::whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
+        $result_retur_supp = supplier::where('jml_nominal', '>', 0)
+          ->whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
+          ->selectRaw('SUM(jml_nominal)AS total')
+          ->first()
+          ->total;
+
+        $result_retur_cs = customer::where('bayar_kurang', '>', 0)
+          ->whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
+          ->selectRaw('SUM(bayar_kurang) AS total')
+          ->first()
+          ->total;
+
+        $result_pemasukan = $result + $result_retur_supp + $result_retur_cs;
+        ////////////////////////////////// end pemasukan //////////////////////////////////
+
+        ////////////////////////////////// pengeluaran //////////////////////////////////
+        $result_pengeluaran_raw = pengeluaran::whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
           ->selectRaw('(SUM(total)) AS total')
           ->first()
           ->total;
+        $result_pengeluaran_cs = customer::whereBetween('tanggal', [$date_awal, $date_akhir . ' 23:59:00'])
+          ->selectRaw('(SUM(IFNULL(bayar_tunai, 0)) + SUM(IFNULL(kembalian_tunai, 0))) AS total')
+          ->where(function ($query) {
+            $query->whereNotNull('kembalian_tunai')
+              ->orWhereNotNull('bayar_tunai');
+          })
+          ->first()
+          ->total;
+
+        $result_pengeluaran = $result_pengeluaran_raw + $result_pengeluaran_cs;
+        ////////////////////////////////// end pengeluaran //////////////////////////////////
 
         $label = [
           $date_awal . ' / ' . $date_akhir,
         ];
         // foreach ($result as $index) {
-        array_push($data, (int)$result);
+        array_push($data, (int)$result_pemasukan);
         array_push($data_pengeluaran, (int)$result_pengeluaran);
         // }
 
@@ -405,58 +895,180 @@ class Akumulasi extends Controller
         );
       }
     }
+    // end filter date
 
+    ////////////////////////////////// default view //////////////////////////////////
 
-    $months = [
+    $label = [
       'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
       'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
     ];
+    $data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $data_pengeluaran = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    $mont = function ($month) {
+      switch ($month) {
+        case 1:
+          return "Jan";
+          break;
+        case 2:
+          return "Feb";
+          break;
+        case 3:
+          return "Mar";
+          break;
+        case 4:
+          return "Apr";
+          break;
+        case 5:
+          return "Mei";
+          break;
+        case 6:
+          return "Jun";
+          break;
+        case 7:
+          return "Jul";
+          break;
+        case 8:
+          return "Agu";
+          break;
+        case 9:
+          return "Sep";
+          break;
+        case 10:
+          return "Okt";
+          break;
+        case 11:
+          return "Nov";
+          break;
+        case 12:
+          return "Des";
+          break;
+      }
+    };
+
+    ////////////////////////////////// pemasukan //////////////////////////////////
 
     $results = DB::table('transaksi')
       ->selectRaw('MONTH(tanggal) AS bulan, (SUM(bayar) - SUM(kembalian)) AS total')
       ->whereYear('tanggal', now()->year)
       ->groupBy('bulan')
       ->orderBy('bulan')
-      ->pluck('total', 'bulan');
+      ->get();
 
+    $result_retur_supp = supplier::selectRaw('MONTH(tanggal) AS bulan, SUM(jml_nominal) AS total')
+      ->where('jml_nominal', '>', 0)
+      ->whereYear('tanggal', now()->year)
+      ->groupBy('bulan')
+      ->orderBy('bulan')
+      ->get();
+
+    $result_retur_cs = customer::selectRaw('MONTH(tanggal) AS bulan, SUM(bayar_kurang) AS total')
+      ->where('bayar_kurang', '>', 0)
+      ->whereYear('tanggal', now()->year)
+      ->groupBy('bulan')
+      ->orderBy('bulan')
+      ->get();
+
+    $data_pemasukan = array();
+
+    foreach ($results as $transaksi) {
+      $tanggal = $transaksi->bulan;
+      $total = $transaksi->total;
+
+      $data_pemasukan[$tanggal]['bulan'] = $tanggal;
+      $data_pemasukan[$tanggal]['total'] = $total;
+    }
+
+    // Menggabungkan array ke dalam data_pemasukan
+    foreach ($result_retur_supp as $transaksi) {
+      $tanggal = $transaksi->bulan;
+      $total = $transaksi->total;
+
+      if (isset($data_pemasukan[$tanggal])) {
+        // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+        $data_pemasukan[$tanggal]['total'] += $total;
+      } else {
+        // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+        $data_pemasukan[$tanggal]['bulan'] = $tanggal;
+        $data_pemasukan[$tanggal]['total'] = $total;
+      }
+    }
+
+    foreach ($result_retur_cs as $transaksi) {
+      $tanggal = $transaksi->bulan;
+      $total = $transaksi->total;
+
+      if (isset($data_pemasukan[$tanggal])) {
+        // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+        $data_pemasukan[$tanggal]['total'] += $total;
+      } else {
+        // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+        $data_pemasukan[$tanggal]['bulan'] = $tanggal;
+        $data_pemasukan[$tanggal]['total'] = $total;
+      }
+    }
+
+    ////////////////////////////////// end pemasukan //////////////////////////////////
+
+    ////////////////////////////////// pengeluaran //////////////////////////////////
     $results_pengeluaran = pengeluaran::selectRaw('MONTH(tanggal) AS bulan, (SUM(total)) AS total')
       ->whereYear('tanggal', now()->year)
       ->groupBy('bulan')
       ->orderBy('bulan')
-      ->pluck('total', 'bulan');
+      ->get();
 
-    // Membuat koleksi dari hasil query
-    $finalResults = collect($months)->map(function ($month, $index) use ($results) {
-      $bulan_ke = $index + 1;
-      $total = $results->get($bulan_ke, 0);
+    $results_pengeluaran_cs = customer::selectRaw('MONTH(tanggal) AS bulan, (SUM(IFNULL(bayar_tunai, 0)) + SUM(IFNULL(kembalian_tunai, 0))) AS total')
+      ->where(function ($query) {
+        $query->whereNotNull('kembalian_tunai')
+          ->orWhereNotNull('bayar_tunai');
+      })
+      ->whereYear('tanggal', now()->year)
+      ->groupBy('bulan')
+      ->orderBy('bulan')
+      ->get();
 
-      return [
-        'bulan' => $month,
-        'total' => $total
-      ];
-    });
+    $data_pengeluaran_raw = array();
 
-    // Membuat koleksi dari hasil query
-    $finalResults_pengeluaran = collect($months)->map(function ($month, $index) use ($results_pengeluaran) {
-      $bulan_ke = $index + 1;
-      $total = $results_pengeluaran->get($bulan_ke, 0);
+    foreach ($results_pengeluaran as $transaksi) {
+      $tanggal = $transaksi->bulan;
+      $total = $transaksi->total;
 
-      return [
-        'bulan' => $month,
-        'total' => $total
-      ];
-    });
-
-    foreach ($finalResults as $index) {
-      array_push($data, $index['total']);
-    }
-    foreach ($finalResults_pengeluaran as $index) {
-      array_push($data_pengeluaran, $index['total']);
-    }
-    foreach ($finalResults as $index) {
-      array_push($label, $index['bulan']);
+      $data_pengeluaran_raw[$tanggal]['bulan'] = $tanggal;
+      $data_pengeluaran_raw[$tanggal]['total'] = $total;
     }
 
+    // Menggabungkan array ke dalam data_pemasukan
+    foreach ($results_pengeluaran_cs as $transaksi) {
+      $tanggal = $transaksi->bulan;
+      $total = $transaksi->total;
+
+      if (isset($data_pengeluaran_raw[$tanggal])) {
+        // Jika tanggal sudah ada di data_pemasukan, tambahkan total harganya
+        $data_pengeluaran_raw[$tanggal]['total'] += $total;
+      } else {
+        // Jika tanggal belum ada di data_pemasukan, tambahkan sebagai data baru
+        $data_pengeluaran_raw[$tanggal]['bulan'] = $tanggal;
+        $data_pengeluaran_raw[$tanggal]['total'] = $total;
+      }
+    }
+    ////////////////////////////////// end pengeluaran //////////////////////////////////
+
+    foreach ($data_pemasukan as $index) {
+      for ($i = 0; $i < count($label); $i++) {
+        if ($label[$i] === $mont($index['bulan'])) {
+          $data[$i] = $index['total'];
+        }
+      }
+    }
+
+    foreach ($data_pengeluaran_raw as $index) {
+      for ($i = 0; $i < count($label); $i++) {
+        if ($label[$i] === $mont($index['bulan'])) {
+          $data_pengeluaran[$i] = $index['total'];
+        }
+      }
+    }
 
     return json_encode(
       array(
@@ -466,7 +1078,175 @@ class Akumulasi extends Controller
       )
     );
 
+    ////////////////////////////////// end default view //////////////////////////////////
+  }
 
-    // return json_encode($result);
+  public function getDataPie(Request $request)
+  {
+
+
+    $query = function ($request) {
+
+      if ($request->data_date !== null) {
+
+        $data_decode_date = json_decode(base64_decode($request->data_date));
+
+        if ($data_decode_date->type === 'harian') { //HARIAN
+
+          return "SELECT kategori, nama_br, harga, jumlah
+            FROM (
+                SELECT barang.kategori, barang.nama_br, barang.harga, SUM(detail_transaksi.QTY) as jumlah,
+                    ROW_NUMBER() OVER (PARTITION BY barang.kategori ORDER BY barang.nama_br) AS row_num
+                FROM detail_transaksi
+                JOIN transaksi ON transaksi.kode_tr = detail_transaksi.kode_tr
+                JOIN barang ON detail_transaksi.kode_br = barang.kode_br
+                WHERE DATE(transaksi.tanggal) = '" . $data_decode_date->data . "'
+                GROUP BY barang.nama_br, barang.kategori, barang.harga
+            ) AS subquery
+            WHERE row_num <= 5
+            ORDER BY kategori, nama_br;";
+        } elseif ($data_decode_date->type === 'mingguan') { //MINGGUAN
+
+          // set range date for between sql
+          $start_date = Carbon::parse((string)$data_decode_date->data)->startOfWeek();
+          $end_date = Carbon::parse((string)$data_decode_date->data)->endOfWeek();
+
+          return "SELECT kategori, nama_br, harga, jumlah
+            FROM (
+                SELECT barang.kategori, barang.nama_br, barang.harga, SUM(detail_transaksi.QTY) as jumlah,
+                    ROW_NUMBER() OVER (PARTITION BY barang.kategori ORDER BY barang.nama_br) AS row_num
+                FROM detail_transaksi
+                JOIN transaksi ON transaksi.kode_tr = detail_transaksi.kode_tr
+                JOIN barang ON detail_transaksi.kode_br = barang.kode_br
+                WHERE tanggal BETWEEN '" . $start_date . "' AND '" . $end_date . "'
+                GROUP BY barang.nama_br, barang.kategori, barang.harga
+            ) AS subquery
+            WHERE row_num <= 5
+            ORDER BY kategori, nama_br;";
+        } elseif ($data_decode_date->type === 'bulanan') { //BULANAN
+
+          // set tahun & bulan
+          $tahun = $data_decode_date->data->tahun;
+          $bulan = $data_decode_date->data->bulan;
+
+          return "SELECT kategori, nama_br, harga, jumlah
+            FROM (
+                SELECT barang.kategori, barang.nama_br, barang.harga, SUM(detail_transaksi.QTY) as jumlah,
+                    ROW_NUMBER() OVER (PARTITION BY barang.kategori ORDER BY barang.nama_br) AS row_num
+                FROM detail_transaksi
+                JOIN transaksi ON transaksi.kode_tr = detail_transaksi.kode_tr
+                JOIN barang ON detail_transaksi.kode_br = barang.kode_br
+                WHERE YEAR(tanggal) = '" . $tahun . "' AND MONTH(tanggal) = '" . $bulan . "'
+                GROUP BY barang.nama_br, barang.kategori, barang.harga
+            ) AS subquery
+            WHERE row_num <= 5
+            ORDER BY kategori, nama_br;";
+        } elseif ($data_decode_date->type === 'tahunan') { //TAHUNAN
+
+          // set tahun
+          $tahun = $data_decode_date->data->tahun;
+
+          return "SELECT kategori, nama_br, harga, jumlah
+            FROM (
+                SELECT barang.kategori, barang.nama_br, barang.harga, SUM(detail_transaksi.QTY) as jumlah,
+                    ROW_NUMBER() OVER (PARTITION BY barang.kategori ORDER BY barang.nama_br) AS row_num
+                FROM detail_transaksi
+                JOIN transaksi ON transaksi.kode_tr = detail_transaksi.kode_tr
+                JOIN barang ON detail_transaksi.kode_br = barang.kode_br
+                WHERE YEAR(tanggal) = '" . $tahun . "'
+                GROUP BY barang.nama_br, barang.kategori, barang.harga
+            ) AS subquery
+            WHERE row_num <= 5
+            ORDER BY kategori, nama_br;";
+        } elseif ($data_decode_date->type === 'range') { //RANGE
+          $date_awal = $data_decode_date->data->awal;
+          $date_akhir = $data_decode_date->data->akhir . ' 23:59:00';
+
+          return "SELECT kategori, nama_br, harga, jumlah
+            FROM (
+                SELECT barang.kategori, barang.nama_br, barang.harga, SUM(detail_transaksi.QTY) as jumlah,
+                    ROW_NUMBER() OVER (PARTITION BY barang.kategori ORDER BY barang.nama_br) AS row_num
+                FROM detail_transaksi
+                JOIN transaksi ON transaksi.kode_tr = detail_transaksi.kode_tr
+                JOIN barang ON detail_transaksi.kode_br = barang.kode_br
+                WHERE tanggal BETWEEN '" . $date_awal . "' AND '" . $date_akhir . "'
+                GROUP BY barang.nama_br, barang.kategori, barang.harga
+            ) AS subquery
+            WHERE row_num <= 5
+            ORDER BY kategori, nama_br;";
+        }
+      }
+
+      return "SELECT kategori, nama_br, harga, jumlah
+      FROM (
+          SELECT barang.kategori, barang.nama_br, barang.harga, SUM(detail_transaksi.QTY) as jumlah,
+              ROW_NUMBER() OVER (PARTITION BY barang.kategori ORDER BY barang.nama_br) AS row_num
+          FROM detail_transaksi
+          JOIN transaksi ON transaksi.kode_tr = detail_transaksi.kode_tr
+          JOIN barang ON detail_transaksi.kode_br = barang.kode_br
+          WHERE YEAR(transaksi.tanggal) = '" . now()->year . "'
+          GROUP BY barang.nama_br, barang.kategori, barang.harga
+      ) AS subquery
+      WHERE row_num <= 5
+      ORDER BY kategori, nama_br;";
+    };
+
+    $result = DB::select($query($request));
+
+
+    $Seriespria = array();
+    $Labelspria = array();
+
+    $Serieswanita = array();
+    $Labelswanita = array();
+
+    $Seriesanak = array();
+    $Labelsanak = array();
+
+    foreach ($result as $index) {
+      if ($index->kategori === 'pria') {
+        $nama = $index->nama_br;
+        $jumlah = (int)$index->jumlah;
+
+        array_push($Labelspria, $nama);
+        array_push($Seriespria, $jumlah);
+      }
+      if ($index->kategori === 'wanita') {
+        $nama = $index->nama_br;
+        $jumlah = (int)$index->jumlah;
+
+        array_push($Labelswanita, $nama);
+        array_push($Serieswanita, $jumlah);
+      }
+      if ($index->kategori === 'anak') {
+        $nama = $index->nama_br;
+        $jumlah = (int)$index->jumlah;
+
+        array_push($Labelsanak, $nama);
+        array_push($Seriesanak, $jumlah);
+      }
+    }
+
+    return json_encode(
+      array(
+        "pria" => array(
+          'series' => $Seriespria,
+          'labels' => $Labelspria
+        ),
+        "wanita" => array(
+          'series' => $Serieswanita,
+          'labels' => $Labelswanita
+        ),
+        "anak" => array(
+          'series' => $Seriesanak,
+          'labels' => $Labelsanak
+        ),
+      )
+    );
+  }
+
+  public function export(Request $request)
+  {
+    return Excel::download(new ExportLaporanAkumulasi($request), 'laporan_akumulasi.xlsx');
   }
 }

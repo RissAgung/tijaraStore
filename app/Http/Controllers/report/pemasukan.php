@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\report;
 
+use App\Exports\ExportLaporanPemasukan;
 use App\Http\Controllers\Controller;
 use App\Models\products\barang;
+use App\Models\retur\customer;
 use App\Models\retur\supplier;
 use App\Models\riwayat\detail_transaksi;
 use App\Models\riwayat\transaksi;
@@ -11,11 +13,14 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class pemasukan extends Controller
 {
   public function index($date = null)
   {
+
+    /////////////////////////////////////////////////////// Data Table ///////////////////////////////////////////////////////
 
     // data dari transaksi
     $data_pemasukan = function ($date) {
@@ -80,7 +85,7 @@ class pemasukan extends Controller
         ->get();
     };
 
-    // data dari retur
+    // data dari retur supplier
     $data_pemasukan_from_retur = function ($date) {
 
       // cek jika ada filter date
@@ -148,15 +153,83 @@ class pemasukan extends Controller
         ->get();
     };
 
+    // data dari retur customer
+    $data_pemasukan_from_retur_cs = function ($date) {
+
+      // cek jika ada filter date
+      if ($date !== null) {
+        $data = json_decode(base64_decode($date));
+        // dd($data);
+
+        if ($data->type === 'harian') {
+
+          return customer::selectRaw('DATE(tanggal) AS date, SUM(bayar_kurang) AS total')
+            ->whereDate('tanggal', '=', $data->data)
+            ->where('bayar_kurang', '>', 0)
+            ->groupByRaw('DATE(tanggal)')
+            ->get();
+        } elseif ($data->type === 'mingguan') {
+
+          // set range date for between sql
+          $start_date = Carbon::parse((string)$data->data)->startOfWeek();
+          $end_date = Carbon::parse((string)$data->data)->endOfWeek();
+
+          // return filter date mingguan
+          return customer::selectRaw('DATE(tanggal) AS date, SUM(bayar_kurang) AS total')
+            ->whereBetween('tanggal', [$start_date, $end_date])
+            ->where('bayar_kurang', '>', 0)
+            ->groupByRaw('DATE(tanggal)')
+            ->get();
+        } elseif ($data->type === 'bulanan') {
+
+          // set tahun & bulan
+          $tahun = $data->data->tahun;
+          $bulan = $data->data->bulan;
+
+          // return filter date bulanan
+          return customer::selectRaw('DATE(tanggal) AS date, SUM(bayar_kurang) AS total')
+            ->whereMonth('tanggal', '=', $bulan)
+            ->whereYear('tanggal', '=', $tahun)
+            ->where('bayar_kurang', '>', 0)
+            ->groupByRaw('DATE(tanggal)')
+            ->get();
+        } elseif ($data->type === 'tahunan') {
+
+          // set tahun
+          $tahun = $data->data->tahun;
+
+          // return filter date bulanan
+          return customer::selectRaw('DATE(tanggal) AS date, SUM(bayar_kurang) AS total')
+            ->whereYear('tanggal', '=', $tahun)
+            ->where('bayar_kurang', '>', 0)
+            ->groupByRaw('DATE(tanggal)')
+            ->get();
+        } elseif ($data->type === 'range') {
+
+          $date_awal = $data->data->awal;
+          $date_akhir = $data->data->akhir . ' 23:59:00';
+
+          // return filter date bulanan
+          return customer::selectRaw('DATE(tanggal) AS date, SUM(bayar_kurang) AS total')
+            ->whereBetween('tanggal', [$date_awal, $date_akhir])
+            ->where('bayar_kurang', '>', 0)
+            ->groupByRaw('DATE(tanggal)')
+            ->get();
+        }
+      }
+
+      return customer::selectRaw('DATE(tanggal) AS date, SUM(bayar_kurang) AS total')
+        ->where('bayar_kurang', '>', 0)
+        ->groupByRaw('DATE(tanggal)')
+        ->get();
+    };
+
 
     $data = array();
 
     $data_transaksi = $data_pemasukan($date)->toArray();
     $data_retur_supp = $data_pemasukan_from_retur($date)->toArray();
-    $data_retur_cs = array(
-      // "date" =>null,
-      // "total" =>null,
-    );
+    $data_retur_cs = $data_pemasukan_from_retur_cs($date)->toArray();
 
     foreach ($data_transaksi as $transaksi) {
       $tanggal = $transaksi["date"];
@@ -194,176 +267,66 @@ class pemasukan extends Controller
       }
     }
 
-    // dd($data);
 
-    // $data = array_merge($data_transaksi, $data_retur_supp);
+    $data = collect($data)->sortBy('tanggal');
+    /////////////////////////////////////////////////////// end Data Table ///////////////////////////////////////////////////////
 
-    // $mergedData = array_reduce($data, function ($result, $item) {
-    //   $date = $item['date'];
-    //   $total = (int) $item['total'];
+    $first_date = $data->first() !== null ? $data->first()['tanggal'] : '';
 
-    //   if (isset($result[$date])) {
-    //     $result[$date]['total'] += $total;
-    //   } else {
-    //     $result[$date] = [
-    //       'date' => $date,
-    //       'total' => $total
-    //     ];
-    //   }
+    return view('report.pemasukan', compact('data', 'first_date'));
+  }
 
-    //   return $result;
-    // }, []);
+  function getDetail(Request $request)
+  {
 
-    // $mergedData = array_values($mergedData);
-
-    // dd($mergedData[0]['date']);
-
-
-
-
-    // $dataDetailKategori = transaksi::join('detail_transaksi', 'transaksi.kode_tr', '=', 'detail_transaksi.kode_tr')
-    //   ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
-    //   ->select('barang.nama_br', 'barang.kategori', 'barang.harga')
-    //   ->get();
-
-    // dd($dataDetailKategori);
-
-
-    $produk_terjual_raw = function ($date) {
-
-      // cek jika ada filter date
-      if ($date !== null) {
-        $data = json_decode(base64_decode($date));
-        // dd($data);
-
-        if ($data->type === 'harian') {
-          return detail_transaksi::join('transaksi', 'transaksi.kode_tr', 'detail_transaksi.kode_tr',)
-            ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
-            ->select('barang.kategori', 'barang.nama_br', 'barang.harga', DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
-            ->whereDate('transaksi.tanggal', '=', $data->data)
-            ->groupBy('barang.nama_br', 'barang.kategori', 'barang.harga')
-            ->get();
-        } elseif ($data->type === 'mingguan') {
-
-          // set range date for between sql
-          $start_date = Carbon::parse((string)$data->data)->startOfWeek();
-          $end_date = Carbon::parse((string)$data->data)->endOfWeek();
-
-          return detail_transaksi::join('transaksi', 'transaksi.kode_tr', 'detail_transaksi.kode_tr',)
-            ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
-            ->select('barang.kategori', 'barang.nama_br', 'barang.harga', DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
-            ->whereBetween('tanggal', [$start_date, $end_date])
-            ->groupBy('barang.nama_br', 'barang.kategori', 'barang.harga')
-            ->get();
-        } elseif ($data->type === 'bulanan') {
-
-          // set tahun & bulan
-          $tahun = $data->data->tahun;
-          $bulan = $data->data->bulan;
-
-          return detail_transaksi::join('transaksi', 'transaksi.kode_tr', 'detail_transaksi.kode_tr',)
-            ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
-            ->select('barang.kategori', 'barang.nama_br', 'barang.harga', DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
-            ->whereMonth('tanggal', '=', $bulan)
-            ->whereYear('tanggal', '=', $tahun)
-            ->groupBy('barang.nama_br', 'barang.kategori', 'barang.harga')
-            ->get();
-        } elseif ($data->type === 'tahunan') {
-
-          // set tahun
-          $tahun = $data->data->tahun;
-
-          // return filter date bulanan
-          return detail_transaksi::join('transaksi', 'transaksi.kode_tr', 'detail_transaksi.kode_tr',)
-            ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
-            ->select('barang.kategori', 'barang.nama_br', 'barang.harga', DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
-            ->whereYear('tanggal', '=', $tahun)
-            ->groupBy('barang.nama_br', 'barang.kategori', 'barang.harga')
-            ->get();
-        } elseif ($data->type === 'range') {
-
-          $date_awal = $data->data->awal;
-          $date_akhir = $data->data->akhir . ' 23:59:00';
-
-          // dd($date_awal . '===' . $date_akhir);
-          // return filter date bulanan
-          return detail_transaksi::join('transaksi', 'transaksi.kode_tr', 'detail_transaksi.kode_tr',)
-            ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
-            ->select('barang.kategori', 'barang.nama_br', 'barang.harga', DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
-            ->whereBetween('tanggal', [$date_awal, $date_akhir])
-            ->groupBy('barang.nama_br', 'barang.kategori', 'barang.harga')
-            ->get();
-        }
-      }
-
-      return detail_transaksi::join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
+    // produk terjual
+    $produk_terjual_raw = function ($data) {
+      return detail_transaksi::join('transaksi', 'transaksi.kode_tr', 'detail_transaksi.kode_tr',)
+        ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
         ->select('barang.kategori', 'barang.nama_br', 'barang.harga', DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
+        ->whereDate('transaksi.tanggal', '=', $data->data_date !== null ? $data->data_date : '')
         ->groupBy('barang.nama_br', 'barang.kategori', 'barang.harga')
         ->get();
     };
 
-    // dd($produk_terjual($date));
+    // produk tidak terjual
+    $barang_terjual = transaksi::join('detail_transaksi', 'transaksi.kode_tr', '=', 'detail_transaksi.kode_tr')
+      ->join('barang', 'barang.kode_br', '=', 'detail_transaksi.kode_br')
+      ->whereDate('transaksi.tanggal', '=', $request->data_date !== null ? $request->data_date : '')
+      ->distinct()
+      ->pluck('barang.nama_br');
 
-
-    // dd($produk_terjual);
-
-    $produk_tidak_terjual = barang::leftJoin('detail_transaksi', 'barang.kode_br', '=', 'detail_transaksi.kode_br')
-      ->select('barang.kategori', 'barang.nama_br', 'detail_transaksi.kode_tr')
-      ->groupBy('barang.kategori', 'barang.nama_br', 'detail_transaksi.kode_tr')
-      ->havingRaw('COUNT(detail_transaksi.kode_tr) = 0')
+    $produk_tidak_terjual = Barang::whereNotIn('nama_br', $barang_terjual)
+      ->select('kategori', 'nama_br')
       ->get();
 
-    // total data terjual
-    $total = 0;
-    foreach ($data_pemasukan($date) as $index) {
-      $total += $index->total;
-    }
-
-    // total produk terjual
-    $totalPria = function ($data) {
-      $value = 0;
-
-      foreach ($data as $index) {
-        if ($index->kategori === 'pria') {
-          $value += $index->harga * $index->jumlah;
-        }
-      }
-
-      return $value;
+    // retur cs & supp
+    $detailDataRetur_cs = function ($data) {
+      return customer::with('barangReturCS', 'barangKeluarReturCS')
+        ->where('bayar_kurang', '>', 0)
+        ->whereDate('tanggal', '=', $data->data_date !== null ? $data->data_date : '')
+        ->get()
+        ->toArray(); //menggunakan array agar dapat mengembalikan data beserta relasinya
     };
 
-    $totalWanita = function ($data) {
-      $value = 0;
-
-      foreach ($data as $index) {
-        if ($index->kategori === 'wanita') {
-          $value += $index->harga * $index->jumlah;
-        }
-      }
-
-      return $value;
+    $detailDataRetur_sp = function ($data) {
+      return supplier::where('jml_nominal', '>', 0)
+        ->whereDate('tanggal', '=', $data->data_date !== null ? $data->data_date : '')
+        ->get();
     };
 
-    $totalAnak = function ($data) {
-      $value = 0;
+    return json_encode(
+      array(
+        'produk_terjual' => $produk_terjual_raw($request),
+        'produk_tidak_terjual' => $produk_tidak_terjual,
+        'retur_cs' => $detailDataRetur_cs($request),
+        'retur_sp' => $detailDataRetur_sp($request)
+      )
+    );
+  }
 
-      foreach ($data as $index) {
-        if ($index->kategori === 'anak') {
-          $value += $index->harga * $index->jumlah;
-        }
-      }
-
-      return $value;
-    };
-
-    $produk_terjual = $produk_terjual_raw($date);
-    $finalDataDetailKategori = [
-      'pria' => $totalPria($produk_terjual),
-      'wanita' => $totalWanita($produk_terjual),
-      'anak' => $totalAnak($produk_terjual)
-    ];
-    // dd($produk_tidak_terjual);
-
-    return view('report.pemasukan', compact('data', 'produk_terjual', 'produk_tidak_terjual', 'total', 'finalDataDetailKategori'));
+  public function export(Request $request)
+  {
+    return Excel::download(new ExportLaporanPemasukan($request), 'laporan_pemasukan.xlsx');
   }
 }
