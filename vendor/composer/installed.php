@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '98558248bbb901f3f484cdf368a5c8812f2f9e70',
+        'pretty_version' => 'dev-Rizal',
+        'version' => 'dev-Rizal',
+        'reference' => '095a009734a2f874a39a62c754a9ffbb1b11f95e',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -416,9 +416,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '98558248bbb901f3f484cdf368a5c8812f2f9e70',
+            'pretty_version' => 'dev-Rizal',
+            'version' => 'dev-Rizal',
+            'reference' => '095a009734a2f874a39a62c754a9ffbb1b11f95e',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
