@@ -26,6 +26,7 @@ class pengeluaran_operasioanal extends Controller
 
         return pengeluaran::with('pengeluaran_pegawai.pegawai')
           ->where('kode_pengeluaran', '=', $request->search)
+          ->where('jenis_pengeluaran', 'operasional')
           ->orderBy('tanggal', 'desc')
           ->paginate(10);
       }
@@ -84,6 +85,7 @@ class pengeluaran_operasioanal extends Controller
         };
 
         return $dateType($data)
+          ->where('jenis_pengeluaran', 'operasional')
           ->orderBy('tanggal', 'desc')
           ->paginate(10);
       }
@@ -92,6 +94,7 @@ class pengeluaran_operasioanal extends Controller
       $ddate = "";
 
       return pengeluaran::with('pengeluaran_pegawai.pegawai')
+        ->where('jenis_pengeluaran', 'operasional')
         ->orderBy('tanggal', 'desc')
         ->paginate(10);
     };

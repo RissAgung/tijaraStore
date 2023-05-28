@@ -21,7 +21,7 @@ class PegawaiController extends Controller
 {
   public function index()
   {
-    $pegawai = ModelsPegawai::with('account')->paginate(4);
+    $pegawai = ModelsPegawai::with('account')->paginate(10);
     // dd($pegawai);
 
     // $pegawai = ModelsPegawai::paginate(5);
@@ -177,7 +177,7 @@ class PegawaiController extends Controller
   {
     $selectedGender = $request->segment(3);
     $pegawai = ModelsPegawai::with('account')
-      ->join('account', 'pegawai.kode_pegawai', '=', 'account.kode_pegawai')
+      ->leftjoin('account', 'pegawai.kode_pegawai', '=', 'account.kode_pegawai')
       ->where('pegawai.gender', '=', $selectedGender)
       ->paginate(5);
 
