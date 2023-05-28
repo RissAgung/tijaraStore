@@ -14,6 +14,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\GajiController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\pengeluaran_re_stock;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -153,4 +154,15 @@ Route::prefix('/pegawai')->group(function () {
   Route::get('/search', [PegawaiController::class, 'search'])->name('cari');
   Route::get('/filterG/{gender}', [PegawaiController::class, 'filter'])->name('filterG');
   Route::get('/filterR/{role}', [PegawaiController::class, 'filterR'])->name('filterR');
+});
+
+Route::prefix('pengeluaran')->group(function () {
+  Route::get("/", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
+  Route::get("/operasional/{date?}", [pengeluaran_operasioanal::class, 'index'])->name('operasional')->middleware('auth');
+  Route::post('operasional.store', [pengeluaran_operasioanal::class, 'store'])->middleware('auth');
+  Route::get('/re-stock', [pengeluaran_re_stock::class, 'index'])->name('halaman_restock')->middleware('auth');
+  Route::post('re-stock.store', [pengeluaran_re_stock::class, 'store'])->name('proses')->middleware('auth');
+  Route::get('/re-stock/search', [pengeluaran_re_stock::class, 'index'])->name('cari_restock');
+  Route::get('/re-stock/export', [pengeluaran_re_stock::class, 'export'])->name('kirim');
+  Route::get('/re-stock/{date?}', [pengeluaran_re_stock::class, 'index'])->name('tanggal');
 });
