@@ -41,9 +41,13 @@ $(document).keyup(function (event) {
     let param = params !== null ? "/?filter=" + params : "";
     location.replace("/retur/" + getValueSearch() + param)
   }
+
+  $("#jumlah_uang").keyup(function (e) {
+    $("#jumlah_uang").val(formatRupiah(this.value, "Rp. "));
+  });
 });
 
-$('#filter_gender').on('change', function() {
+$('#filter_gender').on('change', function () {
   $('#filter_kategori').trigger('submit');
 });
 

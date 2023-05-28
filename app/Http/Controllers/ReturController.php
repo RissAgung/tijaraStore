@@ -100,7 +100,8 @@ class ReturController extends Controller
     $now = DB::raw('CURRENT_TIMESTAMP');
     $id = str_shuffle(date('YmdHis') . 'RTR');
     $data_sp = ModelsSupplier::where('kode_supplier', $request->supplier)->first();
-
+    $jumlah_nominal = preg_replace('/[^0-9]/', '', $request->uang_kembali);
+    
     $supplier = new supplier([
       'kode_retur' => $id,
       'tanggal' => $now,
@@ -110,7 +111,7 @@ class ReturController extends Controller
       'no_hp_sp' => $data_sp->no_hp_supplier,
       'instansi' => $data_sp->keterangan_sup,
       'jml_barang' => $request->jumlah_retur,
-      'jml_nominal' => $request->uang_kembali
+      'jml_nominal' => $jumlah_nominal
     ]);
 
     try {

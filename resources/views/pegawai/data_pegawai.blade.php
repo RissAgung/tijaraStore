@@ -28,9 +28,11 @@
                     fill="white" stroke="black" stroke-width="3" />
                 <path d="M17.3374 17.7676L23.0022 24.1676" stroke="black" stroke-width="3" />
             </svg>
-            <input type="search" id="field_search" name="search" value=""
-                class="placeholder:text-[11px] md:placeholder:text-[15px] outline-none w-full pl-2"
-                placeholder="Kode / Nama Barang" value="">
+            <form action="{{ route('cari') }}" method="get">
+                <input type="search" id="field_search" name="search" value=""
+                    class="placeholder:text-[11px] md:placeholder:text-[15px] outline-none w-full pl-2"
+                    placeholder="Kode / Nama Barang" value="">
+            </form>
         </div>
 
         {{-- filter --}}
