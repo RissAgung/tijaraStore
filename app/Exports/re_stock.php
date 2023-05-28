@@ -11,24 +11,24 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class re_stock implements FromCollection, WithHeadings
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
-    {
+  /**
+   * @return \Illuminate\Support\Collection
+   */
+  public function collection()
+  {
 
-        return collect(pengeluaran::getAlldata());
-    }
+    return collect(pengeluaran::where('jenis_pengeluaran', 'restock')->get());
+  }
 
-    public function headings():array{
-        return[
-            'kode',
-            'tanggal',
-            'nama',
-            'nama_barang',
-            'jumlah',
-            'total'
-        ];
-    }
-
+  public function headings(): array
+  {
+    return [
+      'kode',
+      'tanggal',
+      'nama',
+      'nama_barang',
+      'jumlah',
+      'total'
+    ];
+  }
 }

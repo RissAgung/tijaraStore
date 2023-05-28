@@ -26,7 +26,7 @@
 
                 {{-- menu --}}
                 <div id="menuLaporan" class="md:hidden poppins-medium cursor-pointer flex h-full items-center gap-2">
-                    <p class="text-selector-none">Pengeluaran</p>
+                    <p class="text-selector-none">Operasional</p>
                     <div id="arrowMenu" class="rotate-180 transition ease-in-out delay-75">
 
                         <svg class="w-[11px] h-[5px]" viewBox="0 0 59 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,17 +161,17 @@
                         <tbody>
                             @foreach ($finalDataPengeluaran as $data)
                                 <tr class="bg-white border-2 outline outline-[1px] outline-[#DCDADA] rounded-md">
-                                    <td class="text-center p-3">{{ $data->kode_pengeluaran }}</td>
-                                    <td class="text-center p-3">{{ $data->tanggal }}</td>
-                                    <td class="text-center p-3">
+                                    <td class="text-center p-6">{{ $data->kode_pengeluaran }}</td>
+                                    <td class="text-center p-6">{{ $data->tanggal }}</td>
+                                    <td class="text-center p-6">
                                         @if ($data->pengeluaran_pegawai !== null)
                                             {{ $data->pengeluaran_pegawai->pegawai->nama }}
                                         @else
                                             -
                                         @endif
                                     </td>
-                                    <td class="text-center p-3">{{ $data->item_operasional }}</td>
-                                    <td class="text-center p-3">{{ rupiah($data->total) }}</td>
+                                    <td class="text-center p-6">{{ $data->item_operasional }}</td>
+                                    <td class="text-center p-6">{{ rupiah($data->total) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
