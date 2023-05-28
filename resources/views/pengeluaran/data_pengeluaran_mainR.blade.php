@@ -141,79 +141,63 @@
         </div>
     </div>
 
-    <div class="w-full h-96 overflow-auto whitespace-nowrap text-ellipsis mt-3 md:mt-6 lg:mt-3">
-        <table
-            class="w-full text-[11px] md:text-[15px] border-separate border-spacing-y-2 md:border-spacing-4 lg:border-spacing-2 2xl:border-spacing-3">
-            <thead>
-                <tr>
-                    {{-- <td class="w-[5%] inline-block text-center text-[#787777]">no</td> --}}
-                    <td class="w-[20%] inline-block text-center text-[#787777]">Kode Transaksi</td>
-                    <td class="w-[15%] inline-block text-center text-[#787777]">Tanggal</td>
-                    <td class="w-[9%] inline-block text-center text-[#787777]">User</td>
-                    <td class="w-[18%] inline-block text-center text-[#787777]">Barang</td>
-                    <td class="w-[3%] inline-block text-center text-[#787777]">Jumlah</td>
-                    <td class="w-[15%] inline-block text-center text-[#787777]">Total</td>
-                    <td class="w-[7%] inline-block text-center text-[#787777]">Aksi</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($combinedata['data'] as $item)
-                    <tr>
-                        {{-- <td class="w-[5%] inline-block text-center text-[#787777]"></td> --}}
-                        <td class="w-[20%] inline-block text-center text-[#787777]">{{ $item->kode_pengeluaran }}</td>
-                        <td class="w-[10%] inline-block text-center text-[#787777]">{{ $item->tanggal }}</td>
-                        <td class="w-[19%] inline-block text-center text-[#787777]">
-                            @if ($item->pengeluaran_pegawai !== null)
-                                {{ $item->pengeluaran_pegawai->pegawai->nama }}
-                            @else
-                                -
-                            @endif
-                        </td>
-                        <td class="w-[10%] inline-block text-center text-[#787777]">
-                            @if ($item->pengeluaran_barang !== null)
-                                {{ $item->pengeluaran_barang->barang->nama_br }}
-                            @else
-                                -
-                            @endif
-                        </td>
-                        <td class="w-[12%] inline-block text-center text-[#787777]">{{ $item->jumlah }}</td>
-                        <td class="w-[3%] inline-block text-center text-[#787777]">{{ $item->total }}</td>
-                        <td class="w-[15%] inline-block text-center text-[#787777]">
-                            <div class="flex ml-20 ">
-                                <svg width="35" height="35" viewBox="0 0 54 54" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_680_318)">
-                                        <rect x="2" y="4" width="46" height="46"
-                                            rx="6" fill="#FFB015" />
-                                    </g>
-                                    <path
-                                        d="M28.875 24.75C25.4975 24.75 22.75 27.4975 22.75 30.875C22.75 34.2525 25.4975 37 28.875 37C32.2525 37 35 34.2525 35 30.875C35 27.4975 32.2525 24.75 28.875 24.75ZM28.875 35.25C26.46 35.25 24.5 33.29 24.5 30.875C24.5 28.46 26.46 26.5 28.875 26.5C31.29 26.5 33.25 28.46 33.25 30.875C33.25 33.29 31.29 35.25 28.875 35.25ZM30.1875 28.6875C30.1875 29.4137 29.6012 30 28.875 30C28.1488 30 27.5625 29.4137 27.5625 28.6875C27.5625 27.9613 28.1488 27.375 28.875 27.375C29.6012 27.375 30.1875 27.9613 30.1875 28.6875ZM29.75 31.75V33.5C29.75 33.9813 29.3562 34.375 28.875 34.375C28.3938 34.375 28 33.9813 28 33.5V31.75C28 31.2688 28.3938 30.875 28.875 30.875C29.3562 30.875 29.75 31.2688 29.75 31.75ZM21.875 34.375C21.875 34.8563 21.4812 35.25 21 35.25H18.375C15.96 35.25 14 33.29 14 30.875V20.375C14 17.96 15.96 16 18.375 16H23.415C24.3337 16 25.235 16.3762 25.8913 17.0237L28.7262 19.8587C29.3125 20.445 29.6712 21.2237 29.7413 22.0462C29.7762 22.5275 29.4175 22.9475 28.9362 22.9913C28.91 22.9913 28.8925 22.9913 28.8663 22.9913C28.4113 22.9913 28.035 22.6413 27.9913 22.1863C27.9913 22.16 27.9913 22.1425 27.9913 22.1163H25.3837C24.4213 22.1163 23.6337 21.3287 23.6337 20.3663V17.7675C23.5638 17.7675 23.4938 17.75 23.4237 17.75H18.375C16.9313 17.75 15.75 18.9313 15.75 20.375V30.875C15.75 32.3188 16.9313 33.5 18.375 33.5H21C21.4812 33.5 21.875 33.8937 21.875 34.375Z"
-                                        fill="black" />
-                                    <defs>
-                                        <filter id="filter0_d_680_318" x="0" y="0" width="54"
-                                            height="54" filterUnits="userSpaceOnUse"
-                                            color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                            <feColorMatrix in="SourceAlpha" type="matrix"
-                                                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                            <feOffset dx="2" />
-                                            <feGaussianBlur stdDeviation="2" />
-                                            <feComposite in2="hardAlpha" operator="out" />
-                                            <feColorMatrix type="matrix"
-                                                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0" />
-                                            <feBlend mode="normal" in2="BackgroundImageFix"
-                                                result="effect1_dropShadow_680_318" />
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_680_318"
-                                                result="shape" />
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="flex flex-col w-full lg:justify-between p-2 lg:h-[65vh] xl:h-[63vh] 2xl:h-[70vh]">
+        @if (count($combinedata['data']) != 0)
+            <div class="w-full overflow-auto whitespace-nowrap text-ellipsis mt-3 md:mt-6 lg:mt-3">
+                <table class=" w-full border-separate border-spacing-y-4 text-[11px] md:text-[15px] px-2">
+                    <thead>
+                        <tr>
+                            {{-- <td class="w-[5%] inline-block text-center text-[#787777]">no</td> --}}
+                            <td class="w-[20%] inline-block text-center text-[#787777]">Kode Transaksi</td>
+                            <td class="w-[25%] inline-block text-center text-[#787777]">Tanggal</td>
+                            <td class="w-[20%] inline-block text-center text-[#787777]">Nama</td>
+                            <td class="w-[18%] inline-block text-center text-[#787777]">Barang</td>
+                            <td class="w-[3%] inline-block text-center text-[#787777]">Jumlah</td>
+                            <td class="w-[15%] inline-block text-center text-[#787777]">Total</td>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($combinedata['data'] as $item)
+                            <tr class="bg-white border-2 outline outline-[1px] outline-[#DCDADA] rounded-md">
+                                {{-- <td class="w-[5%] inline-block text-center text-[#787777]"></td> --}}
+                                <td class="w-[20%] inline-block text-center text-[#787777]">{{ $item->kode_pengeluaran }}
+                                </td>
+                                <td class="w-[20%] inline-block text-center text-[#787777]">{{ $item->tanggal }}</td>
+                                <td class="w-[30%] inline-block text-center text-[#787777]">
+                                    @if ($item->pengeluaran_pegawai !== null)
+                                        {{ $item->pengeluaran_pegawai->pegawai->nama }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td class="w-[10%] inline-block text-center text-[#787777]">
+                                    @if ($item->pengeluaran_barang !== null)
+                                        {{ $item->pengeluaran_barang->barang->nama_br }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td class="w-[12%] inline-block text-center text-[#787777]">{{ $item->jumlah }}</td>
+                                <td class="w-[3%] inline-block text-center text-[#787777]">{{ $item->total }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div
+                class="flex flex-col lg:flex-row lg:justify-between lg:px-[3%] items-center w-full text-[11px] md:text-[15px] gap-3 md:gap-5 lg:gap-0 mt-5 lg:mt-3">
+                {{ $combinedata['data']->onEachSide(2)->links('vendor.pagination.CustomPagination') }}
+            </div>
+        @else
+            <div class="flex items-center w-full h-full">
+                <div class="flex flex-col items-center w-full">
+                    <img class="object-cover w-[90%] lg:w-[40%]" src="{{ asset('/assets/images/nodata.svg') }}"
+                        alt="nodata">
+                    <p class="text-2xl poppins-semibold">No Data</p>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
 

@@ -37,7 +37,8 @@
                         </filter>
                     </defs>
                 </svg>
-                <input type="search" class="flex mx-2 " placeholder="masukan nama atau kode pegawai" name="search" value="{{ request('search') }}">
+                <input type="search" class="flex mx-2 " placeholder="masukan nama atau kode pegawai" name="search"
+                    value="{{ request('search') }}">
             </div>
         </form>
 
@@ -80,30 +81,23 @@
         <div class="flex relative ">
             <p class="flex m-2">gender</p>
             <div class="relative">
-                <!-- Dropdown button -->
-                <button class="px-4 py-2 text-gray-400 bg-white rounded-md border- focus:outline-none" type="button"
-                    onclick="toggleDropdown1()">
-                    Gender
-                </button>
-                <!-- Dropdown menu -->
-                <div id="genderDropdown1" class="absolute hidden right-0 py-2 mt-2 bg-white rounded-md shadow-lg">
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Male</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Female</a>
-                </div>
+                <!-- Select dropdown -->
+                <select id="genderSelect" name="genderSelect"
+                    class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option @if (Request::segment(3) == 'pria') selected @endif value="pria">pria</option>
+                    <option @if (Request::segment(3) == 'wanita') selected @endif value="wanita">wanita</option>
+                </select>
             </div>
 
             <p class="flex m-2">Role</p>
             <div class="relative">
-                <!-- Dropdown button -->
-                <button class="px-4 py-2 text-gray-400 bg-white rounded-md border- focus:outline-none" type="button"
-                    onclick="toggleDropdown2()">
-                    Role
-                </button>
-                <!-- Dropdown menu -->
-                <div id="genderDropdown2" class="absolute hidden right-0 py-2 mt-2 bg-white rounded-md shadow-lg">
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">admin</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">pegawai</a>
-                </div>
+                <!-- Select dropdown -->
+                <select id="roleSelect" name="roleSelect"
+                    class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <option @if (Request::segment(3) == 'admin') selected @endif value="admin">Admin</option>
+                    <option @if (Request::segment(3) == 'kasir') selected @endif value="kasir">Kasir</option>
+                    <option @if (Request::segment(3) == 'pegawai') selected @endif value="pegawai">Pegawai</option>
+                </select>
             </div>
 
             <a href="{{ route('halaman_utama') }}">
@@ -126,86 +120,103 @@
 
     {{-- table --}}
     <div class="w-full h-96 overflow-auto whitespace-nowrap text-ellipsis mt-3 md:mt-6 lg:mt-3">
-        <table
-            class="w-full text-[11px] md:text-[15px] border-separate border-spacing-y-2 md:border-spacing-4 lg:border-spacing-2 2xl:border-spacing-3">
-            <thead>
-                <tr class="w-full">
-                    <td class="w-[5%] inline-block text-center text-[#787777]"></td>
-                    <td class="w-[7%] inline-block text-center text-[#787777]">kode pegawai</td>
-                    <td class="w-[35%] inline-block text-center text-[#787777]">nama pegawai</td>
-                    <td class="w-[15%] inline-block text-center text-[#787777]">gender</td>
-                    <td class="w-[25%] inline-block text-center text-[#787777]">account</td>
-                    <td class="w-[10%] inline-block text-center text-[#787777]">Aksi</td>
-                </tr>
-            </thead>
-            <tbody>
-                <form id="form_delete" action="/pegawai/delete_selected" method="post">
-                    @csrf
-                    @foreach ($pegawai as $item)
-                        <tr class="w-full  bg-white outline outline-[1px] outline-[#DCDADA] rounded-md ">
-                            <td class="w-[5%] inline-block text-center text-[#787777]"><input type="checkbox"
-                                    name="ids[]" class="form-checkbox idcheck" id=""
-                                    value="{{ $item->kode_pegawai }}"></td>
-                            <td
-                                class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[8%] inline-block whitespace-nowrap text-ellipsis overflow-hidden">
-                                {{ $item->kode_pegawai }}</td>
-                            <td
-                                class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[34%] inline-block overflow-hidden">
-                                {{ $item->nama }}</td>
-                            <td
-                                class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[15%] inline-block overflow-hidden">
-                                {{ $item->gender }}</td>
-                            <td
-                                class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[25%] inline-block overflow-hidden">
-                                @if ($item->account !== null)
-                                    {{ $item->account->username}}
-                                @else
-                                    -
-                                @endif</td>
+        @if (count($pegawai->items()) != 0)
+            <table
+                class="w-full text-[11px] md:text-[15px] border-separate border-spacing-y-2 md:border-spacing-4 lg:border-spacing-2 2xl:border-spacing-3">
+                <thead>
+                    <tr class="w-full">
+                        <td class="w-[5%] inline-block text-center text-[#787777]"></td>
+                        <td class="w-[25%] inline-block text-center text-[#787777]">kode pegawai</td>
+                        <td class="w-[10%] inline-block text-center text-[#787777]">nama pegawai</td>
+                        <td class="w-[25%] inline-block text-center text-[#787777]">gender</td>
+                        <td class="w-[15%] inline-block text-center text-[#787777]">username</td>
+                        <td class="w-[15%] inline-block text-center text-[#787777]">Aksi</td>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <form id="form_delete" action="/pegawai/delete_selected" method="post">
+                        @csrf
+                        @foreach ($pegawai as $item)
+                            <tr class="w-full  bg-white outline outline-[1px] outline-[#DCDADA] rounded-md ">
+                                <td class="w-[5%] inline-block text-center text-[#787777]"><input type="checkbox"
+                                        name="ids[]" class="form-checkbox idcheck" id=""
+                                        value="{{ $item->kode_pegawai }}"></td>
+                                <td
+                                    class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[25%] inline-block whitespace-nowrap text-ellipsis overflow-hidden">
+                                    {{ $item->kode_pegawai }}</td>
+                                <td
+                                    class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[15%] inline-block overflow-hidden">
+                                    {{ $item->nama }}</td>
+                                <td
+                                    class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[15%] inline-block overflow-hidden">
+                                    {{ $item->gender }}</td>
+                                <td
+                                    class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[25%] inline-block overflow-hidden">
+                                    @if ($item->account !== null)
+                                        {{ $item->account->username }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
 
-                            <td class="text-center w-[10%] inline-block overflow-hidden ">
-                                <div class="flex flex-row justify-evenly">
-                                    <button type="button" onclick="editData({{ $item }})" id="buttonEdit"
-                                        class="flex bg-yellow-300 text-white rounded">
-                                        <svg width="30" height="30" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.782019 12.7432C0.281449 13.2436 0.000151166 13.9224 0 14.6302L0 16H1.36987C2.07768 15.9999 2.75644 15.7186 3.25686 15.218L12.16 6.31486L9.68516 3.84003L0.782019 12.7432Z"
-                                                fill="black" />
-                                            <path
-                                                d="M15.4823 0.517698C15.3183 0.353579 15.1237 0.223382 14.9094 0.134552C14.6951 0.045722 14.4654 0 14.2334 0C14.0014 0 13.7717 0.045722 13.5574 0.134552C13.3431 0.223382 13.1484 0.353579 12.9845 0.517698L10.624 2.87885L13.1211 5.376L15.4823 3.01552C15.6464 2.85157 15.7766 2.65689 15.8654 2.44259C15.9543 2.22829 16 1.99859 16 1.76661C16 1.53463 15.9543 1.30493 15.8654 1.09063C15.7766 0.876334 15.6464 0.681646 15.4823 0.517698Z"
-                                                fill="black" />
-                                        </svg>
-                                    </button>
+                                <td class="text-center w-[10%] inline-block overflow-hidden ">
+                                    <div class="flex flex-row justify-evenly">
+                                        <button type="button" onclick="editData({{ $item }})" id="buttonEdit"
+                                            class="flex bg-yellow-300 text-white rounded">
+                                            <svg width="30" height="30" viewBox="0 0 16 16" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.782019 12.7432C0.281449 13.2436 0.000151166 13.9224 0 14.6302L0 16H1.36987C2.07768 15.9999 2.75644 15.7186 3.25686 15.218L12.16 6.31486L9.68516 3.84003L0.782019 12.7432Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M15.4823 0.517698C15.3183 0.353579 15.1237 0.223382 14.9094 0.134552C14.6951 0.045722 14.4654 0 14.2334 0C14.0014 0 13.7717 0.045722 13.5574 0.134552C13.3431 0.223382 13.1484 0.353579 12.9845 0.517698L10.624 2.87885L13.1211 5.376L15.4823 3.01552C15.6464 2.85157 15.7766 2.65689 15.8654 2.44259C15.9543 2.22829 16 1.99859 16 1.76661C16 1.53463 15.9543 1.30493 15.8654 1.09063C15.7766 0.876334 15.6464 0.681646 15.4823 0.517698Z"
+                                                    fill="black" />
+                                            </svg>
+                                        </button>
 
-                                    <button type="button"
-                                        onclick="hapusData('/pegawai/delete/{{ $item->kode_pegawai }}')"
-                                        class="flex bg-black text-white rounded">
+                                        <button type="button"
+                                            onclick="hapusData('/pegawai/delete/{{ $item->kode_pegawai }}')"
+                                            class="flex bg-black text-white rounded">
 
-                                        <svg width="30" height="30" viewBox="0 0 14 17" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M13.3 2.8H11.13C10.9675 2.00999 10.5377 1.30014 9.91288 0.790103C9.28808 0.280063 8.50654 0.00101817 7.7 0L6.3 0C5.49346 0.00101817 4.71192 0.280063 4.08712 0.790103C3.46233 1.30014 3.03247 2.00999 2.87 2.8H0.7C0.514348 2.8 0.336301 2.87375 0.205025 3.00503C0.0737498 3.1363 0 3.31435 0 3.5C0 3.68565 0.0737498 3.8637 0.205025 3.99497C0.336301 4.12625 0.514348 4.2 0.7 4.2H1.4V13.3C1.40111 14.2279 1.77022 15.1175 2.42635 15.7736C3.08249 16.4298 3.97208 16.7989 4.9 16.8H9.1C10.0279 16.7989 10.9175 16.4298 11.5736 15.7736C12.2298 15.1175 12.5989 14.2279 12.6 13.3V4.2H13.3C13.4857 4.2 13.6637 4.12625 13.795 3.99497C13.9263 3.8637 14 3.68565 14 3.5C14 3.31435 13.9263 3.1363 13.795 3.00503C13.6637 2.87375 13.4857 2.8 13.3 2.8ZM6.3 1.4H7.7C8.13419 1.40053 8.55759 1.53536 8.91213 1.78601C9.26667 2.03666 9.53499 2.39084 9.6803 2.8H4.3197C4.46501 2.39084 4.73333 2.03666 5.08787 1.78601C5.44241 1.53536 5.86581 1.40053 6.3 1.4ZM11.2 13.3C11.2 13.857 10.9788 14.3911 10.5849 14.7849C10.1911 15.1788 9.65695 15.4 9.1 15.4H4.9C4.34305 15.4 3.8089 15.1788 3.41508 14.7849C3.02125 14.3911 2.8 13.857 2.8 13.3V4.2H11.2V13.3Z"
-                                                fill="white" />
-                                            <path
-                                                d="M5.60002 12.6C5.78568 12.6 5.96372 12.5263 6.095 12.395C6.22627 12.2637 6.30002 12.0857 6.30002 11.9V7.7C6.30002 7.51435 6.22627 7.3363 6.095 7.20503C5.96372 7.07375 5.78568 7 5.60002 7C5.41437 7 5.23633 7.07375 5.10505 7.20503C4.97377 7.3363 4.90002 7.51435 4.90002 7.7V11.9C4.90002 12.0857 4.97377 12.2637 5.10505 12.395C5.23633 12.5263 5.41437 12.6 5.60002 12.6Z"
-                                                fill="white" />
-                                            <path
-                                                d="M8.39998 12.6C8.58563 12.6 8.76368 12.5263 8.89496 12.395C9.02623 12.2637 9.09998 12.0857 9.09998 11.9V7.7C9.09998 7.51435 9.02623 7.3363 8.89496 7.20503C8.76368 7.07375 8.58563 7 8.39998 7C8.21433 7 8.03628 7.07375 7.90501 7.20503C7.77373 7.3363 7.69998 7.51435 7.69998 7.7V11.9C7.69998 12.0857 7.77373 12.2637 7.90501 12.395C8.03628 12.5263 8.21433 12.6 8.39998 12.6Z"
-                                                fill="white" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </form>
-            </tbody>
-        </table>
-    @endsection
+                                            <svg width="30" height="30" viewBox="0 0 14 17" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M13.3 2.8H11.13C10.9675 2.00999 10.5377 1.30014 9.91288 0.790103C9.28808 0.280063 8.50654 0.00101817 7.7 0L6.3 0C5.49346 0.00101817 4.71192 0.280063 4.08712 0.790103C3.46233 1.30014 3.03247 2.00999 2.87 2.8H0.7C0.514348 2.8 0.336301 2.87375 0.205025 3.00503C0.0737498 3.1363 0 3.31435 0 3.5C0 3.68565 0.0737498 3.8637 0.205025 3.99497C0.336301 4.12625 0.514348 4.2 0.7 4.2H1.4V13.3C1.40111 14.2279 1.77022 15.1175 2.42635 15.7736C3.08249 16.4298 3.97208 16.7989 4.9 16.8H9.1C10.0279 16.7989 10.9175 16.4298 11.5736 15.7736C12.2298 15.1175 12.5989 14.2279 12.6 13.3V4.2H13.3C13.4857 4.2 13.6637 4.12625 13.795 3.99497C13.9263 3.8637 14 3.68565 14 3.5C14 3.31435 13.9263 3.1363 13.795 3.00503C13.6637 2.87375 13.4857 2.8 13.3 2.8ZM6.3 1.4H7.7C8.13419 1.40053 8.55759 1.53536 8.91213 1.78601C9.26667 2.03666 9.53499 2.39084 9.6803 2.8H4.3197C4.46501 2.39084 4.73333 2.03666 5.08787 1.78601C5.44241 1.53536 5.86581 1.40053 6.3 1.4ZM11.2 13.3C11.2 13.857 10.9788 14.3911 10.5849 14.7849C10.1911 15.1788 9.65695 15.4 9.1 15.4H4.9C4.34305 15.4 3.8089 15.1788 3.41508 14.7849C3.02125 14.3911 2.8 13.857 2.8 13.3V4.2H11.2V13.3Z"
+                                                    fill="white" />
+                                                <path
+                                                    d="M5.60002 12.6C5.78568 12.6 5.96372 12.5263 6.095 12.395C6.22627 12.2637 6.30002 12.0857 6.30002 11.9V7.7C6.30002 7.51435 6.22627 7.3363 6.095 7.20503C5.96372 7.07375 5.78568 7 5.60002 7C5.41437 7 5.23633 7.07375 5.10505 7.20503C4.97377 7.3363 4.90002 7.51435 4.90002 7.7V11.9C4.90002 12.0857 4.97377 12.2637 5.10505 12.395C5.23633 12.5263 5.41437 12.6 5.60002 12.6Z"
+                                                    fill="white" />
+                                                <path
+                                                    d="M8.39998 12.6C8.58563 12.6 8.76368 12.5263 8.89496 12.395C9.02623 12.2637 9.09998 12.0857 9.09998 11.9V7.7C9.09998 7.51435 9.02623 7.3363 8.89496 7.20503C8.76368 7.07375 8.58563 7 8.39998 7C8.21433 7 8.03628 7.07375 7.90501 7.20503C7.77373 7.3363 7.69998 7.51435 7.69998 7.7V11.9C7.69998 12.0857 7.77373 12.2637 7.90501 12.395C8.03628 12.5263 8.21433 12.6 8.39998 12.6Z"
+                                                    fill="white" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </form>
+                </tbody>
+            </table>
+             <div
+                    class="flex flex-col lg:flex-row lg:justify-between lg:px-[3%] items-center w-full text-[11px] md:text-[15px] gap-3 md:gap-5 lg:gap-0 mt-5 lg:mt-3">
+                    {{ $pegawai->onEachSide(2)->links('vendor.pagination.CustomPagination') }}
+                </div>
+            @else
+                <div class="flex items-center w-full h-full">
+                    <div class="flex flex-col items-center w-full">
+                        <img class="object-cover w-[90%] lg:w-[40%]" src="{{ asset('/assets/images/nodata.svg') }}"
+                            alt="nodata">
+                        <p class="text-2xl poppins-semibold">No Data</p>
+                    </div>
+                </div>
+            @endif
+    </div>
+@endsection
 
 
 
-    @section('otherjs')
-        <script src="{{ asset('js/controllers/master_data_pegawai.js') }}"></script>
-    @endsection
+@section('otherjs')
+    <script src="{{ asset('js/controllers/master_data_pegawai.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@endsection

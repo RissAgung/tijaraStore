@@ -74,7 +74,7 @@
             {{-- no hape --}}
             <div class="block mt-2 min-[374px]:mt-4">
                 <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">no hp</p>
-                <input type="text" name="no_hp"
+                <input type="text" name="no_hp" id="no_hp"
                     class="text-[#535353] outline-none w-full h-10 min-[374px]:h-11 md:h-14 border-[2px] border-[#DDDDDD] rounded-md pl-2">
                 @error('no_hp')
                     <p class="label-error-update text-sm text-red-700">{{ $message }}</p>

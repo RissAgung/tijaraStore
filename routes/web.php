@@ -139,6 +139,9 @@ Route::prefix('/pegawai')-> group(function(){
   Route::post('/edit',[PegawaiController::class,'edit'])->name('edit_pegawai');
   Route::post('/delete_selected',[PegawaiController::class,'delete_selected'])->name('delete_selected');
   Route::get('/search',[PegawaiController::class,'search'])->name('cari');
+  Route::get('/filterG/{gender}',[PegawaiController::class,'filter'])->name('filterG');
+  Route::get('/filterR/{role}',[PegawaiController::class,'filterR'])->name('filterR');
+
 });
 
 

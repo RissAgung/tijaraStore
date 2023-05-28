@@ -46,13 +46,13 @@
                     <div class="mx-4">
                         <input value="pria"  class="w-4 h-4 rounded mt-1" type="radio" name="gender" id="priaUpdate"
                             {{ old('gender') == 'pria' ? 'checked' : '' }}>
-                        <label for="laki-lakiUpdate">laki-laki</label>
+                        <label for="laki-lakiUpdate">pria</label>
                     </div>
 
                     <div class="mx-4">
                         <input value="wanita"  class="w-4 h-4 rounded mt-1" type="radio" name="gender" id="wanitaUpdate"
                             {{ old('gender') == 'wanita' ? 'checked' : '' }}>
-                        <label for="perempuanUpdate">perempuan </label>
+                        <label for="perempuanUpdate">wanita</label>
                     </div>
                 </div>
 

@@ -53,9 +53,8 @@
                         </div>
                     </a>
                 </div>
-                        <div class="max-md:hidden absolute bottom-0 w-full h-[6px] bg-[#FFB015]">
-
             </div>
+
 
             {{-- right --}}
             <div class="flex h-11 min-[360px]:h-14 md:h-full justify-end items-center w-full px-3 min-[374px]:px-5 md:px-7">
@@ -208,11 +207,7 @@
                                     </td>
                                 </tr>
                             @endforeach
-
-
-
                         </tbody>
-
                     </table>
                 </div>
 
@@ -231,18 +226,15 @@
                 </div>
             @endif
         </div>
+    @endsection
 
+    @section('otherjs')
+        @include('modal.filterDate.controller')
+        <script src="{{ asset('js/controllers/pengeluaran_operasional.js') }}"></script>
 
-    </div>
-@endsection
-
-@section('otherjs')
-    @include('modal.filterDate.controller')
-    <script src="{{ asset('js/controllers/pengeluaran_operasional.js') }}"></script>
-
-    @if ($errors->any())
-        <script>
-            showModal()
-        </script>
-    @endif
-@endsection
+        @if ($errors->any())
+            <script>
+                showModal()
+            </script>
+        @endif
+    @endsection

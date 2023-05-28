@@ -50,6 +50,13 @@ function submit_form() {
             "warning"
         );
     }
+      if (!/^[1-9]+$/.test($("#jumlah").val())) {
+          return Swal.fire(
+              "Informasi",
+              "Field jumlah hanya boleh berisi angka dan tidak boleh di isi angka 0",
+              "warning"
+          );
+      }
     if ($("#total").val() === "") {
         return Swal.fire(
             "Informasi",

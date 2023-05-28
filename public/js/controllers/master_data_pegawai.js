@@ -18,7 +18,7 @@ function showModal() {
     $("#konten_modal").addClass("scale-100");
     $("#konten_modal").removeClass("scale-0");
 
-    if ($("#role").val() == "admin" || "kasir" ) {
+    if ($("#role").val() == "admin" || "kasir") {
         $("#username").removeClass("hidden");
         $("#password").removeClass("hidden");
     } else {
@@ -50,6 +50,14 @@ $("#btn_tambah").click(function (e) {
 
 $("#btn_submit").click(function (e) {
     e.preventDefault();
+
+    if (!/^[1-9]+$/.test($("#no_hp").val())) {
+        return Swal.fire(
+            "Informasi",
+            "Field no hp hanya boleh berisi angka",
+            "warning"
+        );
+    }
 
     Swal.fire({
         title: "Informasi",
@@ -121,7 +129,6 @@ function editData(item) {
     $("#no_hpU").val(item.no_hp);
     $("#" + item.gender + "Update").attr("checked", true);
 
-   
     console.log(item);
     showModalUpdate();
 }
@@ -221,4 +228,21 @@ $("#role").on("change", function () {
         $("#username").removeClass("hidden");
         $("#password").removeClass("hidden");
     }
+});
+
+$("#genderSelect").change(function (e) {
+    e.preventDefault();
+    var selectedGender = $("#genderSelect").val();
+    var selectedRole = $("#roleSelect").val();
+    console.log("gender");
+    window.location.href = "/pegawai/filterG/" + $("#genderSelect").val();
+});
+
+$("#roleSelect").change(function (e) {
+    e.preventDefault();
+    // console.log('tes');
+    var selectedGender = $("#genderSelect").val();
+    var selectedRole = $("#roleSelect").val();
+    console.log("role");
+    window.location.href = "/pegawai/filterR/" + $("#roleSelect").val();
 });
