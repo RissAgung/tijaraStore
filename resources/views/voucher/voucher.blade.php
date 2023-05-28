@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    Voucher
+@endsection
+
 @section('title')
     Master Data Voucher
 @endsection
@@ -68,8 +72,10 @@
                 class="h-full py-2 px-4 outline-none rounded-lg appearance-none w-full max-w-[150px] border-2 border-dotted"
                 name="select" id="filter_kategori">
                 <option hidden></option>
-                <option {{ Request::segment(2) == 'filter' ? (Request::segment(3) == 'persen') ? 'selected' : '' : '' }} value="persen">Potongan Persen</option>
-                <option {{ Request::segment(2) == 'filter' ? (Request::segment(3) == 'nominal') ? 'selected' : '' : '' }} value="nominal">Nominal</option>
+                <option {{ Request::segment(2) == 'filter' ? (Request::segment(3) == 'persen' ? 'selected' : '') : '' }}
+                    value="persen">Potongan Persen</option>
+                <option {{ Request::segment(2) == 'filter' ? (Request::segment(3) == 'nominal' ? 'selected' : '') : '' }}
+                    value="nominal">Nominal</option>
 
             </select>
         </div>

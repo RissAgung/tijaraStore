@@ -4,6 +4,10 @@
     Riwayat Retur
 @endsection
 
+@section('title_page')
+    Riwayat Retur_SP
+@endsection
+
 @section('modal')
     @include('modal.riwayat_retur')
     @include('modal.filterDate.filter')

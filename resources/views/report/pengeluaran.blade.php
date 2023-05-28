@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    LP Pengeluaran
+@endsection
+
 @section('modal')
     @include('modal.detail_laporan_pengeluaran')
     @include('modal.filterDate.filter')

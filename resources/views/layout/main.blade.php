@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/images/Logo_App.png') }}">
     @yield('othercss')
-    <title>Document</title>
+    <title>Tijara |@yield('title_page')</title>
     {{-- @vite([]) --}}
 </head>
 

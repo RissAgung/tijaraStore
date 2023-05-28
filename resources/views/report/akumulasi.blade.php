@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    LP Akumulasi
+@endsection
+
 @section('other_css')
     <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}">
 @endsection

@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    Discount
+@endsection
+
 @section('title')
     Master Data Diskon
 @endsection
@@ -20,7 +24,9 @@
             <div class=" flex flex-row justify-between w-full">
                 <div class="flex flex-row px-2 gap-4 mb-2 poppins-medium cursor-default relative">
                     <p class="px-1 py-3">Diskon</p>
-                    <a href="/voucher"><p class="text-[#8F8F8F]  px-1 py-3 hover:bg-gray-200 rounded-md">Voucher</p></a>
+                    <a href="/voucher">
+                        <p class="text-[#8F8F8F]  px-1 py-3 hover:bg-gray-200 rounded-md">Voucher</p>
+                    </a>
                     <div class="h-[4px] w-16 bg-primary absolute bottom-0">
 
                     </div>
@@ -58,8 +64,10 @@
         </div>
     </div>
 
-    <div class="flex flex-row w-full flex-wrap h-fit justify-between bg-white border-b-2 items-center px-4 md:px-8 pt-4 md:pt-0">
-        <div id="btn_filter_tags" class="flex h-full py-3 px-4 flex-row w-8 cursor-pointer items-center gap-4 order-2 flex-grow">
+    <div
+        class="flex flex-row w-full flex-wrap h-fit justify-between bg-white border-b-2 items-center px-4 md:px-8 pt-4 md:pt-0">
+        <div id="btn_filter_tags"
+            class="flex h-full py-3 px-4 flex-row w-8 cursor-pointer items-center gap-4 order-2 flex-grow">
             <p class="poppins-semibold">Jenis</p>
             <select
                 class="h-full py-2 px-4 outline-none rounded-lg appearance-none w-full max-w-[150px] border-2 border-dotted"
@@ -101,8 +109,7 @@
             <form class="w-full" action="/diskon/search" method="GET">
                 {{-- @csrf --}}
                 <input value="@isset($_GET['find']){{ $_GET['find'] }}@endisset" name="find"
-                    class=" py-2 px-2 w-full flex-grow outline-none" type="text"
-                    placeholder="Masukkan kode diskon">
+                    class=" py-2 px-2 w-full flex-grow outline-none" type="text" placeholder="Masukkan kode diskon">
             </form>
         </div>
         <div class="flex overflow-x-scroll gap-3 scrollbar-hide flex-row h-full justify-end w-fit order-3 bg-red-400">

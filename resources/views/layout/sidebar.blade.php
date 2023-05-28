@@ -96,10 +96,10 @@
                             <p>Produk</p>
                         </div>
                     </a>
-                    <div
+                    <a href="/pegawai"
                         class="text-sm py-2 px-2 rounded-md w-full @if (Request::segment(1) == 'pegawai') bg-[#FFF6E3] text-primary @else hover:bg-gray-200 @endif">
                         <p>Pegawai</p>
-                    </div>
+                    </a>
                     <a href="/supplier">
                         <div
                             class="text-sm py-2 px-2 rounded-md w-full @if (Request::segment(1) == 'supplier') bg-[#FFF6E3] text-primary @else hover:bg-gray-200 @endif">
@@ -178,11 +178,11 @@
         
         {{-- end retur --}}
 
-        <a href="#" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
+        <a href="/salary" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
 
             {{-- icon & title --}}
             <div
-                class="flex flex-row  @if (Request::segment(1) == 'gaji') menu-active1 @else menu-hover1 @endif items-center w-full">
+                class="flex flex-row  @if (Request::segment(1) == 'salary') menu-active1 @else menu-hover1 @endif items-center w-full">
 
                 
                 <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 transition ease-in-out" width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
@@ -198,7 +198,7 @@
             </div>
 
             {{-- when focus --}}
-            <div class="w-2 h-full  @if (Request::segment(1) == 'gaji') menu-active2 @endif transition ease-in-out"></div>
+            <div class="w-2 h-full  @if (Request::segment(1) == 'salary') menu-active2 @endif transition ease-in-out"></div>
         </a>
         {{-- end riwayat --}}
 
@@ -226,7 +226,7 @@
         <a href="{{ Route('operasional') }}" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
 
           {{-- icon & title --}}
-          <div class="flex flex-row menu-hover1 @if (Route::is('operasional') or Route::is('restock')) menu-active1 @endif items-center w-full">
+          <div class="flex flex-row menu-hover1 @if (Request::segment(1) == 'pengeluaran') menu-active1 @endif items-center w-full">
 
               <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out" viewBox="0 0 33 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16.4986 18.0556C13.4654 18.0556 10.9986 15.5639 10.9986 12.5C10.9986 9.43611 13.4654 6.94444 16.4986 6.94444C19.5319 6.94444 21.9986 9.43611 21.9986 12.5C21.9986 15.5639 19.5319 18.0556 16.4986 18.0556ZM16.4986 9.72222C14.982 9.72222 13.7486 10.9681 13.7486 12.5C13.7486 14.0319 14.982 15.2778 16.4986 15.2778C18.0152 15.2778 19.2486 14.0319 19.2486 12.5C19.2486 10.9681 18.0152 9.72222 16.4986 9.72222ZM6.87363 5.55556C6.11463 5.55556 5.49863 6.17778 5.49863 6.94444C5.49863 7.71111 6.11463 8.33333 6.87363 8.33333C7.63263 8.33333 8.24863 7.71111 8.24863 6.94444C8.24863 6.17778 7.63263 5.55556 6.87363 5.55556ZM24.7486 9.72222C24.7486 10.4889 25.3646 11.1111 26.1236 11.1111C26.8826 11.1111 27.4986 10.4889 27.4986 9.72222C27.4986 8.95556 26.8826 8.33333 26.1236 8.33333C25.3646 8.33333 24.7486 8.95556 24.7486 9.72222ZM6.87363 13.8889C6.11463 13.8889 5.49863 14.5111 5.49863 15.2778C5.49863 16.0444 6.11463 16.6667 6.87363 16.6667C7.63263 16.6667 8.24863 16.0444 8.24863 15.2778C8.24863 14.5111 7.63263 13.8889 6.87363 13.8889ZM24.7486 18.0556C24.7486 18.8222 25.3646 19.4444 26.1236 19.4444C26.8826 19.4444 27.4986 18.8222 27.4986 18.0556C27.4986 17.2889 26.8826 16.6667 26.1236 16.6667C25.3646 16.6667 24.7486 17.2889 24.7486 18.0556ZM23.3723 25C21.1255 25 19.1125 24.4458 17.1669 23.9097C15.3134 23.3986 13.5644 22.9167 11.6861 22.9167C9.526 22.9167 8.16337 23.0569 6.985 23.4014C5.32675 23.8833 3.58325 23.5583 2.2 22.5069C0.801625 21.4444 0 19.8222 0 18.0556V7.57222C0 4.70694 1.78613 2.09444 4.44538 1.07083C6.28925 0.359722 8.03275 0 9.62637 0C11.8731 0 13.8847 0.554167 15.8317 1.09028C17.6852 1.60139 19.4342 2.08333 21.3125 2.08333C23.4713 2.08333 24.8353 1.94306 26.0136 1.59861C27.6746 1.11667 29.4181 1.44167 30.8 2.49306C32.1984 3.55556 33 5.17778 33 6.94444V17.4278C33 20.2931 31.2125 22.9056 28.5533 23.9292C26.7094 24.6403 24.9673 25 23.3723 25ZM11.6861 20.1389C13.9329 20.1389 15.9445 20.6931 17.8915 21.2292C19.745 21.7403 21.494 22.2222 23.3723 22.2222C24.629 22.2222 26.0425 21.9236 27.5743 21.3333C29.2009 20.7083 30.25 19.175 30.25 17.4278V6.94444C30.25 6.05972 29.8471 5.24583 29.1459 4.71389C28.4598 4.19306 27.5976 4.02917 26.774 4.26806C25.3289 4.68889 23.7462 4.86111 21.3097 4.86111C19.063 4.86111 17.0514 4.30694 15.1044 3.77083C13.2509 3.25972 11.5019 2.77778 9.62363 2.77778C8.3655 2.77778 6.95338 3.07639 5.42163 3.66667C3.795 4.29167 2.74587 5.825 2.74587 7.57222V18.0556C2.74587 18.9403 3.14875 19.7542 3.85 20.2861C4.53613 20.8069 5.39825 20.9708 6.2205 20.7306C7.66563 20.3097 9.24962 20.1375 11.6847 20.1375L11.6861 20.1389Z"/>
@@ -237,7 +237,7 @@
           </div>
 
           {{-- when focus --}}
-          <div class="w-2 h-full @if (Route::is('operasional') or Route::is('restock')) menu-active2 @endif transition ease-in-out"></div>
+          <div class="w-2 h-full @if (Request::segment(1) == 'pengeluaran') menu-active2 @endif transition ease-in-out"></div>
         </a>
         {{-- end pengeluaran --}}
         {{-- voucher & diskon --}}

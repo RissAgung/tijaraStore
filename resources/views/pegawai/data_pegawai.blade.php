@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    MD Pegawai
+@endsection
+
 @section('title')
     Master Data Pegawai
 @endsection

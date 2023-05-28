@@ -1886,6 +1886,10 @@ video {
   fill: #fff;
 }
 
+.fill-red-500 {
+  fill: #ef4444;
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;

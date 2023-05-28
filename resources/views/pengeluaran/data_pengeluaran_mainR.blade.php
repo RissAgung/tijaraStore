@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    Re Stock
+@endsection
+
 @section('title')
     pengeluaran
 @endsection

@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('title_page')
+    MD Supplier
+@endsection
+
 @section('title')
     Master Data Supplier
 @endsection
