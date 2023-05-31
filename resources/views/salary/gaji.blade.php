@@ -16,18 +16,24 @@
 
 @section('content')
 
-    <?php $urlexport = '/salary/export/all'; 
-        if(Request::segment(2) != '' && Request::query('search')){
-            $urlexport = '/salary/export/filter-with-search/' . Request::segment(2) . '?search=' . Request::query('search');
-        } else {
-            if(Request::segment(2) != ''){
-                $urlexport = '/salary/export/filter/' . Request::segment(2);
-            }
-        }
+    {{-- loading --}}
+    <div id="loading"
+        class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
+        <div class="loadingspinner"></div>
+    </div>
 
-        if(Request::has('search') && Request::segment(2) == ''){
-            $urlexport = '/salary/export/search';
+    <?php $urlexport = '/salary/export/all';
+    if (Request::segment(2) != '' && Request::query('search')) {
+        $urlexport = '/salary/export/filter-with-search/' . Request::segment(2) . '?search=' . Request::query('search');
+    } else {
+        if (Request::segment(2) != '') {
+            $urlexport = '/salary/export/filter/' . Request::segment(2);
         }
+    }
+    
+    if (Request::has('search') && Request::segment(2) == '') {
+        $urlexport = '/salary/export/search';
+    }
     ?>
 
     <div class=" h-fit bg-white border-b-2">
@@ -67,9 +73,7 @@
                 <div class="flex flex-row gap-2">
                     <div class="flex flex-row gap-2">
                         @if (count($dataGaji->items()) != 0)
-                            
-                            <a href="{{ $urlexport }}"
-                                id="btn_export"
+                            <a href="{{ $urlexport }}" id="btn_export"
                                 class="bg-[#000000] py-2 gap-2 px-4 rounded-md flex flex-row justify-center drop-shadow-sm cursor-pointer">
                                 <p class="poppins-regular text-slate-200 hidden md:flex">Export</p>
                                 <svg class="mt-[1px]" width="20" height="20" viewBox="0 0 24 24" fill="none"

@@ -16,6 +16,12 @@
 @section('content')
     {{-- main container --}}
 
+    {{-- loading --}}
+    <div id="loading"
+        class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
+        <div class="loadingspinner"></div>
+    </div>
+
     {{-- top1 --}}
     <div
         class="flex w-full items-center justify-between md:h-16 bg-white border-b-[1px] border-b-[#DCDADA] text-[11px] md:text-[15px] py-2 px-[20px] md:px-[30px]">

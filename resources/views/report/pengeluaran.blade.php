@@ -135,7 +135,7 @@
                         <thead class="bg-[#F7F7F7] sticky top-0">
                             <tr>
                                 <th class="border-y-[1px] border-[#DADADA] p-5">Tanggal</th>
-                                <th class="border-[1px] border-[#DADADA] p-5">Transaksi Penjualan</th>
+                                <th class="border-[1px] border-[#DADADA] p-5">Transaksi Pengeluaran</th>
                                 <th class="border-[1px] border-[#DADADA] p-5">Retur Customer</th>
                                 <th class="border-[1px] border-[#DADADA] p-5">Total</th>
                                 <th class="border-y-[1px] border-[#DADADA] p-5">Aksi</th>

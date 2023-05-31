@@ -9,6 +9,11 @@
 @endsection
 
 @section('content')
+    {{-- loading --}}
+    <div id="loading"
+        class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
+        <div class="loadingspinner"></div>
+    </div>
     {{-- top bar --}}
     <div
         class="w-full py-3 min-[400px]:py-4 px-[20px] md:px-[30px] bg-white border-b-[1px] border-b-[#DCDADA] poppins-medium text-black lg:text-[16px] md:text-[15px] text-[12px]">

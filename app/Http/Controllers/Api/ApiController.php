@@ -402,6 +402,7 @@ class ApiController extends Controller
                 if ($validate->fails()) {
                     return $this->sendError($validate->messages());
                 }
+                
 
 
                 $detail_transaksi = json_decode($request->detail_transaksi);
