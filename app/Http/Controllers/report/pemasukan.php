@@ -224,13 +224,14 @@ class pemasukan extends Controller
         ->get();
     };
 
-
+    
     $data = array();
-
+    
     $data_transaksi = $data_pemasukan($date)->toArray();
     $data_retur_supp = $data_pemasukan_from_retur($date)->toArray();
     $data_retur_cs = $data_pemasukan_from_retur_cs($date)->toArray();
-
+    
+    // dd($data_transaksi);
     foreach ($data_transaksi as $transaksi) {
       $tanggal = $transaksi["date"];
       $total = $transaksi["total"];
@@ -283,9 +284,9 @@ class pemasukan extends Controller
     $produk_terjual_raw = function ($data) {
       return detail_transaksi::join('transaksi', 'transaksi.kode_tr', 'detail_transaksi.kode_tr',)
         ->join('barang', 'detail_transaksi.kode_br', '=', 'barang.kode_br')
-        ->select('barang.kategori', 'barang.nama_br', 'barang.harga', DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
+        ->select('barang.kategori', 'barang.nama_br', DB::raw('SUM(detail_transaksi.subtotal) as harga'), DB::raw('SUM(detail_transaksi.QTY) as jumlah'))
         ->whereDate('transaksi.tanggal', '=', $data->data_date !== null ? $data->data_date : '')
-        ->groupBy('barang.nama_br', 'barang.kategori', 'barang.harga')
+        ->groupBy('barang.nama_br', 'barang.kategori')
         ->get();
     };
 

@@ -102,6 +102,9 @@
 
     function showModalDetail(data, kodetr) {
         data_selected = data;
+        console.log({
+            data_selected
+        });
         kodetr_selected = kodetr;
 
 
@@ -113,14 +116,24 @@
 
 
         if (data.voucher == null) {
+            $("#txt_total").html(formatRupiah(data.total.toString(), "Rp. "));
             $("#txt_harga_final").html(formatRupiah(data.total.toString(), "Rp. "));
             $("#txt_voucher").html("-");
         } else {
-            $("#txt_harga_final").html(formatRupiah((data.total - data.voucher).toString(), "Rp. "));
-            $("#txt_voucher").html(formatRupiah(data.voucher.toString(), "Rp. "));
+            if (data.jenis_voucher == 'nominal') {
+                $("#txt_harga_final").html(formatRupiah((data.total).toString(), "Rp. "));
+                $("#txt_voucher").html(formatRupiah(data.voucher.toString(), "Rp. "));
+            } else {
+                var hitung_persen = (100 - data.voucher) / 100;
+                var harga_final = data_selected.total / hitung_persen;
+                $("#txt_total").html(formatRupiah(harga_final.toString(), "Rp. "));
+                $("#txt_harga_final").html(formatRupiah((data.total).toString(), "Rp. "));
+                $("#txt_voucher").html(data.voucher + '%');
+            }
+
         }
 
-        $("#txt_total").html(formatRupiah(data.total.toString(), "Rp. "));
+
         $("#txt_bayar").html(formatRupiah(data.bayar.toString(), "Rp. "));
         $("#txt_kembalian").html(formatRupiah(data.kembalian.toString(), "Rp. "));
 
@@ -137,8 +150,14 @@
                 kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">-</td>';
             } else {
                 if (element.detail_diskon_transaksi.free_product == null) {
-                    kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + formatRupiah(element
-                        .detail_diskon_transaksi.nominal.toString(), "Rp. ") + '</td>';
+                    let nom;
+                    if(element.detail_diskon_transaksi.kategori == "nominal"){
+                        nom = formatRupiah(element
+                        .detail_diskon_transaksi.nominal.toString(), "Rp. ");
+                    } else if(element.detail_diskon_transaksi.kategori == "persen"){
+                        nom = element.detail_diskon_transaksi.nominal + "%";
+                    }
+                    kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">' + nom + '</td>';
                 } else {
                     kontenHtml += '<td class="tracking-wide px-4 py-2 text-left">Beli ' + element
                         .detail_diskon_transaksi.buy + ' Free ' + element.detail_diskon_transaksi.free +
@@ -150,6 +169,8 @@
                 .toString(),
                 "Rp. ") + '</td>';
             kontenHtml += '</tr>';
+
+
         });
 
         $("#konten_detail_transaksi").html(kontenHtml);
@@ -298,21 +319,85 @@
                 '</td>';
 
             kontenHtml += '<td class="text-center tracking-wide px-2">' + formatRupiah(element.barang.harga
-                .toString(),
-                "") + '</td>';
+                .toString()) + '</td>';
             kontenHtml += '<td class="text-end tracking-wide pl-2">' + formatRupiah(element.subtotal
-                .toString(),
-                "") + '</td>';
+                .toString()) + '</td>';
             kontenHtml += '</tr>';
+
+            // cek diskon
+            if (element.detail_diskon_transaksi != null) {
+                kontenHtml += '<tr>';
+                kontenHtml +=
+                    '<td class="text-start tracking-wide pr-2 w-[150px] max-w-[150px] min-w-[150px] poppins-semibold">Diskon</td>';
+                if (element.detail_diskon_transaksi.kategori == 'free') {
+                    kontenHtml +=
+                        '<td colspan="3" class="text-start tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px] poppins-semibold">Buy ' +
+                        element.detail_diskon_transaksi.buy + ' free ' + element.detail_diskon_transaksi.free +
+                        ' produk ' + element.detail_diskon_transaksi.free_product + '</td>';
+                } else {
+                    if (element.detail_diskon_transaksi.kategori == 'nominal') {
+                        kontenHtml +=
+                            '<td class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px] poppins-semibold">' +
+                            formatRupiah(element.detail_diskon_transaksi.nominal.toString(), ) + '</td>';
+                        kontenHtml += '<td class="text-center tracking-wide px-2 poppins-semibold">' +
+                            formatRupiah((element.barang.harga - (element.detail_diskon_transaksi.nominal * element.QTY))
+                                .toString()) + '</td>';
+                        kontenHtml += '<td class="text-end tracking-wide pl-2 poppins-semibold">' +
+                            formatRupiah(((element.barang.harga - element.detail_diskon_transaksi.nominal) *
+                                element.QTY).toString()) + '</td>';
+                    } else {
+                        kontenHtml +=
+                            '<td class="text-center tracking-wide px-2 w-[80px] max-w-[80px] min-w-[80px] poppins-semibold">' +
+                            element.detail_diskon_transaksi.nominal + '%</td>';
+                        kontenHtml += '<td class="text-center tracking-wide px-2 poppins-semibold">' +
+                            formatRupiah(((element.barang.harga / 100) * element.detail_diskon_transaksi
+                                .nominal).toString()) + '</td>';
+                        kontenHtml += '<td class="text-end tracking-wide pl-2 poppins-semibold">' +
+                            formatRupiah((((element.barang.harga / 100) * element.detail_diskon_transaksi
+                                .nominal) * element.QTY).toString()) + '</td>';
+                    }
+                }
+                kontenHtml += '</tr>';
+            }
         });
 
         $("#detail_struk").html(kontenHtml);
 
 
         $("#struk_total_item").html(total_item);
-        $("#struk_total_harga").html(formatRupiah(data_selected.total.toString(), ''));
-        $("#struk_total_bayar").html(formatRupiah(data_selected.bayar.toString(), ''));
-        $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString(), ''));
+        $("#struk_total_harga_final").html(formatRupiah(data_selected.total.toString()));
+
+        if (data_selected.voucher != null) {
+            if (data_selected.jenis_voucher == 'nominal') {
+                $("#struk_voucher").html(formatRupiah(data_selected.voucher.toString()));
+                $("#struk_total_harga").html(formatRupiah((data_selected.total + data_selected.voucher)
+                    .toString(),
+                    ''));
+
+                $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString()));
+
+            } else {
+                $("#struk_voucher").html(data_selected.voucher + '%');
+
+                var hitung_persen = (100 - data_selected.voucher) / 100;
+
+                var harga_final = data_selected.total / hitung_persen;
+
+                $("#struk_total_harga").html(formatRupiah(harga_final
+                    .toString(),
+                    ''));
+
+                $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString()));
+            }
+
+        } else {
+            $("#struk_voucher").html("0");
+            $("#struk_total_harga_final").html(formatRupiah((data_selected.total).toString()));
+            $("#struk_kembalian").html(formatRupiah(data_selected.kembalian.toString()));
+        }
+
+        $("#struk_total_bayar").html(formatRupiah(data_selected.bayar.toString()));
+
 
         $('#struk_barcode').attr('src', 'data:image/png;base64,' + kodetr_selected);
 
@@ -349,8 +434,8 @@
 
         $("#html_struk").addClass('min-w-[600px]');
         var pdf = new jsPDF('p', 'pt', 'a4');
-        
-    
+
+
         pdf.setFont("Symbol", 'normal');
         pdf.html(elementHTML, {
             callback: (pdf) => {

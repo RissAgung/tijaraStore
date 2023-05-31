@@ -13,6 +13,11 @@
 @endsection
 
 @section('content')
+    {{-- loading --}}
+    <div id="loading"
+        class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
+        <div class="loadingspinner"></div>
+    </div>
     {{-- content --}}
     <div class="flex flex-col w-full">
 

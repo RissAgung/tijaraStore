@@ -78,7 +78,7 @@ class RiwayatExport implements FromCollection, WithColumnFormatting, WithStyles,
 
         return new Collection(
             [
-                ["No Transaksi", "Total", "Bayar", "Voucher", "Nama Kasir", "Kembalian", "Tanggal", "Jenis Pembayaran"],
+                ["No Transaksi", "Total", "Bayar", "Voucher", "Jenis Voucher", "Nama Kasir", "Kembalian", "Tanggal", "Jenis Pembayaran"],
                 $data_riwayat
             ]
         );
@@ -90,7 +90,7 @@ class RiwayatExport implements FromCollection, WithColumnFormatting, WithStyles,
             'B' => '#,##0',
             'C' => '#,##0',
             'D' => '#,##0',
-            'F' => '#,##0',
+            'G' => '#,##0',
         ];
     }
 

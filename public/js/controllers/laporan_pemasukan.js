@@ -91,7 +91,7 @@ const getData = (data) => {
 const getTotalProdukTerjual = (data) => {
   let total = 0;
   for (let i = 0; i < data.length; i++) {
-    total += data[i].harga * data[i].jumlah
+    total += parseInt(data[i].harga)
   }
   return total;
 }

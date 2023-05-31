@@ -108,6 +108,12 @@ class pengeluaran_re_stock extends Controller
     // dd($request);
     // dd('awjowajojwaojwa');
 
+    $stock = barang::select('stok')
+      ->where('kode_br', $request->barang)
+      ->pluck('stok');
+
+    $stock_final = (int)$stock[0] + (int)$request->jumlah;
+
     $id = str_shuffle(date('YmdHis') . 'RTR');
     $total = (int) preg_replace('/\D/', '', $request->total);
     // $pegawai = modelAuth::user()->kode_pegawai);
@@ -130,6 +136,9 @@ class pengeluaran_re_stock extends Controller
       pengeluaran_pegawai::create([
         'pegawai_pengeluaran' => 'PEG' . $id,
         'kode_pegawai' => Auth::user()->kode_pegawai,
+      ]);
+      barang::where('kode_br', $request->barang)->update([
+        'stok' => $stock_final,
       ]);
     } catch (\Throwable $th) {
       dd($th);

@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/images/Logo_App.png') }}">
     @yield('othercss')
-    <title>Tijara |@yield('title_page')</title>
-    {{-- @vite([]) --}}
+    <title>@yield('title') | Tijara Store</title>
+    @vite([])
 </head>
 
 <body class="bg-[#F7F7F7] w-full h-full box-border">

@@ -53,7 +53,7 @@
         e.preventDefault();
         if ($("#jenis_discount").val() == "persen") {
             $("#txt_nominal").val("");
-            $("#txt_nominal").attr("maxlength", 3);
+            $("#txt_nominal").attr("maxlength", 2);
             $("#container-jumlah").addClass("hidden");
             $("#container-free-product").addClass("hidden");
             $("#container-jumlah").removeClass("flex");
@@ -435,7 +435,7 @@
     });
 
     function formatRupiah(angka, prefix) {
-        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        var number_string = angka.replace(/[^\d]/g, "").toString(),
             split = number_string.split(","),
             sisa = split[0].length % 3,
             rupiah = split[0].substr(0, sisa),

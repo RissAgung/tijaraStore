@@ -24,6 +24,12 @@
 @endsection
 
 @section('content')
+
+    {{-- loading --}}
+    <div id="loading"
+        class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
+        <div class="loadingspinner"></div>
+    </div>
     <div class=" h-fit bg-white border-b-2">
         <div class=" flex flex-col px-4 md:px-8 justify-between gap-4 mt-0 md:flex-row py-2">
             <div class="flex-row w-full max-w-md flex px-4 rounded-md gap-2 items-center">
@@ -157,7 +163,7 @@
         </div>
     @endif
 
-    <div class="h-[70vh] flex flex-col px-6 py-4 w-full">
+    <div class="flex-grow flex flex-col px-6 py-4 w-full">
         @if (count($products->items()) != 0)
             <div class="h-full w-full overflow-x-auto">
                 <table class=" w-full border-separate border-spacing-y-4">
@@ -166,6 +172,7 @@
                             <th class="text-left pl-8 w-20"><input type="checkbox" name="" class=""
                                     id="checkAll"></th>
                             <th class="tracking-wide text-left text-sm poppins-regular pl-3">Nama Produk</th>
+                            <th class="tracking-wide text-left text-sm poppins-regular pl-3">Kode Produk</th>
                             <th class="tracking-wide text-left text-sm poppins-regular pl-3">Kategori</th>
                             <th class="tracking-wide text-center text-sm poppins-regular">Stock</th>
                             <th class="tracking-wide text-center text-sm poppins-regular">Harga</th>
@@ -190,7 +197,8 @@
                                         </div>
                                     </td>
 
-                                    <td class="tracking-wide text-left p-3 w-[30%]">{{ $item->nama_br }}</td>
+                                    <td class="tracking-wide text-left p-3 w-[20%]">{{ $item->nama_br }}</td>
+                                    <td class="tracking-wide text-left p-3">{{ $item->kode_br }}</td>
                                     <td class="tracking-wide text-left p-3">{{ $item->kategori }}</td>
                                     <td class="tracking-wide text-center p-3">{{ $item->stok }}</td>
                                     <td class="tracking-wide text-center p-3">

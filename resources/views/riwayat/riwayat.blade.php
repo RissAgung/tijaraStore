@@ -15,6 +15,12 @@
 @endsection
 
 @section('content')
+
+    {{-- loading --}}
+    <div id="loading"
+        class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
+        <div class="loadingspinner"></div>
+    </div>
     <div class=" h-fit bg-white border-b-2">
         <div class=" flex flex-col px-4 md:px-12 justify-between gap-4 mt-0 md:flex-row py-4">
             <div class="flex-row w-full max-w-md flex gap-2 items-center">
