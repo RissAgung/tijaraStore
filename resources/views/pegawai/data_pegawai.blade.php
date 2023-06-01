@@ -37,7 +37,7 @@
             <form action="{{ route('cari') }}" method="get">
                 <input type="search" id="field_search" name="search" value=""
                     class="placeholder:text-[11px] md:placeholder:text-[15px] outline-none w-full pl-2"
-                    placeholder="Kode / Nama Barang" value="">
+                    placeholder="Kode / Nama Pegawai" value="">
             </form>
         </div>
 
@@ -82,6 +82,7 @@
         <p>gender</p>
         <!-- Select dropdown -->
         <select id="genderSelect" name="genderSelect" class="p-1 rounded-sm border-[1px] border-[#DCDADA]">
+            <option selected value="" disabled></option>
             <option @if (Request::segment(3) == 'pria') selected @endif value="pria">pria</option>
             <option @if (Request::segment(3) == 'wanita') selected @endif value="wanita">wanita</option>
         </select>
@@ -89,6 +90,7 @@
         <p>Role</p>
         <!-- Select dropdown -->
         <select id="roleSelect" name="roleSelect" class="p-1 rounded-sm border-[1px] border-[#DCDADA]">
+            <option selected value="" disabled></option>
             <option @if (Request::segment(3) == 'admin') selected @endif value="admin">Admin</option>
             <option @if (Request::segment(3) == 'kasir') selected @endif value="kasir">Kasir</option>
             <option @if (Request::segment(3) == 'pegawai') selected @endif value="pegawai">Pegawai</option>
@@ -137,7 +139,8 @@
                                     @endif
                                 </td>
                                 <td class="text-center p-3">
-                                    <button type="button" onclick="hapusData('/pegawai/delete/{{ $item->kode_pegawai }}')"
+                                    <button type="button"
+                                        onclick="hapusData('/pegawai/delete/{{ $item->kode_pegawai }}')"
                                         class="flex justify-center items-center bg-black hover:bg-[#303030] text-white h-[33px] md:h-[43px] p-3 rounded">
                                         <svg width="14" height="25" viewBox="0 0 14 17" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">

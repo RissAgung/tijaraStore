@@ -269,7 +269,7 @@ class pemasukan extends Controller
     }
 
 
-    $data = collect($data)->sortBy('tanggal');
+    $data = collect($data)->sortByDesc('tanggal');
     /////////////////////////////////////////////////////// end Data Table ///////////////////////////////////////////////////////
 
     $first_date = $data->first() !== null ? $data->first()['tanggal'] : '';

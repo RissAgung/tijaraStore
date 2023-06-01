@@ -8,13 +8,24 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class ExportLaporanPengeluaran implements FromCollection
+class ExportLaporanPengeluaran implements FromCollection, ShouldAutoSize, WithColumnFormatting
 {
   /**
    * @return \Illuminate\Support\Collection
    */
   protected $kategori;
+
+  public function columnFormats(): array
+    {
+        return [
+            'B' => '#,##0',
+            'C' => '#,##0',
+            'D' => '#,##0',
+        ];
+    }
 
   public function __construct(Request $kategori)
   {

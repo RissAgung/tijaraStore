@@ -9,8 +9,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class ExportLaporanPemasukan implements FromCollection
+class ExportLaporanPemasukan implements FromCollection, ShouldAutoSize, WithColumnFormatting
 {
   /**
    * @return \Illuminate\Support\Collection
@@ -22,6 +24,16 @@ class ExportLaporanPemasukan implements FromCollection
   {
     $this->kategori = $kategori->segment(3);
   }
+
+  public function columnFormats(): array
+    {
+        return [
+            'B' => '#,##0',
+            'C' => '#,##0',
+            'D' => '#,##0',
+            'E' => '#,##0',
+        ];
+    }
 
   public function collection()
   {
@@ -286,4 +298,6 @@ class ExportLaporanPemasukan implements FromCollection
       ]
     );
   }
+
+  
 }

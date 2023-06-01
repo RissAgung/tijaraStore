@@ -30,7 +30,7 @@
         class="fixed w-full h-full top-0 left-0 flex flex-col justify-center items-center bg-slate-50 z-[99999]">
         <div class="loadingspinner"></div>
     </div>
-    <div class=" h-fit bg-white border-b-2">
+    <div class=" h-fit bg-white border-b-2 text-xs md:text-base">
         <div class=" flex flex-col px-4 md:px-8 justify-between gap-4 mt-0 md:flex-row py-2">
             <div class="flex-row w-full max-w-md flex px-4 rounded-md gap-2 items-center">
                 <div class="h-8 w-12">
@@ -137,7 +137,7 @@
     </div>
 
     @if (!isset($_GET['find']))
-        <div class="flex flex-row py-3 h-fit justify-between bg-white border-b-2 items-center gap-2">
+        <div class="flex flex-row py-3 h-fit justify-between bg-white border-b-2 items-center gap-2 text-xs md:text-base">
             <div id="btn_filter_tags" class="bg-black rounded-md flex h-full w-fit py-3 px-4 ml-4 md:ml-12 cursor-pointer">
                 <div class="fill-white">
                     <svg width="13" height="13" viewBox="0 0 25 26" fill="none"
@@ -152,7 +152,7 @@
             <div class="flex px-4 md:px-4 overflow-x-scroll gap-3 scrollbar-hide flex-row flex-grow mr-8">
                 @foreach ($tags as $item_tags)
                     <div id="{{ strtolower($item_tags->kode_tag) }}"
-                        class="bg-white  border-2 flex px-4 py-1 cursor-pointer flex-none rounded-md"
+                        class="bg-white  border-2 flex px-4 py-3 cursor-pointer flex-none rounded-md md:py-1"
                         onclick="filterTags('{{ strtolower($item_tags->kode_tag) }}')">
                         <p>{{ $item_tags->nama_tag }}</p>
                     </div>
@@ -163,7 +163,7 @@
         </div>
     @endif
 
-    <div class="flex-grow flex flex-col px-6 py-4 w-full">
+    <div class="flex flex-col px-6 py-4 w-full h-full flex-grow text-xs md:text-base">
         @if (count($products->items()) != 0)
             <div class="h-full w-full overflow-x-auto">
                 <table class=" w-full border-separate border-spacing-y-4">
@@ -171,12 +171,12 @@
                         <tr>
                             <th class="text-left pl-8 w-20"><input type="checkbox" name="" class=""
                                     id="checkAll"></th>
-                            <th class="tracking-wide text-left text-sm poppins-regular pl-3">Nama Produk</th>
-                            <th class="tracking-wide text-left text-sm poppins-regular pl-3">Kode Produk</th>
-                            <th class="tracking-wide text-left text-sm poppins-regular pl-3">Kategori</th>
-                            <th class="tracking-wide text-center text-sm poppins-regular">Stock</th>
-                            <th class="tracking-wide text-center text-sm poppins-regular">Harga</th>
-                            <th class="tracking-wide text-center text-sm poppins-regular">Aksi</th>
+                            <th class="tracking-wide text-left poppins-regular pl-3">Nama Produk</th>
+                            <th class="tracking-wide text-left poppins-regular pl-3">Kode Produk</th>
+                            <th class="tracking-wide text-left poppins-regular pl-3">Kategori</th>
+                            <th class="tracking-wide text-center poppins-regular">Stock</th>
+                            <th class="tracking-wide text-center poppins-regular">Harga</th>
+                            <th class="tracking-wide text-center poppins-regular">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -184,11 +184,11 @@
                             @csrf
                             @foreach ($products as $item)
                                 <tr class="bg-white border-2">
-                                    <td class="text-start p-3 w-fit pr-12">
+                                    <td class="text-start p-3 w-fit pr-6">
                                         <div class="flex flex-row justify-start ml-4 gap-4">
                                             <input class="mt-2 idcheck" type="checkbox" name="ids[]" id=""
                                                 value="{{ $item->kode_br }}">
-                                            <div class="h-16 w-16 rounded-full overflow-hidden">
+                                            <div class="h-12 w-12 rounded-full overflow-hidden">
                                                 <img class="h-full object-cover w-full"
                                                     onError="this.onerror=null;this.src='https://oneshaf.com/wp-content/uploads/2022/12/placeholder-5-300x200.png';"
                                                     src="{{ asset('uploads/products/' . $item->gambar) }}"
@@ -270,9 +270,9 @@
                 {{ $products->onEachSide(2)->links('vendor.pagination.CustomPagination') }}
             </div>
         @else
-            <div class="h-full justify-center items-center flex-grow flex w-full">
-                <div class="flex flex-col items-center">
-                    <div class="h-full items-center w-full flex justify-center">
+            <div class="h-[60vh] justify-center items-center flex-grow flex w-full">
+                <div class="flex flex-col items-center h-full justify-center">
+                    <div class="h-fit items-center w-full flex justify-center">
                         <img class="object-cover h-80 w-100" src="{{ asset('/assets/images/nodata.svg') }}"
                             alt="nodata">
                     </div>

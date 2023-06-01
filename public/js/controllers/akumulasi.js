@@ -15,9 +15,12 @@ $(document).ready(function () {
   });
 
   $('#btn_export').click(function (e) {
+    // let data = [getTotalPemasukan(), getTotalPengeluaran()]
     let data = [getTotalPemasukan(), getTotalPengeluaran()]
 
-    let send = btoa(data);
+    let encode = JSON.stringify(data);
+
+    let send = btoa(encode);
     location.replace("/laporan/akumulasi.export/" + send)
   });
 });
