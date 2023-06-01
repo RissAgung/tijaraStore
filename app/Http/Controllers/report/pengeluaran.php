@@ -204,7 +204,7 @@ class pengeluaran extends Controller
       }
     }
 
-    $data = collect($data)->sortBy('tanggal');
+    $data = collect($data)->sortByDesc('tanggal');
 
     $first_date = $data->first() !== null ? $data->first()['tanggal'] : '';
     // dd($data);

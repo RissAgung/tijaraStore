@@ -5,14 +5,24 @@ namespace App\Exports;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class ExportLaporanAkumulasi implements FromCollection
+class ExportLaporanAkumulasi implements FromCollection, ShouldAutoSize, WithColumnFormatting
 {
   /**
    * @return \Illuminate\Support\Collection
    */
 
   protected $kategori;
+
+  public function columnFormats(): array
+    {
+        return [
+            'A' => '#,##0',
+            'B' => '#,##0',
+        ];
+    }
 
   public function __construct(Request $kategori)
   {
@@ -24,7 +34,7 @@ class ExportLaporanAkumulasi implements FromCollection
     return new Collection(
       [
         ["Pemasukan", "Pengeluaran"],
-        [$data]
+        [json_decode($data)]
       ]
     );
   }

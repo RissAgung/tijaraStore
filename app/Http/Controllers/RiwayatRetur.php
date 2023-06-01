@@ -162,14 +162,14 @@ class RiwayatRetur extends Controller
         };
 
         return $dateType($data)
-          ->orderBy('created_at', 'desc')
+          ->orderBy('tanggal', 'desc')
           ->paginate(10);
       }
 
       $search = "";
       $ddate = "";
 
-      return supplier::orderBy('created_at', 'desc')
+      return supplier::orderBy('tanggal', 'desc')
         ->paginate(10);
     };
 
