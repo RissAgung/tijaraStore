@@ -44,6 +44,7 @@
     40 => 'App\\Providers\\AuthServiceProvider',
     41 => 'App\\Providers\\EventServiceProvider',
     42 => 'App\\Providers\\RouteServiceProvider',
+    43 => 'App\\Providers\\ViewComposerServiceProvider',
   ),
   'eager' => 
   array (
@@ -76,6 +77,7 @@
     26 => 'App\\Providers\\AuthServiceProvider',
     27 => 'App\\Providers\\EventServiceProvider',
     28 => 'App\\Providers\\RouteServiceProvider',
+    29 => 'App\\Providers\\ViewComposerServiceProvider',
   ),
   'deferred' => 
   array (
@@ -213,6 +215,7 @@
     'translation.loader' => 'Illuminate\\Translation\\TranslationServiceProvider',
     'validator' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'validation.presence' => 'Illuminate\\Validation\\ValidationServiceProvider',
+    'Illuminate\\Contracts\\Validation\\UncompromisedVerifier' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'Laravel\\Sail\\Console\\InstallCommand' => 'Laravel\\Sail\\SailServiceProvider',
     'Laravel\\Sail\\Console\\PublishCommand' => 'Laravel\\Sail\\SailServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',

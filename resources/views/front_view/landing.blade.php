@@ -1311,28 +1311,50 @@
                     class="flex justify-center lg:justify-start items-center w-full md:w-[70%] lg:w-1/2 max-lg:aspect-square">
 
 
-                    <div class="w-[80%] lg:w-[60%] aspect-square lg:mt-[10%]">
+                    {{-- wanita --}}
+                    <div class="w-[80%] lg:w-[60%] aspect-square lg:mt-[10%]" id="containerWanita">
                         <swiper-container pagination="true" pagination-dynamic-bullets="true" pagination-clickable="true"
                             autoplay-delay="6000" autoplay-disable-on-interaction="false" loop="true"
                             class="w-full h-full rounded-lg md:rounded-2xl overflow-hidden">
-                            <swiper-slide class="w-full h-full">
-                                <img class="w-full h-full object-cover"
-                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}"
-                                    alt="Product">
-                            </swiper-slide>
-                            <swiper-slide class="w-full h-full">
-                                <img class="w-full h-full object-cover"
-                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}"
-                                    alt="Product">
-                            </swiper-slide>
-                            <swiper-slide class="w-full h-full">
-                                <img class="w-full h-full object-cover"
-                                    src="{{ asset('assets/images/image_product_landing/wanita/product_wanita.png') }}"
-                                    alt="Product">
-                            </swiper-slide>
+                            @foreach ($imgProduct['wanita'] as $item)
+                                <swiper-slide class="w-full h-full">
+                                    <img class="w-full h-full object-cover"
+                                        src="{{ asset('assets/images/image_product_landing/wanita/' . $item . '.jpeg') }}"
+                                        alt="Product">
+                                </swiper-slide>
+                            @endforeach
                         </swiper-container>
                     </div>
-                    {{-- cover image --}}
+
+                    {{-- pria --}}
+                    <div class="w-[80%] lg:w-[60%] aspect-square lg:mt-[10%] hidden" id="containerPria">
+                        <swiper-container pagination="true" pagination-dynamic-bullets="true" pagination-clickable="true"
+                            autoplay-delay="6000" autoplay-disable-on-interaction="false" loop="true"
+                            class="w-full h-full rounded-lg md:rounded-2xl overflow-hidden">
+                            @foreach ($imgProduct['pria'] as $item)
+                                <swiper-slide class="w-full h-full">
+                                    <img class="w-full h-full object-cover"
+                                        src="{{ asset('assets/images/image_product_landing/pria/' . $item . '.jpeg') }}"
+                                        alt="Product">
+                                </swiper-slide>
+                            @endforeach
+                        </swiper-container>
+                    </div>
+
+                    {{-- anak --}}
+                    <div class="w-[80%] lg:w-[60%] aspect-square lg:mt-[10%] hidden" id="containerAnak">
+                        <swiper-container pagination="true" pagination-dynamic-bullets="true" pagination-clickable="true"
+                            autoplay-delay="6000" autoplay-disable-on-interaction="false" loop="true"
+                            class="w-full h-full rounded-lg md:rounded-2xl overflow-hidden">
+                            @foreach ($imgProduct['anak'] as $item)
+                                <swiper-slide class="w-full h-full">
+                                    <img class="w-full h-full object-cover"
+                                        src="{{ asset('assets/images/image_product_landing/anak/' . $item . '.jpeg') }}"
+                                        alt="Product">
+                                </swiper-slide>
+                            @endforeach
+                        </swiper-container>
+                    </div>
 
                 </div>
 

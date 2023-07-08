@@ -51,7 +51,7 @@
                     <td class="text-center p-3" id="produk_substitusi"></td>
                     <td class="text-center p-3" id="bayar_kurang"></td>
                     <td class="text-center p-3" id="uang_substitusi"></td>
-                    <td class="text-right p-3" id="kembalian_substitusi"></td>
+                    <td class="text-center p-3" id="kembalian_substitusi"></td>
                 </tr>'
             </tbody>
         </table>

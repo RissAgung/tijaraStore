@@ -29,6 +29,8 @@
         {{-- content --}}
         <div class="w-full flex-grow overflow-auto lg:text-[16px] md:text-[15px] text-[12px]">
 
+            <input type="hidden" id="stock_awal" name="stock_awal">
+
             {{-- nama Produk --}}
             <div class="block">
                 <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">Nama Produk</p>
@@ -45,11 +47,11 @@
                   autofocus
                 @enderror
                     class="text-[#535353] outline-none w-full h-10 min-[374px]:h-11 md:h-14 border-[2px] border-[#DDDDDD] rounded-md pl-2">
-                {{-- @error('jumlah_barang')
+                @error('jumlah_barang')
                     <div class="flex w-full justify-end pr-3">
                         <p class="text-red-900">{{ $message }}</p>
                     </div>
-                @enderror --}}
+                @enderror
             </div>
 
             {{-- Supplier --}}
@@ -93,8 +95,8 @@
             <div class="block mt-2 min-[374px]:mt-4">
                 <p class="poppins-medium text-[#535353] mb-1 min-[374px]:mb-2">Jumlah Uang Kembali</p>
                 <input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                    name="uang_kembali" id="jumlah_uang" maxlength="15" value="{{ old('uang_kembali') }}" @error('uang_kembali')
-                    autofocus @enderror
+                    name="uang_kembali" id="jumlah_uang" maxlength="15" value="{{ old('uang_kembali') }}"
+                    @error('uang_kembali') autofocus @enderror
                     class="text-[#535353] outline-none w-full h-10 min-[374px]:h-11 md:h-14 border-[2px] border-[#DDDDDD] rounded-md pl-2">
                 {{-- @error('uang_kembali')
                     <div class="flex w-full justify-end pr-3">

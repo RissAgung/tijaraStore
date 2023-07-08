@@ -6,7 +6,7 @@ function resetForm() {
   $('#jumlah_uang').val(null);
 }
 
-function showModal(nama_produk) {
+function showModal(nama_produk, stock) {
   $("#bg_modal").removeClass("pointer-events-none");
   $("#bg_modal").addClass("opacity-50");
   $("#bg_modal").removeClass("opacity-0");
@@ -15,6 +15,7 @@ function showModal(nama_produk) {
   $("#konten_modal_add_retur").addClass("scale-100");
 
   $('#nama_produk').val(nama_produk);
+  $('#stock_awal').val(stock);
 
 }
 
@@ -91,6 +92,10 @@ function fieldValidate() {
       "value": $("#jumlah_retur").val() > $("#jumlah_barang").val() ? "" : true,
       "message": "Jumlah pengembalian melebihi jumlah retur"
     },
+    {
+        "value": $("#jumlah_barang").val() > $("#stock_awal").val() ? "" : true,
+        "message": "Jumlah retur melebihi jumlah stock"
+      },
   );
 
   for (var i = 0; i < isError.length; i++) {
