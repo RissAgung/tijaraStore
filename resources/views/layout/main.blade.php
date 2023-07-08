@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/Logo_App.png') }}">
     @yield('othercss')
     <title>@yield('title') | Tijara Store</title>
-    @vite([])
+    {{-- @vite([]) --}}
 </head>
 
 <body class="bg-[#F7F7F7] w-full h-full box-border">

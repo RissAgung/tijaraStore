@@ -138,7 +138,7 @@
                                     class="p-3 min-[374px]:p-5 md:p-7 lg:p-3 xl:p-4 2xl:p-6 text-center w-[25%] inline-block overflow-hidden">
                                     {{ $product->harga }}</td>
                                 <td class="text-center w-[10%] inline-block overflow-hidden">
-                                    <svg onclick="showModal('{{ $product->nama_br }}')"
+                                    <svg onclick="showModal('{{ $product->nama_br }}', '{{ $product->stok }}')"
                                         class="cursor-pointer w-[30px] h-[30px] md:w-[50px] md:h-[50px] lg:w-[40px] lg:h-[40px] m-auto"
                                         viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g class="fill-black hover:fill-[#3a3a3a] transition ease-in-out"

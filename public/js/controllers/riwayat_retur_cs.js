@@ -1,109 +1,122 @@
 function showModal(data) {
-  $("#bg_modal").removeClass("pointer-events-none");
-  $("#bg_modal").addClass("opacity-50");
-  $("#bg_modal").removeClass("opacity-0");
+    $("#bg_modal").removeClass("pointer-events-none");
+    $("#bg_modal").addClass("opacity-50");
+    $("#bg_modal").removeClass("opacity-0");
 
-  $("#konten_modal_detail_riwayat").removeClass("scale-0");
-  $("#konten_modal_detail_riwayat").addClass("scale-100");
+    $("#konten_modal_detail_riwayat").removeClass("scale-0");
+    $("#konten_modal_detail_riwayat").addClass("scale-100");
 
-  $('#nama_br').html(data.nama_br);
-  $('#jumlah_produk').html(data.QTY);
-  $('#jumlah_retur').html(data.jml_barang);
-  $('#uang_kembali').html(data.jml_nominal);
+    $("#nama_br").html(data.nama_br);
+    $("#jumlah_produk").html(data.QTY);
+    $("#jumlah_retur").html(data.jml_barang);
+    $("#uang_kembali").html(data.jml_nominal);
 
-  $('#no_tr').html(data.kode_retur);
-  $('#tgl_tr').html(data.tanggal);
-  $('#nama_sp').html(data.nama_sp);
-  $('#no_tlp').html(data.no_hp_sp);
-  $('#instansi').html(data.instansi);
+    $("#no_tr").html(data.kode_retur);
+    $("#tgl_tr").html(data.tanggal);
+    $("#nama_sp").html(data.nama_sp);
+    $("#no_tlp").html(data.no_hp_sp);
+    $("#instansi").html(data.instansi);
 
-
-  // console.log(data)
-
+    // console.log(data)
 }
 
 function closeModalDetail() {
-  $("#bg_modal").addClass("pointer-events-none");
-  $("#bg_modal").removeClass("opacity-50");
-  $("#bg_modal").addClass("opacity-0");
+    $("#bg_modal").addClass("pointer-events-none");
+    $("#bg_modal").removeClass("opacity-50");
+    $("#bg_modal").addClass("opacity-0");
 
-  $("#konten_modal_detail_riwayat").removeClass("scale-100");
-  $("#konten_modal_detail_riwayat").addClass("scale-0");
+    $("#konten_modal_detail_riwayat").removeClass("scale-100");
+    $("#konten_modal_detail_riwayat").addClass("scale-0");
 }
 
 function showModalFilter() {
-  $("#bg_modal").removeClass("pointer-events-none");
-  $("#bg_modal").addClass("opacity-50");
-  $("#bg_modal").removeClass("opacity-0");
+    $("#bg_modal").removeClass("pointer-events-none");
+    $("#bg_modal").addClass("opacity-50");
+    $("#bg_modal").removeClass("opacity-0");
 
-  $("#konten_modal").addClass("scale-100");
-  $("#konten_modal").removeClass("scale-0");
+    $("#konten_modal").addClass("scale-100");
+    $("#konten_modal").removeClass("scale-0");
 }
 
 function closeModal() {
-  $("#bg_modal").addClass("pointer-events-none");
-  $("#bg_modal").removeClass("opacity-50");
-  $("#bg_modal").addClass("opacity-0");
+    $("#bg_modal").addClass("pointer-events-none");
+    $("#bg_modal").removeClass("opacity-50");
+    $("#bg_modal").addClass("opacity-0");
 
-  $("#konten_modal").removeClass("scale-100");
-  $("#konten_modal").addClass("scale-0");
-
+    $("#konten_modal").removeClass("scale-100");
+    $("#konten_modal").addClass("scale-0");
 }
 
-let getValueSearch = () => { return $('#field_search').val() }
+let getValueSearch = () => {
+    return $("#field_search").val();
+};
 
 function resetFilter() {
-  location.replace("/retur_cs");
+    location.replace("/retur_cs");
 }
 
 $(document).keyup(function (event) {
-  if ($('#field_search').is(":focus") && event.key == "Enter") {
-    $('form_search').trigger('submit');
-  }
+    if ($("#field_search").is(":focus") && event.key == "Enter") {
+        $("form_search").trigger("submit");
+    }
 });
 
 $(document).ready(function () {
-
-  $('#btn_submit_filter').click(function () {
-
-    if (getDataFilter() !== false) {
-      let params = new URLSearchParams(window.location.search).get("search")
-      let param = params !== null ? "/?search=" + params : "";
-      location.replace("/retur_cs/" + getDataFilter() + param)
-    }
-    // getDataFilter()
-  });
+    $("#btn_submit_filter").click(function () {
+        if (getDataFilter() !== false) {
+            let params = new URLSearchParams(window.location.search).get(
+                "search"
+            );
+            let param = params !== null ? "/?search=" + params : "";
+            location.replace("/retur_cs/" + getDataFilter() + param);
+        }
+        // getDataFilter()
+    });
 });
 
 function showModal(data) {
+    $("#kode_retur").html(data.kode_retur_cs);
+    $("#kode_tr").html(data.kode_tr);
+    $("#tgl").html(data.tanggal);
+    $("#pegawai").html(data.nama_pegawai);
+    $("#produk_retur").html(data.kode_br);
+    $("#jumlah").html(data.QTY);
+    $("#produk_substitusi").html(
+        data.barang_keluar_retur_c_s != null
+            ? data.barang_keluar_retur_c_s.nama_br
+            : "-"
+    );
+    $("#bayar_kurang").html(
+        data.bayar_kurang != null
+            ? formatRupiah(String(data.bayar_kurang), "Rp. ")
+            : "-"
+    );
+    $("#uang_substitusi").html(
+        data.bayar_tunai != null
+            ? formatRupiah(String(data.bayar_tunai), "Rp. ")
+            : "-"
+    );
+    $("#kembalian_substitusi").html(
+        data.kembalian_tunai != null
+            ? formatRupiah(String(data.kembalian_tunai), "Rp. ")
+            : "-"
+    );
 
-  $('#kode_retur').html(data.kode_retur_cs);
-  $('#kode_tr').html(data.kode_tr);
-  $('#tgl').html(data.tanggal);
-  $('#pegawai').html(data.nama_pegawai);
-  $('#produk_retur').html(data.kode_br);
-  $('#jumlah').html(data.QTY);
-  $('#produk_substitusi').html(data.barang_keluar_retur_c_s != null ? data.barang_keluar_retur_c_s.nama_br : '-');
-  $('#bayar_kurang').html(data.bayar_kurang != null ? data.bayar_kurang : '-');
-  $('#uang_substitusi').html(data.bayar_tunai != null ? data.bayar_tunai : '-');
-  $('#kembalian_substitusi').html(data.kembalian_tunai != null ? data.kembalian_tunai : '-');
+    // console.log(data.kode_retur_cs);
 
-  // console.log(data.kode_retur_cs);
+    $("#bg_modal").removeClass("pointer-events-none");
+    $("#bg_modal").addClass("opacity-50");
+    $("#bg_modal").removeClass("opacity-0");
 
-  $("#bg_modal").removeClass("pointer-events-none");
-  $("#bg_modal").addClass("opacity-50");
-  $("#bg_modal").removeClass("opacity-0");
-
-  $("#konten_modal_detail").removeClass("scale-0");
-  $("#konten_modal_detail").addClass("scale-100");
+    $("#konten_modal_detail").removeClass("scale-0");
+    $("#konten_modal_detail").addClass("scale-100");
 }
 
 function closeModal() {
-  $("#bg_modal").addClass("pointer-events-none");
-  $("#bg_modal").removeClass("opacity-50");
-  $("#bg_modal").addClass("opacity-0");
+    $("#bg_modal").addClass("pointer-events-none");
+    $("#bg_modal").removeClass("opacity-50");
+    $("#bg_modal").addClass("opacity-0");
 
-  $("#konten_modal_detail").addClass("scale-0");
-  $("#konten_modal_detail").removeClass("scale-100");
+    $("#konten_modal_detail").addClass("scale-0");
+    $("#konten_modal_detail").removeClass("scale-100");
 }
-

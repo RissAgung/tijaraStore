@@ -9,7 +9,7 @@ function showModal(data) {
   $('#nama_br').html(data.nama_br);
   $('#jumlah_produk').html(data.QTY);
   $('#jumlah_retur').html(data.jml_barang);
-  $('#uang_kembali').html(data.jml_nominal);
+  $('#uang_kembali').html(formatRupiah(String(data.jml_nominal), 'Rp. '));
 
   $('#no_tr').html(data.kode_retur);
   $('#tgl_tr').html(data.tanggal);
@@ -63,7 +63,7 @@ $(document).keyup(function (event) {
 });
 
 $(document).ready(function () {
-  
+
   $('#btn_submit_filter').click(function () {
 
     if (getDataFilter() !== false) {

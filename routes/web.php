@@ -14,15 +14,14 @@ use App\Http\Controllers\RiwayatRetur;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\GajiController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\pengeluaran_re_stock;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get("/", function () {
-  return view("front_view.landing");
-})->name('landing')->middleware('guest');
+Route::get("/", [LandingController::class, 'index'])->name('landing')->middleware('guest');
 
 Route::prefix("produk")->group(function () {
   Route::get("/", [MasterDataProduct::class, 'products'])->name('product');
@@ -182,4 +181,4 @@ Route::prefix('pengeluaran')->group(function () {
   Route::get('/re-stock/export', [pengeluaran_re_stock::class, 'export'])->name('kirim');
   Route::get('/re-stock/{date?}', [pengeluaran_re_stock::class, 'index'])->name('tanggal');
 });
-  
+

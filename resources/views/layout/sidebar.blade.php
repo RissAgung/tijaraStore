@@ -1,4 +1,5 @@
 {{-- bg hitam --}}
+{{-- @dd($dataUserLogin) --}}
 <div class="w-screen h-screen bg-black fixed z-[98] opacity-50 hidden transition ease-in delay-300" id="bg-sidebar"></div>
 
 {{-- sidebar --}}
@@ -21,12 +22,15 @@
 
             <div class="flex flex-col justify-center gap-1 w-[65%] 2xl:w-full h-full 2xl:h-auto">
                 {{-- name --}}
-                <h3
-                    class="poppins-medium text-[15px] md:text-[18px] lg:text-[16px] w-[90%] 2xl:w-full whitespace-nowrap text-ellipsis overflow-hidden">
-                    Bintang Malindo</h3>
+                @foreach ($dataUserLogin as $item)
+                    <h3
+                        class="poppins-medium text-[15px] md:text-[18px] lg:text-[16px] w-[90%] 2xl:w-full whitespace-nowrap text-ellipsis overflow-hidden capitalize">
+                        {{ $item->nama }}</h3>
 
-                {{-- username --}}
-                <p class="poppins-medium text-[12px] md:text-[14px] lg:text-[13px] text-[#535353]">mphstar</p>
+                    {{-- username --}}
+                    <p class="poppins-medium text-[12px] md:text-[14px] lg:text-[13px] text-[#535353]">
+                        {{ $item->account->username }}</p>
+                @endforeach
             </div>
         </div>
 
@@ -60,7 +64,7 @@
             {{-- when focus --}}
             <div class="w-2 h-full  @if (Request::segment(1) == 'dashboard') menu-active2 @endif transition ease-in-out"></div>
         </a>
-        {{-- end         
+        {{-- end
             {{-- Dashboard --}}
 
 
@@ -175,7 +179,7 @@
             </div>
         </div>
 
-        
+
         {{-- end retur --}}
 
         <a href="/salary" class="flex flex-row justify-between h-[48px] cursor-pointer menu flex-none">
@@ -184,7 +188,7 @@
             <div
                 class="flex flex-row  @if (Request::segment(1) == 'salary') menu-active1 @else menu-hover1 @endif items-center w-full">
 
-                
+
                 <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 transition ease-in-out" width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.5" d="M7 10.5H11.6667" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M24.3052 11.6667H21.2695C19.187 11.6667 17.5 13.2336 17.5 15.1667C17.5 17.0999 19.1882 18.6667 21.2683 18.6667H24.3052C24.4032 18.6667 24.451 18.6667 24.4918 18.6644C25.1218 18.6259 25.6235 18.1604 25.6643 17.5759C25.6667 17.5386 25.6667 17.4931 25.6667 17.4032V12.9302C25.6667 12.8404 25.6667 12.7949 25.6643 12.7576C25.6223 12.1731 25.1218 11.7076 24.4918 11.6691C24.451 11.6667 24.4032 11.6667 24.3052 11.6667Z" stroke="black" stroke-width="1.5" fill="transparent"/>
@@ -192,7 +196,7 @@
                     <path opacity="0.5" d="M7 5.83338L11.3575 2.94354C11.9703 2.54494 12.6856 2.33276 13.4167 2.33276C14.1477 2.33276 14.863 2.54494 15.4758 2.94354L19.8333 5.83338" stroke="black" stroke-width="1.5" stroke-linecap="round" fill="transparent"/>
                     <path opacity="0.5" d="M20.9893 15.1667H20.9994"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-    
+
 
                 <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">Gaji</p>
             </div>
@@ -219,7 +223,7 @@
           {{-- when focus --}}
           <div class="w-2 h-full  @if (Route::is('pemasukan') or Route::is('pengeluaran') or Route::is('akumulasi')) menu-active2 @endif transition ease-in-out"></div>
         </a>
-        
+
         {{-- end laporan --}}
 
         {{-- pengeluaran --}}
@@ -231,7 +235,7 @@
               <svg class="w-6 h-6 md:w-[30px] md:h-[30px] lg:w-6 lg:h-6 fill-black transition ease-in-out" viewBox="0 0 33 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16.4986 18.0556C13.4654 18.0556 10.9986 15.5639 10.9986 12.5C10.9986 9.43611 13.4654 6.94444 16.4986 6.94444C19.5319 6.94444 21.9986 9.43611 21.9986 12.5C21.9986 15.5639 19.5319 18.0556 16.4986 18.0556ZM16.4986 9.72222C14.982 9.72222 13.7486 10.9681 13.7486 12.5C13.7486 14.0319 14.982 15.2778 16.4986 15.2778C18.0152 15.2778 19.2486 14.0319 19.2486 12.5C19.2486 10.9681 18.0152 9.72222 16.4986 9.72222ZM6.87363 5.55556C6.11463 5.55556 5.49863 6.17778 5.49863 6.94444C5.49863 7.71111 6.11463 8.33333 6.87363 8.33333C7.63263 8.33333 8.24863 7.71111 8.24863 6.94444C8.24863 6.17778 7.63263 5.55556 6.87363 5.55556ZM24.7486 9.72222C24.7486 10.4889 25.3646 11.1111 26.1236 11.1111C26.8826 11.1111 27.4986 10.4889 27.4986 9.72222C27.4986 8.95556 26.8826 8.33333 26.1236 8.33333C25.3646 8.33333 24.7486 8.95556 24.7486 9.72222ZM6.87363 13.8889C6.11463 13.8889 5.49863 14.5111 5.49863 15.2778C5.49863 16.0444 6.11463 16.6667 6.87363 16.6667C7.63263 16.6667 8.24863 16.0444 8.24863 15.2778C8.24863 14.5111 7.63263 13.8889 6.87363 13.8889ZM24.7486 18.0556C24.7486 18.8222 25.3646 19.4444 26.1236 19.4444C26.8826 19.4444 27.4986 18.8222 27.4986 18.0556C27.4986 17.2889 26.8826 16.6667 26.1236 16.6667C25.3646 16.6667 24.7486 17.2889 24.7486 18.0556ZM23.3723 25C21.1255 25 19.1125 24.4458 17.1669 23.9097C15.3134 23.3986 13.5644 22.9167 11.6861 22.9167C9.526 22.9167 8.16337 23.0569 6.985 23.4014C5.32675 23.8833 3.58325 23.5583 2.2 22.5069C0.801625 21.4444 0 19.8222 0 18.0556V7.57222C0 4.70694 1.78613 2.09444 4.44538 1.07083C6.28925 0.359722 8.03275 0 9.62637 0C11.8731 0 13.8847 0.554167 15.8317 1.09028C17.6852 1.60139 19.4342 2.08333 21.3125 2.08333C23.4713 2.08333 24.8353 1.94306 26.0136 1.59861C27.6746 1.11667 29.4181 1.44167 30.8 2.49306C32.1984 3.55556 33 5.17778 33 6.94444V17.4278C33 20.2931 31.2125 22.9056 28.5533 23.9292C26.7094 24.6403 24.9673 25 23.3723 25ZM11.6861 20.1389C13.9329 20.1389 15.9445 20.6931 17.8915 21.2292C19.745 21.7403 21.494 22.2222 23.3723 22.2222C24.629 22.2222 26.0425 21.9236 27.5743 21.3333C29.2009 20.7083 30.25 19.175 30.25 17.4278V6.94444C30.25 6.05972 29.8471 5.24583 29.1459 4.71389C28.4598 4.19306 27.5976 4.02917 26.774 4.26806C25.3289 4.68889 23.7462 4.86111 21.3097 4.86111C19.063 4.86111 17.0514 4.30694 15.1044 3.77083C13.2509 3.25972 11.5019 2.77778 9.62363 2.77778C8.3655 2.77778 6.95338 3.07639 5.42163 3.66667C3.795 4.29167 2.74587 5.825 2.74587 7.57222V18.0556C2.74587 18.9403 3.14875 19.7542 3.85 20.2861C4.53613 20.8069 5.39825 20.9708 6.2205 20.7306C7.66563 20.3097 9.24962 20.1375 11.6847 20.1375L11.6861 20.1389Z"/>
               </svg>
-  
+
               <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">
                 Pengeluaran</p>
           </div>
@@ -252,11 +256,11 @@
                     </svg>
                 <p class="ml-5 poppins-medium text-[15px] md:text-[16px] lg:text-[15px] transition ease-in-out">Voucher & Diskon</p>
             </div>
-  
+
             {{-- when focus --}}
             <div class="w-2 h-full  @if (Route::is('voucher') or Route::is('diskon')) menu-active2 @endif transition ease-in-out"></div>
           </a>
-          
+
           {{-- voucher & diskon --}}
 
 
